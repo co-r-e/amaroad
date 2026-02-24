@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# nipry decks (keep sample-deck only)
+/decks/*
+!/decks/sample-deck/
+
 # nipry exports
 /output/
