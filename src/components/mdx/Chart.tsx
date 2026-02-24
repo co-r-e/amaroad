@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactElement, ReactNode } from "react";
 import {
   BarChart,
   Bar,
@@ -17,9 +18,12 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import { useExportMode } from "@/contexts/ExportContext";
+
+type ChartType = "bar" | "line" | "pie" | "area";
 
 interface ChartProps {
-  type: "bar" | "line" | "pie" | "area";
+  type: ChartType;
   data: Record<string, unknown>[];
   xKey?: string;
   yKey?: string;
@@ -43,10 +47,16 @@ export function Chart({
   yKey = "value",
   colors = DEFAULT_COLORS,
   height = 400,
-}: ChartProps) {
+}: ChartProps): ReactNode {
+  const isExporting = useExportMode();
+  const animate = !isExporting;
+
   if (!data || data.length === 0) {
     return (
-      <div className="my-6 flex w-full items-center justify-center text-2xl text-gray-400" style={{ height }}>
+      <div
+        className="my-6 flex w-full items-center justify-center text-2xl text-gray-400"
+        style={{ height }}
+      >
         No data
       </div>
     );
@@ -55,19 +65,29 @@ export function Chart({
   return (
     <div className="my-6 w-full" style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
-        {renderChart(type, data, xKey, yKey, colors)}
+        {renderChart({ type, data, xKey, yKey, colors, animate })}
       </ResponsiveContainer>
     </div>
   );
 }
 
-function renderChart(
-  type: ChartProps["type"],
-  data: Record<string, unknown>[],
-  xKey: string,
-  yKey: string,
-  colors: string[],
-) {
+interface RenderChartParams {
+  type: ChartType;
+  data: Record<string, unknown>[];
+  xKey: string;
+  yKey: string;
+  colors: string[];
+  animate: boolean;
+}
+
+function renderChart({
+  type,
+  data,
+  xKey,
+  yKey,
+  colors,
+  animate,
+}: RenderChartParams): ReactElement {
   switch (type) {
     case "bar":
       return (
@@ -77,7 +97,7 @@ function renderChart(
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey={yKey} fill={colors[0]} />
+          <Bar dataKey={yKey} fill={colors[0]} isAnimationActive={animate} />
         </BarChart>
       );
     case "line":
@@ -88,7 +108,13 @@ function renderChart(
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey={yKey} stroke={colors[0]} strokeWidth={2} />
+          <Line
+            type="monotone"
+            dataKey={yKey}
+            stroke={colors[0]}
+            strokeWidth={2}
+            isAnimationActive={animate}
+          />
         </LineChart>
       );
     case "area":
@@ -99,7 +125,14 @@ function renderChart(
           <YAxis />
           <Tooltip />
           <Legend />
-          <Area type="monotone" dataKey={yKey} fill={colors[0]} stroke={colors[0]} fillOpacity={0.3} />
+          <Area
+            type="monotone"
+            dataKey={yKey}
+            fill={colors[0]}
+            stroke={colors[0]}
+            fillOpacity={0.3}
+            isAnimationActive={animate}
+          />
         </AreaChart>
       );
     case "pie":
@@ -113,6 +146,7 @@ function renderChart(
             cy="50%"
             outerRadius={120}
             label
+            isAnimationActive={animate}
           >
             {data.map((_, index) => (
               <Cell key={index} fill={colors[index % colors.length]} />
@@ -121,12 +155,6 @@ function renderChart(
           <Tooltip />
           <Legend />
         </PieChart>
-      );
-    default:
-      return (
-        <BarChart data={data}>
-          <Bar dataKey={yKey} fill={colors[0]} />
-        </BarChart>
       );
   }
 }

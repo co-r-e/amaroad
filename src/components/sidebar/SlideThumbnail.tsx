@@ -4,8 +4,7 @@ import { useRef, useState, useEffect, memo } from "react";
 import { cn } from "@/lib/utils";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import type { SlideData, DeckConfig } from "@/types/deck";
-import { SlideContent } from "@/components/slide/SlideContent";
-import { SlideOverlay } from "@/components/slide/SlideOverlay";
+import { SlideFrame } from "@/components/slide/SlideFrame";
 
 interface SlideThumbnailProps {
   slide: SlideData;
@@ -91,19 +90,12 @@ export const SlideThumbnail = memo(function SlideThumbnail({
           }}
         >
           {visible && (
-            <div className="relative h-full w-full p-16">
-              <SlideOverlay
-                config={config}
-                currentPage={slide.index}
-                slideType={slide.frontmatter.type}
-                deckName={deckName}
-              />
-              <SlideContent
-                slide={slide}
-                config={config}
-                deckName={deckName}
-              />
-            </div>
+            <SlideFrame
+              slide={slide}
+              config={config}
+              deckName={deckName}
+              currentPage={slide.index}
+            />
           )}
         </div>
         <div className="absolute bottom-1 right-2 z-10 rounded bg-black/50 px-1.5 py-0.5 text-[10px] text-white">

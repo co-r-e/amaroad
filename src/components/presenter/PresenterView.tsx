@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import type { Deck } from "@/types/deck";
-import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
-import { SlideContent } from "@/components/slide/SlideContent";
-import { SlideOverlay } from "@/components/slide/SlideOverlay";
+import { resolveSlideBackground, buildScaledSlideStyle } from "@/lib/slide-utils";
+import { SlideFrame } from "@/components/slide/SlideFrame";
 import { useDeckNavigation } from "@/hooks/useDeckNavigation";
 import { useSlideScale } from "@/hooks/useSlideScale";
 
@@ -12,39 +11,41 @@ interface PresenterViewProps {
   deck: Deck;
 }
 
-function toggleFullscreen(): void {
+function enterFullscreen(): void {
+  document.documentElement.requestFullscreen().catch(() => {});
+}
+
+function exitFullscreen(): void {
   if (document.fullscreenElement) {
     document.exitFullscreen();
-  } else {
-    document.documentElement.requestFullscreen().catch(() => {});
   }
 }
 
-export function PresenterView({ deck }: PresenterViewProps) {
-  const { containerRef, scale } = useSlideScale();
+function toggleFullscreen(): void {
+  if (document.fullscreenElement) {
+    exitFullscreen();
+  } else {
+    enterFullscreen();
+  }
+}
 
-  const keyboard = useMemo(
-    () => ({
-      onEscape: () => {
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        }
-      },
-      onFullscreen: toggleFullscreen,
-    }),
-    [],
-  );
+const PRESENTER_KEYBOARD = {
+  onEscape: exitFullscreen,
+  onFullscreen: toggleFullscreen,
+} as const;
+
+export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element | null {
+  const { containerRef, scale } = useSlideScale();
 
   const { currentSlide } = useDeckNavigation({
     deckName: deck.name,
     totalSlides: deck.slides.length,
     role: "presenter",
-    keyboard,
+    keyboard: PRESENTER_KEYBOARD,
   });
 
-  // Auto-enter fullscreen on mount
   useEffect(() => {
-    document.documentElement.requestFullscreen().catch(() => {});
+    enterFullscreen();
   }, []);
 
   const slide = deck.slides[currentSlide];
@@ -58,29 +59,13 @@ export function PresenterView({ deck }: PresenterViewProps) {
       className="h-screen w-screen bg-black overflow-hidden cursor-none"
     >
       <div className="flex h-screen w-screen items-center justify-center">
-        <div
-          style={{
-            width: SLIDE_WIDTH,
-            height: SLIDE_HEIGHT,
-            background: bg,
-            transform: scale != null ? `scale(${scale})` : undefined,
-            opacity: scale != null ? 1 : 0,
-            flexShrink: 0,
-          }}
-        >
-          <div className="relative h-full w-full p-16">
-            <SlideOverlay
-              config={deck.config}
-              currentPage={currentSlide}
-              slideType={slide.frontmatter.type}
-              deckName={deck.name}
-            />
-            <SlideContent
-              slide={slide}
-              config={deck.config}
-              deckName={deck.name}
-            />
-          </div>
+        <div style={buildScaledSlideStyle(scale, bg)}>
+          <SlideFrame
+            slide={slide}
+            config={deck.config}
+            deckName={deck.name}
+            currentPage={currentSlide}
+          />
         </div>
       </div>
     </div>

@@ -7,23 +7,21 @@ import type { DeckConfig, SlideType } from "@/types/deck";
 // Shared helpers
 // ---------------------------------------------------------------------------
 
+function getMdxStatus(container: HTMLElement): string | null {
+  return container.querySelector("[data-mdx-status]")?.getAttribute("data-mdx-status") ?? null;
+}
+
 export function waitForMdxReady(
   container: HTMLElement,
   timeoutMs = 15000,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    const check = () => {
-      const el = container.querySelector("[data-mdx-status]");
-      if (!el) return null;
-      return el.getAttribute("data-mdx-status");
-    };
-
-    const status = check();
+    const status = getMdxStatus(container);
     if (status === "ready") return resolve();
     if (status === "error") return reject(new Error("MDX compilation failed"));
 
     const observer = new MutationObserver(() => {
-      const s = check();
+      const s = getMdxStatus(container);
       if (s === "ready") {
         cleanup();
         resolve();
@@ -38,7 +36,7 @@ export function waitForMdxReady(
       resolve();
     }, timeoutMs);
 
-    function cleanup() {
+    function cleanup(): void {
       observer.disconnect();
       clearTimeout(timer);
     }
@@ -83,13 +81,69 @@ export function waitForImages(
 }
 
 // ---------------------------------------------------------------------------
+// Wait for DOM to stabilise (ResizeObserver, async re-renders, etc.)
+// ---------------------------------------------------------------------------
+
+/**
+ * Resolves once no DOM mutations have occurred inside `container` for
+ * `quietMs` consecutive milliseconds, or when `timeoutMs` elapses.
+ *
+ * This replaces fragile fixed delays — it adapts to actual rendering
+ * activity regardless of slide complexity or machine speed.
+ */
+export function waitForDomStable(
+  container: HTMLElement,
+  quietMs = 200,
+  timeoutMs = 5000,
+): Promise<void> {
+  return new Promise((resolve) => {
+    let quietTimer: ReturnType<typeof setTimeout>;
+
+    const settle = () => {
+      observer.disconnect();
+      clearTimeout(quietTimer);
+      clearTimeout(deadline);
+      resolve();
+    };
+
+    const resetQuietTimer = () => {
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(settle, quietMs);
+    };
+
+    const observer = new MutationObserver(resetQuietTimer);
+
+    const deadline = setTimeout(settle, timeoutMs);
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
+
+    // Kick off the quiet window — if the DOM is already stable we resolve
+    // after quietMs without needing any mutation to fire first.
+    resetQuietTimer();
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Shared: wait until slide DOM is fully rendered and stable
+// ---------------------------------------------------------------------------
+
+async function waitForSlideReady(container: HTMLElement): Promise<void> {
+  await waitForMdxReady(container);
+  await waitForImages(container);
+  await waitForDomStable(container);
+}
+
+// ---------------------------------------------------------------------------
 // Image capture (used by PDF and image-PPTX)
 // ---------------------------------------------------------------------------
 
 export async function captureSlide(container: HTMLElement): Promise<string> {
-  await waitForMdxReady(container);
-  await waitForImages(container);
-  await new Promise((r) => setTimeout(r, 100));
+  await waitForSlideReady(container);
 
   return toPng(container, {
     width: SLIDE_WIDTH,
@@ -184,17 +238,13 @@ export interface NativeSlideContent {
   slideType: SlideType;
 }
 
-/**
- * Extract structured content from a rendered slide DOM.
- */
 export async function extractSlideContent(
   container: HTMLElement,
   background: string,
   slideIndex: number,
   slideType: SlideType,
 ): Promise<NativeSlideContent> {
-  await waitForMdxReady(container);
-  await waitForImages(container);
+  await waitForSlideReady(container);
 
   const elements: NativeElement[] = [];
   const mdxRoot = container.querySelector("[data-mdx-status]");
@@ -202,7 +252,6 @@ export async function extractSlideContent(
     walkDOM(mdxRoot, elements);
   }
 
-  // Convert images to data URLs
   for (const el of elements) {
     if (el.type === "image" && el.dataUrl && !el.dataUrl.startsWith("data:")) {
       el.dataUrl = await imgToDataUrl(el.dataUrl);
@@ -223,28 +272,37 @@ function extractTextRuns(node: Node): TextRun[] {
     if (child.nodeType === Node.TEXT_NODE) {
       const text = child.textContent ?? "";
       if (text) runs.push({ text });
-    } else if (child.nodeType === Node.ELEMENT_NODE) {
-      const el = child as HTMLElement;
-      const tag = el.tagName;
+      continue;
+    }
 
-      if (tag === "STRONG" || tag === "B") {
+    if (child.nodeType !== Node.ELEMENT_NODE) continue;
+
+    const el = child as HTMLElement;
+    switch (el.tagName) {
+      case "STRONG":
+      case "B":
         for (const run of extractTextRuns(el)) {
           runs.push({ text: run.text, options: { ...run.options, bold: true } });
         }
-      } else if (tag === "EM" || tag === "I") {
+        break;
+      case "EM":
+      case "I":
         for (const run of extractTextRuns(el)) {
           runs.push({ text: run.text, options: { ...run.options, italic: true } });
         }
-      } else if (tag === "CODE") {
+        break;
+      case "CODE":
         runs.push({ text: el.textContent ?? "", options: { fontFace: "Courier New" } });
-      } else if (tag === "A") {
+        break;
+      case "A":
         runs.push({ text: el.textContent ?? "", options: { underline: { style: "sng" } } });
-      } else if (tag === "BR") {
+        break;
+      case "BR":
         runs.push({ text: "\n" });
-      } else {
-        // Recurse into spans and other inline wrappers
+        break;
+      default:
         runs.push(...extractTextRuns(el));
-      }
+        break;
     }
   }
 
@@ -357,6 +415,12 @@ function resolveAlignment(position: string): PptxAlign {
   return "left";
 }
 
+function getAlignOffset(align: PptxAlign, rightOffset: number, centerOffset: number): number {
+  if (align === "right") return rightOffset;
+  if (align === "center") return centerOffset;
+  return 0;
+}
+
 function resolveOverlayPosition(position: string, isFooter: boolean): PptxPos {
   const top = 0.3;
   const bottom = PPTX_HEIGHT - 0.5;
@@ -375,9 +439,6 @@ function resolveOverlayPosition(position: string, isFooter: boolean): PptxPos {
   }
 }
 
-/**
- * Build a native (editable) PPTX from extracted slide content.
- */
 export async function saveNativePptx(
   deckName: string,
   slides: NativeSlideContent[],
@@ -568,7 +629,7 @@ export async function saveNativePptx(
     if (config.copyright) {
       const pos = resolveOverlayPosition(config.copyright.position, true);
       const align = resolveAlignment(config.copyright.position);
-      const xOffset = align === "right" ? 3 : align === "center" ? 1.5 : 0;
+      const xOffset = getAlignOffset(align, 3, 1.5);
       slide.addText(config.copyright.text, {
         x: pos.x - xOffset,
         y: pos.y,
@@ -587,7 +648,7 @@ export async function saveNativePptx(
         const pos = resolveOverlayPosition(config.pageNumber.position, true);
         const pageNum = slideData.slideIndex + (config.pageNumber.startFrom ?? 1);
         const align = resolveAlignment(config.pageNumber.position);
-        const xOffset = align === "right" ? 1 : align === "center" ? 0.5 : 0;
+        const xOffset = getAlignOffset(align, 1, 0.5);
         slide.addText(String(pageNum), {
           x: pos.x - xOffset,
           y: pos.y,

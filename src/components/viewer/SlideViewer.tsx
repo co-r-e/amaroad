@@ -3,10 +3,9 @@
 import { useCallback } from "react";
 import { PanelRight } from "lucide-react";
 import type { Deck } from "@/types/deck";
-import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
+import { resolveSlideBackground, buildScaledSlideStyle } from "@/lib/slide-utils";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { SlideContent } from "@/components/slide/SlideContent";
-import { SlideOverlay } from "@/components/slide/SlideOverlay";
+import { SlideFrame } from "@/components/slide/SlideFrame";
 import { NotesPanel } from "@/components/viewer/NotesPanel";
 import { useDeckNavigation } from "@/hooks/useDeckNavigation";
 import { useSlideScale } from "@/hooks/useSlideScale";
@@ -16,7 +15,7 @@ interface SlideViewerProps {
   deck: Deck;
 }
 
-export function SlideViewer({ deck }: SlideViewerProps) {
+export function SlideViewer({ deck }: SlideViewerProps): React.JSX.Element | null {
   const { containerRef, scale } = useSlideScale({ padding: 64 });
   const { width, isOpen, toggle, resizeHandleProps } = useResizablePanel();
 
@@ -50,31 +49,16 @@ export function SlideViewer({ deck }: SlideViewerProps) {
       >
         <div
           className="shadow-xl"
-          style={{
-            width: SLIDE_WIDTH,
-            height: SLIDE_HEIGHT,
-            background: bg,
-            transform: scale != null ? `scale(${scale})` : undefined,
-            opacity: scale != null ? 1 : 0,
-            flexShrink: 0,
-          }}
+          style={buildScaledSlideStyle(scale, bg)}
         >
-          <div className="relative h-full w-full p-16">
-            <SlideOverlay
-              config={deck.config}
-              currentPage={currentSlide}
-              slideType={slide.frontmatter.type}
-              deckName={deck.name}
-            />
-            <SlideContent
-              slide={slide}
-              config={deck.config}
-              deckName={deck.name}
-            />
-          </div>
+          <SlideFrame
+            slide={slide}
+            config={deck.config}
+            deckName={deck.name}
+            currentPage={currentSlide}
+          />
         </div>
 
-        {/* Toggle button when notes panel is closed */}
         {!isOpen && (
           <button
             onClick={toggle}

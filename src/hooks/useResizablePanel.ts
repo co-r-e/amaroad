@@ -43,27 +43,24 @@ function saveState(state: PanelState): void {
 }
 
 export function useResizablePanel() {
-  const [state, setState] = useState<PanelState>(DEFAULT_STATE);
-  const [initialized, setInitialized] = useState(false);
+  const [state, setState] = useState<PanelState>(() => loadState());
   const stateRef = useRef(state);
   const dragCleanupRef = useRef<(() => void) | null>(null);
+  const hasPersistedRef = useRef(false);
 
   // Keep ref in sync for stable callbacks to read current width
-  stateRef.current = state;
-
-  // Load from localStorage on mount (client only)
   useEffect(() => {
-    setState(loadState());
-    setInitialized(true);
-  }, []);
+    stateRef.current = state;
+  }, [state]);
 
-  // Persist on change — skipped until initialized to avoid
-  // overwriting localStorage with default values on first render
+  // Persist on change (skip first render to avoid clobbering existing storage values)
   useEffect(() => {
-    if (initialized) {
-      saveState(state);
+    if (!hasPersistedRef.current) {
+      hasPersistedRef.current = true;
+      return;
     }
-  }, [state, initialized]);
+    saveState(state);
+  }, [state]);
 
   // Cleanup drag listeners if component unmounts mid-drag
   useEffect(() => {

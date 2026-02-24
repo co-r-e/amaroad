@@ -15,3 +15,11 @@ body {
   color: #1a1a1a;
   font-family: var(--font-sans);
 }
+
+.export-capture,
+.export-capture * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}

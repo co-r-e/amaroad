@@ -1,12 +1,13 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Download, Loader2 } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
-import { SlideContent } from "@/components/slide/SlideContent";
-import { SlideOverlay } from "@/components/slide/SlideOverlay";
+import { SlideFrame } from "@/components/slide/SlideFrame";
+import { ExportModeProvider } from "@/contexts/ExportContext";
 import {
   captureSlide,
   extractSlideContent,
@@ -19,7 +20,6 @@ import {
 type ExportFormat = "pdf" | "pptx-image" | "pptx-native";
 type ExportPhase = "idle" | "menu" | "fetching" | "capturing" | "generating" | "error";
 
-/** Generate a proper blank slide PNG at full resolution via canvas. */
 function createBlankSlideDataUrl(): string {
   const canvas = document.createElement("canvas");
   canvas.width = SLIDE_WIDTH;
@@ -39,11 +39,18 @@ const FORMAT_LABELS: Record<ExportFormat, string> = {
 const MENU_ITEM_CLASS =
   "flex w-full items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors";
 
+const OFFSCREEN_STYLE: React.CSSProperties = {
+  position: "fixed",
+  left: -9999,
+  top: 0,
+  pointerEvents: "none",
+};
+
 interface ExportButtonProps {
   deckName: string;
 }
 
-export function ExportButton({ deckName }: ExportButtonProps) {
+export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
   const [phase, setPhase] = useState<ExportPhase>("idle");
   const [format, setFormat] = useState<ExportFormat>("pdf");
   const [progress, setProgress] = useState({ current: 0, total: 0 });
@@ -57,15 +64,15 @@ export function ExportButton({ deckName }: ExportButtonProps) {
   const abortRef = useRef<AbortController | null>(null);
   const exportingRef = useRef(false);
 
-  const handleButtonClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (phase === "idle") setPhase("menu");
-      else if (phase === "menu") setPhase("idle");
-    },
-    [phase],
-  );
+  const toggleMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPhase((prev) => {
+      if (prev === "idle") return "menu";
+      if (prev === "menu") return "idle";
+      return prev;
+    });
+  }, []);
 
   useEffect(() => {
     if (phase !== "menu") return;
@@ -134,72 +141,86 @@ export function ExportButton({ deckName }: ExportButtonProps) {
     [deckName, resetExportState],
   );
 
-  // Sequential processing: capture or extract each slide.
+  // Sequential slide processing: capture image or extract native content.
   // Double rAF ensures React has flushed all state updates (including
   // MDXRenderer's setContent(null)) before we start waiting for "ready".
   useEffect(() => {
     if (phase !== "capturing" || !deck) return;
 
+    // Local binding narrows away null for closures below
+    const activeDeck = deck;
     let cancelled = false;
+
+    async function processCurrentSlide(): Promise<void> {
+      if (cancelled || cancelledRef.current || !containerRef.current) return;
+
+      const container = containerRef.current;
+
+      try {
+        const slide = activeDeck.slides[currentSlideIndex];
+        const bg = resolveSlideBackground(slide.frontmatter, activeDeck.config);
+
+        if (format === "pptx-native") {
+          const content = await extractSlideContent(
+            container,
+            bg,
+            currentSlideIndex,
+            slide.frontmatter.type,
+          );
+          nativeSlidesRef.current.push(content);
+        } else {
+          const dataUrl = await captureSlide(container);
+          imagesRef.current.push(dataUrl);
+        }
+      } catch (err) {
+        console.warn(`[nipry] Slide ${currentSlideIndex + 1} export failed:`, err);
+        if (format !== "pptx-native") {
+          imagesRef.current.push(createBlankSlideDataUrl());
+        }
+      }
+
+      if (cancelled || cancelledRef.current) return;
+
+      const nextIndex = currentSlideIndex + 1;
+      setProgress({ current: nextIndex, total: activeDeck.slides.length });
+
+      if (nextIndex < activeDeck.slides.length) {
+        setCurrentSlideIndex(nextIndex);
+      } else {
+        await generateOutput();
+      }
+    }
+
+    async function generateOutput(): Promise<void> {
+      setPhase("generating");
+      await new Promise((r) => setTimeout(r, 50));
+
+      try {
+        switch (format) {
+          case "pdf":
+            savePdf(activeDeck.name, imagesRef.current);
+            break;
+          case "pptx-image":
+            await savePptx(activeDeck.name, imagesRef.current);
+            break;
+          case "pptx-native":
+            await saveNativePptx(activeDeck.name, nativeSlidesRef.current, activeDeck.config);
+            break;
+        }
+      } catch (err) {
+        console.error("[nipry] Export generation failed:", err);
+      }
+
+      if (!cancelledRef.current) {
+        resetExportState();
+        setPhase("idle");
+      }
+    }
 
     const outerFrame = requestAnimationFrame(() => {
       if (cancelled) return;
       requestAnimationFrame(() => {
-        if (cancelled || cancelledRef.current || !containerRef.current) return;
-
-        (async () => {
-          try {
-            const slide = deck.slides[currentSlideIndex];
-            const bg = resolveSlideBackground(slide.frontmatter, deck.config);
-
-            if (format === "pptx-native") {
-              const content = await extractSlideContent(
-                containerRef.current!,
-                bg,
-                currentSlideIndex,
-                slide.frontmatter.type,
-              );
-              nativeSlidesRef.current.push(content);
-            } else {
-              const dataUrl = await captureSlide(containerRef.current!);
-              imagesRef.current.push(dataUrl);
-            }
-          } catch (err) {
-            console.warn(`[nipry] Slide ${currentSlideIndex + 1} export failed:`, err);
-            if (format !== "pptx-native") {
-              imagesRef.current.push(createBlankSlideDataUrl());
-            }
-          }
-
-          if (cancelled || cancelledRef.current) return;
-
-          const nextIndex = currentSlideIndex + 1;
-          setProgress({ current: nextIndex, total: deck.slides.length });
-
-          if (nextIndex < deck.slides.length) {
-            setCurrentSlideIndex(nextIndex);
-          } else {
-            setPhase("generating");
-            await new Promise((r) => setTimeout(r, 50));
-
-            try {
-              if (format === "pdf") {
-                savePdf(deck.name, imagesRef.current);
-              } else if (format === "pptx-image") {
-                await savePptx(deck.name, imagesRef.current);
-              } else {
-                await saveNativePptx(deck.name, nativeSlidesRef.current, deck.config);
-              }
-            } catch (err) {
-              console.error("[nipry] Export generation failed:", err);
-            }
-
-            if (!cancelledRef.current) {
-              resetExportState();
-              setPhase("idle");
-            }
-          }
-        })();
+        processCurrentSlide();
       });
     });
 
@@ -222,54 +243,51 @@ export function ExportButton({ deckName }: ExportButtonProps) {
 
   const isWorking = phase === "fetching" || phase === "capturing" || phase === "generating";
 
-  function renderButtonContent(): React.ReactNode {
+  function resolveButtonLabel(): string {
     switch (phase) {
       case "idle":
       case "menu":
-        return (
-          <>
-            <Download className="h-4 w-4" />
-            <span>Export</span>
-          </>
-        );
+        return "Export";
       case "fetching":
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Loading...</span>
-          </>
-        );
+        return "Loading...";
       case "capturing":
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>
-              {FORMAT_LABELS[format]} {progress.current}/{progress.total}
-            </span>
-          </>
-        );
+        return `${FORMAT_LABELS[format]} ${progress.current}/${progress.total}`;
       case "generating":
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Generating...</span>
-          </>
-        );
+        return "Generating...";
       case "error":
-        return <span className="text-red-300">Error</span>;
+        return "Error";
     }
   }
 
-  function handleMenuItemClick(e: React.MouseEvent, selectedFormat: ExportFormat): void {
-    e.preventDefault();
-    e.stopPropagation();
-    startExport(selectedFormat);
+  function renderButtonContent(): ReactNode {
+    if (phase === "error") {
+      return <span className="text-red-300">Error</span>;
+    }
+
+    const icon = isWorking
+      ? <Loader2 className="h-4 w-4 animate-spin" />
+      : <Download className="h-4 w-4" />;
+
+    return (
+      <>
+        {icon}
+        <span>{resolveButtonLabel()}</span>
+      </>
+    );
+  }
+
+  function handleFormatSelect(selectedFormat: ExportFormat): (e: React.MouseEvent) => void {
+    return (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      startExport(selectedFormat);
+    };
   }
 
   return (
     <div ref={menuRef} className="relative">
       <button
-        onClick={handleButtonClick}
+        onClick={toggleMenu}
         disabled={isWorking}
         className="flex items-center gap-1.5 rounded-lg bg-[#02001A] px-3 py-1.5 text-sm text-white transition-colors hover:bg-[#1a1a3a] disabled:opacity-50 disabled:cursor-not-allowed"
         title={`Export ${deckName}`}
@@ -279,13 +297,13 @@ export function ExportButton({ deckName }: ExportButtonProps) {
 
       {phase === "menu" && (
         <div className="absolute right-0 top-full mt-1 z-20 w-44 rounded-lg bg-white shadow-lg border border-gray-200 overflow-hidden">
-          <button onClick={(e) => handleMenuItemClick(e, "pdf")} className={MENU_ITEM_CLASS}>
+          <button onClick={handleFormatSelect("pdf")} className={MENU_ITEM_CLASS}>
             PDF
           </button>
-          <button onClick={(e) => handleMenuItemClick(e, "pptx-image")} className={MENU_ITEM_CLASS}>
+          <button onClick={handleFormatSelect("pptx-image")} className={MENU_ITEM_CLASS}>
             <span>PPTX<span className="ml-1.5 text-xs text-gray-400">Image</span></span>
           </button>
-          <button onClick={(e) => handleMenuItemClick(e, "pptx-native")} className={MENU_ITEM_CLASS}>
+          <button onClick={handleFormatSelect("pptx-native")} className={MENU_ITEM_CLASS}>
             <span>PPTX<span className="ml-1.5 text-xs text-gray-400">Text</span></span>
           </button>
         </div>
@@ -293,35 +311,27 @@ export function ExportButton({ deckName }: ExportButtonProps) {
 
       {phase === "capturing" && deck && slide &&
         createPortal(
-          <div
-            aria-hidden
-            style={{ position: "fixed", left: -9999, top: 0, pointerEvents: "none" }}
-          >
-            <div
-              ref={containerRef}
-              className={typeof document !== "undefined" ? document.body.className : ""}
-              style={{
-                width: SLIDE_WIDTH,
-                height: SLIDE_HEIGHT,
-                background: resolveSlideBackground(slide.frontmatter, deck.config),
-                overflow: "hidden",
-              }}
-            >
-              <div className="relative h-full w-full p-16">
-                <SlideOverlay
-                  config={deck.config}
-                  currentPage={currentSlideIndex}
-                  slideType={slide.frontmatter.type}
-                  deckName={deck.name}
-                />
-                <SlideContent
+          <ExportModeProvider isExporting>
+            <div aria-hidden style={OFFSCREEN_STYLE}>
+              <div
+                ref={containerRef}
+                className={`export-capture ${document.body.className}`}
+                style={{
+                  width: SLIDE_WIDTH,
+                  height: SLIDE_HEIGHT,
+                  background: resolveSlideBackground(slide.frontmatter, deck.config),
+                  overflow: "hidden",
+                }}
+              >
+                <SlideFrame
                   slide={slide}
                   config={deck.config}
                   deckName={deck.name}
+                  currentPage={currentSlideIndex}
                 />
               </div>
             </div>
-          </div>,
+          </ExportModeProvider>,
           document.body,
         )}
     </div>

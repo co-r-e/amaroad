@@ -10,61 +10,61 @@ interface SlideOverlayProps {
   deckName: string;
 }
 
-const positionClasses: Record<LogoPosition | FooterPosition, string> = {
-  "top-left": "top-6 left-6",
-  "top-center": "top-6 left-1/2 -translate-x-1/2",
-  "top-right": "top-6 right-6",
-  "bottom-left": "bottom-6 left-6",
-  "bottom-center": "bottom-6 left-1/2 -translate-x-1/2",
-  "bottom-right": "bottom-6 right-6",
-};
+const positionClasses: Record<LogoPosition | FooterPosition, string> =
+  {
+    "top-left": "top-[24px] left-[40px]",
+    "top-center": "top-[24px] left-1/2 -translate-x-1/2",
+    "top-right": "top-[24px] right-[40px]",
+    "bottom-left": "bottom-[24px] left-[40px]",
+    "bottom-center": "bottom-[24px] left-1/2 -translate-x-1/2",
+    "bottom-right": "bottom-[24px] right-[40px]",
+  };
 
 export function SlideOverlay({
   config,
   currentPage,
   slideType,
   deckName,
-}: SlideOverlayProps) {
-  const hidePageOnCover =
-    config.pageNumber?.hideOnCover !== false && slideType === "cover";
+}: SlideOverlayProps): React.JSX.Element {
+  const { logo, copyright, pageNumber } = config;
+  const isCover = slideType === "cover";
+  const showPageNumber =
+    pageNumber && !(isCover && (pageNumber.hideOnCover ?? true));
 
   return (
     <>
-      {config.logo && (
+      {logo && (
         <div
-          className={cn(
-            "absolute z-10",
-            positionClasses[config.logo.position],
-          )}
+          className={cn("absolute z-10", positionClasses[logo.position])}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={resolveAssetPath(config.logo.src, deckName)}
+            src={resolveAssetPath(logo.src, deckName)}
             alt="Logo"
             className="h-12 w-auto"
           />
         </div>
       )}
 
-      {config.copyright && (
+      {copyright && (
         <div
           className={cn(
             "absolute z-10 text-xl text-gray-400",
-            positionClasses[config.copyright.position],
+            positionClasses[copyright.position],
           )}
         >
-          {config.copyright.text}
+          {copyright.text}
         </div>
       )}
 
-      {config.pageNumber && !hidePageOnCover && (
+      {showPageNumber && (
         <div
           className={cn(
             "absolute z-10 text-xl text-gray-400",
-            positionClasses[config.pageNumber.position],
+            positionClasses[pageNumber.position],
           )}
         >
-          {currentPage + (config.pageNumber.startFrom ?? 1)}
+          {currentPage + (pageNumber.startFrom ?? 1)}
         </div>
       )}
     </>

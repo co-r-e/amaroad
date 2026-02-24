@@ -26,7 +26,9 @@ export function usePresenterSync({
   const stateRef = useRef({ currentSlide, totalSlides, onNavigate, role });
 
   // Keep ref in sync with latest props without re-creating channel
-  stateRef.current = { currentSlide, totalSlides, onNavigate, role };
+  useEffect(() => {
+    stateRef.current = { currentSlide, totalSlides, onNavigate, role };
+  }, [currentSlide, totalSlides, onNavigate, role]);
 
   useEffect(() => {
     const channel = new BroadcastChannel(`nipry-presenter-${deckName}`);
