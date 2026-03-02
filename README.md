@@ -34,7 +34,7 @@ A slide presentation tool built with Next.js and MDX. Author your slides from th
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-org/nipry.git
+git clone git@github.com:co-r-e/nipry.git
 cd nipry
 npm install
 npm run dev
