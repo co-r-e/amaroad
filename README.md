@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/nipry-logo.svg" alt="nipry" width="240" />
+  <img src="public/dexcode-logo.svg" alt="DexCode" width="240" />
 </p>
 
 <p align="center">
@@ -7,7 +7,7 @@
   Author your slides from the CLI using tools like Claude Code or Codex, and view them in the browser with a PowerPoint-like sidebar layout.
 </p>
 
-> **nipry is an AI-driven slide authoring tool.** The web UI is view-only — all slide creation and editing is done through AI coding agents.
+> **DexCode is an AI-driven slide authoring tool.** The web UI is view-only — all slide creation and editing is done through AI coding agents.
 >
 > - **AI-first workflow** -- Slides are always created and modified via AI agents such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or [Codex](https://openai.com/index/codex/). The browser is purely for previewing and presenting.
 > - **Small edits, too** -- Even minor tweaks (typo fixes, color changes, reordering slides) are delegated to the AI rather than edited by hand.
@@ -41,8 +41,8 @@
 ## Quick Start
 
 ```bash
-git clone git@github.com:co-r-e/nipry.git
-cd nipry
+git clone git@github.com:co-r-e/dexcode.git
+cd dexcode
 npm install
 npm run dev
 ```
@@ -52,7 +52,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the deck listing page
 ## Project Structure
 
 ```
-nipry/
+dexcode/
 ├── decks/                     # Your slide decks go here
 │   └── sample-deck/
 │       ├── deck.config.ts     # Deck configuration (theme, logo, etc.)
@@ -93,7 +93,7 @@ import { defineConfig } from "../../src/lib/deck-config";
 export default defineConfig({
   title: "My Presentation",
   logo: {
-    src: "/nipry-logo.svg",  // or "./assets/my-logo.svg"
+    src: "/dexcode-logo.svg",  // or "./assets/my-logo.svg"
     position: "top-right",   // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
   },
   copyright: {

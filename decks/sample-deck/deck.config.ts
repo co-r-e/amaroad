@@ -1,13 +1,13 @@
 import { defineConfig } from "../../src/lib/deck-config";
 
 export default defineConfig({
-  title: "nipry Sample Deck",
+  title: "DexCode Sample Deck",
   logo: {
-    src: "/nipry-logo.svg",
+    src: "/dexcode-logo.svg",
     position: "top-right",
   },
   copyright: {
-    text: "© 2026 nipry",
+    text: "© 2026 DexCode",
     position: "bottom-left",
   },
   pageNumber: {

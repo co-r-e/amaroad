@@ -19,10 +19,10 @@ export default async function HomePage() {
     <div className="min-h-screen p-8">
       <header className="mb-12 flex items-center gap-4">
         <Image
-          src="/nipry-logo.svg"
-          alt="nipry"
-          width={171}
-          height={49}
+          src="/dexcode-logo.svg"
+          alt="DexCode"
+          width={199}
+          height={50}
           priority
         />
       </header>

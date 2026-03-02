@@ -7,5 +7,5 @@ interface FragmentProps {
 }
 
 export function Fragment({ children }: FragmentProps) {
-  return <div className="nipry-fragment">{children}</div>;
+  return <div className="dexcode-fragment">{children}</div>;
 }

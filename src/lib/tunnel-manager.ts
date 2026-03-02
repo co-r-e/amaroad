@@ -168,8 +168,8 @@ class TunnelManager {
 // ---------------------------------------------------------------------------
 
 const globalForTunnel = globalThis as typeof globalThis & {
-  __nipryTunnel?: TunnelManager;
+  __dexcodeTunnel?: TunnelManager;
 };
 
 export const tunnelManager =
-  globalForTunnel.__nipryTunnel ??= new TunnelManager();
+  globalForTunnel.__dexcodeTunnel ??= new TunnelManager();

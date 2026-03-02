@@ -144,7 +144,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
         const dataUrl = await captureSlide(container);
         imagesRef.current.push(dataUrl);
       } catch (err) {
-        console.warn(`[nipry] Slide ${currentSlideIndex + 1} export failed:`, err);
+        console.warn(`[dexcode] Slide ${currentSlideIndex + 1} export failed:`, err);
         imagesRef.current.push(createBlankSlideDataUrl());
       }
 
@@ -175,7 +175,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
             break;
         }
       } catch (err) {
-        console.error("[nipry] Export generation failed:", err);
+        console.error("[dexcode] Export generation failed:", err);
       }
 
       if (!cancelledRef.current) {

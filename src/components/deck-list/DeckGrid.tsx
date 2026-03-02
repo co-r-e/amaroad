@@ -26,7 +26,7 @@ export function DeckGrid({ decks }: DeckGridProps) {
           setSharingDeck(data.deckName);
         }
       })
-      .catch((err) => console.warn("[nipry] Failed to fetch tunnel state:", err));
+      .catch((err) => console.warn("[dexcode] Failed to fetch tunnel state:", err));
   }, [isLocal]);
 
   return (
@@ -51,7 +51,7 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
         return res.json();
       })
       .then((data: Deck) => setDeckData(data))
-      .catch((err) => console.warn("[nipry] Failed to fetch deck data:", err));
+      .catch((err) => console.warn("[dexcode] Failed to fetch deck data:", err));
   }, [deck.name]);
 
   // Calculate scale based on container width

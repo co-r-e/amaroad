@@ -29,7 +29,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
         slideCount: mdxFiles.length,
       });
     } catch (e) {
-      console.warn(`[nipry] Skipping deck "${entry.name}":`, e instanceof Error ? e.message : e);
+      console.warn(`[dexcode] Skipping deck "${entry.name}":`, e instanceof Error ? e.message : e);
     }
   }
 

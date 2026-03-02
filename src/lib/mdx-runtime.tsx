@@ -43,7 +43,7 @@ class MDXErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("[nipry] MDX render error:", error, info.componentStack);
+    console.error("[dexcode] MDX render error:", error, info.componentStack);
   }
 
   render() {
@@ -93,7 +93,7 @@ export function MDXRenderer({ source, components = {} }: MDXRendererProps): Reac
       } catch (e) {
         if (!cancelled) {
           const msg = e instanceof Error ? e.message : "MDX compile error";
-          console.error("[nipry] MDX compile error:", e);
+          console.error("[dexcode] MDX compile error:", e);
           setCompiled({
             source,
             content: null,

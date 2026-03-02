@@ -15,7 +15,7 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "nipry",
+  title: "DexCode",
   description: "Slide presentation tool powered by MDX",
   icons: {
     icon: "/favicon.svg",

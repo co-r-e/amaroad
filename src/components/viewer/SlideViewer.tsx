@@ -186,7 +186,7 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
   });
 
   const handlePresenterMode = useCallback(() => {
-    window.open(`/${deck.name}/presenter`, "nipry-presenter");
+    window.open(`/${deck.name}/presenter`, "dexcode-presenter");
   }, [deck.name]);
 
   if (isMobile) {
