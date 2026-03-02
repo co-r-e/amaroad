@@ -1,6 +1,11 @@
-# nipry
+<p align="center">
+  <img src="public/nipry-logo.svg" alt="nipry" width="240" />
+</p>
 
-A slide presentation tool built with Next.js and MDX. Author your slides from the CLI using tools like Claude Code or Codex, and view them in the browser with a PowerPoint-like sidebar layout.
+<p align="center">
+    A slide presentation tool built with Next.js and MDX.<br>
+  Author your slides from the CLI using tools like Claude Code or Codex, and view them in the browser with a PowerPoint-like sidebar layout.
+</p>
 
 > **nipry is an AI-driven slide authoring tool.** The web UI is view-only — all slide creation and editing is done through AI coding agents.
 >
