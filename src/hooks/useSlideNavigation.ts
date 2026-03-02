@@ -33,6 +33,15 @@ export function useSlideNavigation({
   );
   const currentSlideRef = useRef(currentSlide);
 
+  // Clamp currentSlide when totalSlides changes (e.g. hot reload removes slides)
+  useEffect(() => {
+    const clamped = clampIndex(currentSlideRef.current, totalSlides);
+    if (clamped !== currentSlideRef.current) {
+      currentSlideRef.current = clamped;
+      setCurrentSlide(clamped);
+    }
+  }, [totalSlides]);
+
   const goTo = useCallback(
     (index: number): number => {
       const clamped = clampIndex(index, totalSlides);

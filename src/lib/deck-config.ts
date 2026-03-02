@@ -6,8 +6,11 @@ export function defineConfig(config: DeckConfig): DeckConfig {
   return config;
 }
 
+const isDev = process.env.NODE_ENV === "development";
+
 const jiti = createJiti(import.meta.url, {
   interopDefault: true,
+  moduleCache: !isDev,
 });
 
 export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {

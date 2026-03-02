@@ -18,6 +18,7 @@ import { useSlideScale } from "@/hooks/useSlideScale";
 import { useResizablePanel } from "@/hooks/useResizablePanel";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { KeyboardHelp } from "@/components/ui/KeyboardHelp";
+import { useDevHotReload } from "@/hooks/useDevHotReload";
 
 interface SlideViewerProps {
   deck: Deck;
@@ -163,7 +164,10 @@ function MobileViewer({ deck }: SlideViewerProps): React.JSX.Element {
   );
 }
 
-export function SlideViewer({ deck }: SlideViewerProps): React.JSX.Element | null {
+export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.Element | null {
+  const [deck, setDeck] = useState(initialDeck);
+  useDevHotReload({ deckName: deck.name, onUpdate: setDeck });
+
   const isMobile = useIsMobile();
   const { containerRef, scale } = useSlideScale({ padding: 64 });
   const { width, isOpen, toggle, resizeHandleProps } = useResizablePanel();
