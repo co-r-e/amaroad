@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slide Preflight Auditor"
+  short_description: "DexCodeスライドを規約準拠で監査し、行番号付きで指摘を出す"
+  default_prompt: "Use $slide-preflight-auditor to audit all decks and list errors first."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Speaker Notes Polisher"
+  short_description: "スライド本文からnotesを補完し、発表用トーンと時間目安を統一する"
+  default_prompt: "Use $speaker-notes-polisher to fill missing notes for this deck in dry-run mode."
