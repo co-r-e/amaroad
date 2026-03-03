@@ -1,4 +1,4 @@
 interface:
   display_name: "Theme Normalizer"
-  short_description: "deck.config.ts基準でMDXの色ハードコードをテーマ変数へ正規化する"
+  short_description: "Normalize hard-coded MDX colors to deck theme CSS variables"
   default_prompt: "Use $theme-normalizer to dry-run color normalization for this deck first."

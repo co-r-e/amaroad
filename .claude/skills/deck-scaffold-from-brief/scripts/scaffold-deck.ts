@@ -185,16 +185,16 @@ function cleanLine(value: string): string {
     .trim();
 }
 
-function extractPoints(brief: string, lang: Lang): string[] {
+function extractPoints(brief: string): string[] {
   const chunks = brief
     .replace(/\r/g, "\n")
     .split(/\n+/)
-    .flatMap((line) => line.split(/[。.!?！？;；]/))
+    .flatMap((line) => line.split(/[.!?;]+/))
     .map((line) => cleanLine(line))
     .filter((line) => line.length > 0);
 
   if (chunks.length === 0) {
-    return lang === "ja" ? ["目的を定義する", "現状を整理する", "次のアクションを決める"] : ["Define goals", "Assess current state", "Plan next actions"];
+    return ["Define goals", "Assess current state", "Plan next actions"];
   }
 
   return chunks.slice(0, 18);
@@ -222,19 +222,16 @@ function createMiddleSlides(slides: number, lang: Lang, points: string[]): Middl
     const pointA = pickPoint(
       points,
       pos * 2,
-      lang === "ja" ? `重要テーマ ${pos + 1}` : `Key theme ${pos + 1}`,
+      `Key theme ${pos + 1}`,
     );
     const pointB = pickPoint(
       points,
       pos * 2 + 1,
-      lang === "ja" ? `補足ポイント ${pos + 1}` : `Supporting point ${pos + 1}`,
+      `Supporting point ${pos + 1}`,
     );
 
     if (sectionPositions.has(pos)) {
-      const sectionTitle =
-        lang === "ja"
-          ? `セクション ${sectionNo}: ${pointA}`
-          : `Section ${sectionNo}: ${pointA}`;
+      const sectionTitle = `Section ${sectionNo}: ${pointA}`;
 
       result.push({
         kind: "section",
@@ -243,15 +240,12 @@ function createMiddleSlides(slides: number, lang: Lang, points: string[]): Middl
       });
       sectionNo++;
     } else {
-      const contentTitle =
-        lang === "ja"
-          ? `トピック ${contentNo}: ${pointA}`
-          : `Topic ${contentNo}: ${pointA}`;
+      const contentTitle = `Topic ${contentNo}: ${pointA}`;
 
       const pointC = pickPoint(
         points,
         pos * 2 + 2,
-        lang === "ja" ? "具体例・データを追加" : "Add examples and data",
+        "Add examples and data",
       );
 
       result.push({
@@ -316,21 +310,15 @@ export default defineConfig({
 }
 
 function buildCoverSlide(args: Args, points: string[]): string {
-  const subtitle =
-    args.lang === "ja"
-      ? "brief から自動生成したデッキ骨組み"
-      : "Deck scaffold generated from brief";
-  const hint =
-    args.lang === "ja"
-      ? "この後のスライドで内容を具体化してください。"
-      : "Use the following slides to fill in concrete details.";
+  const subtitle = "Deck scaffold generated from brief";
+  const hint = "Use the following slides to fill in concrete details.";
   const summary = cleanLine(points[0] ?? args.brief);
 
   return `---
 type: cover
 transition: fade
 notes: |
-  ${args.lang === "ja" ? "brief から自動生成したカバー。" : "Auto-generated cover slide from brief."}
+  Auto-generated cover slide from brief.
 ---
 
 # ${cleanLine(args.title)}
@@ -344,19 +332,15 @@ ${hint}
 }
 
 function buildSectionSlide(
-  lang: Lang,
   title: string,
   bullets: string[],
   sectionNo: number,
 ): string {
-  const notes =
-    lang === "ja"
-      ? `セクション ${sectionNo} の導入。`
-      : `Section ${sectionNo} divider.`;
+  const notes = `Section ${sectionNo} divider.`;
 
-  const line1 = cleanLine(bullets[0] ?? (lang === "ja" ? "目的を明確化" : "Clarify the goal"));
+  const line1 = cleanLine(bullets[0] ?? "Clarify the goal");
   const line2 = cleanLine(
-    bullets[1] ?? (lang === "ja" ? "次スライドで詳細化" : "Detail in following slides"),
+    bullets[1] ?? "Detail in following slides",
   );
 
   return `---
@@ -375,24 +359,21 @@ ${line2}
 }
 
 function buildContentSlide(
-  lang: Lang,
   title: string,
   bullets: string[],
   contentNo: number,
 ): string {
   const notes =
-    lang === "ja"
-      ? `トピック ${contentNo} の下書き。必要に応じて図表・事例を追加。`
-      : `Draft for topic ${contentNo}. Add charts, examples, and evidence as needed.`;
+    `Draft for topic ${contentNo}. Add charts, examples, and evidence as needed.`;
 
   const b1 = cleanLine(
-    bullets[0] ?? (lang === "ja" ? "背景と課題を整理" : "Frame background and problem"),
+    bullets[0] ?? "Frame background and problem",
   );
   const b2 = cleanLine(
-    bullets[1] ?? (lang === "ja" ? "アプローチを提示" : "Present approach"),
+    bullets[1] ?? "Present approach",
   );
   const b3 = cleanLine(
-    bullets[2] ?? (lang === "ja" ? "成果と次アクションを明確化" : "Clarify outcomes and next actions"),
+    bullets[2] ?? "Clarify outcomes and next actions",
   );
 
   return `---
@@ -404,23 +385,17 @@ notes: |
 
 # ${cleanLine(title)}
 
-・${b1}
-・${b2}
-・${b3}
+- ${b1}
+- ${b2}
+- ${b3}
 `;
 }
 
-function buildEndingSlide(args: Args): string {
-  const heading =
-    args.lang === "ja" ? "ご清聴ありがとうございました" : "Thank You";
+function buildEndingSlide(): string {
+  const heading = "Thank You";
   const body =
-    args.lang === "ja"
-      ? "この骨組みをベースに、具体的なデータ・図解・事例を追加してください。"
-      : "Use this scaffold as a base, then add concrete data, visuals, and examples.";
-  const notes =
-    args.lang === "ja"
-      ? "自動生成された ending スライド。"
-      : "Auto-generated ending slide.";
+    "Use this scaffold as a base, then add concrete data, visuals, and examples.";
+  const notes = "Auto-generated ending slide.";
 
   return `---
 type: ending
@@ -455,7 +430,7 @@ function main(): void {
 
   fs.mkdirSync(deckDir, { recursive: true });
 
-  const points = extractPoints(args.brief, args.lang);
+  const points = extractPoints(args.brief);
   const middleSlides = createMiddleSlides(args.slides, args.lang, points);
   const padWidth = Math.max(2, String(args.slides).length);
   const written: string[] = [];
@@ -479,13 +454,13 @@ function main(): void {
     if (current.kind === "section") {
       write(
         `${base}-section-${sectionNo}.mdx`,
-        buildSectionSlide(args.lang, current.title, current.bullets, sectionNo),
+        buildSectionSlide(current.title, current.bullets, sectionNo),
       );
       sectionNo++;
     } else {
       write(
         `${base}-content-${contentNo}.mdx`,
-        buildContentSlide(args.lang, current.title, current.bullets, contentNo),
+        buildContentSlide(current.title, current.bullets, contentNo),
       );
       contentNo++;
     }
@@ -493,7 +468,7 @@ function main(): void {
 
   write(
     `${String(args.slides).padStart(padWidth, "0")}-ending.mdx`,
-    buildEndingSlide(args),
+    buildEndingSlide(),
   );
 
   process.stdout.write("Deck scaffold generated.\n");

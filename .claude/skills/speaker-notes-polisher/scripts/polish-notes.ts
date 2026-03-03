@@ -277,18 +277,18 @@ function estimateDurationSeconds(type: string | undefined, signals: SlideSignals
 
 function buildPurpose(type: string | undefined, title: string | null): string {
   if (type === "cover") {
-    return "発表のテーマとゴールを短時間で共有し、聞く観点をそろえる。";
+    return "Share the theme and goal quickly so the audience aligns on context.";
   }
   if (type === "section") {
-    return "この章で何を扱うかを明示し、次の内容への接続を作る。";
+    return "Clarify what this section covers and connect to the next part.";
   }
   if (type === "ending") {
-    return "結論と次アクションを明確にして締める。";
+    return "Close with clear conclusions and concrete next actions.";
   }
   if (title) {
-    return `「${title}」で伝える価値を1分以内で理解してもらう。`;
+    return `Help the audience understand the value of "${title}" within one minute.`;
   }
-  return "このスライドの要点を簡潔に伝え、次の話題へつなげる。";
+  return "Deliver the key point concisely and bridge to the next topic.";
 }
 
 function buildTalkingPoints(signals: SlideSignals): string[] {
@@ -299,7 +299,7 @@ function buildTalkingPoints(signals: SlideSignals): string[] {
   ]);
 
   const normalized = candidates
-    .map((point) => point.replace(/[。．]+$/g, "").trim())
+    .map((point) => point.replace(/[.]+$/g, "").trim())
     .filter((point) => point.length > 0)
     .map((point) => {
       if (point.length > 80) {
@@ -315,13 +315,13 @@ function buildTalkingPoints(signals: SlideSignals): string[] {
 
   if (signals.title) {
     return [
-      `${signals.title}の背景`,
-      `${signals.title}で押さえるポイント`,
-      "次スライドへの接続",
+      `Background behind ${signals.title}`,
+      `Key points to retain about ${signals.title}`,
+      "Transition to the next slide",
     ];
   }
 
-  return ["背景", "要点", "次アクション"];
+  return ["Background", "Key points", "Next actions"];
 }
 
 function generateNotes(type: string | undefined, signals: SlideSignals): GeneratedNotes {
@@ -333,15 +333,15 @@ function generateNotes(type: string | undefined, signals: SlideSignals): Generat
 }
 
 function renderSectionPurpose(purpose: string): string {
-  return ["目的:", `・${purpose}`].join("\n");
+  return ["Purpose:", `- ${purpose}`].join("\n");
 }
 
 function renderSectionTalkingPoints(points: string[]): string {
-  return ["話すポイント:", ...points.map((point) => `・${point}`)].join("\n");
+  return ["Talking Points:", ...points.map((point) => `- ${point}`)].join("\n");
 }
 
 function renderSectionDuration(seconds: number): string {
-  return ["目安時間:", `・${seconds}秒`].join("\n");
+  return ["Estimated Time:", `- ${seconds} seconds`].join("\n");
 }
 
 function renderNotesText(notes: GeneratedNotes): string {
@@ -355,15 +355,15 @@ function renderNotesText(notes: GeneratedNotes): string {
 }
 
 function hasPurposeSection(text: string): boolean {
-  return /(^|\n)\s*目的\s*[:：]/m.test(text);
+  return /(^|\n)\s*Purpose\s*:/m.test(text);
 }
 
 function hasTalkingPointsSection(text: string): boolean {
-  return /(^|\n)\s*話すポイント\s*[:：]/m.test(text);
+  return /(^|\n)\s*Talking Points\s*:/m.test(text);
 }
 
 function hasDurationSection(text: string): boolean {
-  return /(^|\n)\s*(目安時間|時間目安|想定時間)\s*[:：]/m.test(text);
+  return /(^|\n)\s*Estimated Time\s*:/m.test(text);
 }
 
 function splitLines(text: string): string[] {
@@ -445,30 +445,30 @@ function main(): void {
 
     if (args.mode === "rewrite") {
       afterNotes = generatedText;
-      reason = beforeNotes ? "notes全面書き換え(rewrite)" : "notes新規生成";
+      reason = beforeNotes ? "full notes rewrite (rewrite)" : "new notes generated";
     } else if (!beforeNotes) {
       afterNotes = generatedText;
-      reason = "notes新規生成";
+      reason = "new notes generated";
     } else {
       const missingSections: string[] = [];
       const additions: string[] = [];
 
       if (!hasPurposeSection(beforeNotes)) {
-        missingSections.push("目的");
+        missingSections.push("Purpose");
         additions.push(renderSectionPurpose(generated.purpose));
       }
       if (!hasTalkingPointsSection(beforeNotes)) {
-        missingSections.push("話すポイント");
+        missingSections.push("Talking Points");
         additions.push(renderSectionTalkingPoints(generated.talkingPoints));
       }
       if (!hasDurationSection(beforeNotes)) {
-        missingSections.push("目安時間");
+        missingSections.push("Estimated Time");
         additions.push(renderSectionDuration(generated.durationSeconds));
       }
 
       if (additions.length > 0) {
         afterNotes = `${beforeNotes.trimEnd()}\n\n${additions.join("\n\n")}`;
-        reason = `不足セクション補完(fill): ${missingSections.join(", ")}`;
+        reason = `filled missing sections (fill): ${missingSections.join(", ")}`;
       }
     }
 
@@ -522,4 +522,3 @@ function main(): void {
 }
 
 main();
-

@@ -2,27 +2,27 @@
 name: deck-scaffold-from-brief
 description: |
   Create a new DexCode deck scaffold from a user brief.
-  Generates deck.config.ts and numbered MDX slides including cover, section/content, and ending.
-  Use when the user asks to start a new deck quickly from rough requirements.
+  Generate deck.config.ts and numbered MDX slides including cover, section/content, and ending.
+  Use when a user wants to start a new deck quickly from rough requirements.
 ---
 
 # deck-scaffold-from-brief Skill
 
-brief から新規 deck の骨組みを最短で作るためのスキルです。
+Create a new DexCode deck skeleton from a short brief with minimal setup time.
 
-## 使うタイミング
+## When To Use
 
-- 新規プレゼンを `decks/<deck>/` に作りたい
-- まずは雛形を自動生成してから中身を埋めたい
-- タイトルと brief はあるが、スライド構成が未確定
+- Start a new presentation under `decks/<deck>/`
+- Generate a draft structure first, then refine slide contents
+- You have title + brief but no finalized slide flow yet
 
-## 生成物
+## Outputs
 
 - `decks/<deck>/deck.config.ts`
-- 連番 `.mdx` ファイル一式
-- 最低構成に `cover` / `section` / `content` / `ending` を含む
+- A full set of numbered `.mdx` files
+- At minimum includes `cover`, `section`, `content`, and `ending`
 
-## コマンド
+## Command
 
 ```bash
 npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
@@ -35,41 +35,41 @@ npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   [--copyright "© 2026 Example Inc."]
 ```
 
-## 引数仕様
+## Arguments
 
-- 必須:
-  - `--deck`: 生成先 deck 名（`decks/<deck>`）
-  - `--title`: deck タイトル
-  - `--brief`: 構成元になる brief テキスト
-- 任意:
-  - `--slides`: 総スライド枚数（既定 `10`、最小 `4`）
-  - `--lang`: `ja` or `en`（既定 `ja`）
-  - `--overwrite`: 既存 `decks/<deck>` を上書き
-  - `--copyright`: `deck.config.ts` に書く著作権表記
+- Required:
+  - `--deck`: target deck name (`decks/<deck>`)
+  - `--title`: deck title
+  - `--brief`: source brief text
+- Optional:
+  - `--slides`: total slide count (default `10`, minimum `4`)
+  - `--lang`: `ja` or `en` (default `ja`)
+  - `--overwrite`: replace existing `decks/<deck>`
+  - `--copyright`: copyright text written into `deck.config.ts`
 
-## ワークフロー
+## Workflow
 
-1. 入力を確定する
-   - deck 名、タイトル、brief、言語、枚数を決める
-   - 構成パターンが必要なら `references/outline-patterns.md` を参照
-2. スクリプトを実行する
-   - 既存ディレクトリがある場合は `--overwrite` を明示する
-3. 標準出力の生成一覧を確認する
-   - `deck.config.ts` と `.mdx` が揃っていることを確認
-4. 中身を実装する
-   - 各 content スライドにデータ、図解、事例を追記する
-   - 必要に応じて slide type を調整する
+1. Confirm inputs
+   - Decide deck name, title, brief, language, and slide count.
+   - If needed, choose a structure pattern from `references/outline-patterns.md`.
+2. Run script
+   - If target directory exists, explicitly pass `--overwrite`.
+3. Check generated list in stdout
+   - Verify `deck.config.ts` and numbered `.mdx` files are all created.
+4. Fill real content
+   - Add data, diagrams, and examples to content slides.
+   - Adjust slide types as needed.
 
-## 失敗時の挙動
+## Failure Behavior
 
-- `decks/<deck>` が存在し、`--overwrite` なし:
-  - エラー終了（既存を保護）
-- 必須引数不足:
-  - エラー終了
+- `decks/<deck>` exists without `--overwrite`:
+  - exits with error (protect existing deck)
+- Missing required arguments:
+  - exits with error
 - `--slides < 4`:
-  - エラー終了（cover/section/content/ending を満たせないため）
+  - exits with error (cannot satisfy cover/section/content/ending minimum)
 
-## 運用メモ
+## Operational Notes
 
-- 生成後は `npm run dev` で表示確認し、情報密度を調整する
-- 自動生成テキストは下書き扱い。必ず事実確認と言い回しの磨き込みを行う
+- After generation, validate visually with `npm run dev`.
+- Treat generated text as draft only; always fact-check and polish narrative tone.

@@ -253,7 +253,7 @@ function detectLowFontSize(
       column,
       severity: "error",
       rule: "low-font-size",
-      message: `fontSize ${displayValue} は ${MIN_FONT_SIZE_REM}rem 未満です`,
+      message: `fontSize ${displayValue} is below ${MIN_FONT_SIZE_REM}rem`,
       snippet: pickLine(lines, line),
     });
   }
@@ -303,7 +303,7 @@ function detectBorderLeft(
       severity: "error",
       rule: "no-side-accent-border",
       message:
-        "片側アクセント罫線は禁止です（タイムライン軸などの例外は目視で最終判断）",
+        "One-sided accent borders are disallowed (timeline-axis exceptions require manual review)",
       snippet: pickLine(lines, line),
     });
   }
@@ -332,7 +332,7 @@ function detectTailwindClassName(
         column: (literal.index ?? 0) + 1,
         severity: "error",
         rule: "tailwind-classname",
-        message: `Tailwind 風 className を検出: '${tailwindToken}'`,
+        message: `Detected tailwind-like className token: '${tailwindToken}'`,
         snippet: line.trim(),
       });
     }
@@ -371,7 +371,7 @@ function detectHardcodedHexColor(
       column,
       severity: "warning",
       rule: "hardcoded-hex-color",
-      message: `HEX 色 ${match[0]} を検出（var(--slide-*) への置換を検討）`,
+      message: `Detected HEX color ${match[0]} (consider replacing with var(--slide-*))`,
       snippet: pickLine(lines, line),
     });
   }
@@ -391,7 +391,7 @@ function detectMissingNotes(
       column: 1,
       severity: "warning",
       rule: "notes-missing",
-      message: "空ファイルです。frontmatter notes を追加してください",
+      message: "File is empty. Add frontmatter notes.",
       snippet: "",
     });
     return;
@@ -406,7 +406,7 @@ function detectMissingNotes(
       column: 1,
       severity: "warning",
       rule: "notes-missing",
-      message: "frontmatter が見つかりません（notes を追加してください）",
+      message: "Frontmatter is missing (add notes).",
       snippet: pickLine(lines, 1),
     });
     return;
@@ -421,7 +421,7 @@ function detectMissingNotes(
       column: 1,
       severity: "warning",
       rule: "notes-missing",
-      message: "frontmatter の終端 '---' が見つかりません",
+      message: "Missing frontmatter terminator '---'.",
       snippet: pickLine(lines, 1),
     });
     return;
@@ -437,7 +437,7 @@ function detectMissingNotes(
       column: 1,
       severity: "warning",
       rule: "notes-missing",
-      message: "frontmatter の notes が未設定です",
+      message: "Frontmatter notes is not set.",
       snippet: pickLine(lines, 1),
     });
     return;
@@ -455,7 +455,7 @@ function detectMissingNotes(
       column: 1,
       severity: "warning",
       rule: "notes-empty",
-      message: "frontmatter の notes が空です",
+      message: "Frontmatter notes is empty.",
       snippet: pickLine(lines, fullLineNumber),
     });
   }

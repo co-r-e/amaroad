@@ -1,29 +1,30 @@
 ---
 name: speaker-notes-polisher
 description: |
-  .mdxスライドのfrontmatter `notes` を補完・整形するスキル。見出し/箇条書きから要点を抽出し、
-  `目的` / `話すポイント` / `目安時間` の3セクションに統一する。既存notesの不足項目補完(fill)と
-  全面書き換え(rewrite)を切り替え可能。トリガー例: 「ノートを整えて」「speaker notesを補完」
+  Refine .mdx frontmatter `notes` by extracting key points from headings and lists,
+  then standardize them into three sections: `Purpose`, `Talking Points`, and `Estimated Time`.
+  Support both missing-section fill mode and full rewrite mode.
+  Triggers: polish notes, fill speaker notes, rewrite speaker notes.
 ---
 
 # speaker-notes-polisher Skill
 
-`.mdx` の frontmatter `notes` を実運用向けに整える。
+Improve frontmatter `notes` in `.mdx` slides for presentation-ready delivery.
 
-## ワークフロー
+## Workflow
 
-### 1. 対象デッキを確定
+### 1. Confirm target deck
 
-- デッキ名（`decks/<deck-name>`）を確認する。
+- Confirm deck name under `decks/<deck-name>`.
 
-### 2. 実行モードを選択
+### 2. Choose execution mode
 
-- `fill`（既定）: 既存notesを残し、不足セクションのみ補完する。
-- `rewrite`: 既存notesを置き換え、トーンと構成を全スライドで統一する。
+- `fill` (default): keep existing notes and add missing sections only
+- `rewrite`: replace existing notes and unify tone/structure across all slides
 
-### 3. スクリプトを実行
+### 3. Run script
 
-まず dry-run で差分を確認する。
+Start with dry-run to inspect changes.
 
 ```bash
 npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
@@ -31,7 +32,7 @@ npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
   --mode fill
 ```
 
-問題なければ `--write` を付けて反映する。
+If results look good, apply changes with `--write`.
 
 ```bash
 npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
@@ -40,32 +41,32 @@ npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
   --write
 ```
 
-### 4. 生成内容を確認
+### 4. Verify generated notes
 
-- 各 `.mdx` の frontmatter `notes` に次の3セクションがあることを確認する。
-  - `目的`
-  - `話すポイント`
-  - `目安時間`
-- 必要に応じて語尾や専門用語だけ手修正する。
+Confirm each `.mdx` frontmatter `notes` contains:
+- `Purpose`
+- `Talking Points`
+- `Estimated Time`
 
-## ノート生成ルール
+Apply manual refinements only where needed.
 
-- 本文の `#` 見出し、Markdown箇条書き、`<li>` を優先して要点抽出する。
-- 抽出量が少ない場合は本文の主要文から補助抽出する。
-- `目安時間` は内容密度（箇条書き数、図表/コード有無、スライド種別）から秒数で推定する。
-- 書式は [notes-style.md](./references/notes-style.md) に合わせる。
+## Note Generation Rules
 
-## スクリプト仕様
+- Prioritize `#` headings, Markdown list items, and `<li>` items in slide body.
+- If extracted signals are sparse, use key body lines as fallback.
+- Estimate duration from content density (list count, chart/table/code presence, slide type).
+- Follow formatting in `references/notes-style.md`.
 
-| 引数 | 必須 | 既定値 | 説明 |
+## Script Spec
+
+| Argument | Required | Default | Description |
 |---|---|---|---|
-| `--deck` | Yes | - | 対象デッキ名（またはデッキディレクトリ） |
-| `--mode` | No | `fill` | `fill` または `rewrite` |
-| `--write` | No | false | 指定時のみファイルへ書き込み |
+| `--deck` | Yes | - | Target deck name (or direct deck directory path) |
+| `--mode` | No | `fill` | `fill` or `rewrite` |
+| `--write` | No | false | Write changes to files |
 
-## dry-run 出力
+## Dry-run Output
 
-- 変更対象ファイル数
-- ファイルごとの変更理由（新規生成/不足補完/全面書き換え）
-- `notes` の差分サマリ（追加行数/削除行数）
-
+- Number of changed files
+- Per-file reason (`new`, `fill missing sections`, `full rewrite`)
+- `notes` diff summary (added/removed line counts)

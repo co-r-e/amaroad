@@ -1,40 +1,40 @@
 ---
 name: theme-normalizer
 description: |
-  deck.config.ts の theme.colors を基準に、decks/{deck}/*.mdx のハードコード HEX 色を
-  slide CSS 変数 (var(--slide-*)) に正規化するスキル。
-  まず dry-run で候補を確認し、問題なければ --write で反映する。
+  Normalize hard-coded HEX colors in decks/{deck}/*.mdx into slide CSS variables
+  based on deck.config.ts theme.colors.
+  Run dry-run first to review candidates, then apply with --write.
   Trigger: /theme-normalizer, hardcoded hex, theme color normalize, var(--slide-*)
 ---
 
 # theme-normalizer Skill
 
-MDX スライド内の色ハードコードを、デッキテーマ準拠の CSS 変数へ統一する。
+Unify hard-coded MDX colors into deck-theme CSS variables.
 
-## 使う場面
+## When To Use
 
-- `decks/<deck>/*.mdx` に `#xxxxxx` が残っていてテーマ追従しない
-- 複数スライドで同じ色が散在し、保守性が落ちている
-- deck のブランドカラー変更に備えて変数化したい
+- `decks/<deck>/*.mdx` still contains hard-coded `#xxxxxx` colors
+- The same color is duplicated across many slides, hurting maintainability
+- You need reliable theme-following behavior before brand color changes
 
-## ワークフロー
+## Workflow
 
-### 1. 対象 deck を決める
+### 1. Select target deck
 
-- 対象: `decks/<deck>/deck.config.ts` と `decks/<deck>/*.mdx`
-- 置換元は `theme.colors` の HEX 値のみ（完全一致）
+- Target files: `decks/<deck>/deck.config.ts` and `decks/<deck>/*.mdx`
+- Replacement source: only HEX values defined in `theme.colors` (exact normalized match)
 
-### 2. dry-run で候補確認（必須）
+### 2. Run dry-run first (required)
 
 ```bash
 npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
 ```
 
-- ファイルは更新しない
-- 変更候補があるファイルだけ表示
-- ファイルごとの置換件数と `HEX -> var(--slide-*)` の内訳を確認
+- Does not modify files
+- Shows only files with candidate replacements
+- Reports per-file replacement counts and `HEX -> var(--slide-*)` breakdown
 
-### 3. 必要なら対象ファイルを絞る
+### 3. Narrow scope when needed
 
 ```bash
 npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
@@ -42,11 +42,11 @@ npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
   --files "03-*.mdx"
 ```
 
-- `--files` は簡易フィルタ
-- `*` / `?` を含む場合は glob-like マッチ
-- それ以外は部分一致
+- `--files` supports simple filtering
+- With `*` / `?`, uses glob-like matching
+- Otherwise uses substring matching
 
-### 4. 反映
+### 4. Apply changes
 
 ```bash
 npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
@@ -54,24 +54,24 @@ npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
   --write
 ```
 
-- 候補があった箇所だけ更新
-- 実行後にファイルごとの変更件数を表示
+- Updates only matched candidates
+- Prints per-file replacement counts after write
 
-### 5. 仕上げ確認
+### 5. Final check
 
-- 変更差分を確認し、意図しない置換がないか確認
-- 必要なら `--files` で再実行して局所修正
+- Review diffs for unintended replacements
+- Re-run with `--files` for targeted refinement if needed
 
-## 置換ルール
+## Replacement Rules
 
-色キーと CSS 変数の対応は `references/color-mapping.md` を参照。
+See `references/color-mapping.md` for full key mapping.
 
-- 正規化対象: `theme.colors` にある HEX 値（`#RGB` / `#RRGGBB` / `#RGBA` / `#RRGGBBAA`）
-- 一致判定: 大文字小文字を無視した HEX 正規化後の完全一致
-- 非対象: テーマ未定義の HEX、`rgb(...)`、`hsl(...)`、グラデーション文字列
+- Included: HEX values in `theme.colors` (`#RGB`, `#RRGGBB`, `#RGBA`, `#RRGGBBAA`)
+- Match strategy: case-insensitive, normalized HEX exact match
+- Excluded: undefined HEXs, `rgb(...)`, `hsl(...)`, gradient strings
 
-## コマンド仕様
+## CLI Spec
 
-- 必須: `--deck <deck-name>`
-- 任意: `--write`（省略時は dry-run）
-- 任意: `--files <glob-like substring>`
+- Required: `--deck <deck-name>`
+- Optional: `--write` (default is dry-run)
+- Optional: `--files <glob-like substring>`

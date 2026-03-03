@@ -1,6 +1,6 @@
 # Color Mapping
 
-`decks/<deck>/deck.config.ts` の `theme.colors` を次の CSS 変数へ変換する。
+Map `theme.colors` values in `decks/<deck>/deck.config.ts` to slide CSS variables.
 
 | theme.colors key | CSS variable |
 |---|---|
@@ -16,8 +16,8 @@
 | `border` | `var(--slide-border)` |
 | `borderLight` | `var(--slide-border-light)` |
 
-## 注意点
+## Notes
 
-- 同一 HEX が複数キーに定義されている場合、スクリプトは優先順（上表の上から）で採用する。
-- `headingGradient` は HEX 単体値ではないため対象外。
-- テーマ定義と一致しない HEX は置換しない。
+- If the same HEX appears under multiple keys, the script uses the first match by mapping order.
+- `headingGradient` is out of scope because it is not a single HEX value.
+- HEX values not present in theme definitions are not replaced.

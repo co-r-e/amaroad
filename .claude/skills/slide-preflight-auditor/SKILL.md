@@ -8,80 +8,80 @@ description: |
 
 # slide-preflight-auditor Skill
 
-DexCode のスライド品質を、提出前に機械的に監査するためのスキルです。
+Audit DexCode slide quality mechanically before review and export.
 
-## 目的
+## Purpose
 
-- CLAUDE.md のスライドルール違反を早期検知する
-- 修正対象を「ファイル + 行番号」で即座に特定する
-- 目視チェックが必要な項目（safe zone など）を監査フローに組み込む
+- Detect CLAUDE.md rule violations early.
+- Pinpoint fix targets quickly with file and line numbers.
+- Include manual checks for items that cannot be fully verified automatically (for example safe zone collisions).
 
-## 監査ルール（CLAUDE.md準拠）
+## Audit Rules (Aligned with CLAUDE.md)
 
-自動検出（`audit-slides.ts`）:
-- 最小フォントサイズ: `1.8rem` 未満（`fontSize`）は `error`
-- 片側アクセント罫線: `borderLeft` / `border-left` は `error`
-- Tailwind 風 `className`: ユーティリティクラス検出で `error`
-- ハードコード HEX 色: `#RRGGBB` などは `warning`
-- notes 欠落/空: frontmatter `notes` 未設定または空は `warning`
+Automatically detected by `audit-slides.ts`:
+- Minimum font size: below `1.8rem` (`fontSize`) -> `error`
+- One-sided accent border: `borderLeft` / `border-left` -> `error`
+- Tailwind-like `className` utilities in slides -> `error`
+- Hard-coded HEX colors like `#RRGGBB` -> `warning`
+- Missing or empty frontmatter `notes` -> `warning`
 
-目視検出（手動）:
-- safe zone 逸脱（不可侵領域外へのはみ出し、overlay との衝突）
-- `no_side_accent_borders` の例外判定（タイムライン軸かどうか）
+Manual checks:
+- Safe-zone overflow (content escaping inviolable area, overlay collisions)
+- Exception validation for `no_side_accent_borders` (for example timeline axis)
 
-詳細ルールは `references/rules.md` を参照。
+See `references/rules.md` for detailed policy notes.
 
-## 実行フロー
+## Workflow
 
-### 1. 自動監査を実行
+### 1. Run automated audit
 
-全 deck:
+All decks:
 
 ```bash
 npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts
 ```
 
-特定 deck のみ:
+Single deck:
 
 ```bash
 npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sample-deck
 ```
 
-CI 用（error で失敗）:
+CI mode (fail on error):
 
 ```bash
 npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --fail-on error
 ```
 
-### 2. 出力を修正優先度順に処理
+### 2. Resolve findings by priority
 
-1. `error` を先にゼロ化
-2. `warning` は意図的例外かどうかを確認して修正/記録
+1. Reduce `error` to zero.
+2. Resolve `warning` items or document intentional exceptions.
 
-### 3. safe zone を目視確認
+### 3. Manually verify safe zone
 
-自動検査だけでは safe zone 逸脱は取りこぼすため、必ず viewer/presenter で最終確認する。
+Automated checks do not fully cover safe-zone problems, so always perform final viewer/presenter validation.
 
-確認観点:
-- コンテンツが枠外にはみ出していない
-- ロゴ/著作権/ページ番号 overlay と衝突していない
-- 過剰余白で情報密度が落ちていない
+Checklist:
+- No content clipped outside slide frame
+- No collisions with logo/copyright/page-number overlays
+- No excessive whitespace that hurts information density
 
-### 4. レポート共有
+### 4. Share audit report
 
-報告には以下を含める:
-- 実行コマンド
-- 監査対象（deck or 全deck）
-- `error/warning` 件数
-- 残件（例外扱いの理由を含む）
+Include:
+- Command used
+- Scope (single deck or all decks)
+- `error` / `warning` counts
+- Remaining exceptions and rationale
 
-## CLI 仕様（audit-slides.ts）
+## CLI Spec (`audit-slides.ts`)
 
-- `--deck <name>`: 対象 deck を限定（省略時は全 deck）
-- `--format md|json`: 出力形式（既定: `md`）
-- `--fail-on error`: `error` が1件でもあれば exit code 1
+- `--deck <name>`: limit target deck (default: all decks)
+- `--format md|json`: output format (default: `md`)
+- `--fail-on error`: exit code 1 if any `error` exists
 
-## 注意点
+## Notes
 
-- `borderLeft` はタイムライン軸などの例外があり得るため、最終判断は人間が行う。
-- `fontSize` の補助的要素（日時・バッジ等）は文脈で許容されることがあるため、必要に応じてレビューで補正する。
+- `borderLeft` can be valid in limited cases (for example timeline axis), so keep human judgment in the final review.
+- Small auxiliary text (dates, badges, etc.) can be contextual exceptions; review before forcing changes.

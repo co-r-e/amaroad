@@ -1,31 +1,31 @@
 # Outline Patterns
 
-brief から初期構成を決めるときの簡易パターン集です。
+Quick patterns for turning a brief into an initial deck structure.
 
 ## 1. Problem -> Solution
 
-- Cover: タイトルと狙い
-- Section: 現状課題
-- Content: 課題詳細
-- Content: 解決策
-- Content: 導入効果
-- Ending: 次アクション
+- Cover: title and intent
+- Section: current problems
+- Content: problem details
+- Content: solution approach
+- Content: expected impact
+- Ending: next actions
 
 ## 2. Why -> What -> How
 
-- Cover: テーマ宣言
-- Section: Why（なぜ今か）
-- Content: What（何を実現するか）
-- Content: How（どう進めるか）
-- Content: リスクと対策
-- Ending: まとめ
+- Cover: theme declaration
+- Section: Why now
+- Content: What to achieve
+- Content: How to execute
+- Content: risks and mitigations
+- Ending: summary
 
 ## 3. Before -> After -> Plan
 
-- Cover: 背景
-- Section: Before（現状）
-- Content: 課題の可視化
-- Section: After（目標像）
-- Content: 期待成果
-- Content: 実行計画
-- Ending: 合意形成
+- Cover: context
+- Section: Before (current state)
+- Content: visualize key issues
+- Section: After (target state)
+- Content: expected outcomes
+- Content: execution plan
+- Ending: decision and alignment

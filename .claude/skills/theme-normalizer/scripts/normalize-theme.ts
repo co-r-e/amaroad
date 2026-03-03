@@ -208,7 +208,7 @@ function buildHexToVarMap(colors: ThemeColors): {
     const existing = hexToVar.get(normalized);
     if (existing && existing !== rule.cssVar) {
       duplicateWarnings.push(
-        `${normalized}: ${existing} を優先（${rule.cssVar} はスキップ）`,
+        `${normalized}: prioritize ${existing} (skip ${rule.cssVar})`,
       );
       continue;
     }

@@ -1,4 +1,4 @@
 interface:
   display_name: "Deck Scaffold From Brief"
-  short_description: "短いbriefからDexCodeデッキ骨子と連番MDXを自動生成する"
+  short_description: "Generate a DexCode deck skeleton and numbered MDX slides from a brief"
   default_prompt: "Use $deck-scaffold-from-brief to generate a new deck scaffold from this brief."

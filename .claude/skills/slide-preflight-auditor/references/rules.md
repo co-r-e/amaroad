@@ -1,37 +1,37 @@
 # slide-preflight-auditor Rules
 
-本ドキュメントは `CLAUDE.md` のうち、preflight 監査で使う主要ルールだけを抽出した実務向けメモです。
+This document summarizes the main CLAUDE.md rules used in preflight audits.
 
-## 1. Safe Zone（不可侵領域）
+## 1. Safe Zone (Inviolable Area)
 
-- スライド本文は `SlideFrame` の content area 内に収める
-- overlay（logo/copyright/page number）と衝突させない
-- 負の margin などで領域外へ押し出さない
-- これは目視確認が必須（自動検出対象外）
+- Keep slide content inside the `SlideFrame` content area.
+- Avoid collisions with overlays (logo/copyright/page number).
+- Do not push content outside bounds with negative margins.
+- Manual visual verification is required (not fully auto-detectable).
 
-## 2. 最小フォントサイズ
+## 2. Minimum Font Size
 
-- ルール: 本文テキストは `1.8rem` 以上
-- 監査: `fontSize` 指定が `1.8rem` 未満なら `error`
-- 補足: 日時・バッジなど補助テキストは文脈例外あり
+- Rule: body text should be `1.8rem` or larger.
+- Audit: `fontSize` below `1.8rem` is reported as `error`.
+- Note: auxiliary text such as dates/badges can be contextual exceptions.
 
-## 3. 片側アクセント罫線禁止
+## 3. No One-Sided Accent Borders
 
-- ルール: `border-left` 系の強調は原則禁止
-- 監査: `borderLeft` / `border-left` を `error` として報告
-- 例外: タイムライン軸として意味を持つ線
+- Rule: avoid one-sided emphasis like `border-left` in general.
+- Audit: `borderLeft` / `border-left` is reported as `error`.
+- Exception: timeline axis lines that carry real structural meaning.
 
-## 4. Tailwind Utility 禁止（slides）
+## 4. No Tailwind Utilities in Slide Content
 
-- ルール: slide MDX と `src/components/mdx` で Tailwind utility class を使わない
-- 監査: tailwind-like `className` を `error` 報告
+- Rule: do not use Tailwind utility classes in slide MDX or `src/components/mdx`.
+- Audit: tailwind-like `className` values are reported as `error`.
 
-## 5. ハードコード色警告
+## 5. Hard-Coded Color Warning
 
-- ルール: テーマ変数（`var(--slide-*)`）優先
-- 監査: HEX 色リテラル（`#RGB`, `#RRGGBB` など）を `warning`
+- Rule: prefer theme variables (`var(--slide-*)`).
+- Audit: HEX literals (`#RGB`, `#RRGGBB`, etc.) are reported as `warning`.
 
-## 6. notes 欠落警告
+## 6. Missing Notes Warning
 
-- ルール: frontmatter `notes` を付与して発表時の文脈を残す
-- 監査: `notes` 未定義または空を `warning`
+- Rule: include frontmatter `notes` to preserve presentation context.
+- Audit: missing or empty `notes` is reported as `warning`.
