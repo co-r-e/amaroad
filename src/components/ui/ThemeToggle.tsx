@@ -2,11 +2,17 @@
 
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { useSyncExternalStore } from "react";
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
-  if (resolvedTheme === undefined) {
+  if (!isClient || resolvedTheme === undefined) {
     return <div className="h-8 w-8" aria-hidden="true" />;
   }
 
