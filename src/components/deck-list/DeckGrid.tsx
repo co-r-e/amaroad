@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Globe } from "lucide-react";
+import { Globe, Search } from "lucide-react";
 import type { DeckSummary, Deck } from "@/types/deck";
 import type { TunnelState } from "@/lib/tunnel-manager";
 import { useIsLocal } from "@/hooks/useIsLocal";
@@ -24,6 +24,7 @@ export function DeckGrid({ decks }: DeckGridProps) {
   const isLocal = useIsLocal();
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>("title-asc");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (!isLocal) return;
@@ -37,9 +38,18 @@ export function DeckGrid({ decks }: DeckGridProps) {
       .catch((err) => console.warn("[dexcode] Failed to fetch tunnel state:", err));
   }, [isLocal]);
 
-  const sortedDecks = useMemo(() => {
+  const filteredAndSortedDecks = useMemo(() => {
     const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
-    const next = [...decks];
+    const q = query.toLowerCase();
+    const filtered = q
+      ? decks.filter(
+          (d) =>
+            d.title.toLowerCase().includes(q) ||
+            d.name.toLowerCase().includes(q),
+        )
+      : decks;
+
+    const next = [...filtered];
 
     switch (sortOption) {
       case "title-asc":
@@ -60,12 +70,26 @@ export function DeckGrid({ decks }: DeckGridProps) {
     }
 
     return next;
-  }, [decks, sortOption]);
+  }, [decks, sortOption, query]);
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end">
-        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search
+            size={16}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none"
+          />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search decks..."
+            aria-label="Search decks"
+            className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-9 pr-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
+          />
+        </div>
+        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 shrink-0">
           Sort
           <select
             value={sortOption}
@@ -82,11 +106,17 @@ export function DeckGrid({ decks }: DeckGridProps) {
         </label>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {sortedDecks.map((deck) => (
-          <DeckCard key={deck.name} deck={deck} isSharing={deck.name === sharingDeck} />
-        ))}
-      </div>
+      {filteredAndSortedDecks.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredAndSortedDecks.map((deck) => (
+            <DeckCard key={deck.name} deck={deck} isSharing={deck.name === sharingDeck} />
+          ))}
+        </div>
+      ) : (
+        <p className="py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+          No decks found for &ldquo;{query}&rdquo;
+        </p>
+      )}
     </div>
   );
 }
@@ -156,6 +186,9 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
             </div>
           )}
         </div>
+        <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
+          /{deck.name}
+        </p>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[#02001A] dark:group-hover:text-white">
           {deck.title}
         </h2>
