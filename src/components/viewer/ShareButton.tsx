@@ -19,9 +19,10 @@ function PulsingDot() {
 
 interface ShareButtonProps {
   deckName?: string;
+  disabled?: boolean;
 }
 
-export function ShareButton({ deckName }: ShareButtonProps) {
+export function ShareButton({ deckName, disabled = false }: ShareButtonProps) {
   const { phase, url, error, start, stop, copyUrl, copied } = useTunnel(deckName);
   const [showModal, setShowModal] = useState(false);
   const closeModal = useCallback(() => setShowModal(false), []);
@@ -31,7 +32,7 @@ export function ShareButton({ deckName }: ShareButtonProps) {
   return (
     <div className="relative">
       {phase === "idle" && (
-        <button onClick={start} aria-label="Start sharing" className={`${BTN_BASE} border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800`}>
+        <button onClick={start} disabled={disabled} aria-label="Start sharing" className={`${BTN_BASE} border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed`}>
           <Globe size={14} />
           Share
         </button>

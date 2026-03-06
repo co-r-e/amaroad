@@ -14,6 +14,7 @@ interface SidebarProps {
   currentSlide: number;
   onSlideSelect: (index: number) => void;
   onPresenterMode: () => void;
+  strictOverflowActive?: boolean;
 }
 
 export function Sidebar({
@@ -21,6 +22,7 @@ export function Sidebar({
   currentSlide,
   onSlideSelect,
   onPresenterMode,
+  strictOverflowActive = false,
 }: SidebarProps) {
   const isLocal = useIsLocal();
 
@@ -42,6 +44,7 @@ export function Sidebar({
           )}
           <button
             onClick={onPresenterMode}
+            disabled={strictOverflowActive}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#02001A] dark:bg-gray-100 px-3 py-2 text-xs font-medium text-white dark:text-gray-900 transition-opacity hover:opacity-80"
           >
             <Monitor size={14} />
@@ -51,11 +54,16 @@ export function Sidebar({
         <div className="flex gap-2">
           {isLocal && (
             <div className="flex-1 min-w-0">
-              <ShareButton deckName={deck.name} />
+              <ShareButton deckName={deck.name} disabled={strictOverflowActive} />
             </div>
           )}
-          <ExportButton deckName={deck.name} />
+          <ExportButton deckName={deck.name} disabled={strictOverflowActive} />
         </div>
+        {strictOverflowActive && (
+          <p className="text-[11px] leading-4 text-red-500 dark:text-red-400">
+            Current strict slide overflows. Presenter, share, and export are blocked.
+          </p>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto p-3">

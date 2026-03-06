@@ -11,6 +11,7 @@ import { SlideFrame } from "@/components/slide/SlideFrame";
 import { ExportModeProvider } from "@/contexts/ExportContext";
 import {
   captureSlide,
+  isStrictOverflowError,
   savePdf,
   savePptx,
 } from "@/lib/export";
@@ -45,9 +46,10 @@ const OFFSCREEN_STYLE: React.CSSProperties = {
 
 interface ExportButtonProps {
   deckName: string;
+  disabled?: boolean;
 }
 
-export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
+export function ExportButton({ deckName, disabled = false }: ExportButtonProps): ReactNode {
   const [phase, setPhase] = useState<ExportPhase>("idle");
   const [format, setFormat] = useState<ExportFormat>("pdf");
   const [progress, setProgress] = useState({ current: 0, total: 0 });
@@ -60,6 +62,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
   const exportingRef = useRef(false);
 
   const toggleMenu = useCallback((e: React.MouseEvent) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setPhase((prev) => {
@@ -67,7 +70,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
       if (prev === "menu") return "idle";
       return prev;
     });
-  }, []);
+  }, [disabled]);
 
   const closeMenu = useCallback(() => setPhase("idle"), []);
 
@@ -80,6 +83,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
 
   const startExport = useCallback(
     async (selectedFormat: ExportFormat) => {
+      if (disabled) return;
       if (exportingRef.current) return;
       exportingRef.current = true;
 
@@ -122,7 +126,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
         resetExportState();
       }
     },
-    [deckName, resetExportState],
+    [deckName, disabled, resetExportState],
   );
 
   // Sequential slide capture: one slide at a time, advancing on completion.
@@ -144,6 +148,12 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
         const dataUrl = await captureSlide(container);
         imagesRef.current.push(dataUrl);
       } catch (err) {
+        if (isStrictOverflowError(err)) {
+          console.error("[dexcode] Export aborted due to strict overflow:", err);
+          setPhase("error");
+          resetExportState();
+          return;
+        }
         console.warn(`[dexcode] Slide ${currentSlideIndex + 1} export failed:`, err);
         imagesRef.current.push(createBlankSlideDataUrl());
       }
@@ -254,7 +264,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
     <div className="relative">
       <button
         onClick={toggleMenu}
-        disabled={isWorking}
+        disabled={disabled || isWorking}
         className="flex items-center gap-1.5 rounded-lg bg-[#02001A] dark:bg-gray-100 px-3 py-1.5 text-sm text-white dark:text-gray-900 transition-colors hover:bg-[#1a1a3a] dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
         title={`Export ${deckName}`}
       >

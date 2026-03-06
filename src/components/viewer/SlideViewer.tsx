@@ -158,6 +158,10 @@ function MobileViewer({ deck }: SlideViewerProps): React.JSX.Element {
 
 export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.Element | null {
   const [deck, setDeck] = useState(initialDeck);
+  const [strictFitState, setStrictFitState] = useState<{
+    slideKey: string;
+    status: "measuring" | "fit" | "overflow";
+  } | null>(null);
   useDevHotReload({ deckName: deck.name, onUpdate: setDeck });
 
   const isMobile = useIsMobile();
@@ -177,15 +181,23 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
     },
   });
 
+  const slide = deck.slides[currentSlide];
+  const strictFitStatus =
+    slide?.strictInput
+      ? strictFitState?.slideKey === slide.filename
+        ? strictFitState.status
+        : "measuring"
+      : null;
+
   const handlePresenterMode = useCallback(() => {
+    if (strictFitStatus === "overflow") return;
     window.open(`/${deck.name}/presenter`, "dexcode-presenter");
-  }, [deck.name]);
+  }, [deck.name, strictFitStatus]);
 
   if (isMobile) {
     return <MobileViewer deck={deck} />;
   }
 
-  const slide = deck.slides[currentSlide];
   if (!slide) return null;
 
   const bg = resolveSlideBackground(slide.frontmatter, deck.config);
@@ -197,6 +209,7 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
         currentSlide={currentSlide}
         onSlideSelect={handleNavigate}
         onPresenterMode={handlePresenterMode}
+        strictOverflowActive={strictFitStatus === "overflow"}
       />
 
       <main
@@ -212,8 +225,17 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
             config={deck.config}
             deckName={deck.name}
             currentPage={currentSlide}
+            onStrictFitStatusChange={(status) =>
+              setStrictFitState({ slideKey: slide.filename, status })
+            }
           />
         </div>
+
+        {strictFitStatus === "overflow" && (
+          <div className="absolute left-3 top-3 rounded bg-red-600/92 px-3 py-2 text-xs font-medium text-white shadow backdrop-blur">
+            Strict layout overflow on current slide
+          </div>
+        )}
 
         {!isOpen && (
           <button
