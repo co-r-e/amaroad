@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deck to Video (Remotion)"
+  short_description: "Convert DexCode slide decks into animated videos matching the deck's theme"
+  default_prompt: "このデッキを動画にして: --deck <deck-name>"
