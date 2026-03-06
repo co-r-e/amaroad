@@ -48,9 +48,7 @@ pre code {
 }
 
 /* ── Growable elements fill remaining space in flex-col containers ── */
-[data-mdx-status] > [data-growable],
 [data-mdx-status] [data-growable],
-[data-column] > [data-growable],
 [data-column] [data-growable] {
   flex: 1;
   min-height: 0;

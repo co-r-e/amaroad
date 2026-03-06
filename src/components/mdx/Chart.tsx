@@ -33,13 +33,22 @@ interface ChartProps {
 }
 
 const DEFAULT_COLORS = [
-  "#02001A",
-  "#4A90D9",
-  "#50C878",
-  "#FF6B6B",
-  "#FFD93D",
-  "#6C5CE7",
+  "var(--slide-primary)",
+  "var(--slide-secondary)",
+  "var(--slide-accent)",
+  "var(--slide-text-subtle)",
+  "var(--slide-text-muted)",
+  "var(--slide-text)",
 ];
+
+const AXIS_TICK = { fill: "var(--slide-text-muted)", fontSize: 14 };
+const TOOLTIP_STYLE = {
+  backgroundColor: "var(--slide-surface)",
+  border: "1px solid var(--slide-border)",
+  borderRadius: "12px",
+  color: "var(--slide-text)",
+};
+const LEGEND_STYLE = { color: "var(--slide-text-muted)", fontSize: 14 };
 
 export function Chart({
   type,
@@ -94,27 +103,29 @@ function renderChart({
     case "bar":
       return (
         <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey={yKey} fill={colors[0]} isAnimationActive={animate} />
+          <CartesianGrid stroke="var(--slide-border)" strokeDasharray="3 3" vertical={false} />
+          <XAxis dataKey={xKey} tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} />
+          <Legend wrapperStyle={LEGEND_STYLE} />
+          <Bar dataKey={yKey} fill={colors[0]} radius={[10, 10, 0, 0]} isAnimationActive={animate} />
         </BarChart>
       );
     case "line":
       return (
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
+          <CartesianGrid stroke="var(--slide-border)" strokeDasharray="3 3" vertical={false} />
+          <XAxis dataKey={xKey} tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} />
+          <Legend wrapperStyle={LEGEND_STYLE} />
           <Line
             type="monotone"
             dataKey={yKey}
             stroke={colors[0]}
-            strokeWidth={2}
+            strokeWidth={3}
+            dot={{ r: 4, fill: colors[0], strokeWidth: 0 }}
+            activeDot={{ r: 6 }}
             isAnimationActive={animate}
           />
         </LineChart>
@@ -122,17 +133,18 @@ function renderChart({
     case "area":
       return (
         <AreaChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
+          <CartesianGrid stroke="var(--slide-border)" strokeDasharray="3 3" vertical={false} />
+          <XAxis dataKey={xKey} tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} />
+          <Legend wrapperStyle={LEGEND_STYLE} />
           <Area
             type="monotone"
             dataKey={yKey}
             fill={colors[0]}
             stroke={colors[0]}
-            fillOpacity={0.3}
+            strokeWidth={2.5}
+            fillOpacity={0.18}
             isAnimationActive={animate}
           />
         </AreaChart>
@@ -154,8 +166,8 @@ function renderChart({
               <Cell key={index} fill={colors[index % colors.length]} />
             ))}
           </Pie>
-          <Tooltip />
-          <Legend />
+          <Tooltip contentStyle={TOOLTIP_STYLE} />
+          <Legend wrapperStyle={LEGEND_STYLE} />
         </PieChart>
       );
   }
