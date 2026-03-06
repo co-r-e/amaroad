@@ -10,18 +10,6 @@ function getMdxStatus(container: HTMLElement): string | null {
   return container.querySelector("[data-mdx-status]")?.getAttribute("data-mdx-status") ?? null;
 }
 
-function getStrictFitStatus(container: HTMLElement): string | null {
-  return container.querySelector("[data-strict-root]")?.getAttribute("data-fit-status") ?? null;
-}
-
-function getStrictOverflowSlots(container: HTMLElement): string | null {
-  return container.querySelector("[data-strict-root]")?.getAttribute("data-overflow-slots") ?? null;
-}
-
-export function isStrictOverflowError(error: unknown): boolean {
-  return error instanceof Error && error.message.startsWith("Strict layout overflow");
-}
-
 export function waitForMdxReady(
   container: HTMLElement,
   timeoutMs = 15000,
@@ -91,62 +79,6 @@ export function waitForImages(
   });
 }
 
-export function waitForStrictFit(
-  container: HTMLElement,
-  timeoutMs = 5000,
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const strictRoot = container.querySelector("[data-strict-root]");
-    if (!strictRoot) return resolve();
-
-    const status = getStrictFitStatus(container);
-    if (status === "fit") return resolve();
-    if (status === "overflow") {
-      const overflowSlots = getStrictOverflowSlots(container);
-      return reject(
-        new Error(
-          overflowSlots
-            ? `Strict layout overflow: ${overflowSlots}`
-            : "Strict layout overflow",
-        ),
-      );
-    }
-
-    const observer = new MutationObserver(() => {
-      const nextStatus = getStrictFitStatus(container);
-      if (nextStatus === "fit") {
-        cleanup();
-        resolve();
-      } else if (nextStatus === "overflow") {
-        cleanup();
-        const overflowSlots = getStrictOverflowSlots(container);
-        reject(
-          new Error(
-            overflowSlots
-              ? `Strict layout overflow: ${overflowSlots}`
-              : "Strict layout overflow",
-          ),
-        );
-      }
-    });
-
-    const timer = setTimeout(() => {
-      cleanup();
-      reject(new Error("Strict layout measurement timed out"));
-    }, timeoutMs);
-
-    function cleanup(): void {
-      observer.disconnect();
-      clearTimeout(timer);
-    }
-
-    observer.observe(strictRoot, {
-      attributes: true,
-      attributeFilter: ["data-fit-status", "data-overflow-slots"],
-    });
-  });
-}
-
 // ---------------------------------------------------------------------------
 // Wait for DOM to stabilise (ResizeObserver, async re-renders, etc.)
 // ---------------------------------------------------------------------------
@@ -200,12 +132,9 @@ export function waitForDomStable(
 // ---------------------------------------------------------------------------
 
 async function waitForSlideReady(container: HTMLElement): Promise<void> {
-  if (!container.querySelector("[data-strict-root]")) {
-    await waitForMdxReady(container);
-  }
+  await waitForMdxReady(container);
   await waitForImages(container);
   await waitForDomStable(container);
-  await waitForStrictFit(container);
 }
 
 // ---------------------------------------------------------------------------
