@@ -1,3 +1,6 @@
+import type { LayoutId } from "@/lib/layout-spec";
+import type { LogicalSlideInput } from "@/lib/strict-schema";
+
 export type SlideType =
   | "cover"
   | "section"
@@ -25,6 +28,8 @@ export type LogoPosition =
 export type FooterPosition = "bottom-left" | "bottom-center" | "bottom-right";
 
 export type VerticalAlign = "top" | "center";
+export type AuthoringMode = "free" | "strict";
+export type FitMode = "free" | "strict";
 
 export interface SlideFrontmatter {
   type: SlideType;
@@ -32,6 +37,9 @@ export interface SlideFrontmatter {
   notes?: string;
   background?: string;
   verticalAlign?: VerticalAlign;
+  fit?: FitMode;
+  layout?: LayoutId;
+  variantId?: string;
 }
 
 export interface ThemeColors {
@@ -76,6 +84,7 @@ export interface DeckTheme {
 
 export interface DeckConfig {
   title: string;
+  authoringMode?: AuthoringMode;
   logo?: {
     src: string;
     position: LogoPosition;
@@ -104,6 +113,7 @@ export interface SlideData {
   frontmatter: SlideFrontmatter;
   rawContent: string;
   notes?: string;
+  strictInput?: LogicalSlideInput;
 }
 
 export interface DeckSummary {
