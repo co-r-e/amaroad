@@ -3,7 +3,6 @@
 import { MDXRenderer } from "@/lib/mdx-runtime";
 import type { SlideData, SlideType, DeckConfig } from "@/types/deck";
 import { slideComponents } from "@/components/mdx";
-import { StrictSlideRenderer } from "@/components/strict/StrictSlideRenderer";
 import styles from "./SlideContent.module.css";
 
 /** Slide types that already handle their own vertical centering in SlideFrame. */
@@ -18,7 +17,6 @@ interface SlideContentProps {
   slide: SlideData;
   config: DeckConfig;
   deckName: string;
-  onStrictFitStatusChange?: (status: "measuring" | "fit" | "overflow") => void;
 }
 
 /** Replace relative `./assets/` references with the deck's API asset path. */
@@ -33,20 +31,7 @@ function resolveAssetPaths(rawContent: string, deckName: string): string {
 export function SlideContent({
   slide,
   deckName,
-  onStrictFitStatusChange,
 }: SlideContentProps): React.JSX.Element {
-  if (slide.strictInput) {
-    return (
-      <div data-slide-content="" className={styles.content}>
-        <StrictSlideRenderer
-          key={slide.filename}
-          slide={slide}
-          onFitStatusChange={(status) => onStrictFitStatusChange?.(status)}
-        />
-      </div>
-    );
-  }
-
   const { type, verticalAlign } = slide.frontmatter;
   const shouldCenter =
     verticalAlign === "center" ||

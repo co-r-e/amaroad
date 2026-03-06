@@ -12,7 +12,6 @@ interface SlideFrameProps {
   config: DeckConfig;
   deckName: string;
   currentPage: number;
-  onStrictFitStatusChange?: (status: "measuring" | "fit" | "overflow") => void;
 }
 
 interface TypeLayout {
@@ -57,7 +56,6 @@ export function SlideFrame({
   config,
   deckName,
   currentPage,
-  onStrictFitStatusChange,
 }: SlideFrameProps): React.JSX.Element {
   const { accentLine, theme } = config;
   const slideType = slide.frontmatter.type;
@@ -115,12 +113,7 @@ export function SlideFrame({
         className={cn(styles.contentContainer, layout.className)}
         style={{ padding: layout.padding }}
       >
-        <SlideContent
-          slide={slide}
-          config={config}
-          deckName={deckName}
-          onStrictFitStatusChange={onStrictFitStatusChange}
-        />
+        <SlideContent slide={slide} config={config} deckName={deckName} />
       </div>
     </div>
   );

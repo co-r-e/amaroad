@@ -39,16 +39,6 @@ export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
     throw new Error(`Deck config in ${configPath} is missing required "title" field`);
   }
 
-  if (
-    c.authoringMode !== undefined
-    && c.authoringMode !== "free"
-    && c.authoringMode !== "strict"
-  ) {
-    throw new Error(
-      `Deck config in ${configPath} has invalid "authoringMode": expected "free" or "strict"`,
-    );
-  }
-
   if (!c.theme || typeof c.theme !== "object") {
     throw new Error(`Deck config in ${configPath} is missing required "theme" field`);
   }
