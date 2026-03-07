@@ -1,0 +1,61 @@
+---
+type: slide
+transition: slide
+notes: |
+  Full screen visual impact.
+---
+
+<div style={{
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  background: "#000",
+  color: "#FFFFFF",
+  position: "relative",
+  overflow: "hidden"
+}}>
+
+  {/* Background Image Placeholder */}
+  <div style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), repeating-linear-gradient(45deg, #111 0, #111 10px, #222 10px, #222 20px)",
+    zIndex: 0
+  }} />
+
+  <div style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: "radial-gradient(circle at center, transparent 0%, #000 100%)",
+    zIndex: 1
+  }} />
+
+  <div style={{ zIndex: 2, textAlign: "center", maxWidth: "800px", padding: "0 2rem" }}>
+    <h2 style={{
+      fontSize: "4rem",
+      fontWeight: 800,
+      margin: "0 0 1.5rem 0",
+      lineHeight: 1.1,
+      textShadow: "0 2px 10px rgba(0,0,0,0.8)"
+    }}>
+      The Future is <span style={{ color: "#FF6D00", background: "#FFFFFF", padding: "0 10px", display: "inline-block", transform: "skewX(-10deg)" }}>Now</span>
+    </h2>
+    <p style={{
+      fontSize: "1.5rem",
+      lineHeight: 1.6,
+      color: "#EEE",
+      textShadow: "0 1px 5px rgba(0,0,0,0.8)"
+    }}>
+      We are constantly pushing the boundaries of what's possible. Join us on this journey to redefine the digital landscape.
+    </p>
+  </div>
+
+</div>

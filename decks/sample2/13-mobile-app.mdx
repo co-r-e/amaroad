@@ -1,0 +1,108 @@
+---
+type: slide
+transition: slide
+notes: |
+  Mobile app showcase.
+---
+
+<style>
+{`
+  .mockup-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    height: 100%;
+    align-items: center;
+  }
+  .phone-mockup {
+    width: 280px;
+    height: 560px;
+    background: #000;
+    border: 12px solid #333;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .app-header {
+    height: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .app-card {
+    background: #222;
+    border-radius: 12px;
+    height: 120px;
+    margin-bottom: 15px;
+  }
+  .app-btn {
+    background: #FF6D00;
+    height: 40px;
+    border-radius: 20px;
+    margin-top: auto;
+  }
+`}
+</style>
+
+<div style={{
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  height: "100%",
+  background: "#0a0a0a",
+  color: "#FFFFFF",
+  padding: "4rem"
+}}>
+
+  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <h2 style={{ fontSize: "3rem", fontWeight: 700, margin: "0 0 2rem 0" }}>
+      Mobile First<br/>Experience
+    </h2>
+    <p style={{ fontSize: "1.1rem", color: "#B0BEC5", lineHeight: 1.6, marginBottom: "3rem" }}>
+      Designed for the modern user, our mobile solutions are fast, intuitive, and accessible. 
+      We prioritize performance and usability to ensure engagement on the go.
+    </p>
+    
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      {["Native Performance", "Offline Capable", "Push Notifications", "Biometric Auth"].map((feat, i) => (
+        <li key={i} style={{ display: "flex", alignItems: "center", marginBottom: "1rem", color: "#FFFFFF" }}>
+          <span style={{ color: "#FF6D00", marginRight: "1rem" }}>✓</span>
+          {feat}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div className="mockup-container">
+    <div className="phone-mockup" style={{ transform: "translateY(20px)" }}>
+      <div className="phone-screen">
+        <div className="app-header">
+           <div style={{width: "20px", height: "20px", background: "#333", borderRadius: "50%"}} />
+           <div style={{width: "20px", height: "20px", background: "#333", borderRadius: "50%"}} />
+        </div>
+        <div style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "20px" }}>Dashboard</div>
+        <div className="app-card" />
+        <div className="app-card" />
+        <div className="app-btn" />
+      </div>
+    </div>
+    <div className="phone-mockup" style={{ transform: "translateY(-20px)" }}>
+       <div className="phone-screen" style={{ background: "#1a1a1a" }}>
+         <div style={{height: "200px", background: "#333", borderRadius: "0 0 20px 20px", marginBottom: "20px"}} />
+         <div style={{height: "20px", width: "60%", background: "#333", borderRadius: "4px", marginBottom: "10px"}} />
+         <div style={{height: "14px", width: "90%", background: "#333", borderRadius: "4px", marginBottom: "30px"}} />
+         <div className="app-card" />
+       </div>
+    </div>
+  </div>
+
+</div>

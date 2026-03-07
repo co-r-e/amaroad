@@ -1,0 +1,142 @@
+---
+type: slide
+transition: slide
+notes: |
+  Pricing plans.
+---
+
+<style>
+{`
+  .plan-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .plan-card:hover {
+    transform: translateY(-10px);
+    border-color: #FF6D00;
+  }
+  .plan-card.featured {
+    background: #1a1a1a;
+    border-color: #FF6D00;
+    transform: scale(1.05);
+  }
+  .plan-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #FFFFFF;
+  }
+  .plan-price {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #FF6D00;
+    margin-bottom: 2rem;
+  }
+  .plan-price span {
+    font-size: 1rem;
+    color: #B0BEC5;
+    font-weight: 400;
+  }
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    flex: 1;
+  }
+  .plan-features li {
+    margin-bottom: 1rem;
+    color: #B0BEC5;
+  }
+  .plan-btn {
+    background: transparent;
+    border: 1px solid #FF6D00;
+    color: #FF6D00;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .plan-btn:hover, .plan-card.featured .plan-btn {
+    background: #FF6D00;
+    color: #FFFFFF;
+  }
+  .ribbon {
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: #FF6D00;
+    color: #fff;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+`}
+</style>
+
+<div style={{
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  background: "#0a0a0a",
+  color: "#FFFFFF",
+  padding: "4rem"
+}}>
+
+  <h2 style={{ fontSize: "3rem", fontWeight: 700, margin: "0 0 4rem 0", textAlign: "center" }}>Pricing Plans</h2>
+
+  <div style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    gap: "2rem",
+    alignItems: "center"
+  }}>
+
+    <div className="plan-card">
+      <div className="plan-name">Basic</div>
+      <div className="plan-price">$29<span>/mo</span></div>
+      <ul className="plan-features">
+        <li>5 Projects</li>
+        <li>Basic Support</li>
+        <li>10GB Storage</li>
+      </ul>
+      <div className="plan-btn" role="presentation">Choose Basic</div>
+    </div>
+
+    <div className="plan-card featured">
+      <div className="ribbon">POPULAR</div>
+      <div className="plan-name">Pro</div>
+      <div className="plan-price">$99<span>/mo</span></div>
+      <ul className="plan-features">
+        <li>Unlimited Projects</li>
+        <li>Priority Support</li>
+        <li>100GB Storage</li>
+        <li>Advanced Analytics</li>
+      </ul>
+      <div className="plan-btn" role="presentation">Choose Pro</div>
+    </div>
+
+    <div className="plan-card">
+      <div className="plan-name">Enterprise</div>
+      <div className="plan-price">$299<span>/mo</span></div>
+      <ul className="plan-features">
+        <li>Custom Solutions</li>
+        <li>24/7 Dedicated Support</li>
+        <li>Unlimited Storage</li>
+        <li>SLA Agreement</li>
+      </ul>
+      <div className="plan-btn" role="presentation">Contact Sales</div>
+    </div>
+
+  </div>
+
+</div>

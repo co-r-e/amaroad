@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, memo } from "react";
+import { useRef, useState, useEffect, memo, type KeyboardEvent } from "react";
 import { cn } from "@/lib/utils";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import type { SlideData, DeckConfig } from "@/types/deck";
@@ -21,7 +21,7 @@ export const SlideThumbnail = memo(function SlideThumbnail({
   active,
   onClick,
 }: SlideThumbnailProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.12);
   const [visible, setVisible] = useState(false);
@@ -65,16 +65,31 @@ export const SlideThumbnail = memo(function SlideThumbnail({
 
   const bg = resolveSlideBackground(slide.frontmatter, config);
 
+  const onActivate = () => {
+    onClick();
+  };
+
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onActivate();
+    }
+  };
+
   return (
-    <button
+    <div
       ref={buttonRef}
-      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onClick={onActivate}
+      onKeyDown={onKeyDown}
       aria-label={`Slide ${slide.index + 1}`}
       aria-current={active ? "true" : undefined}
       className={cn(
         "w-full rounded-lg overflow-hidden transition-all text-left focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900",
         "hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600",
         active && "ring-2 ring-[#02001A] dark:ring-gray-100",
+        "cursor-pointer",
       )}
     >
       <div
@@ -104,6 +119,6 @@ export const SlideThumbnail = memo(function SlideThumbnail({
           {slide.index + 1}
         </div>
       </div>
-    </button>
+    </div>
   );
 });
