@@ -1,0 +1,87 @@
+---
+type: slide
+transition: slide
+notes: |
+  What our clients say.
+---
+
+<style>
+{`
+  .quote-icon {
+    font-size: 8rem;
+    line-height: 1;
+    color: #1E1E1E;
+    position: absolute;
+    top: -40px;
+    left: -20px;
+    font-family: serif;
+    z-index: 0;
+  }
+  .testimonial-card {
+    background: #111;
+    border-radius: 16px;
+    padding: 3rem;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .testimonial-text {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: #FFFFFF;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+  }
+  .author-info {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+  .author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #333;
+  }
+  .author-name {
+    font-weight: 700;
+    color: #FF6D00;
+  }
+  .author-role {
+    font-size: 0.9rem;
+    color: #B0BEC5;
+  }
+`}
+</style>
+
+<div style={{
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100%",
+  background: "#0a0a0a",
+  color: "#FFFFFF",
+  padding: "4rem"
+}}>
+
+  <div style={{ maxWidth: "800px", width: "100%" }}>
+    <h2 style={{ fontSize: "1rem", color: "#FF6D00", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "3rem", textAlign: "center" }}>Testimonials</h2>
+    
+    <div className="testimonial-card">
+      <div className="quote-icon">"</div>
+      <p className="testimonial-text">
+        Sample Company transformed our digital presence. Their attention to detail and innovative approach exceeded our expectations. Truly a partner in success.
+      </p>
+      
+      <div className="author-info">
+        <div className="author-avatar" />
+        <div>
+          <div className="author-name">Emily Davis</div>
+          <div className="author-role">CTO, TechCorp Inc.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

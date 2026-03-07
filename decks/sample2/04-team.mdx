@@ -1,0 +1,163 @@
+---
+type: slide
+transition: slide
+notes: |
+  Meet the leadership team behind our success.
+---
+
+<style>
+{`
+  .team-card {
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+    border-radius: 16px;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .team-card:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto 2rem auto;
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .team-card:hover .avatar {
+    transform: scale(1.05);
+  }
+  .avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #1E1E1E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #FF6D00;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent 80%);
+  }
+  .name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.01em;
+  }
+  .role {
+    font-size: 1rem;
+    color: #FF6D00;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+  .desc {
+    font-size: 0.95rem;
+    color: #90A4AE;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  /* Decorative dots */
+  .dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    z-index: 0;
+    mask-image: radial-gradient(circle, black, transparent 80%);
+  }
+`}
+</style>
+
+<div style={{
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  background: "#0a0a0a",
+  color: "#FFFFFF",
+  padding: "4rem",
+  position: "relative",
+  overflow: "hidden"
+}}>
+
+  <div className="dots" />
+
+  <div style={{ textAlign: "center", marginBottom: "4rem", position: "relative", zIndex: 1 }}>
+    <h3 style={{ fontSize: "3.5rem", fontWeight: 700, margin: "0" }}>The Minds</h3>
+    <p style={{ fontSize: "1.2rem", color: "#B0BEC5", marginTop: "1rem" }}>Driven by passion, united by vision.</p>
+  </div>
+
+  <div style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    gap: "2rem",
+    flex: 1,
+    position: "relative",
+    zIndex: 1
+  }}>
+
+    {/* Member 1 */}
+    <div className="team-card">
+      <div className="avatar">
+         <div className="avatar-inner" style={{background: "linear-gradient(to bottom, #333, #111)"}}>
+           AC
+         </div>
+      </div>
+      <h4 className="name">Alex Chen</h4>
+      <p className="role">Founder & CEO</p>
+      <p className="desc">Visionary leader with 15+ years experience scaling tech startups.</p>
+    </div>
+
+    {/* Member 2 */}
+    <div className="team-card" style={{ marginTop: "3rem" }}>
+      <div className="avatar">
+         <div className="avatar-inner" style={{background: "linear-gradient(to bottom, #444, #222)"}}>
+           SM
+         </div>
+      </div>
+      <h4 className="name">Sarah Miller</h4>
+      <p className="role">Creative Director</p>
+      <p className="desc">Award-winning designer shaping brands with bold aesthetics.</p>
+    </div>
+
+    {/* Member 3 */}
+    <div className="team-card">
+      <div className="avatar">
+         <div className="avatar-inner" style={{background: "linear-gradient(to bottom, #333, #111)"}}>
+           DK
+         </div>
+      </div>
+      <h4 className="name">David Kim</h4>
+      <p className="role">Tech Lead</p>
+      <p className="desc">Full-stack architect building robust, scalable systems.</p>
+    </div>
+
+  </div>
+
+</div>
