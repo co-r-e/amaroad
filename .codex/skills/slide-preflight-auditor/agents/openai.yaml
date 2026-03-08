@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slide Preflight Auditor"
+  short_description: "Run preflight audits for DexCode slides"
+  default_prompt: "Use $slide-preflight-auditor to audit this deck for slide rule violations before export."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Theme Normalizer"
+  short_description: "Replace hard-coded colors with theme vars"
+  default_prompt: "Use $theme-normalizer to replace hard-coded slide colors with deck theme variables."

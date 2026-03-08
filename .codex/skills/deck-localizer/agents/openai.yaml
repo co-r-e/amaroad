@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deck Localizer"
+  short_description: "Localize DexCode decks across ja and en"
+  default_prompt: "Use $deck-localizer to translate this DexCode deck from Japanese to English with a dry-run first."

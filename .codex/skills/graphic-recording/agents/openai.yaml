@@ -1,0 +1,4 @@
+interface:
+  display_name: "Graphic Recording"
+  short_description: "Create graphic-recording visuals for slides"
+  default_prompt: "Use $graphic-recording to turn this slide into a theme-matched graphic-recording style visual."

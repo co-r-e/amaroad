@@ -1,0 +1,4 @@
+interface:
+  display_name: "Speaker Notes Polisher"
+  short_description: "Standardize and improve slide speaker notes"
+  default_prompt: "Use $speaker-notes-polisher to normalize the speaker notes across this deck."

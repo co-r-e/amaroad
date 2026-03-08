@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fact Citation Validator"
+  short_description: "Audit slide claims and missing source links"
+  default_prompt: "Use $fact-citation-validator to audit this deck for unsupported factual claims and missing citations."
