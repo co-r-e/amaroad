@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deck Scaffold From Brief"
+  short_description: "Create a DexCode deck scaffold from a brief"
+  default_prompt: "Use $deck-scaffold-from-brief to generate a new DexCode deck structure from this presentation brief."

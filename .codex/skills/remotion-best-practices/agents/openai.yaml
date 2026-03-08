@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remotion Best Practices"
+  short_description: "Load focused Remotion rules for video work"
+  default_prompt: "Use $remotion-best-practices to guide this Remotion implementation with the right rule files."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nanobanana Image Edit"
+  short_description: "Edit existing deck images with Gemini prompts"
+  default_prompt: "Use $nanobanana-image-edit to revise this existing slide image while keeping the asset usable in the deck."
