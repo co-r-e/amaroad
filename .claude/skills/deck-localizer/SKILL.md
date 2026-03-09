@@ -2,19 +2,11 @@
 name: deck-localizer
 description: |
   Localize DexCode deck MDX slides between Japanese and English while preserving
-  MDX/JSX structure. Supports dry-run preview and selective file scope.
+  MDX/JSX structure. Use when you need a bilingual deck from the same source,
+  want to translate headings, body text, and speaker notes in batch, or need
+  structure-safe localization with dry-run preview and selective file scope.
   Triggers: localize deck, translate slides, ja to en deck, en to ja deck.
 ---
-
-# deck-localizer Skill
-
-Translate an existing deck to Japanese or English with structure-safe automation.
-
-## When To Use
-
-- You need a bilingual deck (`ja` and `en`) from the same source.
-- You want to translate headings, body text, and speaker notes quickly.
-- You need batch localization with dry-run before writing files.
 
 ## Prerequisites
 

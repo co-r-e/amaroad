@@ -7,28 +7,14 @@ notes: |
 
 # Dashboard
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1.5rem", marginTop: "1rem" }}>
-  <div style={{ textAlign: "center", padding: "1.5rem 1rem", borderRadius: "1rem", background: "#F5F5F5" }}>
-    <Icon name="users" size={48} color="#02001A" />
-    <p style={{ fontSize: "2.8rem", fontWeight: "bold", margin: "0.5rem 0 0", color: "#02001A" }}>12,847</p>
-    <p style={{ fontSize: "1.4rem", color: "#555" }}>Active Users</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "1.5rem 1rem", borderRadius: "1rem", background: "#F5F5F5" }}>
-    <Icon name="trending-up" size={48} color="#888" />
-    <p style={{ fontSize: "2.8rem", fontWeight: "bold", margin: "0.5rem 0 0", color: "#DC3545" }}>+32.5%</p>
-    <p style={{ fontSize: "1.4rem", color: "#555" }}>MoM Growth</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "1.5rem 1rem", borderRadius: "1rem", background: "#F5F5F5" }}>
-    <Icon name="clock" size={48} color="#888" />
-    <p style={{ fontSize: "2.8rem", fontWeight: "bold", margin: "0.5rem 0 0", color: "#02001A" }}>99.97%</p>
-    <p style={{ fontSize: "1.4rem", color: "#555" }}>Uptime</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "1.5rem 1rem", borderRadius: "1rem", background: "#F5F5F5" }}>
-    <Icon name="star" size={48} color="#888" />
-    <p style={{ fontSize: "2.8rem", fontWeight: "bold", margin: "0.5rem 0 0", color: "#02001A" }}>4.8</p>
-    <p style={{ fontSize: "1.4rem", color: "#555" }}>CSAT</p>
-  </div>
-</div>
+<ShowcaseDashboard
+  metrics={[
+    { icon: "users", value: "12,847", label: "Active Users" },
+    { icon: "trending-up", value: "+32.5%", label: "MoM Growth" },
+    { icon: "clock", value: "99.97%", label: "Uptime" },
+    { icon: "star", value: "4.8", label: "CSAT" }
+  ]}
+>
 
 <Columns gap="2rem">
   <Column>
@@ -41,9 +27,9 @@ notes: |
       { name: "Jan", value: 820 },
       { name: "Feb", value: 1100 },
       { name: "Mar", value: 1450 },
-      { name: "Apr", value: 1780 },
+      { name: "Apr", value: 1780 }
     ]}
-    colors={["#02001A", "#888", "#CCC", "#555", "#AAA", "#DC3545"]}
+    colors={["var(--slide-primary)", "#888", "#CCC", "#555", "#AAA"]}
   />
 
   </Column>
@@ -56,10 +42,12 @@ notes: |
     data={[
       { name: "Domestic", value: 65 },
       { name: "International", value: 25 },
-      { name: "Partners", value: 10 },
+      { name: "Partners", value: 10 }
     ]}
-    colors={["#02001A", "#888", "#CCC", "#555", "#AAA", "#DC3545"]}
+    colors={["var(--slide-primary)", "#888", "#CCC", "#555", "#AAA"]}
   />
 
   </Column>
 </Columns>
+
+</ShowcaseDashboard>

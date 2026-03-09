@@ -15,11 +15,6 @@ allowed-tools:
   - Grep
 ---
 
-# graphic-recording Skill
-
-Generate graphic recording style visual note illustrations from slide content.
-Reuses the `nanobanana-image` skill's generation scripts.
-
 ## Prerequisites
 
 - `GEMINI_API_KEY` set in `.env.local`

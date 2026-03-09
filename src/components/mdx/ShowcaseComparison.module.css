@@ -1,0 +1,178 @@
+/* ========== Checklist variant ========== */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2.5rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  border: 1px solid var(--slide-border);
+}
+
+.checklistText {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.checklistTextPending {
+  composes: checklistText;
+  color: var(--slide-text-muted);
+}
+
+/* ========== Two-column variants (before-after, do-dont, pros-cons) ========== */
+
+.twoCol {
+  display: flex;
+  gap: 2.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.colPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+}
+
+/* ========== Before-After variant ========== */
+
+.baBox {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: 2.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.baBoxLeft {
+  composes: baBox;
+  border: 2px solid rgb(220, 53, 69);
+}
+
+.baBoxRight {
+  composes: baBox;
+  border: 2px solid var(--slide-primary);
+}
+
+.baHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.baTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.baTitleLeft {
+  composes: baTitle;
+  color: rgb(220, 53, 69);
+}
+
+.baTitleRight {
+  composes: baTitle;
+  color: var(--slide-primary);
+}
+
+.baItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.baItem {
+  font-size: 1.8rem;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ========== Do/Don't variant ========== */
+
+.ddHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.ddHeaderLabel {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ddHeaderLabelDo {
+  composes: ddHeaderLabel;
+  color: var(--slide-primary);
+}
+
+.ddHeaderLabelDont {
+  composes: ddHeaderLabel;
+  color: var(--slide-text-muted);
+}
+
+.ddCard {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: 1.2rem 1.6rem;
+}
+
+.ddCardText {
+  font-size: 1.8rem;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.ddCardTextMuted {
+  composes: ddCardText;
+  color: var(--slide-text-muted);
+}
+
+/* ========== Pros-Cons variant ========== */
+
+.pcTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.pcCardPro {
+  background: rgba(34, 197, 94, 0.08);
+  border-radius: var(--slide-radius);
+  padding: 1.2rem 1.6rem;
+}
+
+.pcCardCon {
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: var(--slide-radius);
+  padding: 1.2rem 1.6rem;
+}
+
+.pcItemText {
+  font-size: 1.8rem;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.7;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

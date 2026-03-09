@@ -3,18 +3,10 @@ name: deck-scaffold-from-brief
 description: |
   Create a new DexCode deck scaffold from a user brief.
   Generate deck.config.ts and numbered MDX slides including cover, section/content, and ending.
-  Use when a user wants to start a new deck quickly from rough requirements.
+  Use when starting a new presentation, turning a rough brief into slide structure,
+  or creating a first-pass slide flow before detailed writing.
+  Triggers: new deck, scaffold deck, create presentation, デッキを作って.
 ---
-
-# deck-scaffold-from-brief Skill
-
-Create a new DexCode deck skeleton from a short brief with minimal setup time.
-
-## When To Use
-
-- Start a new presentation under `decks/<deck>/`
-- Generate a draft structure first, then refine slide contents
-- You have title + brief but no finalized slide flow yet
 
 ## Outputs
 
@@ -43,7 +35,7 @@ npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   - `--brief`: source brief text
 - Optional:
   - `--slides`: total slide count (default `10`, minimum `4`)
-  - `--lang`: `ja` or `en` (default `ja`)
+  - `--lang`: `ja` or `en` (default `en`)
   - `--overwrite`: replace existing `decks/<deck>`
   - `--copyright`: copyright text written into `deck.config.ts`
 

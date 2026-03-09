@@ -14,10 +14,6 @@ allowed-tools:
   - Grep
 ---
 
-# nanobanana-image-edit Skill
-
-Edit existing images using Gemini API. Send an image with an edit prompt and receive the modified version.
-
 ## Prerequisites
 
 - `GEMINI_API_KEY` set in `.env.local` at the project root

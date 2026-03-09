@@ -5,28 +5,4 @@ notes: |
   A section explaining the overview of DexCode.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flex: 1, textAlign: "center", gap: "2.5rem" }}>
-  <div style={{ display: "flex", alignItems: "center", gap: "1.2rem" }}>
-    <Icon name="info" size={64} color="#02001A" />
-    <span style={{ fontSize: "4.5rem", fontWeight: 700, fontFamily: "var(--slide-font-heading)", color: "#02001A" }}>What is DexCode?</span>
-  </div>
-  <div style={{ width: "100px", height: "4px", background: "#02001A", borderRadius: "2px" }} />
-  <p style={{ fontSize: "2.2rem", color: "#555", maxWidth: "1100px", lineHeight: 1.7 }}>
-    An MDX-based presentation tool.<br />
-    Create slides just like writing code.
-  </p>
-  <div style={{ display: "flex", gap: "3rem", marginTop: "1rem" }}>
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.8rem" }}>
-      <Icon name="code" size={48} color="#02001A" />
-      <span style={{ fontSize: "1.6rem", color: "#555" }}>Developer First</span>
-    </div>
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.8rem" }}>
-      <Icon name="palette" size={48} color="#888" />
-      <span style={{ fontSize: "1.6rem", color: "#555" }}>Theming</span>
-    </div>
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.8rem" }}>
-      <Icon name="rocket" size={48} color="#888" />
-      <span style={{ fontSize: "1.6rem", color: "#555" }}>Fast Build</span>
-    </div>
-  </div>
-</div>
+<ShowcaseSection variant="centered" title="What is DexCode?" description={"An MDX-based presentation tool.\nCreate slides just like writing code."} chips={["Developer First", "Theming", "Fast Build"]} />

@@ -1,0 +1,27 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--logo-columns, 4), minmax(0, 1fr));
+  gap: var(--slide-space-md);
+  min-height: 0;
+  flex: 1;
+}
+
+.item {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 1.6rem;
+  border: 1px solid color-mix(in srgb, var(--slide-border) 80%, transparent);
+}
+
+.label {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--slide-text-subtle);
+  text-align: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

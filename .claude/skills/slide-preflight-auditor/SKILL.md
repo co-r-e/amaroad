@@ -3,18 +3,10 @@ name: slide-preflight-auditor
 description: |
   Run preflight audits for DexCode MDX slides before review/export.
   Detect rule violations from CLAUDE.md and output line-numbered findings.
+  Pinpoint fix targets with file and line numbers. Includes manual checks
+  for items like safe zone collisions that cannot be fully automated.
   Triggers: preflight, lint slides, slide audit, safe zone check, font size check.
 ---
-
-# slide-preflight-auditor Skill
-
-Audit DexCode slide quality mechanically before review and export.
-
-## Purpose
-
-- Detect CLAUDE.md rule violations early.
-- Pinpoint fix targets quickly with file and line numbers.
-- Include manual checks for items that cannot be fully verified automatically (for example safe zone collisions).
 
 ## Audit Rules (Aligned with CLAUDE.md)
 

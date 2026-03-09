@@ -1,0 +1,22 @@
+---
+type: content
+notes: |
+  Feature comparison matrix for product/service tiers.
+  Styled grid with check/cross indicators for quick visual scanning.
+  Different from the markdown table approach in 28-comparison-table.
+---
+
+# Feature Comparison
+
+<ShowcaseComparisonTable
+  columns={["Starter", "Pro", "Enterprise"]}
+  highlightColumn={1}
+  rows={[
+    { feature: "Projects", values: ["5", "Unlimited", "Unlimited"] },
+    { feature: "Storage", values: ["1 GB", "100 GB", "Custom"] },
+    { feature: "Team Members", values: ["1", "10", "Unlimited"] },
+    { feature: "API Access", values: ["\u2014", "\u2705", "\u2705"] },
+    { feature: "SSO / SAML", values: ["\u2014", "\u2014", "\u2705"] },
+    { feature: "Dedicated Support", values: ["\u2014", "\u2014", "\u2705"] },
+  ]}
+/>

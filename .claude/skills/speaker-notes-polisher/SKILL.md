@@ -7,10 +7,6 @@ description: |
   Triggers: polish notes, fill speaker notes, rewrite speaker notes.
 ---
 
-# speaker-notes-polisher Skill
-
-Improve frontmatter `notes` in `.mdx` slides for presentation-ready delivery.
-
 ## Workflow
 
 ### 1. Confirm target deck

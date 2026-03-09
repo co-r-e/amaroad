@@ -1,0 +1,41 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-md);
+  flex: 1;
+  min-height: 0;
+}
+
+.metricGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.metricCard {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: var(--slide-radius);
+  background: var(--slide-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.metricValue {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0;
+  color: var(--slide-primary);
+}
+
+.metricLabel {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.3rem 0 0;
+}
+
+.childrenArea {
+  flex: 1;
+  min-height: 0;
+}

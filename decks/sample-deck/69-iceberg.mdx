@@ -1,0 +1,28 @@
+---
+type: content
+notes: |
+  Iceberg model showing visible portion above waterline and hidden portion below.
+  Illustrates the concept that most complexity is hidden beneath the surface.
+---
+
+# The Iceberg of Software
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 440">
+    <rect x="0" y="160" width="900" height="1.5" fill="var(--slide-primary)" opacity="0.4" />
+    <text x="880" y="152" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-primary)" opacity="0.6">Surface</text>
+
+    <polygon points="350,20 550,20 580,155 320,155" fill="var(--slide-primary)" opacity="0.25" />
+    <text x="450" y="70" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="var(--slide-text)">UI / Features</text>
+    <text x="450" y="95" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="var(--slide-text-muted)">What users see</text>
+
+    <polygon points="310,165 590,165 700,420 200,420" fill="var(--slide-primary)" opacity="0.15" />
+
+    <text x="450" y="205" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Business Logic</text>
+    <text x="450" y="245" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Data Models</text>
+    <text x="450" y="285" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text-muted)">Error Handling</text>
+    <text x="450" y="325" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text-muted)">Security & Auth</text>
+    <text x="450" y="365" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text-muted)">Infrastructure</text>
+    <text x="450" y="405" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text-muted)">Testing & CI/CD</text>
+  </svg>
+</ShowcaseDiagram>

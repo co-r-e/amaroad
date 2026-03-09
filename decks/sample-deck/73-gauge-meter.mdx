@@ -1,0 +1,30 @@
+---
+type: content
+notes: |
+  Gauge / speedometer diagram showing a performance score.
+  Semi-circle meter with a needle indicator and score label.
+---
+
+# Performance Score
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 600 380">
+    <g transform="translate(300, 280)">
+      <path d="M -220 0 A 220 220 0 0 1 220 0" fill="none" stroke="var(--slide-surface)" strokeWidth="36" strokeLinecap="round" />
+
+      <path d="M -220 0 A 220 220 0 0 1 -155.56 -155.56" fill="none" stroke="var(--slide-text-muted)" strokeWidth="36" strokeLinecap="round" opacity="0.4" />
+      <path d="M -155.56 -155.56 A 220 220 0 0 1 0 -220" fill="none" stroke="var(--slide-primary)" strokeWidth="36" opacity="0.6" />
+      <path d="M 0 -220 A 220 220 0 0 1 155.56 -155.56" fill="none" stroke="var(--slide-primary)" strokeWidth="36" opacity="0.8" />
+      <path d="M 155.56 -155.56 A 220 220 0 0 1 220 0" fill="none" stroke="var(--slide-primary)" strokeWidth="36" strokeLinecap="round" />
+
+      <line x1="0" y1="0" x2="55" y2="-190" stroke="var(--slide-text)" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="0" cy="0" r="12" fill="var(--slide-text)" />
+
+      <text x="-210" y="36" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fill="var(--slide-text-muted)">0</text>
+      <text x="210" y="36" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fill="var(--slide-text-muted)">100</text>
+
+      <text x="0" y="-40" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="56" fontWeight="800" fill="var(--slide-text)">87</text>
+      <text x="0" y="-4" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="18" fill="var(--slide-text-muted)">out of 100</text>
+    </g>
+  </svg>
+</ShowcaseDiagram>

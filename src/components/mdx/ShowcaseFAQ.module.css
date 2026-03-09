@@ -1,0 +1,29 @@
+/* ── ShowcaseFAQ ── */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+  min-height: 0;
+}
+
+.item {
+  padding: 1.4rem 2rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+}
+
+.question {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.answer {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.6rem 0 0;
+  line-height: 1.7;
+}

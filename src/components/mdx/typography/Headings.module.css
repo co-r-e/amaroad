@@ -21,17 +21,6 @@
     letter-spacing: -0.015em;
     text-wrap: balance;
     margin-bottom: var(--slide-space-sm);
-    padding-bottom: var(--slide-space-xs);
-}
-
-.h2::after {
-    content: "";
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: var(--slide-accent, var(--slide-primary));
-    border-radius: 2px;
-    margin-top: var(--slide-space-xs);
 }
 
 .h3 {

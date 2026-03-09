@@ -1,0 +1,20 @@
+---
+type: content
+notes: |
+  2x3 stat grid layout using the Stat component.
+  Ideal for quarterly reports and performance dashboards.
+---
+
+# Q4 Performance Overview
+
+<ShowcaseStatGrid
+  columns={3}
+  items={[
+    { value: "$4.2M", label: "Revenue", trend: "up" },
+    { value: "12,400", label: "Active Users", trend: "up" },
+    { value: "98.7%", label: "Satisfaction", trend: "up" },
+    { value: "340ms", label: "Avg Response", trend: "down" },
+    { value: "2.1%", label: "Churn Rate", trend: "down" },
+    { value: "87", label: "NPS Score", trend: "up" }
+  ]}
+/>

@@ -2,19 +2,11 @@
 name: fact-citation-validator
 description: |
   Validate factual and numeric claims in DexCode MDX slides and flag lines
-  missing citations. Use before release/export when you need traceable sources.
+  missing citations. Reduce unsupported numeric claims before external sharing,
+  standardize citation quality, and produce deterministic line-numbered reports.
+  Use before release/export when you need traceable sources.
   Triggers: citation check, fact check slides, source audit, claim validator.
 ---
-
-# fact-citation-validator Skill
-
-Audit slides for unsupported factual claims and report line-numbered findings.
-
-## Purpose
-
-- Reduce unsupported numeric claims before external sharing.
-- Standardize citation quality across decks.
-- Produce deterministic reports that are easy to fix.
 
 ## What It Checks
 

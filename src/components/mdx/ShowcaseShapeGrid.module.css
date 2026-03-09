@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.item {
+  text-align: center;
+}
+
+.label {
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--slide-text);
+}

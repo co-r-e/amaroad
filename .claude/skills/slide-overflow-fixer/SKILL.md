@@ -9,10 +9,6 @@ description: |
   "ha-mi-dashi", "slide contents are out of bounds".
 ---
 
-# slide-overflow-fixer Skill
-
-Fix slide overflow pragmatically without breaking the presentation design system.
-
 ## Non-negotiable constraints
 
 1. Do not change heading design.

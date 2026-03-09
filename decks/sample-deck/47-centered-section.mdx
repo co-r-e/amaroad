@@ -5,29 +5,15 @@ notes: |
   A centered section divider with subtext and icons.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", flex: 1, gap: "1.5rem" }}>
-
-<div style={{ width: 96, height: 96, borderRadius: "50%", background: "#02001A", display: "flex", alignItems: "center", justifyContent: "center" }}>
-  <Icon name="layers" size={48} color="#FFF" />
-</div>
-
-# Architecture
-
-<p style={{ fontSize: "2rem", color: "#888", maxWidth: "60%", lineHeight: 1.6, margin: 0 }}>System design overview and technology choices</p>
-
-<div style={{ display: "flex", gap: "3rem", marginTop: "1rem" }}>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="database" size={32} color="#888" />
-    <p style={{ fontSize: "1.4rem", color: "#555", margin: "0.5rem 0 0" }}>Data Layer</p>
-  </div>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="cpu" size={32} color="#888" />
-    <p style={{ fontSize: "1.4rem", color: "#555", margin: "0.5rem 0 0" }}>Processing</p>
-  </div>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="monitor" size={32} color="#888" />
-    <p style={{ fontSize: "1.4rem", color: "#555", margin: "0.5rem 0 0" }}>Presentation</p>
-  </div>
-</div>
-
-</div>
+<ShowcaseEndSlide
+  variant="section-icons"
+  icon="layers"
+  iconColor="#02001A"
+  title="Architecture"
+  description="System design overview and technology choices"
+  icons={[
+    { name: "database", label: "Data Layer" },
+    { name: "cpu", label: "Processing" },
+    { name: "monitor", label: "Presentation" }
+  ]}
+/>

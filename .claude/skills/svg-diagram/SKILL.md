@@ -16,11 +16,6 @@ allowed-tools:
   - Grep
 ---
 
-# svg-diagram Skill
-
-A skill that generates SVG diagrams matching the slide's design theme and inserts them into MDX files.
-No external API required — Claude generates SVG markup directly.
-
 ## Workflow
 
 ### Step 1: Gather Information

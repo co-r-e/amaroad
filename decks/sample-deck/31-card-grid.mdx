@@ -7,20 +7,12 @@ notes: |
 
 # 3-Column Card Layout
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2.5rem", marginTop: "1.5rem" }}>
-  <div style={{ border: "1px solid #E0E0E0", borderRadius: "1rem", padding: "2.5rem", background: "#FFFFFF", display: "flex", flexDirection: "column", height: "100%" }}>
-    <Icon name="shield-check" size={56} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "1.2rem 0 0.8rem" }}>Security</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.7 }}>Protect data with end-to-end encryption. SOC2 Type II compliant.</p>
-  </div>
-  <div style={{ border: "1px solid #E0E0E0", borderRadius: "1rem", padding: "2.5rem", background: "#FFFFFF", display: "flex", flexDirection: "column", height: "100%" }}>
-    <Icon name="gauge" size={56} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "1.2rem 0 0.8rem" }}>Performance</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.7 }}>Sub-50ms response worldwide with CDN and edge computing.</p>
-  </div>
-  <div style={{ border: "1px solid #E0E0E0", borderRadius: "1rem", padding: "2.5rem", background: "#FFFFFF", display: "flex", flexDirection: "column", height: "100%" }}>
-    <Icon name="puzzle" size={56} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "1.2rem 0 0.8rem" }}>Extensibility</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.7 }}>Flexibly add features through the plugin system.</p>
-  </div>
-</div>
+<ShowcaseFeatureGrid
+  variant="bordered"
+  columns={3}
+  items={[
+    { icon: "shield-check", title: "Security", description: "Protect data with end-to-end encryption. SOC2 Type II compliant." },
+    { icon: "gauge", title: "Performance", description: "Sub-50ms response worldwide with CDN and edge computing." },
+    { icon: "puzzle", title: "Extensibility", description: "Flexibly add features through the plugin system." },
+  ]}
+/>

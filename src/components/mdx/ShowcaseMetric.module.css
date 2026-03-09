@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  gap: var(--slide-space-md);
+  min-height: 0;
+}
+
+.label {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--slide-primary);
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 10rem;
+  font-weight: 800;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1;
+  font-family: var(--slide-font-heading);
+}
+
+.description {
+  font-size: 2rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.6;
+}

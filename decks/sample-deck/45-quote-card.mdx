@@ -5,41 +5,12 @@ notes: |
   Ideal for customer testimonials.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-
 # Testimonials
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", flex: 1, alignContent: "center", marginTop: "1rem" }}>
-  <div style={{ background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-    <div>
-      <p style={{ fontSize: "3.5rem", color: "#02001A", fontWeight: "bold", lineHeight: 1, margin: "0 0 0.8rem" }}>"</p>
-      <p style={{ fontSize: "1.7rem", color: "#333", lineHeight: 1.6, fontStyle: "italic", margin: 0 }}>Thanks to DexCode, our engineering team can now create their own slides. No more relying on designers.</p>
-    </div>
-    <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.5rem" }}>
-      <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#02001A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-        <Icon name="user" size={26} color="#FFF" />
-      </div>
-      <div>
-        <p style={{ fontSize: "1.5rem", fontWeight: "bold", margin: 0 }}>David Wilson</p>
-        <p style={{ fontSize: "1.3rem", color: "#888", margin: 0 }}>CTO, TechStart Inc.</p>
-      </div>
-    </div>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-    <div>
-      <p style={{ fontSize: "3.5rem", color: "#02001A", fontWeight: "bold", lineHeight: 1, margin: "0 0 0.8rem" }}>"</p>
-      <p style={{ fontSize: "1.7rem", color: "#333", lineHeight: 1.6, fontStyle: "italic", margin: 0 }}>Git-based diff management is amazing. Slides naturally fit into our review workflow.</p>
-    </div>
-    <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.5rem" }}>
-      <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#555", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-        <Icon name="user" size={26} color="#FFF" />
-      </div>
-      <div>
-        <p style={{ fontSize: "1.5rem", fontWeight: "bold", margin: 0 }}>Michelle Lee</p>
-        <p style={{ fontSize: "1.3rem", color: "#888", margin: 0 }}>DevOps Lead, Global SaaS Corp.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
+<ShowcaseQuote
+  columns={2}
+  items={[
+    { text: "Thanks to DexCode, our engineering team can now create their own slides. No more relying on designers.", name: "David Wilson", role: "CTO, TechStart Inc." },
+    { text: "Git-based diff management is amazing. Slides naturally fit into our review workflow.", name: "Michelle Lee", role: "DevOps Lead, Global SaaS Corp." },
+  ]}
+/>

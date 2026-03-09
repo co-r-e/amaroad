@@ -7,20 +7,14 @@ notes: |
 
 # Get Started in 3 Steps
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2.5rem", marginTop: "2rem", height: "calc(100% - 7rem)", alignItems: "center" }}>
-  <div style={{ textAlign: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 2rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "50%", background: "#02001A", color: "#FFF", fontSize: "2.5rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>1</div>
-    <h3 style={{ fontSize: "2.2rem", margin: "1.2rem 0 0.8rem" }}>Install</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Run `npm install -g dexcode` to install the CLI</p>
-  </div>
-  <div style={{ textAlign: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 2rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "50%", background: "#02001A", color: "#FFF", fontSize: "2.5rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>2</div>
-    <h3 style={{ fontSize: "2.2rem", margin: "1.2rem 0 0.8rem" }}>Create a Deck</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Generate a new deck from a template with `dexcode init my-deck`</p>
-  </div>
-  <div style={{ textAlign: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 2rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "50%", background: "#02001A", color: "#FFF", fontSize: "2.5rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>3</div>
-    <h3 style={{ fontSize: "2.2rem", margin: "1.2rem 0 0.8rem" }}>Start Presenting</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Live preview with `dexcode dev`, export to PDF with `dexcode export`</p>
-  </div>
-</div>
+<Steps>
+  <Step number={1} title="Install">
+    Run `npm install -g dexcode` to install the CLI
+  </Step>
+  <Step number={2} title="Create a Deck">
+    Generate a new deck from a template with `dexcode init my-deck`
+  </Step>
+  <Step number={3} title="Start Presenting">
+    Live preview with `dexcode dev`, export to PDF with `dexcode export`
+  </Step>
+</Steps>

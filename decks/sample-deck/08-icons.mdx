@@ -5,33 +5,28 @@ notes: |
   The Lucide icon set is available.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", flex: 1, gap: "1.5rem" }}>
-
 # Icons
 
 Easily place Lucide icons:
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr", gap: "2rem", flex: 1, alignContent: "center" }}>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem 1.5rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="rocket" size={64} color="#02001A" />
-    <span style={{ fontSize: "1.5rem", color: "#555" }}>rocket</span>
-  </div>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem 1.5rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="code" size={64} color="#02001A" />
-    <span style={{ fontSize: "1.5rem", color: "#555" }}>code</span>
-  </div>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem 1.5rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="presentation" size={64} color="#02001A" />
-    <span style={{ fontSize: "1.5rem", color: "#555" }}>presentation</span>
-  </div>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem 1.5rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="file-text" size={64} color="#02001A" />
-    <span style={{ fontSize: "1.5rem", color: "#555" }}>file-text</span>
-  </div>
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem 1.5rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="settings" size={64} color="#02001A" />
-    <span style={{ fontSize: "1.5rem", color: "#555" }}>settings</span>
-  </div>
-</div>
-
-</div>
+<ShowcaseIconGrid
+  columns={5}
+  rows={3}
+  items={[
+    { name: "rocket", label: "rocket" },
+    { name: "code", label: "code" },
+    { name: "presentation", label: "presentation" },
+    { name: "file-text", label: "file-text" },
+    { name: "settings", label: "settings" },
+    { name: "heart", label: "heart" },
+    { name: "zap", label: "zap" },
+    { name: "terminal", label: "terminal" },
+    { name: "github", label: "github" },
+    { name: "palette", label: "palette" },
+    { name: "layers", label: "layers" },
+    { name: "database", label: "database" },
+    { name: "globe", label: "globe" },
+    { name: "lock", label: "lock" },
+    { name: "sparkles", label: "sparkles" }
+  ]}
+/>

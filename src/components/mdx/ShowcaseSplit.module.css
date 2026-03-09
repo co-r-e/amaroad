@@ -1,0 +1,287 @@
+/* ========== Speaker variant ========== */
+
+.speaker {
+  display: flex;
+  gap: 3rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.speakerImageCol {
+  width: 40%;
+  flex-shrink: 0;
+}
+
+.speakerPlaceholder {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.speakerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--slide-radius);
+}
+
+.speakerBio {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--slide-space-md);
+}
+
+.speakerName {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.speakerRole {
+  font-size: 2rem;
+  color: var(--slide-text-muted);
+  margin: 0.4rem 0 0;
+}
+
+.speakerDivider {
+  width: 60px;
+  height: 3px;
+  background: var(--slide-primary);
+  border-radius: 2px;
+}
+
+.speakerBioText {
+  font-size: 1.8rem;
+  color: var(--slide-text);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.speakerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.speakerDetail {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+}
+
+/* ========== Dark-light variant ========== */
+
+.darkLight {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+
+.darkPanel {
+  flex: 1;
+  background: #02001a;
+  color: #ffffff;
+  border-radius: var(--slide-radius) 0 0 var(--slide-radius);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.darkPanelKicker {
+  font-size: 1.8rem;
+  color: #cccccc;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+}
+
+.darkPanelTitle {
+  font-size: 2.8rem;
+  color: #ffffff;
+  line-height: 1.3;
+  margin: 0;
+  font-weight: 700;
+}
+
+.darkPanelBody {
+  font-size: 1.8rem;
+  color: #aaaaaa;
+  line-height: 1.7;
+  margin: 1.5rem 0 0;
+}
+
+.darkPanelItems {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.darkPanelItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.darkPanelItemText {
+  font-size: 1.8rem;
+  color: #cccccc;
+  margin: 0;
+}
+
+.lightPanel {
+  flex: 1;
+  background: var(--slide-surface);
+  border-radius: 0 var(--slide-radius) var(--slide-radius) 0;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.metricBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricValue {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--slide-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.3rem 0 0;
+}
+
+/* ========== Spotlight variant ========== */
+
+.spotlight {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  gap: 3rem;
+}
+
+.spotlightLeft {
+  width: 45%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.spotlightValue {
+  font-size: 8rem;
+  font-weight: 700;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.spotlightLabel {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  margin: 1rem 0 0;
+}
+
+.spotlightDescription {
+  font-size: 2rem;
+  color: var(--slide-text-muted);
+  margin: 0.5rem 0 0;
+}
+
+.spotlightRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+}
+
+.spotlightCard {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: 1.6rem 2rem;
+}
+
+.spotlightCardTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.spotlightCardDesc {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.4rem 0 0;
+  line-height: 1.6;
+}
+
+/* ========== Data-narrative variant ========== */
+
+.dataNarrative {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 3rem;
+}
+
+.dataNarrativeLeft {
+  width: 40%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dataNarrativeValue {
+  font-size: 6rem;
+  font-weight: 700;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.dataNarrativeLabel {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.dataNarrativeDesc {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.5rem 0 0;
+  line-height: 1.6;
+}
+
+.dataNarrativeRight {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}

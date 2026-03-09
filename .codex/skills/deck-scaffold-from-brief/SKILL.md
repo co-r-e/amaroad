@@ -37,6 +37,7 @@ npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   [--overwrite] \
   [--copyright "© 2026 Example Inc."]
 ```
+Default language is `en` unless you pass `--lang ja`.
 4. Verify the generated files in stdout and on disk
 5. Fill real content, then preview with `npm run dev`
 

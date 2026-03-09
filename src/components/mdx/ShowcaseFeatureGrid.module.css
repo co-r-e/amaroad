@@ -1,0 +1,94 @@
+/* ========== Root ========== */
+
+.root {
+  display: grid;
+  gap: var(--slide-space-md);
+  min-height: 0;
+  flex: 1;
+}
+
+/* ========== Card item (default: surface background) ========== */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 2rem;
+  border-radius: var(--slide-radius);
+  background: var(--slide-surface);
+  min-width: 0;
+}
+
+.itemIcon {
+  flex-shrink: 0;
+  color: var(--slide-text);
+}
+
+.itemTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.itemDescription {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ========== Bordered variant ========== */
+
+.bordered .item {
+  background: transparent;
+  border: 1px solid var(--slide-border);
+}
+
+/* ========== Dark variant ========== */
+
+.dark .item {
+  background: var(--slide-primary);
+}
+
+.dark .itemIcon {
+  color: #ffffff;
+}
+
+.dark .itemTitle {
+  color: #ffffff;
+}
+
+.dark .itemDescription {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ========== Horizontal variant ========== */
+
+.horizontal {
+  display: flex;
+  gap: var(--slide-space-md);
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+.horizontal .item {
+  flex: 1;
+  align-items: center;
+  text-align: center;
+  background: transparent;
+  padding: 1.5rem;
+}
+
+.iconBox {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--slide-radius);
+  background: var(--slide-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

@@ -6,33 +6,16 @@ notes: |
   Let's create slides with DexCode!
 ---
 
-<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", flex: 1, gap: "2rem" }}>
-
-<div style={{ width: 96, height: 96, borderRadius: "50%", background: "#DC3545", display: "flex", alignItems: "center", justifyContent: "center" }}>
-  <Icon name="heart" size={48} color="#FFF" />
-</div>
-
-# Thank You!
-
-<p style={{ fontSize: "2.2rem", color: "#555", margin: 0 }}>
-Create your next presentation with **DexCode**
-</p>
-
-<div style={{ display: "flex", gap: "3rem", marginTop: "0.5rem" }}>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="github" size={36} color="#02001A" />
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: "0.5rem 0 0" }}>GitHub</p>
-  </div>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="book-open" size={36} color="#02001A" />
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: "0.5rem 0 0" }}>Docs</p>
-  </div>
-  <div style={{ textAlign: "center" }}>
-    <Icon name="message-circle" size={36} color="#888" />
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: "0.5rem 0 0" }}>Community</p>
-  </div>
-</div>
-
-<p style={{ fontSize: "1.6rem", color: "#02001A", margin: 0 }}>https://github.com/co-r-e/dexcode</p>
-
-</div>
+<ShowcaseEndSlide
+  variant="thank-you"
+  icon="heart"
+  iconColor="#DC3545"
+  title="Thank You!"
+  subtitle="Create your next presentation with DexCode"
+  icons={[
+    { name: "github", label: "GitHub" },
+    { name: "book-open", label: "Docs" },
+    { name: "message-circle", label: "Community" }
+  ]}
+  link="https://github.com/co-r-e/dexcode"
+/>

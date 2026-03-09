@@ -7,45 +7,22 @@ notes: |
 
 # Before / After
 
-<Columns gap="2.5rem">
-  <Column>
-
-  <div style={{ background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem", height: "100%", border: "2px solid #DC3545" }}>
-
-  ### Before
-
-  <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "1.5rem" }}>
-    <Icon name="x-circle" size={40} color="#DC3545" />
-    <span style={{ fontSize: "1.6rem", color: "#DC3545", fontWeight: "bold" }}>Piling up issues</span>
-  </div>
-
-  - Deployment takes **3 days**
-  - Manual testing only
-  - Scattered documentation
-  - Avg. **4 hours** incident response
-  - Siloed team communication
-
-  </div>
-
-  </Column>
-  <Column>
-
-  <div style={{ background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem", height: "100%", border: "2px solid #02001A" }}>
-
-  ### After
-
-  <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "1.5rem" }}>
-    <Icon name="check-circle" size={40} color="#02001A" />
-    <span style={{ fontSize: "1.6rem", color: "#02001A", fontWeight: "bold" }}>All resolved</span>
-  </div>
-
-  - Deployment reduced to **15 minutes**
-  - Automated testing with CI/CD
-  - Centralized documentation
-  - Incident detection within **5 minutes**
-  - Info sharing via Slack integration
-
-  </div>
-
-  </Column>
-</Columns>
+<ShowcaseComparison
+  variant="before-after"
+  leftTitle="Piling up issues"
+  rightTitle="All resolved"
+  leftItems={[
+    "Deployment takes 3 days",
+    "Manual testing only",
+    "Scattered documentation",
+    "Avg. 4 hours incident response",
+    "Siloed team communication"
+  ]}
+  rightItems={[
+    "Deployment reduced to 15 minutes",
+    "Automated testing with CI/CD",
+    "Centralized documentation",
+    "Incident detection within 5 minutes",
+    "Info sharing via Slack integration"
+  ]}
+/>

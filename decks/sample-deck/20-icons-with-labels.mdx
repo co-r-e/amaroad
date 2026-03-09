@@ -7,35 +7,15 @@ notes: |
 
 # Why DexCode?
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2.5rem", marginTop: "1.5rem", flex: 1 }}>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="zap" size={64} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>Fast</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>Instant preview without build</p>
-  </div>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="code" size={64} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>MDX</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>The expressiveness of Markdown + JSX</p>
-  </div>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="palette" size={64} color="#888" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>Themes</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>Freely customizable</p>
-  </div>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="monitor" size={64} color="#888" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>Presenter</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>Comfortable control from presenter view</p>
-  </div>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="file-down" size={64} color="#888" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>PDF Export</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>One-click export</p>
-  </div>
-  <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#F5F5F5", borderRadius: "1rem", padding: "2.5rem 1.5rem" }}>
-    <Icon name="git-branch" size={64} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.5rem", fontWeight: 700 }}>Git Managed</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.4 }}>Version control and diff review</p>
-  </div>
-</div>
+<ShowcaseFeatureGrid
+  variant="cards"
+  columns={3}
+  items={[
+    { icon: "zap", title: "Fast", description: "Instant preview without build" },
+    { icon: "code", title: "MDX", description: "The expressiveness of Markdown + JSX" },
+    { icon: "palette", title: "Themes", description: "Freely customizable" },
+    { icon: "monitor", title: "Presenter", description: "Comfortable control from presenter view" },
+    { icon: "file-down", title: "PDF Export", description: "One-click export" },
+    { icon: "git-branch", title: "Git Managed", description: "Version control and diff review" },
+  ]}
+/>

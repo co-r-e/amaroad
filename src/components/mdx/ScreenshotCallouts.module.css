@@ -1,0 +1,66 @@
+.root {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.frame {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--slide-text-subtle);
+}
+
+.callout {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.marker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--slide-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.label {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

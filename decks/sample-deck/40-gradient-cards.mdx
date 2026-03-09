@@ -7,25 +7,13 @@ notes: |
 
 # Service Lineup
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginTop: "2rem", height: "calc(100% - 7rem)" }}>
-  <div style={{ background: "#02001A", color: "#FFF", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <Icon name="cloud" size={56} color="#FFF" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.6rem", color: "#FFF" }}>Cloud Platform</h3>
-    <p style={{ fontSize: "1.6rem", color: "#AAA", lineHeight: 1.6, margin: 0 }}>Zero operational overhead with managed infrastructure. Auto-scaling ready.</p>
-  </div>
-  <div style={{ background: "#333", color: "#FFF", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <Icon name="database" size={56} color="#FFF" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.6rem", color: "#FFF" }}>Data Store</h3>
-    <p style={{ fontSize: "1.6rem", color: "#CCC", lineHeight: 1.6, margin: 0 }}>Highly available distributed database. 99.999% durability guaranteed.</p>
-  </div>
-  <div style={{ background: "#555", color: "#FFF", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <Icon name="webhook" size={56} color="#FFF" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.6rem", color: "#FFF" }}>API Gateway</h3>
-    <p style={{ fontSize: "1.6rem", color: "#CCC", lineHeight: 1.6, margin: 0 }}>Unified API management with rate limiting, auth, and monitoring.</p>
-  </div>
-  <div style={{ background: "#888", color: "#FFF", borderRadius: "1rem", padding: "2.5rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <Icon name="brain" size={56} color="#FFF" />
-    <h3 style={{ fontSize: "2.2rem", margin: "1rem 0 0.6rem", color: "#FFF" }}>AI Engine</h3>
-    <p style={{ fontSize: "1.6rem", color: "#E0E0E0", lineHeight: 1.6, margin: 0 }}>Deploy LLM-based analytics and inference engine with one click.</p>
-  </div>
-</div>
+<ShowcaseFeatureGrid
+  variant="dark"
+  columns={2}
+  items={[
+    { icon: "cloud", title: "Cloud Platform", description: "Zero operational overhead with managed infrastructure. Auto-scaling ready." },
+    { icon: "database", title: "Data Store", description: "Highly available distributed database. 99.999% durability guaranteed." },
+    { icon: "webhook", title: "API Gateway", description: "Unified API management with rate limiting, auth, and monitoring." },
+    { icon: "brain", title: "AI Engine", description: "Deploy LLM-based analytics and inference engine with one click." },
+  ]}
+/>

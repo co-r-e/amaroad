@@ -5,46 +5,16 @@ notes: |
   Five features are evenly distributed.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-
 # Technical Highlights
 
-<div style={{ display: "flex", justifyContent: "space-between", flex: 1, alignItems: "center", gap: "2rem" }}>
-  <div style={{ flex: 1, textAlign: "center", padding: "1.5rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "1.25rem", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-      <Icon name="server" size={40} color="#02001A" />
-    </div>
-    <p style={{ fontSize: "1.7rem", fontWeight: "bold", margin: "1rem 0 0.4rem" }}>SSR Ready</p>
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: 0 }}>Server-side rendering</p>
-  </div>
-  <div style={{ flex: 1, textAlign: "center", padding: "1.5rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "1.25rem", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-      <Icon name="type" size={40} color="#02001A" />
-    </div>
-    <p style={{ fontSize: "1.7rem", fontWeight: "bold", margin: "1rem 0 0.4rem" }}>Type Safe</p>
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: 0 }}>TypeScript first</p>
-  </div>
-  <div style={{ flex: 1, textAlign: "center", padding: "1.5rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "1.25rem", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-      <Icon name="boxes" size={40} color="#02001A" />
-    </div>
-    <p style={{ fontSize: "1.7rem", fontWeight: "bold", margin: "1rem 0 0.4rem" }}>Modular</p>
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: 0 }}>Component architecture</p>
-  </div>
-  <div style={{ flex: 1, textAlign: "center", padding: "1.5rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "1.25rem", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-      <Icon name="globe" size={40} color="#02001A" />
-    </div>
-    <p style={{ fontSize: "1.7rem", fontWeight: "bold", margin: "1rem 0 0.4rem" }}>i18n</p>
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: 0 }}>Multi-language support</p>
-  </div>
-  <div style={{ flex: 1, textAlign: "center", padding: "1.5rem" }}>
-    <div style={{ width: 80, height: 80, borderRadius: "1.25rem", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-      <Icon name="test-tube" size={40} color="#02001A" />
-    </div>
-    <p style={{ fontSize: "1.7rem", fontWeight: "bold", margin: "1rem 0 0.4rem" }}>Tested</p>
-    <p style={{ fontSize: "1.4rem", color: "#888", margin: 0 }}>95%+ coverage</p>
-  </div>
-</div>
-
-</div>
+<ShowcaseFeatureGrid
+  variant="horizontal"
+  columns={5}
+  items={[
+    { icon: "server", title: "SSR Ready", description: "Server-side rendering" },
+    { icon: "type", title: "Type Safe", description: "TypeScript first" },
+    { icon: "boxes", title: "Modular", description: "Component architecture" },
+    { icon: "globe", title: "i18n", description: "Multi-language support" },
+    { icon: "test-tube", title: "Tested", description: "95%+ coverage" },
+  ]}
+/>

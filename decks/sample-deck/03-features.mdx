@@ -7,35 +7,15 @@ notes: |
 
 # Key Features
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2rem", marginTop: "2rem", height: "calc(100% - 120px)" }}>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="file-code" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>MDX Authoring</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>A format combining Markdown and components</span>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="monitor" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>16:9 Widescreen</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Layout optimized for widescreen</span>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="user" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Presenter Mode</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Dedicated view with speaker notes</span>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="keyboard" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Keyboard Navigation</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Comfortable navigation experience</span>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="download" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>PDF Export</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Share as PDF with one click</span>
-  </div>
-  <div style={{ background: "#F5F5F5", borderRadius: "16px", padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1rem", border: "1px solid #E0E0E0" }}>
-    <Icon name="palette" size={56} color="#02001A" />
-    <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Theme Settings</span>
-    <span style={{ fontSize: "1.6rem", color: "#555", lineHeight: 1.6 }}>Freely customize colors and fonts</span>
-  </div>
-</div>
+<ShowcaseFeatureGrid
+  variant="cards"
+  columns={3}
+  items={[
+    { icon: "file-code", title: "MDX Authoring", description: "A format combining Markdown and components" },
+    { icon: "monitor", title: "16:9 Widescreen", description: "Layout optimized for widescreen" },
+    { icon: "user", title: "Presenter Mode", description: "Dedicated view with speaker notes" },
+    { icon: "keyboard", title: "Keyboard Navigation", description: "Comfortable navigation experience" },
+    { icon: "download", title: "PDF Export", description: "Share as PDF with one click" },
+    { icon: "palette", title: "Theme Settings", description: "Freely customize colors and fonts" },
+  ]}
+/>

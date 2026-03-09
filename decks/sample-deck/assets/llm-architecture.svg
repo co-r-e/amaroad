@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4"
+            markerWidth="11" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 4 L 0 8 z" fill="rgba(255,255,255,0.4)"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 8" refX="10" refY="4"
+            markerWidth="11" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 4 L 0 8 z" fill="rgba(130,170,255,0.5)"/>
+    </marker>
+    <marker id="arrow-dim" viewBox="0 0 10 8" refX="10" refY="4"
+            markerWidth="10" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 4 L 0 8 z" fill="rgba(255,255,255,0.25)"/>
+    </marker>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- TRAINING PIPELINE (top band)               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <rect x="12" y="52" width="680" height="76" rx="14"
+        fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="30" y="72" font-family="Inter, sans-serif" font-size="12" font-weight="600"
+        fill="rgba(255,255,255,0.3)" letter-spacing="0.1em">TRAINING PIPELINE</text>
+
+  <g transform="translate(24, 84)">
+    <rect width="108" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="54" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.7)">Web Data</text>
+  </g>
+  <path d="M 132 102 H 156" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+  <g transform="translate(156, 84)">
+    <rect width="120" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="60" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.7)">Pre-training</text>
+  </g>
+  <path d="M 276 102 H 300" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+  <g transform="translate(300, 84)">
+    <rect width="120" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="60" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.7)">Fine-tuning</text>
+  </g>
+  <path d="M 420 102 H 444" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+  <g transform="translate(444, 84)">
+    <rect width="96" height="36" rx="8" fill="rgba(130,170,255,0.1)" stroke="rgba(130,170,255,0.3)" stroke-width="1"/>
+    <text x="48" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="rgba(130,170,255,0.8)">RLHF</text>
+  </g>
+  <path d="M 540 102 H 564" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+  <g transform="translate(564, 84)">
+    <rect width="116" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="58" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="rgba(255,255,255,0.7)">Weights</text>
+  </g>
+
+  <!-- Arrow Weights → Transformer -->
+  <path d="M 622 120 V 152" fill="none"
+        stroke="rgba(130,170,255,0.3)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-accent)"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CONTEXT WINDOW label (left)                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <rect x="12" y="148" width="152" height="48" rx="10"
+        fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="88" y="164" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.3)" letter-spacing="0.08em">CONTEXT WINDOW</text>
+  <text x="88" y="184" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.5)">128k–1M tokens</text>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- INFERENCE PIPELINE                         -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- User Prompt -->
+  <g transform="translate(12, 216)">
+    <rect width="164" height="148" rx="16"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="82" y="52" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">User</text>
+    <text x="82" y="82" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">Prompt</text>
+    <text x="82" y="118" text-anchor="middle" dominant-baseline="central"
+          font-family="Noto Sans JP, sans-serif" font-size="14" fill="rgba(255,255,255,0.4)">"Explain LLMs"</text>
+  </g>
+
+  <!-- Arrow Prompt → Tokenizer -->
+  <path d="M 176 290 H 200" fill="none"
+        stroke="rgba(255,255,255,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Tokenizer -->
+  <g transform="translate(200, 236)">
+    <rect width="148" height="108" rx="16"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="74" y="40" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Tokenizer</text>
+    <text x="74" y="68" text-anchor="middle" dominant-baseline="central"
+          font-family="Noto Sans JP, sans-serif" font-size="13" fill="rgba(255,255,255,0.4)">BPE / SentencePiece</text>
+  </g>
+
+  <!-- Arrow Tokenizer → Encoding -->
+  <path d="M 348 290 H 372" fill="none"
+        stroke="rgba(255,255,255,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Encoding group -->
+  <rect x="372" y="196" width="148" height="236" rx="14"
+        fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="446" y="220" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.3)" letter-spacing="0.08em">ENCODING</text>
+
+  <g transform="translate(386, 236)">
+    <rect width="120" height="64" rx="12"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="60" y="32" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Embedding</text>
+  </g>
+
+  <text x="446" y="316" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="rgba(255,255,255,0.5)">+</text>
+
+  <g transform="translate(386, 332)">
+    <rect width="120" height="64" rx="12"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="60" y="24" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Positional</text>
+    <text x="60" y="46" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Encoding</text>
+  </g>
+
+  <!-- Arrow Encoding → Transformer -->
+  <path d="M 520 290 H 544" fill="none"
+        stroke="rgba(255,255,255,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- TRANSFORMER BLOCK                          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <rect x="544" y="152" width="260" height="352" rx="18"
+        fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="674" y="178" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="rgba(255,255,255,0.45)">TRANSFORMER × N</text>
+
+  <!-- Q, K, V -->
+  <g transform="translate(558, 196)">
+    <rect width="72" height="48" rx="10"
+          fill="rgba(130,170,255,0.1)" stroke="rgba(130,170,255,0.3)" stroke-width="1"/>
+    <text x="36" y="24" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="rgba(130,170,255,0.9)">Q</text>
+  </g>
+  <g transform="translate(638, 196)">
+    <rect width="72" height="48" rx="10"
+          fill="rgba(130,170,255,0.1)" stroke="rgba(130,170,255,0.3)" stroke-width="1"/>
+    <text x="36" y="24" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="rgba(130,170,255,0.9)">K</text>
+  </g>
+  <g transform="translate(718, 196)">
+    <rect width="72" height="48" rx="10"
+          fill="rgba(130,170,255,0.1)" stroke="rgba(130,170,255,0.3)" stroke-width="1"/>
+    <text x="36" y="24" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="rgba(130,170,255,0.9)">V</text>
+  </g>
+
+  <!-- Arrows Q,K,V → Attention -->
+  <path d="M 594 244 V 264" fill="none" stroke="rgba(130,170,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+  <path d="M 674 244 V 264" fill="none" stroke="rgba(130,170,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+  <path d="M 754 244 V 264" fill="none" stroke="rgba(130,170,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+
+  <!-- Multi-Head Attention -->
+  <g transform="translate(560, 264)">
+    <rect width="228" height="72" rx="14"
+          fill="rgba(130,170,255,0.12)" stroke="rgba(130,170,255,0.4)" stroke-width="1.5"/>
+    <text x="114" y="28" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Multi-Head</text>
+    <text x="114" y="52" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Attention</text>
+  </g>
+
+  <!-- Arrow → Add & Norm 1 -->
+  <path d="M 674 336 V 352" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Add & Norm 1 -->
+  <g transform="translate(596, 352)">
+    <rect width="156" height="40" rx="8"
+          fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="78" y="20" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.55)">Add &amp; Norm</text>
+  </g>
+
+  <!-- Arrow → FFN -->
+  <path d="M 674 392 V 408" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Feed Forward -->
+  <g transform="translate(560, 408)">
+    <rect width="228" height="52" rx="14"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="114" y="26" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF">Feed Forward</text>
+  </g>
+
+  <!-- Arrow → Add & Norm 2 -->
+  <path d="M 674 460 V 472" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Add & Norm 2 -->
+  <g transform="translate(596, 472)">
+    <rect width="156" height="24" rx="8"
+          fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <text x="78" y="12" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.55)">Add &amp; Norm</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- OUTPUT PIPELINE                            -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- Arrow Transformer → Output Head -->
+  <path d="M 804 290 H 828" fill="none"
+        stroke="rgba(255,255,255,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Output Head -->
+  <g transform="translate(828, 192)">
+    <rect width="120" height="64" rx="14"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="60" y="24" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Output</text>
+    <text x="60" y="46" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Head</text>
+  </g>
+
+  <!-- Arrow → Softmax -->
+  <path d="M 888 256 V 276" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Softmax -->
+  <g transform="translate(828, 276)">
+    <rect width="120" height="52" rx="14"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="60" y="26" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Softmax</text>
+  </g>
+
+  <!-- Arrow → Sampling -->
+  <path d="M 888 328 V 348" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Sampling -->
+  <g transform="translate(828, 348)">
+    <rect width="120" height="52" rx="14"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="60" y="18" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Sampling</text>
+    <text x="60" y="38" text-anchor="middle" dominant-baseline="central"
+          font-family="Noto Sans JP, sans-serif" font-size="12" fill="rgba(255,255,255,0.4)">Top-k / Top-p</text>
+  </g>
+
+  <!-- Arrow → Response -->
+  <path d="M 888 400 V 420" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" marker-end="url(#arrow-dim)"/>
+
+  <!-- Response -->
+  <g transform="translate(828, 420)">
+    <rect width="120" height="60" rx="14"
+          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="60" y="22" text-anchor="middle" dominant-baseline="central"
+          font-family="Inter, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Response</text>
+    <text x="60" y="44" text-anchor="middle" dominant-baseline="central"
+          font-family="Noto Sans JP, sans-serif" font-size="12" fill="rgba(255,255,255,0.4)">Next Token</text>
+  </g>
+
+  <!-- Autoregressive loop -->
+  <path d="M 888 480 V 520 H 274 V 344" fill="none"
+        stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-dim)"/>
+  <text x="560" y="534" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.25)" letter-spacing="0.08em">AUTOREGRESSIVE LOOP</text>
+
+  <!-- Application labels -->
+  <text x="108" y="534" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.25)">Chat</text>
+  <text x="180" y="534" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.25)">Code</text>
+  <text x="272" y="534" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.25)">Translation</text>
+  <text x="370" y="534" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.25)">RAG</text>
+</svg>

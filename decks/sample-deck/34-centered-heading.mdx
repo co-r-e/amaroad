@@ -5,17 +5,12 @@ notes: |
   Suitable for message-driven slides.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", flex: 1 }}>
-
-# Redefining the Developer Experience
-
-<p style={{ fontSize: "2rem", color: "#555", maxWidth: "75%", lineHeight: 1.8, marginTop: "1.5rem" }}>
-We envision a world where developers can focus on what truly matters. Tools don't get in the way — they simply support.
-</p>
-
-<div style={{ display: "flex", gap: "2rem", marginTop: "3rem" }}>
-  <div style={{ padding: "1.2rem 3rem", borderRadius: "0.75rem", background: "#02001A", color: "#FFF", fontSize: "1.6rem", fontWeight: "bold" }}>Get Started</div>
-  <div style={{ padding: "1.2rem 3rem", borderRadius: "0.75rem", border: "3px solid #02001A", fontSize: "1.6rem", fontWeight: "bold" }}>Learn More</div>
-</div>
-
-</div>
+<ShowcaseEndSlide
+  variant="cta"
+  title="Redefining the Developer Experience"
+  description="We envision a world where developers can focus on what truly matters. Tools don't get in the way — they simply support."
+  buttons={[
+    { label: "Get Started", filled: true },
+    { label: "Learn More" }
+  ]}
+/>

@@ -13,10 +13,6 @@ allowed-tools:
   - Grep
 ---
 
-# nanobanana-image Skill
-
-A skill that generates images for slides using Gemini API and inserts them into MDX files.
-
 ## Prerequisites
 
 - The `GEMINI_API_KEY` environment variable must be set (write it in `.env.local` at the project root and the script will auto-load it)

@@ -1,0 +1,22 @@
+.root {
+  display: grid;
+  gap: 1.2rem;
+  min-height: 0;
+  flex: 1;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  border: 1px solid var(--slide-border);
+}
+
+.label {
+  font-size: 1.5rem;
+  color: var(--slide-text-muted);
+}

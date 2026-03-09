@@ -19,16 +19,20 @@ Specify it with the `background` property in frontmatter.
 
 > High-contrast styling creates impactful slides.
 
-<div style={{ display: "flex", gap: "2rem", marginTop: "1rem" }}>
-  <div style={{ flex: 1, background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "0.75rem", padding: "2rem" }}>
-    <p style={{ fontSize: "2rem", fontWeight: 600, color: "#FFFFFF", marginBottom: "0.5rem" }}>background</p>
-    <p style={{ fontSize: "1.6rem", color: "#AAA" }}>Accepts any CSS color value</p>
-  </div>
-  <div style={{ flex: 1, background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "0.75rem", padding: "2rem" }}>
-    <p style={{ fontSize: "2rem", fontWeight: 600, color: "#FFFFFF", marginBottom: "0.5rem" }}>transition</p>
-    <p style={{ fontSize: "1.6rem", color: "#AAA" }}>fade / slide / none</p>
-  </div>
-</div>
+<Columns gap="2rem">
+  <Column>
+    <Card variant="filled" style={{ background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.15)" }}>
+      <p style={{ fontSize: "2rem", fontWeight: 600, color: "#FFFFFF", marginBottom: "0.5rem" }}>background</p>
+      <p style={{ fontSize: "1.8rem", color: "#AAA" }}>Accepts any CSS color value</p>
+    </Card>
+  </Column>
+  <Column>
+    <Card variant="filled" style={{ background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.15)" }}>
+      <p style={{ fontSize: "2rem", fontWeight: 600, color: "#FFFFFF", marginBottom: "0.5rem" }}>transition</p>
+      <p style={{ fontSize: "1.8rem", color: "#AAA" }}>fade / slide / none</p>
+    </Card>
+  </Column>
+</Columns>
 
 </div>
 

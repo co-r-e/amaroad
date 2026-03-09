@@ -1,0 +1,94 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--slide-space-sm);
+  flex: 1;
+  min-height: 0;
+}
+
+/* Simple layer (label + items on one row) */
+.layer {
+  display: flex;
+  align-items: stretch;
+  gap: var(--slide-space-sm);
+}
+
+.layerLabel {
+  min-width: 140px;
+  background: var(--slide-primary);
+  border-radius: var(--slide-radius);
+  padding: 1.2rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layerLabelText {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.layerItems {
+  flex: 1;
+  display: flex;
+  gap: var(--slide-space-sm);
+}
+
+.layerItem {
+  flex: 1;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: 1.2rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layerItemText {
+  font-size: 1.8rem;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+/* Full-width bar layer (no items, just label + description) */
+.layerBar {
+  border-radius: var(--slide-radius);
+  padding: 1.6rem 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--slide-border);
+  background: var(--slide-surface);
+}
+
+.layerBarHighlighted {
+  composes: layerBar;
+  background: var(--slide-primary);
+  border-color: var(--slide-primary);
+}
+
+.layerBarLabel {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.layerBarLabelHighlighted {
+  composes: layerBarLabel;
+  color: #ffffff;
+}
+
+.layerBarItems {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+}
+
+.layerBarItemsHighlighted {
+  composes: layerBarItems;
+  color: rgba(255, 255, 255, 0.7);
+}

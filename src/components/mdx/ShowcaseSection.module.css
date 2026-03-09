@@ -1,0 +1,227 @@
+.root {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  flex: 1;
+}
+
+.label {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--slide-primary);
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  white-space: pre-line;
+}
+
+.description {
+  font-size: 2.2rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.chips {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  background: var(--slide-surface);
+  padding: 0.6rem 1.6rem;
+  border-radius: 2rem;
+}
+
+.numberLayout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  flex: 1;
+}
+
+.number {
+  font-size: 14rem;
+  font-weight: 900;
+  color: var(--slide-primary);
+  margin: 0;
+  line-height: 0.85;
+  opacity: 0.15;
+}
+
+.numberCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.numberTitle {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.15;
+  white-space: pre-line;
+}
+
+.numberDescription {
+  font-size: 2rem;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.breakout {
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  min-height: 0;
+  margin: -96px -96px -80px;
+}
+
+.dark {
+  background: var(--slide-text);
+  align-items: center;
+  justify-content: center;
+}
+
+.darkInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  padding: 4rem;
+}
+
+.darkTitle {
+  font-size: 5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  white-space: pre-line;
+}
+
+.darkDescription {
+  font-size: 2.2rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 700px;
+  white-space: pre-line;
+}
+
+.darkChip {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.6rem 1.6rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.splitLayout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.splitBand {
+  width: 35%;
+  background: var(--slide-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.splitNumber {
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0;
+  line-height: 0.9;
+}
+
+.splitCopy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 4rem 5rem;
+}
+
+.splitTitle {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.15;
+  white-space: pre-line;
+}
+
+.minimalLine {
+  width: 60px;
+  height: 3px;
+  background: var(--slide-primary);
+}
+
+/* ========== Centered variant ========== */
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  gap: 2.5rem;
+}
+
+.centeredTitle {
+  font-size: 4.5rem;
+  font-weight: 700;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.1;
+  white-space: pre-line;
+}
+
+.centeredDescription {
+  font-size: 2.2rem;
+  color: var(--slide-text-muted);
+  max-width: 1100px;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-line;
+}

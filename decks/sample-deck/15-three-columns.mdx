@@ -7,55 +7,25 @@ notes: |
 
 # 3-Column Layout
 
-<Columns gap="3rem">
-  <Column>
-
-  <div style={{ background: "#F5F5F5", padding: "2.5rem", borderRadius: "1rem", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-
-  ## Basic
-
-  - 5GB Storage
-  - 1 User
-  - Email Support
-
-  <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "#02001A", marginTop: "1.5rem" }}>Free</div>
-
-  </div>
-
-  </Column>
-  <Column>
-
-  <div style={{ background: "#02001A", padding: "2.5rem", borderRadius: "1rem", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-
-  <h2 style={{ color: "#FFFFFF", fontSize: "2.25rem", fontWeight: 700, margin: "0 0 1rem" }}>Pro</h2>
-
-  <ul style={{ color: "#FFFFFF", fontSize: "2.25rem", lineHeight: 1.8, paddingLeft: "1.5em", margin: 0 }}>
-  <li>100GB Storage</li>
-  <li>10 Users</li>
-  <li>Priority Support</li>
-  <li>API Access</li>
-  </ul>
-
-  <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "#DC3545", marginTop: "1.5rem" }}>$29.80/mo</div>
-
-  </div>
-
-  </Column>
-  <Column>
-
-  <div style={{ background: "#F5F5F5", padding: "2.5rem", borderRadius: "1rem", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-
-  ## Enterprise
-
-  - Unlimited Storage
-  - Unlimited Users
-  - 24/7 Support
-  - SLA Guarantee
-  - SSO Support
-
-  <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "#02001A", marginTop: "1.5rem" }}>Contact Us</div>
-
-  </div>
-
-  </Column>
-</Columns>
+<ShowcasePricing
+  tiers={[
+    {
+      name: "Basic",
+      price: "Free",
+      features: ["5GB Storage", "1 User", "Email Support"]
+    },
+    {
+      name: "Pro",
+      price: "$29.80",
+      period: "/mo",
+      highlighted: true,
+      highlightLabel: "Best Value",
+      features: ["100GB Storage", "10 Users", "Priority Support", "API Access"]
+    },
+    {
+      name: "Enterprise",
+      price: "Contact Us",
+      features: ["Unlimited Storage", "Unlimited Users", "24/7 Support", "SLA Guarantee", "SSO Support"]
+    }
+  ]}
+/>

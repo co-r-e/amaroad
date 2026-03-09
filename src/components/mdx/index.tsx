@@ -8,24 +8,42 @@ import { SlideParagraph } from "./typography/Paragraph";
 import { SlideCode, SlidePreCode } from "./CodeBlock";
 import { SlideImage } from "./SlideImage";
 import { SlideTable, SlideTh, SlideTd } from "./SlideTable";
+import { ShowcaseCover } from "./ShowcaseCover";
+import { ShowcaseSection } from "./ShowcaseSection";
+import { FigureShowcase } from "./FigureShowcase";
+import { KpiStrip } from "./KpiStrip";
+import { ScreenshotCallouts } from "./ScreenshotCallouts";
+import { LogoWall } from "./LogoWall";
+import { ShowcaseAgenda } from "./ShowcaseAgenda";
+import { ShowcaseVideo } from "./ShowcaseVideo";
+import { ShowcaseFAQ } from "./ShowcaseFAQ";
+import { ShowcaseComparisonTable } from "./ShowcaseComparisonTable";
+import { ShowcaseFeatureGrid } from "./ShowcaseFeatureGrid";
+import { ShowcaseMetric } from "./ShowcaseMetric";
+import { ShowcaseTeamGrid } from "./ShowcaseTeamGrid";
+import { ShowcaseQuote } from "./ShowcaseQuote";
+import { ShowcasePricing } from "./ShowcasePricing";
+import { ShowcaseComparison } from "./ShowcaseComparison";
+import { ShowcaseEndSlide } from "./ShowcaseEndSlide";
+import { ShowcaseSplit } from "./ShowcaseSplit";
+import { ShowcaseColumnText } from "./ShowcaseColumnText";
+import { ShowcaseLayerStack } from "./ShowcaseLayerStack";
+import { ShowcaseDashboard } from "./ShowcaseDashboard";
+import { ShowcaseMatrix } from "./ShowcaseMatrix";
+import { ShowcaseDiagram } from "./ShowcaseDiagram";
+import { ShowcaseStatGrid } from "./ShowcaseStatGrid";
+import { ShowcaseIconGrid } from "./ShowcaseIconGrid";
+import { ShowcaseShapeGrid, ShapeItem } from "./ShowcaseShapeGrid";
 
-import { CardGrid } from "./layout/CardGrid";
 import { Center } from "./layout/Center";
 import { Columns, Column } from "./layout/Columns";
 
-import { Badge } from "./Badge";
-import { Callout } from "./Callout";
 import { Card } from "./Card";
-import { TaggedCard } from "./TaggedCard";
 import { Chart } from "./Chart";
-import { Divider } from "./Divider";
-import { Fragment } from "./Fragment";
 import { Icon } from "./Icon";
 import { Shape } from "./Shape";
-import { Stat } from "./Stat";
 import { Steps, Step } from "./Steps";
 import { Timeline, TimelineItem } from "./Timeline";
-import { Video } from "./Video";
 
 export const slideComponents: MDXComponents = {
   // Typography
@@ -49,22 +67,42 @@ export const slideComponents: MDXComponents = {
   Columns,
   Column,
   Center,
-  CardGrid,
   // Content
   Card,
-  TaggedCard,
-  Stat,
   Timeline,
   TimelineItem,
   Steps,
   Step,
-  Callout,
-  Badge,
-  Divider,
   // Media & Data
   Chart,
   Icon,
   Shape,
-  Video,
-  Fragment,
+  // Showcase
+  ShowcaseCover,
+  ShowcaseSection,
+  FigureShowcase,
+  KpiStrip,
+  ScreenshotCallouts,
+  LogoWall,
+  ShowcaseAgenda,
+  ShowcaseVideo,
+  ShowcaseFAQ,
+  ShowcaseComparisonTable,
+  ShowcaseFeatureGrid,
+  ShowcaseMetric,
+  ShowcaseTeamGrid,
+  ShowcaseQuote,
+  ShowcasePricing,
+  ShowcaseComparison,
+  ShowcaseEndSlide,
+  ShowcaseSplit,
+  ShowcaseColumnText,
+  ShowcaseLayerStack,
+  ShowcaseDashboard,
+  ShowcaseMatrix,
+  ShowcaseDiagram,
+  ShowcaseStatGrid,
+  ShowcaseIconGrid,
+  ShowcaseShapeGrid,
+  ShapeItem,
 };

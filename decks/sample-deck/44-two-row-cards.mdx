@@ -5,41 +5,17 @@ notes: |
   Suitable for feature lists or FAQ-style content.
 ---
 
-<div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-
 # Key Features
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2rem", flex: 1, alignContent: "center", marginTop: "1rem" }}>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="file-code" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>MDX Syntax</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>A powerful format combining Markdown and JSX</p>
-  </div>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="refresh-cw" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>Live Reload</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>Preview auto-updates on file save</p>
-  </div>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="palette" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>Theme System</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>Manage colors and fonts in a single config</p>
-  </div>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="bar-chart-2" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>Chart Rendering</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>Bar, line, pie, and area charts powered by Recharts</p>
-  </div>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="sigma" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>Math Support</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>Display LaTeX-style math with KaTeX</p>
-  </div>
-  <div style={{ padding: "2.5rem", borderLeft: "4px solid #02001A", background: "#F5F5F5", borderRadius: "0 0.75rem 0.75rem 0" }}>
-    <Icon name="file-down" size={36} color="#02001A" />
-    <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", margin: "0.8rem 0 0.5rem" }}>PDF Export</h3>
-    <p style={{ fontSize: "1.6rem", color: "#555", margin: 0, lineHeight: 1.5 }}>Export to high-quality PDF with one click</p>
-  </div>
-</div>
-
-</div>
+<ShowcaseFeatureGrid
+  variant="cards"
+  columns={3}
+  items={[
+    { icon: "file-code", title: "MDX Syntax", description: "A powerful format combining Markdown and JSX" },
+    { icon: "refresh-cw", title: "Live Reload", description: "Preview auto-updates on file save" },
+    { icon: "palette", title: "Theme System", description: "Manage colors and fonts in a single config" },
+    { icon: "bar-chart-2", title: "Chart Rendering", description: "Bar, line, pie, and area charts powered by Recharts" },
+    { icon: "sigma", title: "Math Support", description: "Display LaTeX-style math with KaTeX" },
+    { icon: "file-down", title: "PDF Export", description: "Export to high-quality PDF with one click" },
+  ]}
+/>

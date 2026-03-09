@@ -5,6 +5,7 @@ description: |
   Reads deck.config.ts and MDX slides, then generates a standalone Remotion
   project that faithfully reproduces the deck's theme, layout, and content
   as a frame-by-frame animated video.
+  Triggers: 「このデッキを動画にして」「make a video from this deck」「animated slide video」
 allowed-tools:
   - Bash
   - Read
@@ -14,14 +15,6 @@ allowed-tools:
   - Grep
   - Agent
 ---
-
-# Remotion Video Skill
-
-## When To Use
-
-- User says "このデッキを動画にして", "make a video from this deck", or similar
-- User wants to convert a DexCode presentation to an MP4 video
-- User requests animated slide videos
 
 ## Prerequisites
 

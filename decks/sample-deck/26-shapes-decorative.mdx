@@ -12,73 +12,64 @@ notes: |
   {/* === Row 1: Circle Linear Flow === */}
   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
 
-    {/* Step 1: Plan */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
-      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "#02001A", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(2,0,26,0.2)" }}>
+      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "var(--slide-primary)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.15)" }}>
         <Icon name="clipboard-list" size={46} color="#fff" />
       </div>
-      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A", marginTop: "0.8rem", lineHeight: 1.2 }}>Plan</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Requirements</span>
+      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.8rem", lineHeight: 1.2 }}>Plan</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Requirements</span>
     </div>
 
-    {/* Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "55px" }}>
-      <div style={{ flex: 1, height: "2px", background: "linear-gradient(to right, #02001A, #ccc)" }} />
-      <Icon name="chevron-right" size={20} color="#ccc" />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <Icon name="chevron-right" size={20} color="var(--slide-border)" />
     </div>
 
-    {/* Step 2: Design */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
-      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "#1c1940", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(2,0,26,0.15)" }}>
+      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "color-mix(in srgb, var(--slide-primary) 80%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.12)" }}>
         <Icon name="layers" size={46} color="#fff" />
       </div>
-      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A", marginTop: "0.8rem", lineHeight: 1.2 }}>Design</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Architecture</span>
+      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.8rem", lineHeight: 1.2 }}>Design</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Architecture</span>
     </div>
 
-    {/* Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "55px" }}>
-      <div style={{ flex: 1, height: "2px", background: "#ddd" }} />
-      <Icon name="chevron-right" size={20} color="#ccc" />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <Icon name="chevron-right" size={20} color="var(--slide-border)" />
     </div>
 
-    {/* Step 3: Develop */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
-      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "#3a3560", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(2,0,26,0.12)" }}>
+      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "color-mix(in srgb, var(--slide-primary) 60%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.10)" }}>
         <Icon name="code-2" size={46} color="#fff" />
       </div>
-      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A", marginTop: "0.8rem", lineHeight: 1.2 }}>Develop</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Implementation</span>
+      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.8rem", lineHeight: 1.2 }}>Develop</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Implementation</span>
     </div>
 
-    {/* Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "55px" }}>
-      <div style={{ flex: 1, height: "2px", background: "#ddd" }} />
-      <Icon name="chevron-right" size={20} color="#ccc" />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <Icon name="chevron-right" size={20} color="var(--slide-border)" />
     </div>
 
-    {/* Step 4: Test */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
-      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "#5c5880", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(2,0,26,0.08)" }}>
+      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "color-mix(in srgb, var(--slide-primary) 45%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
         <Icon name="shield-check" size={46} color="#fff" />
       </div>
-      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A", marginTop: "0.8rem", lineHeight: 1.2 }}>Test</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem", whiteSpace: "nowrap" }}>QA & Verify</span>
+      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.8rem", lineHeight: 1.2 }}>Test</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem", whiteSpace: "nowrap" }}>QA & Verify</span>
     </div>
 
-    {/* Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "55px" }}>
-      <div style={{ flex: 1, height: "2px", background: "#ddd" }} />
-      <Icon name="chevron-right" size={20} color="#ccc" />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <Icon name="chevron-right" size={20} color="var(--slide-border)" />
     </div>
 
-    {/* Step 5: Release */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
-      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "#8080a0", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(2,0,26,0.06)" }}>
+      <div style={{ width: "110px", height: "110px", borderRadius: "50%", background: "color-mix(in srgb, var(--slide-primary) 30%, var(--slide-text-muted))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
         <Icon name="rocket" size={46} color="#fff" />
       </div>
-      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A", marginTop: "0.8rem", lineHeight: 1.2 }}>Release</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Deployment</span>
+      <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.8rem", lineHeight: 1.2 }}>Release</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem", whiteSpace: "nowrap" }}>Deployment</span>
     </div>
 
   </div>
@@ -86,64 +77,57 @@ notes: |
   {/* === Row 2: Step Card Pipeline === */}
   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
 
-    {/* Step 1 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "220px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "14px", background: "#f4f4f8", boxShadow: "0 2px 10px rgba(2,0,26,0.07)", position: "relative", overflow: "hidden" }}>
-        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "#02001A", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>01</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "var(--slide-radius)", background: "var(--slide-surface)", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", position: "relative", overflow: "hidden" }}>
+        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "var(--slide-text)", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>01</span>
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Collect</span>
-          <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "2px" }}>Data Sources</span>
+          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)" }}>Collect</span>
+          <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "2px" }}>Data Sources</span>
         </div>
       </div>
     </div>
 
-    {/* Arrow Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "60px", marginTop: "34px" }}>
-      <div style={{ flex: 1, height: "2px", background: "linear-gradient(to right, #ccc, #02001A)" }} />
-      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid #02001A" }} />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid var(--slide-text)" }} />
     </div>
 
-    {/* Step 2 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "220px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "14px", background: "#f4f4f8", boxShadow: "0 2px 10px rgba(2,0,26,0.07)", position: "relative", overflow: "hidden" }}>
-        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "#02001A", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>02</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "var(--slide-radius)", background: "var(--slide-surface)", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", position: "relative", overflow: "hidden" }}>
+        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "var(--slide-text)", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>02</span>
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Process</span>
-          <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "2px" }}>Transform</span>
+          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)" }}>Process</span>
+          <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "2px" }}>Transform</span>
         </div>
       </div>
     </div>
 
-    {/* Arrow Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "60px", marginTop: "34px" }}>
-      <div style={{ flex: 1, height: "2px", background: "#ddd" }} />
-      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid #aaa" }} />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid var(--slide-text-muted)" }} />
     </div>
 
-    {/* Step 3 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "220px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "14px", background: "#f4f4f8", boxShadow: "0 2px 10px rgba(2,0,26,0.07)", position: "relative", overflow: "hidden" }}>
-        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "#02001A", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>03</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "var(--slide-radius)", background: "var(--slide-surface)", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", position: "relative", overflow: "hidden" }}>
+        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "var(--slide-text)", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>03</span>
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Analyze</span>
-          <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "2px" }}>Insights</span>
+          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)" }}>Analyze</span>
+          <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "2px" }}>Insights</span>
         </div>
       </div>
     </div>
 
-    {/* Arrow Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "60px", marginTop: "34px" }}>
-      <div style={{ flex: 1, height: "2px", background: "#ddd" }} />
-      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid #aaa" }} />
+      <div style={{ flex: 1, height: "2px", background: "var(--slide-border)" }} />
+      <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: "8px solid var(--slide-text-muted)" }} />
     </div>
 
-    {/* Step 4 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "220px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "14px", background: "#f4f4f8", boxShadow: "0 2px 10px rgba(2,0,26,0.07)", position: "relative", overflow: "hidden" }}>
-        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "#02001A", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>04</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", width: "196px", padding: "16px 20px", borderRadius: "var(--slide-radius)", background: "var(--slide-surface)", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", position: "relative", overflow: "hidden" }}>
+        <span style={{ fontSize: "4.4rem", fontWeight: 900, color: "var(--slide-text)", opacity: 0.07, lineHeight: 1, position: "absolute", right: "10px", top: "2px" }}>04</span>
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "#02001A" }}>Deliver</span>
-          <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "2px" }}>Output</span>
+          <span style={{ fontSize: "2.2rem", fontWeight: 700, color: "var(--slide-text)" }}>Deliver</span>
+          <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "2px" }}>Output</span>
         </div>
       </div>
     </div>
@@ -153,66 +137,59 @@ notes: |
   {/* === Row 3: Diamond Decision Flow === */}
   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
 
-    {/* Step 1 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
       <div style={{ width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "#02001A", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(2,0,26,0.2)" }}>
+        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "var(--slide-primary)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(0,0,0,0.15)" }}>
           <span style={{ transform: "rotate(-45deg)", fontSize: "2.2rem", fontWeight: 700, color: "#fff" }}>1</span>
         </div>
       </div>
-      <span style={{ fontSize: "2rem", fontWeight: 700, color: "#02001A", marginTop: "0.6rem" }}>Research</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem" }}>Discovery</span>
+      <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.6rem" }}>Research</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem" }}>Discovery</span>
     </div>
 
-    {/* Dashed Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "48px" }}>
-      <div style={{ flex: 1, borderTop: "2px dashed #bbb" }} />
-      <Icon name="chevron-right" size={18} color="#bbb" />
+      <div style={{ flex: 1, borderTop: "2px dashed var(--slide-border)" }} />
+      <Icon name="chevron-right" size={18} color="var(--slide-border)" />
     </div>
 
-    {/* Step 2 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
       <div style={{ width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "#1c1940", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(2,0,26,0.15)" }}>
+        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "color-mix(in srgb, var(--slide-primary) 80%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}>
           <span style={{ transform: "rotate(-45deg)", fontSize: "2.2rem", fontWeight: 700, color: "#fff" }}>2</span>
         </div>
       </div>
-      <span style={{ fontSize: "2rem", fontWeight: 700, color: "#02001A", marginTop: "0.6rem" }}>Prototype</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem" }}>Build MVP</span>
+      <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.6rem" }}>Prototype</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem" }}>Build MVP</span>
     </div>
 
-    {/* Dashed Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "48px" }}>
-      <div style={{ flex: 1, borderTop: "2px dashed #bbb" }} />
-      <Icon name="chevron-right" size={18} color="#bbb" />
+      <div style={{ flex: 1, borderTop: "2px dashed var(--slide-border)" }} />
+      <Icon name="chevron-right" size={18} color="var(--slide-border)" />
     </div>
 
-    {/* Step 3 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
       <div style={{ width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "#3a3560", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(2,0,26,0.12)" }}>
+        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "color-mix(in srgb, var(--slide-primary) 60%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(0,0,0,0.10)" }}>
           <span style={{ transform: "rotate(-45deg)", fontSize: "2.2rem", fontWeight: 700, color: "#fff" }}>3</span>
         </div>
       </div>
-      <span style={{ fontSize: "2rem", fontWeight: 700, color: "#02001A", marginTop: "0.6rem" }}>Validate</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem" }}>User Testing</span>
+      <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.6rem" }}>Validate</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem" }}>User Testing</span>
     </div>
 
-    {/* Dashed Connector */}
     <div style={{ flex: 1, display: "flex", alignItems: "center", maxWidth: "70px", marginTop: "48px" }}>
-      <div style={{ flex: 1, borderTop: "2px dashed #bbb" }} />
-      <Icon name="chevron-right" size={18} color="#bbb" />
+      <div style={{ flex: 1, borderTop: "2px dashed var(--slide-border)" }} />
+      <Icon name="chevron-right" size={18} color="var(--slide-border)" />
     </div>
 
-    {/* Step 4 */}
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "190px" }}>
       <div style={{ width: "100px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "#5c5880", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(2,0,26,0.08)" }}>
+        <div style={{ width: "70px", height: "70px", transform: "rotate(45deg)", borderRadius: "8px", background: "color-mix(in srgb, var(--slide-primary) 45%, var(--slide-text-muted))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(0,0,0,0.08)" }}>
           <span style={{ transform: "rotate(-45deg)", fontSize: "2.2rem", fontWeight: 700, color: "#fff" }}>4</span>
         </div>
       </div>
-      <span style={{ fontSize: "2rem", fontWeight: 700, color: "#02001A", marginTop: "0.6rem" }}>Launch</span>
-      <span style={{ fontSize: "1.4rem", color: "#999", marginTop: "0.2rem" }}>Go Live</span>
+      <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--slide-text)", marginTop: "0.6rem" }}>Launch</span>
+      <span style={{ fontSize: "1.4rem", color: "var(--slide-text-muted)", marginTop: "0.2rem" }}>Go Live</span>
     </div>
 
   </div>

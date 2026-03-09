@@ -7,36 +7,32 @@ notes: |
 
 # KPI Summary
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "2rem", marginTop: "1.5rem" }}>
-  <div style={{ textAlign: "center", padding: "2.5rem 2rem", borderRadius: "1rem", background: "#F5F5F5", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-    <Icon name="users" size={56} color="#02001A" />
-    <p style={{ fontSize: "3.2rem", fontWeight: "bold", margin: "0.8rem 0 0", color: "#02001A" }}>12,847</p>
-    <p style={{ fontSize: "1.5rem", color: "#555", marginTop: "0.3rem" }}>Active Users</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "2.5rem 2rem", borderRadius: "1rem", background: "#F5F5F5", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-    <Icon name="trending-up" size={56} color="#02001A" />
-    <p style={{ fontSize: "3.2rem", fontWeight: "bold", margin: "0.8rem 0 0", color: "#02001A" }}>+32.5%</p>
-    <p style={{ fontSize: "1.5rem", color: "#555", marginTop: "0.3rem" }}>MoM Growth</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "2.5rem 2rem", borderRadius: "1rem", background: "#F5F5F5", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-    <Icon name="clock" size={56} color="#02001A" />
-    <p style={{ fontSize: "3.2rem", fontWeight: "bold", margin: "0.8rem 0 0", color: "#02001A" }}>99.97%</p>
-    <p style={{ fontSize: "1.5rem", color: "#555", marginTop: "0.3rem" }}>Uptime</p>
-  </div>
-  <div style={{ textAlign: "center", padding: "2.5rem 2rem", borderRadius: "1rem", background: "#F5F5F5", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-    <Icon name="star" size={56} color="#02001A" />
-    <p style={{ fontSize: "3.2rem", fontWeight: "bold", margin: "0.8rem 0 0", color: "#02001A" }}>4.8</p>
-    <p style={{ fontSize: "1.5rem", color: "#555", marginTop: "0.3rem" }}>CSAT</p>
-  </div>
-</div>
+<ShowcaseDashboard
+  metrics={[
+    { icon: "users", value: "12,847", label: "Active Users" },
+    { icon: "trending-up", value: "+32.5%", label: "MoM Growth" },
+    { icon: "clock", value: "99.97%", label: "Uptime" },
+    { icon: "star", value: "4.8", label: "CSAT" }
+  ]}
+>
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginTop: "2rem" }}>
-  <div style={{ padding: "2rem", borderRadius: "1rem", background: "#F5F5F5", border: "1px solid #E0E0E0" }}>
-    <p style={{ fontSize: "1.6rem", fontWeight: "bold", color: "#02001A", marginBottom: "0.5rem" }}>Monthly Trend</p>
-    <p style={{ fontSize: "1.5rem", color: "#555" }}>Users have grown for 4 consecutive months. Mobile access surged by **+45%**.</p>
-  </div>
-  <div style={{ padding: "2rem", borderRadius: "1rem", background: "#F5F5F5", border: "1px solid #E0E0E0" }}>
-    <p style={{ fontSize: "1.6rem", fontWeight: "bold", color: "#02001A", marginBottom: "0.5rem" }}>Next Milestone</p>
-    <p style={{ fontSize: "1.5rem", color: "#555" }}>Q2 target: Surpass **15,000** active users and achieve **99.99%** uptime.</p>
-  </div>
-</div>
+<Columns gap="2rem">
+  <Column>
+
+  <Card>
+    <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text)", marginBottom: "0.5rem" }}>Monthly Trend</p>
+    <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)" }}>Users have grown for 4 consecutive months. Mobile access surged by +45%.</p>
+  </Card>
+
+  </Column>
+  <Column>
+
+  <Card>
+    <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text)", marginBottom: "0.5rem" }}>Next Milestone</p>
+    <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)" }}>Q2 target: Surpass 15,000 active users and achieve 99.99% uptime.</p>
+  </Card>
+
+  </Column>
+</Columns>
+
+</ShowcaseDashboard>

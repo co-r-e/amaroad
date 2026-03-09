@@ -1,0 +1,192 @@
+/* ── ShowcaseAgenda ── */
+
+/* Shared */
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+  min-height: 0;
+}
+
+/* ── List variant ── */
+.listItem {
+  display: flex;
+  align-items: baseline;
+  gap: 1.8rem;
+  padding: 1.4rem 2rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+}
+
+.listNumber {
+  font-size: 2.8rem;
+  font-weight: 800;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-primary);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.listTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.listDescription {
+  font-size: 1.8rem;
+  color: var(--slide-text-muted);
+  margin: 0.2rem 0 0;
+}
+
+/* ── Highlight variant ── */
+.highlightRoot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+  min-height: 0;
+}
+
+.highlightItemInactive {
+  display: flex;
+  align-items: baseline;
+  gap: 1.8rem;
+  padding: 1.4rem 2rem;
+  opacity: 0.35;
+}
+
+.highlightItemActive {
+  display: flex;
+  align-items: baseline;
+  gap: 1.8rem;
+  padding: 1.4rem 2rem;
+  background: var(--slide-primary);
+  border-radius: var(--slide-radius);
+}
+
+.highlightNumber {
+  font-size: 2.8rem;
+  font-weight: 800;
+  font-family: var(--slide-font-heading);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.highlightNumberInactive {
+  composes: highlightNumber;
+  color: var(--slide-primary);
+}
+
+.highlightNumberActive {
+  composes: highlightNumber;
+  color: #ffffff;
+}
+
+.highlightTitleInactive {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.highlightTitleActive {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.highlightDescriptionActive {
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.2rem 0 0;
+}
+
+/* ── Grid variant (2-column) ── */
+.gridRoot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  min-height: 0;
+  align-content: start;
+}
+
+.dayColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.dayLabel {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.gridItem {
+  padding: 0.8rem 1.2rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+}
+
+.gridTime {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.gridTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  margin: 0.1rem 0 0;
+}
+
+/* ── Grid-3day variant (3-column, compact) ── */
+.grid3Root {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.4rem;
+  min-height: 0;
+  align-content: start;
+}
+
+.day3Column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.day3Label {
+  font-size: 2.2rem;
+  font-weight: 800;
+  font-family: var(--slide-font-heading);
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.grid3Item {
+  padding: 0.6rem 1rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+}
+
+.grid3Time {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.grid3Title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--slide-text);
+  margin: 0.1rem 0 0;
+}

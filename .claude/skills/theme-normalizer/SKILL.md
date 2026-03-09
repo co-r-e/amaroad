@@ -2,20 +2,12 @@
 name: theme-normalizer
 description: |
   Normalize hard-coded HEX colors in decks/{deck}/*.mdx into slide CSS variables
-  based on deck.config.ts theme.colors.
+  based on deck.config.ts theme.colors. Use when MDX files still contain hard-coded
+  #xxxxxx colors, the same color is duplicated across many slides, or you need
+  reliable theme-following behavior before brand color changes.
   Run dry-run first to review candidates, then apply with --write.
   Trigger: /theme-normalizer, hardcoded hex, theme color normalize, var(--slide-*)
 ---
-
-# theme-normalizer Skill
-
-Unify hard-coded MDX colors into deck-theme CSS variables.
-
-## When To Use
-
-- `decks/<deck>/*.mdx` still contains hard-coded `#xxxxxx` colors
-- The same color is duplicated across many slides, hurting maintainability
-- You need reliable theme-following behavior before brand color changes
 
 ## Workflow
 

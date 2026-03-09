@@ -1,0 +1,39 @@
+---
+type: content
+notes: |
+  Circular cycle diagram showing a repeating process.
+  Four stages arranged in a circle with curved arrows connecting them.
+---
+
+# DevOps Lifecycle
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 800 440">
+    <defs>
+      <marker id="cyc-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 4 L 0 8 z" fill="var(--slide-text-muted)" />
+      </marker>
+    </defs>
+    <g transform="translate(400, 220)">
+      <rect x="-80" y="-200" width="160" height="64" rx="12" fill="var(--slide-primary)" />
+      <text x="0" y="-168" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="700" fill="#FFF">Plan</text>
+
+      <rect x="130" y="-32" width="160" height="64" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="210" y="0" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="600" fill="var(--slide-text)">Build</text>
+
+      <rect x="-80" y="136" width="160" height="64" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="0" y="168" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="600" fill="var(--slide-text)">Deploy</text>
+
+      <rect x="-290" y="-32" width="160" height="64" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="-210" y="0" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="600" fill="var(--slide-text)">Monitor</text>
+
+      <path d="M 80 -168 H 210 V -32" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#cyc-arrow)" />
+      <path d="M 210 32 V 168 H 80" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#cyc-arrow)" />
+      <path d="M -80 168 H -210 V 32" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#cyc-arrow)" />
+      <path d="M -210 -32 V -168 H -80" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#cyc-arrow)" />
+
+      <circle cx="0" cy="0" r="36" fill="var(--slide-primary)" opacity="0.15" />
+      <text x="0" y="-4" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-primary)">CI/CD</text>
+    </g>
+  </svg>
+</ShowcaseDiagram>

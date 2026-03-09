@@ -5,55 +5,14 @@ notes: |
   An impactful design using contrast.
 ---
 
-<Columns gap="0">
-  <Column>
-
-  <div style={{ background: "#02001A", color: "#FFF", borderRadius: "1rem 0 0 1rem", padding: "3rem", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-
-  <p style={{ fontSize: "1.4rem", color: "#CCC", fontWeight: "bold", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 1rem" }}>Mission</p>
-
-  <h2 style={{ fontSize: "2.8rem", color: "#FFF", lineHeight: 1.3, margin: 0 }}>Beautiful Presentations for Every Developer</h2>
-
-  <p style={{ fontSize: "1.6rem", color: "#AAA", lineHeight: 1.7, marginTop: "1.5rem" }}>A world where you can create polished slides like writing code — no design skills needed.</p>
-
-  <div style={{ display: "flex", gap: "1.5rem", marginTop: "2rem" }}>
-    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-      <Icon name="check-circle" size={24} color="#CCC" />
-      <p style={{ fontSize: "1.3rem", color: "#CCC", margin: 0 }}>OSS</p>
-    </div>
-    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-      <Icon name="check-circle" size={24} color="#CCC" />
-      <p style={{ fontSize: "1.3rem", color: "#CCC", margin: 0 }}>Free</p>
-    </div>
-    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-      <Icon name="check-circle" size={24} color="#CCC" />
-      <p style={{ fontSize: "1.3rem", color: "#CCC", margin: 0 }}>Extensible</p>
-    </div>
-  </div>
-
-  </div>
-
-  </Column>
-  <Column>
-
-  <div style={{ background: "#F5F5F5", borderRadius: "0 1rem 1rem 0", padding: "3rem", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", gap: "2rem" }}>
-
-  <div>
-    <p style={{ fontSize: "3.5rem", fontWeight: "bold", color: "#02001A", margin: 0, lineHeight: 1 }}>50,000+</p>
-    <p style={{ fontSize: "1.5rem", color: "#888", margin: "0.3rem 0 0" }}>Monthly Active Users</p>
-  </div>
-
-  <div>
-    <p style={{ fontSize: "3.5rem", fontWeight: "bold", color: "#02001A", margin: 0, lineHeight: 1 }}>120+</p>
-    <p style={{ fontSize: "1.5rem", color: "#888", margin: "0.3rem 0 0" }}>Enterprise Customers</p>
-  </div>
-
-  <div>
-    <p style={{ fontSize: "3.5rem", fontWeight: "bold", color: "#02001A", margin: 0, lineHeight: 1 }}>4.9/5</p>
-    <p style={{ fontSize: "1.5rem", color: "#888", margin: "0.3rem 0 0" }}>User Rating</p>
-  </div>
-
-  </div>
-
-  </Column>
-</Columns>
+<ShowcaseSplit
+  variant="dark-light"
+  leftTitle="Beautiful Presentations for Every Developer"
+  leftItems={["Mission", "OSS", "Free", "Extensible"]}
+  description="A world where you can create polished slides like writing code — no design skills needed."
+  rightMetrics={[
+    { value: "50,000+", label: "Monthly Active Users" },
+    { value: "120+", label: "Enterprise Customers" },
+    { value: "4.9/5", label: "User Rating" }
+  ]}
+/>
