@@ -1,11 +1,14 @@
 ---
 name: graphic-recording
 description: |
-  Graphic recording style image generation skill. Takes slide text or screenshots as input,
-  generates a hand-drawn visual note illustration that follows the deck's theme colors,
-  saves it to the deck's assets directory, and inserts it into the MDX file.
-  Uses Gemini API (gemini-3.1-flash-image-preview).
-  Triggers: "グラレコ", "グラフィックレコーディング", "graphic recording", "グラレコ風", "グラレコを生成"
+  Generates graphic-recording-style illustrations from slide content using Gemini
+  image generation. Takes MDX text or slide screenshots as input, produces a
+  hand-drawn visual note that matches the deck's theme colors, and inserts it
+  into the target slide.
+  Use when user says "グラレコ", "graphic recording", "グラフィックレコーディング",
+  "グラレコ風", "visual note for this slide", or "グラレコを生成".
+  Key capabilities: theme-aware color extraction, text-based or screenshot-based
+  input, automatic MDX insertion, 16:9 aspect ratio output.
 allowed-tools:
   - Bash
   - Read
@@ -93,3 +96,41 @@ npx tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
 - Generated image file path
 - Prompt used
 - How to verify on dev server
+
+## Examples
+
+### Example 1: Graphic recording from text content
+
+- User says: "Create a graphic recording for slide 05 of my product-launch deck"
+- Actions:
+  1. Read `decks/product-launch/05-features.mdx` to extract text content.
+  2. Read `decks/product-launch/deck.config.ts` to extract theme colors.
+  3. Build a graphic recording prompt combining the feature list with theme colors. Present to user for confirmation.
+  4. Generate the image with `generate-image.ts` at 16:9, 2K resolution.
+  5. Insert `<img>` tag into the MDX file.
+- Result: `decks/product-launch/assets/graphic-recording-features.png` inserted into slide 05.
+
+### Example 2: Screenshot-based graphic recording
+
+- User says: "グラレコ風にスライド3を可視化して (sample-deck)"
+- Actions:
+  1. Capture slide 3 via `capture-slide.ts`.
+  2. Analyze the screenshot to extract visual content and layout.
+  3. Extract theme colors from `deck.config.ts`.
+  4. Build and confirm the prompt with the user.
+  5. Generate and insert the graphic recording image.
+- Result: Hand-drawn visual note illustration matching the deck's color scheme.
+
+## Troubleshooting
+
+### Error: GEMINI_API_KEY not found
+- **Cause**: The `.env.local` file does not contain `GEMINI_API_KEY`.
+- **Fix**: Add `GEMINI_API_KEY=<your-key>` to `.env.local` in the project root.
+
+### Generated image does not match theme colors
+- **Cause**: Theme colors were not correctly extracted or included in the prompt.
+- **Fix**: Verify the theme colors in `deck.config.ts`. Ensure the prompt explicitly specifies HEX color values (e.g., "use #3B82F6 as the main accent color"). Regenerate after adjusting the prompt.
+
+### Image appears distorted or cropped in slide
+- **Cause**: Aspect ratio mismatch between the generated image and the slide layout.
+- **Fix**: Use `--aspect-ratio 16:9` for full-width placement. For half-width column layouts, use `--aspect-ratio 1:1` or `--aspect-ratio 4:3` and adjust the `width` style in the MDX `<img>` tag.

@@ -1,9 +1,14 @@
 ---
 name: nanobanana-image
 description: |
-  AI image generation skill. Uses Gemini API (gemini-3.1-flash-image-preview) to generate
-  high-quality images for slides, saves them to the deck's assets directory, and inserts them into MDX.
-  Triggers: 「画像を生成」「画像を作って」「イメージを生成」「generate image」「create image」
+  Generates AI images via Gemini API and inserts them into DexCode MDX slides.
+  Captures the slide layout to auto-select the optimal aspect ratio, builds an
+  optimized English prompt, generates the image, and updates the MDX file.
+  Use when user says "generate image", "create image", "add a photo to this slide",
+  or the Japanese equivalents "画像を生成", "画像を作って", "イメージを生成".
+  Key capabilities: automatic aspect ratio detection from slide layout, 10 aspect
+  ratios (9:16 to 21:9), 1K/2K/4K resolution, prompt optimization for slide use,
+  and automatic MDX insertion with correct asset paths.
 allowed-tools:
   - Bash
   - Read
@@ -132,9 +137,41 @@ Report the following to the user:
 | `--aspect-ratio` | No | `16:9` | Aspect ratio (1:1, 3:2, 4:3, 16:9, 21:9, etc.) |
 | `--resolution` | No | `2K` | Resolution (1K, 2K, 4K) |
 
-## Error Handling
+## Examples
 
-- `GEMINI_API_KEY` not set -> Guide the user on how to set it
-- API error -> Display the error message and explain the cause
-- Output directory does not exist -> Create automatically
-- No image data (safety filter, etc.) -> Explain the reason and suggest prompt modifications
+### Example 1: Generate a hero image for a cover slide
+
+- User says: "Generate a hero image for the cover slide of my sample-deck"
+- Actions:
+  1. Identify target deck (`sample-deck`) and slide (`01-a-cover.mdx`)
+  2. Capture slide screenshot and analyze layout to determine aspect ratio (e.g., 16:9 for full-width cover)
+  3. Build optimized English prompt based on deck theme and slide context
+  4. Present aspect ratio rationale and prompt to user for confirmation
+  5. Run `generate-image.ts` with the confirmed prompt
+  6. Insert `![Hero image](./assets/hero-cover.png)` into the MDX file
+- Result: A 2K, 16:9 hero image saved to `decks/sample-deck/assets/hero-cover.png` and referenced in the cover slide MDX
+
+### Example 2: Add a portrait photo placeholder to a two-column layout
+
+- User says: "Add a team photo to the left column of slide 61"
+- Actions:
+  1. Identify target deck and slide (`61-team-grid.mdx`)
+  2. Capture slide and analyze the left column space (portrait, approximately 3:4)
+  3. Build prompt: "Professional team photo, diverse group in modern office, natural lighting"
+  4. Generate at 3:4 aspect ratio, 2K resolution
+  5. Insert image reference into the left column JSX
+- Result: A 3:4 team photo saved and inserted into the correct column position
+
+## Troubleshooting
+
+### GEMINI_API_KEY not set
+- **Symptom**: Script exits with "GEMINI_API_KEY is not set"
+- **Fix**: Add `GEMINI_API_KEY=your-key-here` to `.env.local` at the project root. The script auto-loads this file.
+
+### Safety filter blocks image generation
+- **Symptom**: API returns successfully but no image data is included in the response
+- **Fix**: The prompt likely triggered Gemini's safety filter. Rephrase to avoid potentially sensitive content (violence, medical imagery, real people's likenesses). Use abstract or illustrative language instead.
+
+### Slide capture fails
+- **Symptom**: `capture-slide.ts` returns an error or blank image
+- **Fix**: Ensure the dev server is running (`npm run dev`). The capture API requires the Next.js server at `localhost:3000`. Also verify the deck name and slide index (0-based) are correct.
