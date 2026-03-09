@@ -16,14 +16,14 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Resolved package entries: 780
+- Resolved package entries: 783
 - Generated from: `package-lock.json`
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 630 |
+| MIT | 631 |
 | ISC | 44 |
-| Apache-2.0 | 38 |
+| Apache-2.0 | 40 |
 | BSD-3-Clause | 17 |
 | MPL-2.0 | 13 |
 | LGPL-3.0-or-later | 10 |
