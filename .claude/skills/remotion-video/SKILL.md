@@ -6,7 +6,7 @@ description: |
   with per-slide scene components, TransitionSeries orchestration, and theme-
   matched styling.
   Use when user says "make a video from this deck", "animated slide video",
-  "convert deck to video", or the Japanese equivalent "このデッキを動画にして".
+  "convert deck to video", "export as video", or "このデッキを動画にして".
   Key capabilities: automatic storyboard from slide types, spring/interpolate
   animations, Google Fonts mapping, asset copying, 1920x1080 30fps output,
   and configurable per-slide hold durations.
@@ -308,3 +308,50 @@ If the deck font is not available in Google Fonts, use the closest match or load
 - If `npx remotion render` fails, check the error output and fix the scene component
 - Common issues: missing fonts, broken asset paths, invalid interpolation ranges
 - Run `npx remotion studio` first to preview in browser before rendering
+
+## Examples
+
+### Example 1: Convert a 10-slide deck to video
+
+User says: "Make a video from my product-launch deck."
+
+Actions:
+1. Run `extract-theme.ts --deck product-launch` and read `deck.config.ts`.
+2. Read all 10 MDX files and build a slide manifest with types and content summaries.
+3. Design a storyboard mapping each slide type to its animation pattern (cover -> fade-in title, content -> staggered cards, ending -> logo + CTA).
+4. Generate the Remotion project under `decks/product-launch/video/` with 10 scene components.
+5. Copy assets and render: `npx remotion render DeckVideo out/video.mp4`.
+
+Result: A 45-second animated video at 1920x1080 30fps with smooth transitions between all 10 slides.
+
+### Example 2: Preview before rendering
+
+User says: "Convert sample-deck to video but let me preview first."
+
+Actions:
+1. Generate the Remotion project under `decks/sample-deck/video/`.
+2. Run `npm install && npx remotion studio` to open the browser preview.
+3. Review each scene in Remotion Studio and adjust timing or animations as needed.
+4. Render final video after user approval.
+
+Result: Interactive preview in browser, then final rendered MP4 after confirmation.
+
+## Troubleshooting
+
+### Render fails with "Cannot find module" error
+
+Symptom: `npx remotion render` exits with a module resolution error.
+Cause: Dependencies were not installed or the import path is incorrect.
+Fix: Run `npm install` in the `video/` directory. Verify all scene imports in `DeckVideo.tsx` match the actual filenames in `src/scenes/`.
+
+### Images appear as broken placeholders in the video
+
+Symptom: Rendered video shows broken image icons instead of deck assets.
+Cause: Deck assets were not copied to the Remotion project's `public/` directory, or `staticFile()` paths do not match.
+Fix: Run `cp -r decks/<deck>/assets/* decks/<deck>/video/public/` and ensure scene components reference images via `staticFile("filename.png")` (not relative paths).
+
+### Japanese text renders in a fallback font
+
+Symptom: Japanese characters appear in a generic sans-serif font instead of the deck's theme font.
+Cause: `Noto Sans JP` was not loaded via `@remotion/google-fonts`.
+Fix: Add `import { loadFont } from "@remotion/google-fonts/NotoSansJP"` and call `loadFont()` at the component top level. See `remotion-best-practices/rules/fonts.md`.
