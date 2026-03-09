@@ -1,11 +1,15 @@
 ---
 name: remotion-video
 description: |
-  Convert a DexCode slide deck into an animated video using Remotion.
-  Reads deck.config.ts and MDX slides, then generates a standalone Remotion
-  project that faithfully reproduces the deck's theme, layout, and content
-  as a frame-by-frame animated video.
-  Triggers: 「このデッキを動画にして」「make a video from this deck」「animated slide video」
+  Converts a DexCode slide deck into an animated video using Remotion. Reads
+  deck.config.ts and MDX slides, then generates a standalone Remotion project
+  with per-slide scene components, TransitionSeries orchestration, and theme-
+  matched styling.
+  Use when user says "make a video from this deck", "animated slide video",
+  "convert deck to video", or the Japanese equivalent "このデッキを動画にして".
+  Key capabilities: automatic storyboard from slide types, spring/interpolate
+  animations, Google Fonts mapping, asset copying, 1920x1080 30fps output,
+  and configurable per-slide hold durations.
 allowed-tools:
   - Bash
   - Read
