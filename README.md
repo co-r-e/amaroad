@@ -18,13 +18,13 @@
 - **MDX slides** -- Write slides as individual `.mdx` files with full Markdown + JSX support
 - **16:9 widescreen** -- Slides render at a virtual 1920x1080 resolution and scale to fit any screen
 - **Multi-deck** -- Manage multiple slide decks in a single project under `decks/`
-- **12 slide types** -- cover, section, content, comparison, stats, timeline, image-left, image-right, image-full, quote, agenda, ending
+- **12 slide types** -- cover, section, content, comparison, stats, timeline, image-left, image-right, image-full, quote, agenda, ending; plus 25+ showcase components for ready-made layouts
 - **Presenter mode** -- Open a separate fullscreen window for projector output, synced in real-time via BroadcastChannel
 - **Keyboard navigation** -- Arrow keys, Space, Enter, Home, End; press `?` for shortcut help
 - **Slide URL sync** -- URL updates with `?slide=N` as you navigate; supports browser back/forward and direct links
 - **Speaker notes** -- Resizable notes panel with basic Markdown rendering (bold, italic, code, headings, lists); touch-friendly resize handle
 - **Configurable overlays** -- Logo, copyright text, page numbers, and accent lines with flexible positioning
-- **Built-in components** -- Charts, icons, code blocks, tables, multi-column layouts, math equations, shapes, cards, timelines, callouts, video embeds
+- **Built-in components** -- Charts, icons, code blocks, tables, multi-column layouts, math equations, shapes, cards, timelines, steps, and 25+ showcase components for covers, dashboards, comparisons, team grids, and more
 - **PDF / PPTX export** -- Export decks from the browser UI as PDF or PowerPoint files
 - **Tunnel sharing** -- Share your deck over the internet with a single click via Cloudflare Tunnel
 - **Slide transitions** -- Configurable per-slide or per-deck transitions (fade, slide, none)
@@ -53,16 +53,19 @@ Open [http://localhost:3000](http://localhost:3000) to see the deck listing page
 
 ```
 dexcode/
+├── .claude/
+│   └── skills/                # AI skill definitions
 ├── decks/                     # Your slide decks go here
 │   └── sample-deck/
 │       ├── deck.config.ts     # Deck configuration (theme, logo, etc.)
-│       ├── 01-cover.mdx       # Each MDX file = one slide
+│       ├── 01-a-cover.mdx     # Each MDX file = one slide
 │       ├── 02-about.mdx
 │       ├── ...
 │       └── assets/            # Deck-specific images and files
 ├── src/
 │   ├── app/                   # Next.js App Router pages
-│   ├── components/            # React components
+│   ├── components/
+│   │   └── mdx/               # Slide components (25+ showcase components)
 │   ├── contexts/              # React context providers
 │   ├── hooks/                 # Custom React hooks
 │   ├── lib/                   # Core utilities and loaders
@@ -231,66 +234,16 @@ Center content horizontally and vertically:
 </Center>
 ```
 
-#### CardGrid
-
-Grid layout for cards:
-
-```mdx
-<CardGrid>
-  <Card title="Feature A">Description of feature A</Card>
-  <Card title="Feature B">Description of feature B</Card>
-  <Card title="Feature C">Description of feature C</Card>
-</CardGrid>
-```
-
 ### Content
 
-#### Card / TaggedCard
+#### Card
 
-Content containers:
+Content container:
 
 ```mdx
 <Card title="My Card">
   Card body content here.
 </Card>
-
-<TaggedCard tag="NEW" title="Tagged Card">
-  Card with a colored tag label.
-</TaggedCard>
-```
-
-#### Stat
-
-Key metrics display:
-
-```mdx
-<Stat value="99.9%" label="Uptime" />
-```
-
-#### Badge
-
-Inline labels:
-
-```mdx
-<Badge>Beta</Badge>
-```
-
-#### Callout
-
-Highlighted information box:
-
-```mdx
-<Callout>
-  Important information goes here.
-</Callout>
-```
-
-#### Divider
-
-Horizontal separator:
-
-```mdx
-<Divider />
 ```
 
 #### Timeline / TimelineItem
@@ -365,15 +318,6 @@ SVG shapes:
 <Shape type="line" size={200} strokeWidth={3} />
 ```
 
-#### Video
-
-Embedded video (YouTube, Vimeo, or local files):
-
-```mdx
-<Video src="https://www.youtube.com/embed/dQw4w9WgXcQ" />
-<Video src="./assets/demo.mp4" autoPlay />
-```
-
 ### Math
 
 LaTeX math equations via KaTeX:
@@ -409,6 +353,83 @@ Standard Markdown tables with styled headers:
 |---------|--------|
 | MDX     | Done   |
 | Themes  | Done   |
+```
+
+## Showcase Components
+
+DexCode includes 25+ pre-built showcase components -- full-slide layout templates that handle positioning, spacing, and responsive design. Use these instead of building layouts from scratch.
+
+### Covers & Sections
+
+- **ShowcaseCover** -- Title slides with variants: `split-band`, `image-right`, `typography`, `minimal`, `creative`, `artistic`
+- **ShowcaseSection** -- Section dividers with variants: `left`, `number`, `dark`, `split`, `minimal`, `centered`
+- **ShowcaseEndSlide** -- Closing slides with variants: `dark-keywords`, `cta`, `hero`, `section-icons`, `contact`, `thank-you`
+
+```mdx
+<ShowcaseCover variant="split-band" title="Product Launch 2026" subtitle="Next-generation platform" />
+
+<ShowcaseEndSlide variant="contact" name="Jane Doe" email="jane@example.com" />
+```
+
+### Content Layouts
+
+- **FigureShowcase** -- 15 image layout variants for photos and diagrams
+- **ShowcaseSplit** -- Split layouts with variants: `speaker`, `dark-light`, `spotlight`, `data-narrative`
+- **ShowcaseColumnText** -- Multi-column text (2 or 3 columns)
+
+```mdx
+<FigureShowcase variant="image-right" src="./assets/photo.jpg" title="Architecture" description="System overview" />
+
+<ShowcaseColumnText columns={3} items={[
+  { title: "Speed", body: "Sub-second responses" },
+  { title: "Scale", body: "Millions of users" },
+  { title: "Safety", body: "Enterprise-grade security" },
+]} />
+```
+
+### Data & Metrics
+
+- **ShowcaseFeatureGrid** -- Feature grids with variants: `cards`, `bordered`, `dark`, `horizontal`
+- **ShowcaseMetric** -- Big number display
+- **ShowcaseStatGrid** -- Stat grid with multiple metrics
+- **ShowcaseDashboard** -- KPI cards combined with charts
+- **ShowcaseComparisonTable** -- Feature comparison matrix
+- **ShowcaseMatrix** -- Priority/risk matrices
+
+```mdx
+<ShowcaseMetric value="4.2M" label="Monthly Active Users" delta="+23%" />
+
+<ShowcaseDashboard kpis={[{ label: "Revenue", value: "$1.2M" }]} chart={{ type: "bar", data: [...] }} />
+```
+
+### Lists & Process
+
+- **ShowcaseAgenda** -- Agenda layouts with variants: `list`, `grid`, `highlight`, `grid-3day`
+- **ShowcaseComparison** -- Comparison layouts with variants: `checklist`, `before-after`, `do-dont`, `pros-cons`
+- **ShowcasePricing** -- Pricing tier comparison
+
+```mdx
+<ShowcaseComparison variant="do-dont" doItems={["Use CSS variables", "Keep slides concise"]} dontItems={["Hardcode colors", "Overload with text"]} />
+```
+
+### Media & Visual
+
+- **ShowcaseVideo** -- Video embeds with variants: `standalone`, `with-description`
+- **ShowcaseFAQ** -- Q&A pair layouts
+- **ShowcaseQuote** -- Testimonial cards
+- **ShowcaseTeamGrid** -- Team member grids with variants: `square`, `circle`
+- **ShowcaseLayerStack** -- Technology stack layer diagrams
+- **ShowcaseDiagram** -- SVG diagram wrapper
+- **ShowcaseIconGrid** -- Icon showcase grid
+- **ShowcaseShapeGrid** -- Shape showcase grid
+- **LogoWall** -- Logo grid display
+- **KpiStrip** -- Horizontal KPI strip
+- **ScreenshotCallouts** -- Screenshot with annotated callouts
+
+```mdx
+<ShowcaseQuote quote="DexCode changed how we build presentations." author="Jane Doe" role="CTO, Acme Inc." />
+
+<ShowcaseTeamGrid variant="circle" members={[{ name: "Alice", role: "Engineer", image: "./assets/alice.jpg" }]} />
 ```
 
 ## Deck Assets
@@ -502,6 +523,26 @@ Then use in any MDX file:
 ```mdx
 <MyComponent prop="value" />
 ```
+
+## AI Skills
+
+DexCode ships with 13 built-in AI skills in `.claude/skills/` that automate common slide authoring tasks. These skills are invoked by AI coding agents (Claude Code, Codex) as part of the CLI workflow.
+
+| Skill | Description |
+|-------|-------------|
+| `deck-scaffold-from-brief` | Scaffold a new deck from a user brief |
+| `svg-diagram` | Generate SVG diagrams matching deck theme |
+| `remotion-video` | Convert deck to animated video |
+| `graphic-recording` | Generate visual notes from slide content |
+| `slide-preflight-auditor` | Run preflight audits on slides |
+| `nanobanana-image` | Generate AI images for slides |
+| `nanobanana-image-edit` | Edit existing slide images |
+| `speaker-notes-polisher` | Standardize speaker notes |
+| `deck-localizer` | Translate slides between ja/en |
+| `fact-citation-validator` | Validate factual claims and citations |
+| `remotion-best-practices` | Remotion API reference and patterns |
+| `slide-overflow-fixer` | Fix overflowing slide content |
+| `theme-normalizer` | Replace hardcoded HEX with CSS variables |
 
 ## Tech Stack
 
