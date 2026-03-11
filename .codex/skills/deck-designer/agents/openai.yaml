@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deck Designer"
+  short_description: "Interactive Q&A to plan and design a new DexCode slide deck"
+  default_prompt: "Use $deck-designer to guide me through designing a new presentation deck with structured questions about purpose, content, and visual theme."
