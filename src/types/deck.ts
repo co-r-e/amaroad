@@ -76,6 +76,10 @@ export interface DeckTheme {
 
 export interface DeckConfig {
   title: string;
+  overlay?: {
+    textColor?: string;
+    textColorDark?: string;
+  };
   logo?: {
     src: string;
     position: LogoPosition;
