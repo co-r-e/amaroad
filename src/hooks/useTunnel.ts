@@ -56,6 +56,17 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
   const [copied, setCopied] = useState(false);
 
   const applyServerState = useCallback((data: TunnelState) => {
+    // If an active tunnel belongs to a different deck, treat as idle for this hook.
+    if (
+      deckName &&
+      data.deckName &&
+      data.deckName !== deckName &&
+      (data.status === "active" || data.status === "connecting")
+    ) {
+      setState((prev) => (prev.phase !== "idle" ? IDLE : prev));
+      return;
+    }
+
     const mapped = toClientState(data);
     if (mapped) {
       setState(mapped);
@@ -63,7 +74,7 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
       // Server reports idle -- sync client to idle
       setState((prev) => (prev.phase !== "idle" ? IDLE : prev));
     }
-  }, []);
+  }, [deckName]);
 
   // Sync server state on mount (handles page reload while tunnel is active)
   useEffect(() => {
@@ -105,15 +116,19 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
   const start = useCallback(async () => {
     setState({ phase: "connecting", url: null, error: null });
     try {
-      await fetch("/api/tunnel", {
+      const res = await fetch("/api/tunnel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ deckName: deckName ?? null }),
       });
+      if (res.ok) {
+        const data = (await res.json()) as TunnelState;
+        applyServerState(data);
+      }
     } catch {
       setState({ phase: "error", url: null, error: "Failed to reach tunnel API" });
     }
-  }, [deckName]);
+  }, [deckName, applyServerState]);
 
   const stop = useCallback(async () => {
     setState({ phase: "stopping", url: null, error: null });

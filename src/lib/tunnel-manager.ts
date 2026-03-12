@@ -48,6 +48,11 @@ class TunnelManager {
   /** Start a quick tunnel pointing at the given local port. */
   start(port: number, deckName: string | null = null): TunnelState {
     if (this.state.status === "connecting" || this.state.status === "active") {
+      // If the tunnel is already active, allow switching the shared deck
+      // without restarting the cloudflared process.
+      if (deckName && this.state.deckName !== deckName) {
+        this.state = { ...this.state, deckName };
+      }
       return this.state;
     }
 
@@ -87,7 +92,9 @@ class TunnelManager {
           url: receivedUrl,
           error: null,
           connectedAt: Date.now(),
-          deckName,
+          // Use the current deckName from state (may have been switched
+          // while connecting) rather than the closed-over initial value.
+          deckName: this.state.deckName,
         };
       } else if (receivedUrl) {
         this.state = { ...this.state, url: receivedUrl };
