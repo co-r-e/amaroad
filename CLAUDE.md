@@ -110,4 +110,29 @@ icon_usage:
     - Icons above feature card text when the text already conveys the meaning
     - Circle-background + icon combos for section dividers
   test: "If removing the icon loses no information, the icon is unnecessary."
+
+visual_first:
+  rule: Proactively use diagrams, graphs, and charts wherever visual explanation is clearer than text
+  details:
+    - When content involves processes, comparisons, data, architecture, relationships, or flows,
+      prefer a visual (SVG diagram, chart, graph) over bullet points or paragraphs.
+    - Use the svg-diagram skill for flowcharts, architecture diagrams, and process flows.
+    - Use chart components (bar, pie, line, etc.) for quantitative data.
+    - Visuals should be the primary content; supporting text is secondary.
+  test: "Could this content be understood faster as a diagram or chart? If yes, visualize it."
+
+css_variable_override_pattern:
+  rule: >
+    Shared MDX components use CSS custom properties with fallbacks for layout values
+    that may need per-deck or per-instance customization.
+  naming: "--{component}-{variant}-{property}"
+  examples:
+    - "--figure-side-columns"       # FigureShowcase, side variant, grid-template-columns
+    - "--figure-imagetext-gap"      # FigureShowcase, image-text variant, gap
+    - "--logo-columns"              # LogoWall, columns count
+  implementation:
+    - CSS: Use `var(--name, fallback)` so existing decks are unaffected.
+    - TSX: Accept `style?: React.CSSProperties` prop, spread on root element.
+    - MDX override: `<Component style={{ "--figure-imagetext-columns": "40% 1fr" }} />`
+  scope: Layout structure (grid ratios, align, gap) and fixed sizes. Typography stays hardcoded until needed.
 ```
