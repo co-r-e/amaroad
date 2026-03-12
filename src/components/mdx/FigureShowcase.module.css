@@ -1,3 +1,38 @@
+/*
+ * FigureShowcase — CSS Custom Property Overrides
+ *
+ * All layout values below accept per-instance overrides via the `style` prop.
+ * Pass CSS variables through React's style object:
+ *
+ *   <FigureShowcase style={{ "--figure-side-columns": "2fr 1fr" }} />
+ *
+ * Variable                          | Default        | Variant(s)
+ * --------------------------------- | -------------- | ----------------------------
+ * --figure-side-columns             | 3fr 1fr        | left-caption
+ * --figure-side-columns-reverse     | 1fr 3fr        | right-caption
+ * --figure-side-gap                 | 2.5rem         | left-caption, right-caption
+ * --figure-comparison-align         | stretch        | comparison
+ * --figure-cardlist-columns         | 55% 1fr        | card-list
+ * --figure-cardlist-gap             | 2.5rem         | card-list
+ * --figure-threeflow-align          | stretch        | three-flow
+ * --figure-imagetext-columns        | 55% 1fr        | image-text
+ * --figure-imagetext-columns-reverse| 1fr 55%        | text-image
+ * --figure-imagetext-gap            | 3rem           | image-text, text-image
+ * --figure-colimg-gap               | 3rem           | column-image-text (2-col)
+ * --figure-colimg3-gap              | 2.5rem         | column-image-text (3-col)
+ * --figure-colimg-height            | 200px          | column-image-text (2-col)
+ * --figure-colimg3-height           | 180px          | column-image-text (3-col)
+ * --figure-media-fit                | cover          | all (mediaImage object-fit)
+ * --figure-overlay-bg               | #000000        | overlay
+ * --figure-overlay-gradient         | linear-gradient(…) | overlay (scrim gradient)
+ * --figure-accent-width             | 50px           | left-caption, right-caption
+ * --figure-accent-height            | 3px            | left-caption, right-caption
+ * --figure-cardlist-item-padding    | 1.6rem 2rem    | card-list
+ * --figure-imagetext-quote-padding  | 1.2rem 1.6rem  | image-text, text-image
+ * --figure-colimg2-columns          | 1fr 1fr        | column-image-text (2-col)
+ * --figure-fulldark-justify         | flex-start     | full-dark (text vertical position)
+ */
+
 /* ── Base ── */
 .root {
   display: flex;
@@ -50,8 +85,8 @@
 }
 
 .accentLine {
-  width: 50px;
-  height: 3px;
+  width: var(--figure-accent-width, 50px);
+  height: var(--figure-accent-height, 3px);
   background: var(--slide-primary);
   border-radius: 2px;
 }
@@ -75,7 +110,7 @@
 .mediaImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--figure-media-fit, cover);
 }
 
 .placeholder {
@@ -98,14 +133,14 @@
 /* ── Side layout (left-caption / right-caption) ── */
 .sideLayout {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 2.5rem;
+  grid-template-columns: var(--figure-side-columns, 3fr 1fr);
+  gap: var(--figure-side-gap, 2.5rem);
   height: 100%;
   min-height: 0;
 }
 
 .sideLayoutReverse {
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: var(--figure-side-columns-reverse, 1fr 3fr);
 }
 
 .sideCopy {
@@ -119,7 +154,7 @@
 /* ── Comparison ── */
 .comparisonRow {
   display: flex;
-  align-items: center;
+  align-items: var(--figure-comparison-align, stretch);
   gap: var(--slide-space-md);
   min-height: 0;
   flex: 1;
@@ -127,6 +162,7 @@
 
 .comparisonArrow {
   flex-shrink: 0;
+  align-self: center;
 }
 
 .comparisonCopy {
@@ -158,7 +194,7 @@
 .overlay {
   width: 100%;
   height: 100%;
-  background: #000000;
+  background: var(--figure-overlay-bg, #000000);
 }
 
 .overlayContent {
@@ -171,18 +207,18 @@
   padding: var(--slide-space-xl);
   text-align: center;
   gap: var(--slide-space-md);
-  background: linear-gradient(
+  background: var(--figure-overlay-gradient, linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.18),
     rgba(0, 0, 0, 0.4)
-  );
+  ));
 }
 
 /* ── Card-list ── */
 .cardListLayout {
   display: grid;
-  grid-template-columns: 55% 1fr;
-  gap: 2.5rem;
+  grid-template-columns: var(--figure-cardlist-columns, 55% 1fr);
+  gap: var(--figure-cardlist-gap, 2.5rem);
   height: 100%;
   min-height: 0;
 }
@@ -198,7 +234,7 @@
   flex: 1;
   background: var(--slide-surface);
   border-radius: var(--slide-radius);
-  padding: 1.6rem 2rem;
+  padding: var(--figure-cardlist-item-padding, 1.6rem 2rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -221,7 +257,7 @@
 /* ── Three-flow ── */
 .threeFlowRow {
   display: flex;
-  align-items: center;
+  align-items: var(--figure-threeflow-align, stretch);
   height: 100%;
   gap: var(--slide-space-sm);
 }
@@ -234,6 +270,7 @@
 
 .threeFlowArrow {
   flex-shrink: 0;
+  align-self: center;
 }
 
 /* ── Heading-image ── */
@@ -280,14 +317,14 @@
 /* ── Image-text / Text-image ── */
 .imageTextLayout {
   display: grid;
-  grid-template-columns: 55% 1fr;
-  gap: 3rem;
+  grid-template-columns: var(--figure-imagetext-columns, 55% 1fr);
+  gap: var(--figure-imagetext-gap, 3rem);
   height: 100%;
   min-height: 0;
 }
 
 .imageTextLayoutReverse {
-  grid-template-columns: 1fr 55%;
+  grid-template-columns: var(--figure-imagetext-columns-reverse, 1fr 55%);
 }
 
 .imageTextCopy {
@@ -322,7 +359,7 @@
 .imageTextQuote {
   background: var(--slide-surface);
   border-radius: var(--slide-radius);
-  padding: 1.2rem 1.6rem;
+  padding: var(--figure-imagetext-quote-padding, 1.2rem 1.6rem);
 }
 
 .imageTextQuoteText {
@@ -360,7 +397,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: var(--figure-fulldark-justify, flex-start);
   text-align: center;
   padding: var(--slide-space-md) 0 0;
 }
@@ -409,18 +446,18 @@
 /* ── Column-image-text ── */
 .columnImageTextRow {
   display: grid;
-  gap: 3rem;
+  gap: var(--figure-colimg-gap, 3rem);
   height: 100%;
   min-height: 0;
 }
 
 .columnImageTextRow2 {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--figure-colimg2-columns, 1fr 1fr);
 }
 
 .columnImageTextRow3 {
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 2.5rem;
+  gap: var(--figure-colimg3-gap, 2.5rem);
 }
 
 .columnImageTextItem {
@@ -432,7 +469,7 @@
 
 .columnImageTextMedia {
   width: 100%;
-  height: 200px;
+  height: var(--figure-colimg-height, 200px);
   background: var(--slide-surface);
   border-radius: var(--slide-radius);
   display: flex;
@@ -442,7 +479,7 @@
 }
 
 .columnImageTextMedia3 {
-  height: 180px;
+  height: var(--figure-colimg3-height, 180px);
 }
 
 .columnImageTextMedia img {

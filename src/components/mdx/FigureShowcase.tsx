@@ -52,6 +52,8 @@ interface FigureShowcaseProps {
   quote?: string;
   /** For full-dark variant */
   label?: string;
+  /** CSS variable overrides for layout customization per instance */
+  style?: React.CSSProperties;
 }
 
 function FigureMedia({
@@ -136,11 +138,12 @@ export function FigureShowcase({
   bullets,
   quote,
   label,
+  style,
 }: FigureShowcaseProps) {
   /* ── comparison ── */
   if (variant === "comparison") {
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={style}>
         <div data-growable="" className={styles.comparisonRow}>
           <FigureMedia src={leftSrc} alt={leftAlt} label={imageLabel} grow />
           <svg className={styles.comparisonArrow} width="48" height="48" viewBox="0 0 48 48" aria-hidden="true">
@@ -172,7 +175,7 @@ export function FigureShowcase({
   /* ── overlay ── */
   if (variant === "overlay") {
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={style}>
         <div data-growable="" className={`${styles.mediaFrame} ${styles.mediaGrow} ${styles.overlay}`}>
           {src ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -195,7 +198,7 @@ export function FigureShowcase({
   if (variant === "left-caption" || variant === "right-caption") {
     const reverse = variant === "right-caption";
     return (
-      <div className={`${styles.sideLayout} ${reverse ? styles.sideLayoutReverse : ""}`}>
+      <div className={`${styles.sideLayout} ${reverse ? styles.sideLayoutReverse : ""}`} style={style}>
         {reverse ? (
           <>
             <div className={styles.sideCopy}>
@@ -218,7 +221,7 @@ export function FigureShowcase({
   /* ── card-list ── */
   if (variant === "card-list") {
     return (
-      <div className={styles.cardListLayout}>
+      <div className={styles.cardListLayout} style={style}>
         <FigureMedia src={src} alt={alt} label={imageLabel} grow />
         <div className={styles.cardListStack}>
           {(cards ?? []).map((card, i) => (
@@ -244,13 +247,13 @@ export function FigureShowcase({
         <FigureMedia key={`media-${i}`} src={item.src} alt={item.alt} label={item.label ?? "Image"} grow />
       );
     });
-    return <div className={styles.threeFlowRow}>{elements}</div>;
+    return <div className={styles.threeFlowRow} style={style}>{elements}</div>;
   }
 
   /* ── heading-image ── */
   if (variant === "heading-image") {
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={style}>
         {title ? <p className={styles.headingImageTitle}>{title}</p> : null}
         <FigureMedia src={src} alt={alt} label={imageLabel} grow />
         {subtitle ? <p className={styles.headingImageSubtitle}>{subtitle}</p> : null}
@@ -262,7 +265,7 @@ export function FigureShowcase({
   if (variant === "three-caption") {
     const safeItems = items ?? [{}, {}, {}];
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={style}>
         <div data-growable="" className={styles.threeCaptionRow}>
           {safeItems.map((item, i) => (
             <div key={i} className={styles.threeCaptionItem}>
@@ -301,7 +304,7 @@ export function FigureShowcase({
     );
 
     return (
-      <div className={`${styles.imageTextLayout} ${reverse ? styles.imageTextLayoutReverse : ""}`}>
+      <div className={`${styles.imageTextLayout} ${reverse ? styles.imageTextLayoutReverse : ""}`} style={style}>
         {reverse ? (
           <>
             {copyBlock}
@@ -320,7 +323,7 @@ export function FigureShowcase({
   /* ── full-dark ── */
   if (variant === "full-dark") {
     return (
-      <div className={styles.fullDarkRoot}>
+      <div className={styles.fullDarkRoot} style={style}>
         <div className={styles.fullDarkImage}>
           {src ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -344,7 +347,7 @@ export function FigureShowcase({
   if (variant === "stacked") {
     const safeItems = items ?? [{}, {}];
     return (
-      <div className={styles.stackedColumn}>
+      <div className={styles.stackedColumn} style={style}>
         {safeItems.map((item, i) => (
           <div key={i} className={styles.stackedItem}>
             <FigureMedia src={item.src} alt={item.alt} label={item.label ?? "Image"} grow />
@@ -361,6 +364,7 @@ export function FigureShowcase({
     return (
       <div
         className={`${styles.columnImageTextRow} ${isThree ? styles.columnImageTextRow3 : styles.columnImageTextRow2}`}
+        style={style}
       >
         {safeItems.map((item, i) => (
           <div key={i} className={styles.columnImageTextItem}>
@@ -387,7 +391,7 @@ export function FigureShowcase({
 
   /* ── caption-top / caption-bottom (default) ── */
   return (
-    <div className={styles.root}>
+    <div className={styles.root} style={style}>
       {variant === "caption-top" ? <CaptionCopy title={title} description={description} /> : null}
       <FigureMedia src={src} alt={alt} label={imageLabel} grow />
       {variant === "caption-bottom" ? <CaptionCopy title={title} description={description} /> : null}
