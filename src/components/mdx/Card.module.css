@@ -7,7 +7,6 @@
 
 .default {
   background: var(--slide-surface);
-  border: 1px solid var(--slide-border);
 }
 
 .filled {
