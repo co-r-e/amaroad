@@ -14,7 +14,6 @@
   justify-content: center;
   min-height: 0;
   padding: 1.6rem;
-  border: 1px solid color-mix(in srgb, var(--slide-border) 80%, transparent);
 }
 
 .label {

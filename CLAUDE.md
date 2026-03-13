@@ -118,6 +118,18 @@ no_side_accent_borders:
     - No border at all for clean, minimal boxes
   exception: Timeline vertical lines where the line represents a chronological axis
 
+card_border_defaults:
+  rule: Card-like containers should be borderless by default
+  reason: >
+    A generic 1px outline on every card adds visual noise and makes layouts feel busy.
+    Most cards should separate themselves by surface color, spacing, and radius instead.
+  use_border_when:
+    - The border conveys a state such as selected, highlighted, recommended, before/after, or warning
+    - The component explicitly exposes an outlined/bordered variant
+    - A comparison needs a stronger edge than background fill alone
+  default: >
+    Surface background + radius, no outer border.
+
 icon_usage:
   rule: Only use icons when they accurately convey meaning. Never use icons "just because."
   allowed:

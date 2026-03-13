@@ -15,7 +15,6 @@
   padding: 1.5rem 2.5rem;
   background: var(--slide-surface);
   border-radius: var(--slide-radius);
-  border: 1px solid var(--slide-border);
 }
 
 .checklistText {

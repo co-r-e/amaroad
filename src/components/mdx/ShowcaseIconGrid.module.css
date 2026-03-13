@@ -13,7 +13,6 @@
   gap: 0.8rem;
   background: var(--slide-surface);
   border-radius: var(--slide-radius);
-  border: 1px solid var(--slide-border);
 }
 
 .label {
