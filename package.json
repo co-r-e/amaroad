@@ -21,7 +21,7 @@
     "notices:check": "node scripts/third-party-notices.mjs --check"
   },
   "dependencies": {
-    "@google/genai": "^1.43.0",
+    "@google/genai": "^1.45.0",
     "@mdx-js/mdx": "^3.1.1",
     "cloudflared": "^0.7.1",
     "clsx": "^2.1.1",
