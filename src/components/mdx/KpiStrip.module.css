@@ -19,7 +19,7 @@
 }
 
 .value {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-primary);
@@ -28,7 +28,7 @@
 }
 
 .label {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0.6rem 0 0;
 }

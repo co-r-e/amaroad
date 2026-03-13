@@ -45,7 +45,11 @@ function SpeakerVariant({
       <div className={styles.speakerImageCol}>
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className={styles.speakerImage} src={src} alt={name ?? ""} />
+          <img
+            className={styles.speakerImage}
+            src={src}
+            alt={imageLabel ?? name ?? ""}
+          />
         ) : (
           <div className={styles.speakerPlaceholder}>
             <Icon

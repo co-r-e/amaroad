@@ -1,7 +1,7 @@
 .code {
     border-radius: 0.375rem;
     padding: 0.375rem 0.75rem;
-    font-size: 1.75rem;
+    font-size: calc(1.75rem * var(--slide-font-scale));
     font-weight: 600;
     background: var(--slide-surface-alt);
     font-family: var(--slide-font-mono);
@@ -50,7 +50,7 @@
 
 .terminalTitle {
     margin-left: 0.5rem;
-    font-size: 1.1rem;
+    font-size: calc(1.1rem * var(--slide-font-scale));
     color: #6c6c80;
     font-family: var(--slide-font-mono);
 }
@@ -59,7 +59,7 @@
     flex: 1;
     overflow-x: auto;
     padding: 1.75rem 2rem;
-    font-size: 1.75rem;
+    font-size: calc(1.75rem * var(--slide-font-scale));
     line-height: 1.375;
     background: #1c1c1c;
     color: #ffffff;

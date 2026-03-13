@@ -53,8 +53,10 @@ Open [http://localhost:3000](http://localhost:3000) to see the deck listing page
 
 ```
 dexcode/
+├── .codex/
+│   └── skills/                # Project skills for Codex
 ├── .claude/
-│   └── skills/                # AI skill definitions
+│   └── skills/                # Project skills for Claude Code
 ├── decks/                     # Your slide decks go here
 │   └── sample-deck/
 │       ├── deck.config.ts     # Deck configuration (theme, logo, etc.)
@@ -77,6 +79,8 @@ dexcode/
 ```
 
 ## Creating a Deck
+
+> **Tip:** Before building slides, run the `deck-designer` skill to plan your deck interactively. It walks you through purpose, audience, outline, and design preferences, then outputs a structured brief you can feed directly into `deck-scaffold-from-brief`. Example: `デッキを設計したい。対象は新規顧客、20分の提案。`
 
 ### 1. Create a directory
 
@@ -122,6 +126,10 @@ export default defineConfig({
       heading: "Inter, sans-serif",
       body: "Noto Sans JP, sans-serif",
       mono: "Fira Code, monospace", // optional -- code blocks
+      scale: 1.08,                  // optional -- enlarge/reduce slide typography globally
+    },
+    spacing: {
+      scale: 0.96,                  // optional -- tighten/loosen layout spacing globally
     },
   },
   accentLine: {               // optional -- decorative side line
@@ -526,23 +534,42 @@ Then use in any MDX file:
 
 ## AI Skills
 
-DexCode ships with 13 built-in AI skills in `.claude/skills/` that automate common slide authoring tasks. These skills are invoked by AI coding agents (Claude Code, Codex) as part of the CLI workflow.
+DexCode includes 15 project skills under `.codex/skills/` for Codex. Most of them are also mirrored under `.claude/skills/` for Claude Code. These skills are designed to be triggered from normal CLI chat requests, so users do not need to run the skill files manually.
 
-| Skill | Description |
-|-------|-------------|
-| `deck-scaffold-from-brief` | Scaffold a new deck from a user brief |
-| `svg-diagram` | Generate SVG diagrams matching deck theme |
-| `remotion-video` | Convert deck to animated video |
-| `graphic-recording` | Generate visual notes from slide content |
-| `slide-preflight-auditor` | Run preflight audits on slides |
-| `nanobanana-image` | Generate AI images for slides |
-| `nanobanana-image-edit` | Edit existing slide images |
-| `speaker-notes-polisher` | Standardize speaker notes |
-| `deck-localizer` | Translate slides between ja/en |
-| `fact-citation-validator` | Validate factual claims and citations |
-| `remotion-best-practices` | Remotion API reference and patterns |
-| `slide-overflow-fixer` | Fix overflowing slide content |
-| `theme-normalizer` | Replace hardcoded HEX with CSS variables |
+### How users should ask
+
+- Mention the skill name explicitly when you want deterministic behavior, for example: `Use deck-scaffold-from-brief with tasks/deck-brief-launch.md and create an 8-slide Japanese deck.`
+- Natural language also works. If the request clearly matches a skill, the agent can choose it automatically.
+- Put the important constraints in the same message: target deck path, source files, language, slide count, dry-run vs write mode, logo path, and whether overwriting is allowed.
+- Chain skills when the task spans multiple stages. A common flow is `deck-designer` -> `deck-scaffold-from-brief` -> `nanobanana-image` / `svg-diagram` -> `speaker-notes-polisher` -> `slide-preflight-auditor`.
+
+### Recommended prompt patterns
+
+| Skill | Best used for | Example user prompt |
+|-------|---------------|---------------------|
+| `deck-designer` | Planning a deck before writing slides | `デッキを設計したい。対象は新規顧客、20分の提案、まず構成を壁打ちして。` |
+| `deck-scaffold-from-brief` | Generating a full deck from a brief | `tasks/deck-brief-ai-launch.md から deck-scaffold-from-brief でデッキを作って。日本語、10枚構成。` |
+| `excel-to-slides` | Turning a spreadsheet into a deck | `Excelからスライド化して。data/attack-catalog.xlsx を decks/attack-catalog に変換して。` |
+| `deck-localizer` | Translating a deck between Japanese and English | `decks/sample-deck を英語化して。MDX 構造は保って、notes は日本語のまま。` |
+| `nanobanana-image` | Creating a new illustration or hero image | `05-market-landscape.mdx 用に、青基調の hero image を作って assets に保存し、MDX に差し込んで。` |
+| `nanobanana-image-edit` | Revising an existing image asset | `decks/sample-deck/assets/hero.png の背景だけ差し替えて。人物はそのまま、全体を暖色寄りに。` |
+| `svg-diagram` | Creating architecture, flow, or comparison diagrams | `03-architecture.mdx に入れる SVG 図を作って。現在の deck theme に合わせた構成図にして。` |
+| `graphic-recording` | Creating a hand-drawn visual summary slide | `このセクションをグラレコ風の1枚絵にして、該当スライドへ挿入して。` |
+| `speaker-notes-polisher` | Rewriting speaker notes into a standard format | `sample-deck の notes を整えて。Purpose / Talking Points / Estimated Time 形式で。` |
+| `slide-overflow-fixer` | Fixing clipped or overcrowded slides | `decks/sample-deck で overflow しているスライドを safe zone 内に収めて。見出しデザインは変えないで。` |
+| `slide-preflight-auditor` | Auditing a deck before review or export | `export 前に decks/sample-deck を preflight audit して。行番号つきで問題点を出して。` |
+| `fact-citation-validator` | Checking citations for numeric or factual claims | `sample-deck の数値・事実主張を検証して、出典不足の行を洗い出して。` |
+| `theme-normalizer` | Replacing hard-coded colors with theme variables | `sample-deck の hard-coded HEX を theme variables に寄せて。まず dry-run で確認したい。` |
+| `remotion-video` | Converting a deck into a video project | `decks/product-keynote を Remotion video 化して。デッキの見た目と流れは維持して。` |
+| `remotion-best-practices` | Reviewing or improving Remotion implementation details | `この Remotion composition を見て、animation と caption の実装改善点を出して。` |
+
+### Good request checklist
+
+- State the target deck or file paths explicitly.
+- Say whether you want planning only, dry-run only, or actual file changes.
+- Include language and audience when the output is presentation content.
+- Mention brand constraints early: logo, colors, fonts, copyright text.
+- If the work should happen in sequence, say so directly: `First design the deck, then scaffold it, then audit it.`
 
 ## Tech Stack
 

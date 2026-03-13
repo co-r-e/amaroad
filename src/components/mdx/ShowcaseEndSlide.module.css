@@ -22,7 +22,7 @@
 /* ========== Dark-keywords variant ========== */
 
 .darkTitle {
-  font-size: 4.5rem;
+  font-size: calc(4.5rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   letter-spacing: -0.025em;
@@ -32,7 +32,7 @@
 }
 
 .darkDescription {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.7);
   max-width: 1200px;
   margin: 0;
@@ -48,7 +48,7 @@
 }
 
 .keyword {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.08);
@@ -63,7 +63,7 @@
 /* ========== CTA variant ========== */
 
 .ctaTitle {
-  font-size: 3.6rem;
+  font-size: calc(3.6rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -72,7 +72,7 @@
 }
 
 .ctaDescription {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   max-width: 75%;
   line-height: 1.8;
@@ -90,7 +90,7 @@
   border-radius: 0.75rem;
   background: var(--slide-primary);
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 700;
 }
 
@@ -99,14 +99,14 @@
   border-radius: 0.75rem;
   border: 3px solid var(--slide-primary);
   color: var(--slide-text);
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 700;
 }
 
 /* ========== Hero variant ========== */
 
 .heroTitle {
-  font-size: 3.6rem;
+  font-size: calc(3.6rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -115,7 +115,7 @@
 }
 
 .heroSubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   max-width: 70%;
   line-height: 1.7;
@@ -125,7 +125,7 @@
 /* ========== Section-icons variant ========== */
 
 .sectionTitle {
-  font-size: 3.6rem;
+  font-size: calc(3.6rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -134,7 +134,7 @@
 }
 
 .sectionDescription {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   max-width: 60%;
   line-height: 1.6;
@@ -155,7 +155,7 @@
 }
 
 .iconLabel {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0.5rem 0 0;
 }
@@ -163,7 +163,7 @@
 /* ========== Contact variant ========== */
 
 .contactTitle {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   letter-spacing: -0.025em;
@@ -186,7 +186,7 @@
 }
 
 .contactLine {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
 }
@@ -194,7 +194,7 @@
 /* ========== Thank-you variant ========== */
 
 .thankTitle {
-  font-size: 3.6rem;
+  font-size: calc(3.6rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -203,13 +203,13 @@
 }
 
 .thankSubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
 }
 
 .thankLink {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
   font-family: monospace;

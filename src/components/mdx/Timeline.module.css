@@ -36,20 +36,20 @@
 
 .date {
     margin-bottom: 0.25rem;
-    font-size: 1.6rem;
+    font-size: calc(1.6rem * var(--slide-font-scale));
     font-weight: bold;
     color: var(--slide-primary);
 }
 
 .title {
     margin-bottom: 0.25rem;
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--slide-font-scale));
     font-weight: bold;
     color: var(--slide-text);
 }
 
 .content {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--slide-font-scale));
     color: var(--slide-text-muted);
     line-height: 1.6;
 }

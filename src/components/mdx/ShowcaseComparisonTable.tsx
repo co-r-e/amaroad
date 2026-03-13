@@ -11,8 +11,6 @@ export function ShowcaseComparisonTable({
   highlightColumn,
   rows,
 }: ShowcaseComparisonTableProps) {
-  const colCount = columns.length + 1;
-
   return (
     <div data-growable="" className={styles.root}>
       <div

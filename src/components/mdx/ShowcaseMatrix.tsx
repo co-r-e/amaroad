@@ -117,7 +117,10 @@ export function ShowcaseMatrix({
                         }
                         style={
                           isPrimaryBg
-                            ? { color: "#FFF", fontSize: "2rem" }
+                            ? {
+                                color: "#FFF",
+                                fontSize: "calc(2rem * var(--slide-font-scale))",
+                              }
                             : cell.color
                               ? { fontWeight: cell.highlight ? 700 : undefined, color: cell.highlight ? undefined : undefined }
                               : undefined

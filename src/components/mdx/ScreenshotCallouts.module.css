@@ -50,13 +50,13 @@
 }
 
 .number {
-  font-size: 1.4rem;
+  font-size: calc(1.4rem * var(--slide-font-scale));
   font-weight: 700;
   color: #ffffff;
 }
 
 .label {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text);
   background: rgba(255, 255, 255, 0.92);

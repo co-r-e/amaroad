@@ -19,7 +19,7 @@
 }
 
 .checklistText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 500;
   color: var(--slide-text);
   margin: 0;
@@ -75,7 +75,7 @@
 }
 
 .baTitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   margin: 0;
 }
@@ -97,7 +97,7 @@
 }
 
 .baItem {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
   line-height: 1.7;
@@ -113,7 +113,7 @@
 }
 
 .ddHeaderLabel {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   margin: 0;
 }
@@ -135,7 +135,7 @@
 }
 
 .ddCardText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
   line-height: 1.7;
@@ -149,7 +149,7 @@
 /* ========== Pros-Cons variant ========== */
 
 .pcTitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-primary);
   margin: 0;
@@ -168,7 +168,7 @@
 }
 
 .pcItemText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
   line-height: 1.7;

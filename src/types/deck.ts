@@ -56,6 +56,7 @@ export interface ThemeTypography {
   headingWeight?: number;
   headingLetterSpacing?: string;
   bodyLineHeight?: number;
+  scale?: number;
 }
 
 export interface ThemeSpacing {
@@ -65,6 +66,7 @@ export interface ThemeSpacing {
   lg?: number;
   xl?: number;
   xxl?: number;
+  scale?: number;
 }
 
 export interface DeckTheme {

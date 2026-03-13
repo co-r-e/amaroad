@@ -1,4 +1,5 @@
 import styles from "./ShowcaseLayerStack.module.css";
+import { resolveTechIcon } from "./techIcons";
 
 interface Layer {
   label: string;
@@ -8,6 +9,22 @@ interface Layer {
 
 interface ShowcaseLayerStackProps {
   layers: Layer[];
+}
+
+function TechIconSvg({ name }: { name: string }) {
+  const icon = resolveTechIcon(name);
+  if (!icon) return null;
+  return (
+    <svg
+      className={styles.techIcon}
+      viewBox="0 0 24 24"
+      fill={icon.color}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d={icon.path} />
+    </svg>
+  );
 }
 
 export function ShowcaseLayerStack({ layers }: ShowcaseLayerStackProps) {
@@ -27,6 +44,7 @@ export function ShowcaseLayerStack({ layers }: ShowcaseLayerStackProps) {
               <div className={styles.layerItems}>
                 {layer.items.map((item, j) => (
                   <div key={j} className={styles.layerItem}>
+                    <TechIconSvg name={item} />
                     <p className={styles.layerItemText}>{item}</p>
                   </div>
                 ))}

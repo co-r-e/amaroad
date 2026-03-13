@@ -18,7 +18,7 @@
 }
 
 .label {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text-subtle);
   text-align: center;

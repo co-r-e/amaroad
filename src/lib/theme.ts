@@ -21,6 +21,7 @@ export const DEFAULT_SLIDE_THEME: Required<DeckTheme> = {
         headingWeight: 700,
         headingLetterSpacing: "-0.025em",
         bodyLineHeight: 1.7,
+        scale: 1,
     },
     spacing: {
         xs: 8,
@@ -29,6 +30,7 @@ export const DEFAULT_SLIDE_THEME: Required<DeckTheme> = {
         lg: 32,
         xl: 48,
         xxl: 64,
+        scale: 1,
     },
     radius: "1rem",
 };
@@ -41,6 +43,17 @@ export function createThemeVariables(
     const fonts = { ...DEFAULT_SLIDE_THEME.fonts, ...theme.fonts };
     const spacing = { ...DEFAULT_SLIDE_THEME.spacing, ...theme.spacing };
     const radius = theme.radius ?? DEFAULT_SLIDE_THEME.radius;
+    const fontScale = fonts.scale ?? 1;
+    const derivedSpacingScale = fontScale > 1 ? Math.max(0.82, 1 - (fontScale - 1) * 0.45) : 1;
+    const spacingScale = theme.spacing?.scale ?? derivedSpacingScale;
+    const spacingValues = {
+        xs: spacing.xs ?? 8,
+        sm: spacing.sm ?? 16,
+        md: spacing.md ?? 24,
+        lg: spacing.lg ?? 32,
+        xl: spacing.xl ?? 48,
+        xxl: spacing.xxl ?? 64,
+    };
 
     return {
         "--slide-primary": colors.primary,
@@ -61,12 +74,14 @@ export function createThemeVariables(
         "--slide-heading-weight": String(fonts.headingWeight),
         "--slide-heading-tracking": fonts.headingLetterSpacing,
         "--slide-body-leading": String(fonts.bodyLineHeight),
+        "--slide-font-scale": String(fontScale),
+        "--slide-space-scale": String(spacingScale),
         "--slide-radius": radius,
-        "--slide-space-xs": `${spacing.xs}px`,
-        "--slide-space-sm": `${spacing.sm}px`,
-        "--slide-space-md": `${spacing.md}px`,
-        "--slide-space-lg": `${spacing.lg}px`,
-        "--slide-space-xl": `${spacing.xl}px`,
-        "--slide-space-xxl": `${spacing.xxl}px`,
+        "--slide-space-xs": `${spacingValues.xs * spacingScale}px`,
+        "--slide-space-sm": `${spacingValues.sm * spacingScale}px`,
+        "--slide-space-md": `${spacingValues.md * spacingScale}px`,
+        "--slide-space-lg": `${spacingValues.lg * spacingScale}px`,
+        "--slide-space-xl": `${spacingValues.xl * spacingScale}px`,
+        "--slide-space-xxl": `${spacingValues.xxl * spacingScale}px`,
     } as React.CSSProperties;
 }

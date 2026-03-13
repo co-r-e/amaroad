@@ -20,7 +20,7 @@
 }
 
 .listNumber {
-  font-size: 2.8rem;
+  font-size: calc(2.8rem * var(--slide-font-scale));
   font-weight: 800;
   font-family: var(--slide-font-heading);
   color: var(--slide-primary);
@@ -29,14 +29,14 @@
 }
 
 .listTitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text);
   margin: 0;
 }
 
 .listDescription {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0.2rem 0 0;
 }
@@ -68,7 +68,7 @@
 }
 
 .highlightNumber {
-  font-size: 2.8rem;
+  font-size: calc(2.8rem * var(--slide-font-scale));
   font-weight: 800;
   font-family: var(--slide-font-heading);
   line-height: 1;
@@ -86,21 +86,21 @@
 }
 
 .highlightTitleInactive {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text);
   margin: 0;
 }
 
 .highlightTitleActive {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   color: #ffffff;
   margin: 0;
 }
 
 .highlightDescriptionActive {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.7);
   margin: 0.2rem 0 0;
 }
@@ -121,7 +121,7 @@
 }
 
 .dayLabel {
-  font-size: 2.4rem;
+  font-size: calc(2.4rem * var(--slide-font-scale));
   font-weight: 800;
   font-family: var(--slide-font-heading);
   color: var(--slide-primary);
@@ -135,14 +135,14 @@
 }
 
 .gridTime {
-  font-size: 1.5rem;
+  font-size: calc(1.5rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-primary);
   margin: 0;
 }
 
 .gridTitle {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text);
   margin: 0.1rem 0 0;
@@ -164,7 +164,7 @@
 }
 
 .day3Label {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 800;
   font-family: var(--slide-font-heading);
   color: var(--slide-primary);
@@ -178,14 +178,14 @@
 }
 
 .grid3Time {
-  font-size: 1.4rem;
+  font-size: calc(1.4rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-primary);
   margin: 0;
 }
 
 .grid3Title {
-  font-size: 1.6rem;
+  font-size: calc(1.6rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text);
   margin: 0.1rem 0 0;

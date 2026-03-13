@@ -44,14 +44,14 @@
 /* ========== Text ========== */
 
 .name {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text);
   margin: 0;
 }
 
 .role {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
 }

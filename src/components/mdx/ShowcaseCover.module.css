@@ -36,7 +36,7 @@
 }
 
 .eyebrow {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: rgba(255, 255, 255, 0.42);
   letter-spacing: 0.28em;
@@ -44,7 +44,7 @@
 }
 
 .splitBandTitle {
-  font-size: 6.4rem;
+  font-size: calc(6.4rem * var(--slide-font-scale));
   font-weight: 900;
   font-family: var(--slide-font-heading);
   color: #ffffff;
@@ -63,7 +63,7 @@
 }
 
 .subtitle {
-  font-size: 3.4rem;
+  font-size: calc(3.4rem * var(--slide-font-scale));
   color: var(--slide-primary);
   font-weight: 600;
   line-height: 1.35;
@@ -73,7 +73,7 @@
 }
 
 .description {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   line-height: 1.7;
   margin: 1.8rem 0 0;
@@ -92,7 +92,7 @@
   padding: 0.75rem 1.6rem;
   border: 1px solid var(--slide-border);
   border-radius: 999px;
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: #666666;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -100,7 +100,7 @@
 }
 
 .hint {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-primary);
   margin: 2.2rem 0 0;
   line-height: 1.7;
@@ -122,7 +122,7 @@
 }
 
 .kicker {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-primary);
   margin: 0 0 1.5rem;
@@ -131,7 +131,7 @@
 }
 
 .heroTitle {
-  font-size: 4.5rem;
+  font-size: calc(4.5rem * var(--slide-font-scale));
   font-weight: 800;
   color: var(--slide-text);
   margin: 0;
@@ -141,7 +141,7 @@
 }
 
 .heroBody {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 1.5rem 0 0;
   line-height: 1.6;
@@ -178,7 +178,7 @@
 }
 
 .placeholderLabel {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -212,7 +212,7 @@
 }
 
 .overlayTitle {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--slide-font-scale));
   font-weight: 800;
   color: #ffffff;
   margin: 0;
@@ -223,7 +223,7 @@
 }
 
 .overlaySubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.72);
   margin: 1.2rem 0 0;
   line-height: 1.5;
@@ -232,7 +232,7 @@
 }
 
 .overlayMeta {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.46);
   margin: 2rem 0 0;
 }
@@ -247,7 +247,7 @@
 }
 
 .typographyTitle {
-  font-size: 14rem;
+  font-size: calc(14rem * var(--slide-font-scale));
   font-weight: 900;
   color: var(--slide-text);
   margin: 0;
@@ -258,7 +258,7 @@
 }
 
 .typographySubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 400;
   color: var(--slide-text-muted);
   margin: 2rem 0 0;
@@ -285,7 +285,7 @@
 }
 
 .minimalTitle {
-  font-size: 4.8rem;
+  font-size: calc(4.8rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -296,7 +296,7 @@
 }
 
 .minimalSubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.6;
@@ -305,7 +305,7 @@
 }
 
 .minimalMeta {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-subtle, rgba(0, 0, 0, 0.35));
   margin: 1rem 0 0;
 }
@@ -412,7 +412,7 @@
 }
 
 .creativeEyebrow {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: rgba(255, 255, 255, 0.4);
   margin: 0;
@@ -421,7 +421,7 @@
 }
 
 .creativeTitle {
-  font-size: 6rem;
+  font-size: calc(6rem * var(--slide-font-scale));
   font-weight: 900;
   font-family: var(--slide-font-heading);
   color: #ffffff;
@@ -432,7 +432,7 @@
 }
 
 .creativeSubtitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.55);
   margin: 0;
   line-height: 1.6;
@@ -447,7 +447,7 @@
 }
 
 .creativeTag {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
   padding: 0.5rem 1.4rem;
@@ -639,7 +639,7 @@
   position: absolute;
   top: 30%;
   right: 10%;
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.08);
   font-weight: 300;
 }
@@ -648,7 +648,7 @@
   position: absolute;
   bottom: 35%;
   left: 10%;
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.06);
   font-weight: 300;
 }
@@ -657,7 +657,7 @@
   position: absolute;
   top: 55%;
   left: 22%;
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.1);
   font-weight: 300;
 }
@@ -781,7 +781,7 @@
 }
 
 .artisticEyebrow {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: rgba(255, 255, 255, 0.35);
   margin: 0;
@@ -790,7 +790,7 @@
 }
 
 .artisticTitle {
-  font-size: 7rem;
+  font-size: calc(7rem * var(--slide-font-scale));
   font-weight: 900;
   font-family: var(--slide-font-heading);
   color: #ffffff;
@@ -808,7 +808,7 @@
 }
 
 .artisticSubtitle {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.45);
   margin: 0;
   line-height: 1.6;

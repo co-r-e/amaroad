@@ -19,7 +19,7 @@
 }
 
 .quoteMark {
-  font-size: 3rem;
+  font-size: calc(3rem * var(--slide-font-scale));
   font-family: var(--slide-font-heading);
   color: var(--slide-primary);
   margin: 0;
@@ -27,7 +27,7 @@
 }
 
 .quoteText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
   line-height: 1.7;
@@ -42,14 +42,14 @@
 }
 
 .authorName {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text);
   margin: 0;
 }
 
 .authorRole {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
 }

@@ -63,6 +63,28 @@ prefer_p_over_ul_li:
       ・Item 1<br/>・Item 2
     </p>
 
+multi_line_text_spacing:
+  rule: >
+    Avoid using <br/> inside large headings or emphasized text blocks when precise vertical spacing matters.
+    For multi-line headings, stack separate inline elements with display:block instead.
+  reason: >
+    In large Japanese text, <br/> keeps the text inside one paragraph line box, so line-height can make it look
+    like there is a blank line. Default paragraph margins can also create unexpected extra spacing.
+  use_instead:
+    - Use `<span style={{ display: "block" }}>...</span>` for each line in a heading or emphasized phrase
+    - Set `margin: 0` explicitly on raw `<p>` / `<div>` blocks used inside slides
+    - Tune `line-height` deliberately for 2-line headings; start around `1.1` to `1.25`
+  example_bad: |
+    <p style={{ fontSize: "2.4rem", fontWeight: 800, lineHeight: 1.4 }}>
+      Claude Code を<br/>
+      非エンジニアでも使えるようにするツール
+    </p>
+  example_good: |
+    <div style={{ fontSize: "2.4rem", fontWeight: 800, lineHeight: 1.2 }}>
+      <span style={{ display: "block" }}>Claude Code を</span>
+      <span style={{ display: "block" }}>非エンジニアでも使えるようにするツール</span>
+    </div>
+
 minimum_font_size:
   rule: All text on slides must be 1.8rem or larger
   reason: Smaller sizes (1.5-1.7rem) are hard to read when projected
@@ -104,12 +126,16 @@ icon_usage:
     - Platform links like GitHub/Docs (github, book-open)
     - Process representation inside flow diagram steps
     - Avatar placeholders (user)
+    - Card heading icons that visually categorize or distinguish each card's topic
   prohibited:
-    - Decorative icons next to headings
+    - Decorative icons next to standalone headings (non-card context)
     - Atmosphere-setting icons on cover slides
-    - Icons above feature card text when the text already conveys the meaning
     - Circle-background + icon combos for section dividers
   test: "If removing the icon loses no information, the icon is unnecessary."
+  note: >
+    Card layouts are an exception — icons as card headings help users quickly
+    scan and differentiate multiple cards at a glance, even if the text alone
+    conveys the meaning.
 
 visual_first:
   rule: Proactively use diagrams, graphs, and charts wherever visual explanation is clearer than text
@@ -135,4 +161,10 @@ css_variable_override_pattern:
     - TSX: Accept `style?: React.CSSProperties` prop, spread on root element.
     - MDX override: `<Component style={{ "--figure-imagetext-columns": "40% 1fr" }} />`
   scope: Layout structure (grid ratios, align, gap) and fixed sizes. Typography stays hardcoded until needed.
+
+no_em_dash:
+  rule: Never use em dashes (—) in slide text or titles
+  reason: Em dashes look unnatural in Japanese presentation context
+  use_instead: Hyphen (-), full-width hyphen (ー), or rephrase without a dash
+  scope: All MDX slide files and speaker notes
 ```

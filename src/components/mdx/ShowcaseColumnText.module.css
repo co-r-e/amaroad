@@ -13,14 +13,14 @@
 }
 
 .colTitle {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-primary);
   margin: 0;
 }
 
 .colBody {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.8;

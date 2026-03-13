@@ -13,7 +13,7 @@
 }
 
 .label {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-primary);
   margin: 0;
@@ -22,7 +22,7 @@
 }
 
 .title {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--slide-font-scale));
   font-weight: 800;
   color: var(--slide-text);
   margin: 0;
@@ -32,7 +32,7 @@
 }
 
 .description {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.6;
@@ -47,7 +47,7 @@
 }
 
 .chip {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text);
   background: var(--slide-surface);
@@ -64,7 +64,7 @@
 }
 
 .number {
-  font-size: 14rem;
+  font-size: calc(14rem * var(--slide-font-scale));
   font-weight: 900;
   color: var(--slide-primary);
   margin: 0;
@@ -79,7 +79,7 @@
 }
 
 .numberTitle {
-  font-size: 4rem;
+  font-size: calc(4rem * var(--slide-font-scale));
   font-weight: 800;
   color: var(--slide-text);
   margin: 0;
@@ -88,7 +88,7 @@
 }
 
 .numberDescription {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.6;
@@ -119,7 +119,7 @@
 }
 
 .darkTitle {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--slide-font-scale));
   font-weight: 800;
   color: #ffffff;
   margin: 0;
@@ -129,7 +129,7 @@
 }
 
 .darkDescription {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: rgba(255, 255, 255, 0.55);
   margin: 0;
   line-height: 1.6;
@@ -138,7 +138,7 @@
 }
 
 .darkChip {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
@@ -164,7 +164,7 @@
 }
 
 .splitNumber {
-  font-size: 8rem;
+  font-size: calc(8rem * var(--slide-font-scale));
   font-weight: 900;
   color: rgba(255, 255, 255, 0.2);
   margin: 0;
@@ -181,7 +181,7 @@
 }
 
 .splitTitle {
-  font-size: 4.5rem;
+  font-size: calc(4.5rem * var(--slide-font-scale));
   font-weight: 800;
   color: var(--slide-text);
   margin: 0;
@@ -208,7 +208,7 @@
 }
 
 .centeredTitle {
-  font-size: 4.5rem;
+  font-size: calc(4.5rem * var(--slide-font-scale));
   font-weight: 700;
   font-family: var(--slide-font-heading);
   color: var(--slide-text);
@@ -218,7 +218,7 @@
 }
 
 .centeredDescription {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   max-width: 1100px;
   line-height: 1.7;

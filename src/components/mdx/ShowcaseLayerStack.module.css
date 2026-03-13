@@ -25,7 +25,7 @@
 }
 
 .layerLabelText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 700;
   color: #ffffff;
   margin: 0;
@@ -45,10 +45,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.8rem;
+}
+
+.techIcon {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex-shrink: 0;
 }
 
 .layerItemText {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text);
   margin: 0;
 }
@@ -71,7 +78,7 @@
 }
 
 .layerBarLabel {
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text);
   margin: 0;
@@ -83,7 +90,7 @@
 }
 
 .layerBarItems {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
 }

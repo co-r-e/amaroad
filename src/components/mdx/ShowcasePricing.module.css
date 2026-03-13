@@ -32,7 +32,7 @@
   transform: translateX(-50%);
   background: var(--slide-primary);
   color: #ffffff;
-  font-size: 1.3rem;
+  font-size: calc(1.3rem * var(--slide-font-scale));
   font-weight: 700;
   padding: 0.3rem 1.2rem;
   border-radius: 0 0 0.5rem 0.5rem;
@@ -41,7 +41,7 @@
 /* ========== Text ========== */
 
 .tierName {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 600;
   color: var(--slide-text-muted);
   margin: 0;
@@ -52,7 +52,7 @@
 }
 
 .priceRow {
-  font-size: 4rem;
+  font-size: calc(4rem * var(--slide-font-scale));
   font-weight: 800;
   color: var(--slide-text);
   margin: 0;
@@ -60,7 +60,7 @@
 }
 
 .pricePeriod {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   font-weight: 400;
   color: var(--slide-text-muted);
 }
@@ -72,7 +72,7 @@
 }
 
 .features {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.8;

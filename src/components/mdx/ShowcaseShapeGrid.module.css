@@ -12,7 +12,7 @@
 }
 
 .label {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem * var(--slide-font-scale));
   margin-top: 1rem;
   font-weight: 600;
   color: var(--slide-text);
