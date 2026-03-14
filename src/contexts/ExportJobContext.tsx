@@ -16,7 +16,13 @@ import type { Deck } from "@/types/deck";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
 import { ExportModeProvider } from "@/contexts/ExportContext";
-import { captureSlide, savePdf, savePptx } from "@/lib/export";
+import {
+  captureSlide,
+  savePdf,
+  savePptx,
+  yieldToMain,
+  type ExportedSlideImage,
+} from "@/lib/export";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -65,14 +71,31 @@ export const FORMAT_LABELS: Record<ExportFormat, string> = {
   "pptx-image": "PPTX",
 };
 
-function createBlankSlideDataUrl(): string {
+const EXPORT_CANCEL_REASON = "export-cancelled";
+const FETCH_TIMEOUT_REASON = "export-fetch-timeout";
+
+function createBlankSlideImage(): Promise<ExportedSlideImage> {
   const canvas = document.createElement("canvas");
   canvas.width = SLIDE_WIDTH;
   canvas.height = SLIDE_HEIGHT;
   const ctx = canvas.getContext("2d")!;
   ctx.fillStyle = "#FFFFFF";
   ctx.fillRect(0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
-  return canvas.toDataURL("image/jpeg", 0.92);
+  const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+  canvas.width = 0;
+  canvas.height = 0;
+
+  const [prefix, base64] = dataUrl.split(",", 2);
+  const mimeMatch = prefix.match(/^data:(.*?);base64$/);
+  const mimeType = mimeMatch?.[1] ?? "image/jpeg";
+  const binary = atob(base64 ?? "");
+  const bytes = new Uint8Array(binary.length);
+
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return Promise.resolve(new Blob([bytes], { type: mimeType }));
 }
 
 const OFFSCREEN_STYLE: React.CSSProperties = {
@@ -97,30 +120,42 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const imagesRef = useRef<string[]>([]);
+  const imagesRef = useRef<ExportedSlideImage[]>([]);
   const phaseRef = useRef<ExportPhase>("idle");
+  const deckNameRef = useRef("");
+  const formatRef = useRef<ExportFormat>("pdf");
   const jobIdRef = useRef(0);
   const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  // Keep phaseRef in sync so callbacks can read current phase without stale closures
+  // Keep refs in sync so async callbacks can read current values without stale closures
   phaseRef.current = phase;
+  deckNameRef.current = deckName;
+  formatRef.current = format;
 
   const resetExportState = useCallback(() => {
     imagesRef.current = [];
     setDeck(null);
+    setCurrentSlideIndex(0);
     setProgress({ current: 0, total: 0 });
   }, []);
 
   const clearTimers = useCallback(() => {
-    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
-    if (fetchTimeoutRef.current) clearTimeout(fetchTimeoutRef.current);
+    if (errorTimerRef.current) {
+      clearTimeout(errorTimerRef.current);
+      errorTimerRef.current = null;
+    }
+    if (fetchTimeoutRef.current) {
+      clearTimeout(fetchTimeoutRef.current);
+      fetchTimeoutRef.current = null;
+    }
   }, []);
 
   const cancelExport = useCallback(() => {
     jobIdRef.current = ++nextJobId;
-    abortRef.current?.abort();
+    abortRef.current?.abort(EXPORT_CANCEL_REASON);
+    abortRef.current = null;
     clearTimers();
     resetExportState();
     setPhase("idle");
@@ -143,19 +178,21 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       abortRef.current = controller;
 
       try {
-        fetchTimeoutRef.current = setTimeout(() => controller.abort(), 15000);
+        fetchTimeoutRef.current = setTimeout(() => controller.abort(FETCH_TIMEOUT_REASON), 15000);
 
         const res = await fetch(
           `/api/decks/${encodeURIComponent(name)}/data`,
           { signal: controller.signal },
         );
-        clearTimeout(fetchTimeoutRef.current);
+        if (fetchTimeoutRef.current) {
+          clearTimeout(fetchTimeoutRef.current);
+          fetchTimeoutRef.current = null;
+        }
 
         if (!res.ok) throw new Error("Failed to load deck data");
         const deckData: Deck = await res.json();
 
         if (jobIdRef.current !== myJobId) {
-          resetExportState();
           return;
         }
 
@@ -166,21 +203,34 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
         setCurrentSlideIndex(0);
         setPhase("capturing");
       } catch {
+        if (fetchTimeoutRef.current) {
+          clearTimeout(fetchTimeoutRef.current);
+          fetchTimeoutRef.current = null;
+        }
+
         if (jobIdRef.current === myJobId) {
+          abortRef.current = null;
+
+          if (controller.signal.aborted && controller.signal.reason === EXPORT_CANCEL_REASON) {
+            resetExportState();
+            setPhase("idle");
+            return;
+          }
+
           setPhase("error");
           errorTimerRef.current = setTimeout(() => {
             if (jobIdRef.current === myJobId) {
               setPhase("idle");
             }
           }, 3000);
+          resetExportState();
         }
-        resetExportState();
       }
     },
     [resetExportState, clearTimers],
   );
 
-  // Sequential slide capture with job-scoped guard
+  // Sequential slide capture — only runs during "capturing" phase
   useEffect(() => {
     if (phase !== "capturing" || !deck) return;
 
@@ -202,7 +252,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       } catch (err) {
         if (isStale()) return;
         console.warn(`[dexcode] Slide ${currentSlideIndex + 1} export failed:`, err);
-        imagesRef.current.push(createBlankSlideDataUrl());
+        imagesRef.current.push(await createBlankSlideImage());
       }
 
       if (isStale()) return;
@@ -213,47 +263,90 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       if (nextIndex < activeDeck.slides.length) {
         setCurrentSlideIndex(nextIndex);
       } else {
-        await generateOutput();
+        // Transition to generating phase — handled by a separate useEffect
+        setPhase("generating");
+        setProgress({ current: 0, total: activeDeck.slides.length });
       }
     }
 
-    async function generateOutput(): Promise<void> {
-      setPhase("generating");
-      await new Promise((r) => setTimeout(r, 50));
+    // Use MessageChannel instead of requestAnimationFrame so capture
+    // continues even when the browser tab is in the background.
+    const channel = new MessageChannel();
+    channel.port1.onmessage = () => {
+      if (!cancelled) processCurrentSlide();
+    };
+    channel.port2.postMessage(undefined);
 
+    return () => {
+      cancelled = true;
+      channel.port1.onmessage = null;
+      channel.port1.close();
+      channel.port2.close();
+    };
+  }, [phase, deck, currentSlideIndex, format, resetExportState]);
+
+  // PDF/PPTX generation — runs when phase transitions to "generating"
+  useEffect(() => {
+    if (phase !== "generating") return;
+
+    const genJobId = jobIdRef.current;
+    let cancelled = false;
+
+    function isStale(): boolean {
+      return cancelled || jobIdRef.current !== genJobId;
+    }
+
+    async function run(): Promise<void> {
+      const signal = abortRef.current?.signal;
+      const deckName = deckNameRef.current;
+      const genFormat = formatRef.current;
+
+      await yieldToMain();
       if (isStale()) return;
 
+      const onProgress = (current: number, total: number) => {
+        if (!isStale()) setProgress({ current, total });
+      };
+
       try {
-        switch (format) {
+        switch (genFormat) {
           case "pdf":
-            savePdf(activeDeck.name, imagesRef.current);
+            await savePdf(deckName, imagesRef.current, onProgress, { signal });
             break;
           case "pptx-image":
-            await savePptx(activeDeck.name, imagesRef.current);
+            await savePptx(deckName, imagesRef.current, onProgress, { signal });
             break;
         }
       } catch (err) {
+        if (isStale() || (err instanceof Error && err.name === "AbortError")) {
+          return;
+        }
+
         console.error("[dexcode] Export generation failed:", err);
+        if (!isStale()) {
+          abortRef.current = null;
+          setPhase("error");
+          errorTimerRef.current = setTimeout(() => {
+            if (jobIdRef.current === genJobId) setPhase("idle");
+          }, 3000);
+          resetExportState();
+          return;
+        }
       }
 
       if (!isStale()) {
+        abortRef.current = null;
         resetExportState();
         setPhase("idle");
       }
     }
 
-    const outerFrame = requestAnimationFrame(() => {
-      if (cancelled) return;
-      requestAnimationFrame(() => {
-        processCurrentSlide();
-      });
-    });
+    run();
 
     return () => {
       cancelled = true;
-      cancelAnimationFrame(outerFrame);
     };
-  }, [phase, deck, currentSlideIndex, format, resetExportState]);
+  }, [phase, resetExportState]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -268,7 +361,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
 
   const slide = deck?.slides[currentSlideIndex];
   const isWorking = phase === "fetching" || phase === "capturing" || phase === "generating";
-  const canCancel = phase === "fetching" || phase === "capturing";
+  const canCancel = phase === "fetching" || phase === "capturing" || phase === "generating";
 
   const job = useMemo<ExportJob>(
     () => ({ phase, format, deckName, progress }),
@@ -298,7 +391,10 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
             {phase === "fetching" && "Loading..."}
             {phase === "capturing" &&
               `${FORMAT_LABELS[format]} ${progress.current}/${progress.total}`}
-            {phase === "generating" && "Finishing..."}
+            {phase === "generating" &&
+              (progress.total > 0
+                ? `Generating ${progress.current}/${progress.total}`
+                : "Finishing...")}
           </div>
           {canCancel && (
             <button

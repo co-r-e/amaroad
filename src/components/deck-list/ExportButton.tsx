@@ -52,7 +52,9 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
           ? "Loading..."
           : job.phase === "capturing"
             ? `${FORMAT_LABELS[job.format]} ${job.progress.current}/${job.progress.total}`
-            : "Generating...";
+            : job.progress.total > 0
+              ? `Generating ${job.progress.current}/${job.progress.total}`
+              : "Finishing...";
       return (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
