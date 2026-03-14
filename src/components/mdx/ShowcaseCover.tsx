@@ -260,16 +260,27 @@ export function ShowcaseCover({
   return (
     <div className={styles.breakout}>
       <div className={styles.splitBand}>
-        <div className={styles.splitBandPanel}>
-          {eyebrow ? (
-            <div className={styles.eyebrowRow}>
-              <div className={styles.eyebrowLine} />
-              <span className={styles.eyebrow}>{eyebrow}</span>
-              <div className={styles.eyebrowLine} />
-            </div>
-          ) : null}
-          <p className={styles.splitBandTitle}>{title}</p>
-        </div>
+        {imageSrc ? (
+          <div className={styles.splitBandPanel} style={{ padding: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageSrc}
+              alt={imageAlt ?? title}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+        ) : (
+          <div className={styles.splitBandPanel}>
+            {eyebrow ? (
+              <div className={styles.eyebrowRow}>
+                <div className={styles.eyebrowLine} />
+                <span className={styles.eyebrow}>{eyebrow}</span>
+                <div className={styles.eyebrowLine} />
+              </div>
+            ) : null}
+            <p className={styles.splitBandTitle}>{title}</p>
+          </div>
+        )}
 
         <div className={styles.splitBandContent}>
           {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
