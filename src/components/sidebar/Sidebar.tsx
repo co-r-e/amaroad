@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Monitor } from "lucide-react";
+import { ArrowLeft, Monitor, LayoutGrid } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import { SlideThumbnail } from "./SlideThumbnail";
 import { ShareButton } from "@/components/viewer/ShareButton";
@@ -55,6 +55,13 @@ export function Sidebar({
             </div>
           )}
           <ExportButton deckName={deck.name} />
+          <button
+            onClick={() => window.open(`/${deck.name}/thumbnails`, "_blank")}
+            className="flex items-center gap-1 rounded-lg bg-[#02001A] dark:bg-gray-100 px-2 py-1.5 text-sm text-white dark:text-gray-900 transition-colors hover:bg-[#1a1a3a] dark:hover:bg-gray-200"
+            title="Thumbnail overview"
+          >
+            <LayoutGrid size={14} />
+          </button>
         </div>
       </div>
 
