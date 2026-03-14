@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans_JP, Figtree } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ExportJobProvider } from "@/contexts/ExportJobContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -40,7 +41,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${inter.variable} ${notoSansJP.variable} ${figtree.variable} antialiased`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ExportJobProvider>{children}</ExportJobProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
