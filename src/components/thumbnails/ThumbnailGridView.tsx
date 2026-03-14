@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, memo } from "react";
 import type { Deck } from "@/types/deck";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
@@ -9,7 +9,7 @@ interface ThumbnailGridViewProps {
   deck: Deck;
 }
 
-function GridThumbnail({
+const GridThumbnail = memo(function GridThumbnail({
   slide,
   config,
   deckName,
@@ -84,7 +84,7 @@ function GridThumbnail({
       </div>
     </div>
   );
-}
+});
 
 export function ThumbnailGridView({ deck }: ThumbnailGridViewProps) {
   return (
