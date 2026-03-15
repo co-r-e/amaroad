@@ -66,7 +66,7 @@ export function useExportJob(): ExportJobContextValue {
 // Helpers
 // ---------------------------------------------------------------------------
 
-export const FORMAT_LABELS: Record<ExportFormat, string> = {
+const FORMAT_LABELS: Record<ExportFormat, string> = {
   pdf: "PDF",
   "pptx-image": "PPTX",
 };
@@ -74,28 +74,41 @@ export const FORMAT_LABELS: Record<ExportFormat, string> = {
 const EXPORT_CANCEL_REASON = "export-cancelled";
 const FETCH_TIMEOUT_REASON = "export-fetch-timeout";
 
+export function formatExportLabel(
+  phase: ExportPhase,
+  format: ExportFormat,
+  progress: ExportProgress,
+): string {
+  if (phase === "fetching") return "Loading...";
+  if (phase === "capturing")
+    return `${FORMAT_LABELS[format]} ${progress.current}/${progress.total}`;
+  if (phase === "generating")
+    return progress.total > 0
+      ? `Generating ${progress.current}/${progress.total}`
+      : "Finishing...";
+  return "";
+}
+
 function createBlankSlideImage(): Promise<ExportedSlideImage> {
-  const canvas = document.createElement("canvas");
-  canvas.width = SLIDE_WIDTH;
-  canvas.height = SLIDE_HEIGHT;
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
-  const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
-  canvas.width = 0;
-  canvas.height = 0;
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = SLIDE_WIDTH;
+    canvas.height = SLIDE_HEIGHT;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
 
-  const [prefix, base64] = dataUrl.split(",", 2);
-  const mimeMatch = prefix.match(/^data:(.*?);base64$/);
-  const mimeType = mimeMatch?.[1] ?? "image/jpeg";
-  const binary = atob(base64 ?? "");
-  const bytes = new Uint8Array(binary.length);
-
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-
-  return Promise.resolve(new Blob([bytes], { type: mimeType }));
+    canvas.toBlob(
+      (blob) => {
+        canvas.width = 0;
+        canvas.height = 0;
+        if (blob) resolve(blob);
+        else reject(new Error("Failed to create blank slide image"));
+      },
+      "image/jpeg",
+      0.92,
+    );
+  });
 }
 
 const OFFSCREEN_STYLE: React.CSSProperties = {
@@ -283,7 +296,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       channel.port1.close();
       channel.port2.close();
     };
-  }, [phase, deck, currentSlideIndex, format, resetExportState]);
+  }, [phase, deck, currentSlideIndex, resetExportState]);
 
   // PDF/PPTX generation — runs when phase transitions to "generating"
   useEffect(() => {
@@ -309,12 +322,13 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       };
 
       try {
+        const saveOptions = { onProgress, signal };
         switch (genFormat) {
           case "pdf":
-            await savePdf(deckName, imagesRef.current, onProgress, { signal });
+            await savePdf(deckName, imagesRef.current, saveOptions);
             break;
           case "pptx-image":
-            await savePptx(deckName, imagesRef.current, onProgress, { signal });
+            await savePptx(deckName, imagesRef.current, saveOptions);
             break;
         }
       } catch (err) {
@@ -388,13 +402,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
           <div className="text-sm text-gray-700 dark:text-gray-200">
             <span className="font-medium">{deckName}</span>
             {" "}
-            {phase === "fetching" && "Loading..."}
-            {phase === "capturing" &&
-              `${FORMAT_LABELS[format]} ${progress.current}/${progress.total}`}
-            {phase === "generating" &&
-              (progress.total > 0
-                ? `Generating ${progress.current}/${progress.total}`
-                : "Finishing...")}
+            {formatExportLabel(phase, format, progress)}
           </div>
           {canCancel && (
             <button
