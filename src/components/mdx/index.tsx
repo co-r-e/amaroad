@@ -34,6 +34,7 @@ import { ShowcaseDiagram } from "./ShowcaseDiagram";
 import { ShowcaseStatGrid } from "./ShowcaseStatGrid";
 import { ShowcaseIconGrid } from "./ShowcaseIconGrid";
 import { ShowcaseShapeGrid, ShapeItem } from "./ShowcaseShapeGrid";
+import { SummaryBanner } from "./SummaryBanner";
 
 import { Center } from "./layout/Center";
 import { Columns, Column } from "./layout/Columns";
@@ -105,4 +106,5 @@ export const slideComponents: MDXComponents = {
   ShowcaseIconGrid,
   ShowcaseShapeGrid,
   ShapeItem,
+  SummaryBanner,
 };
