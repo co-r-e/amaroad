@@ -1,0 +1,24 @@
+---
+type: content
+notes: |
+  This slide demonstrates a 6-card grid layout with a summary banner at the bottom.
+  Each card highlights a different use case, and the banner ties them together.
+---
+
+# Use Cases
+
+<div data-growable="" style={{ display: "flex", flexDirection: "column", gap: "var(--slide-space-sm)" }}>
+  <ShowcaseFeatureGrid
+    variant="cards"
+    columns={3}
+    items={[
+      { icon: "presentation", title: "Tech Talks", description: "Share technical knowledge with your team" },
+      { icon: "briefcase", title: "Sales Pitches", description: "Win clients with polished proposals" },
+      { icon: "users", title: "Workshops", description: "Interactive learning experiences" },
+      { icon: "play-circle", title: "Product Demos", description: "Showcase features in action" },
+      { icon: "bar-chart-2", title: "Business Reports", description: "Data-driven updates and insights" },
+      { icon: "mic", title: "Conference Keynotes", description: "Inspire audiences at scale" },
+    ]}
+  />
+  <SummaryBanner>One tool for every presentation need</SummaryBanner>
+</div>
