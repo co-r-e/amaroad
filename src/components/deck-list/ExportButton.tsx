@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useState, useCallback } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
-import { useExportJob, FORMAT_LABELS, type ExportFormat } from "@/contexts/ExportJobContext";
+import { useExportJob, formatExportLabel, type ExportFormat } from "@/contexts/ExportJobContext";
 
 const MENU_ITEM_CLASS =
   "flex w-full items-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors";
@@ -47,18 +47,10 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
     }
 
     if (isWorking) {
-      const label =
-        job.phase === "fetching"
-          ? "Loading..."
-          : job.phase === "capturing"
-            ? `${FORMAT_LABELS[job.format]} ${job.progress.current}/${job.progress.total}`
-            : job.progress.total > 0
-              ? `Generating ${job.progress.current}/${job.progress.total}`
-              : "Finishing...";
       return (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
-          <span>{label}</span>
+          <span>{formatExportLabel(job.phase, job.format, job.progress)}</span>
         </>
       );
     }

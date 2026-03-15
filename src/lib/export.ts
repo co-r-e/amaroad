@@ -192,18 +192,19 @@ const EMPTY_SLIDE_IMAGE = new Blob([], { type: CAPTURE_MIME_TYPE });
 
 export type ExportedSlideImage = Blob;
 
-function getCaptureOptions() {
-  return {
-    width: SLIDE_WIDTH,
-    height: SLIDE_HEIGHT,
-    pixelRatio: 1,
-    quality: CAPTURE_JPEG_QUALITY,
-    backgroundColor: "#FFFFFF",
-    cacheBust: true,
-    filter: (node: HTMLElement | SVGElement) =>
-      !(node instanceof HTMLIFrameElement || node instanceof HTMLVideoElement),
-  };
+function captureFilter(node: HTMLElement | SVGElement): boolean {
+  return !(node instanceof HTMLIFrameElement || node instanceof HTMLVideoElement);
 }
+
+const CAPTURE_OPTIONS = {
+  width: SLIDE_WIDTH,
+  height: SLIDE_HEIGHT,
+  pixelRatio: 1,
+  quality: CAPTURE_JPEG_QUALITY,
+  backgroundColor: "#FFFFFF",
+  cacheBust: true,
+  filter: captureFilter,
+} as const;
 
 function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -290,7 +291,7 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
 
 export async function captureSlide(container: HTMLElement): Promise<ExportedSlideImage> {
   await waitForSlideReady(container);
-  const svgDataUrl = await toSvg(container, getCaptureOptions());
+  const svgDataUrl = await toSvg(container, CAPTURE_OPTIONS);
   return renderSvgToJpegBlob(svgDataUrl);
 }
 
@@ -301,11 +302,15 @@ export async function captureSlide(container: HTMLElement): Promise<ExportedSlid
 /** Batch size for yielding to main thread during PDF/PPTX generation */
 const GENERATION_BATCH_SIZE = 5;
 
+export interface ExportSaveOptions {
+  onProgress?: (current: number, total: number) => void;
+  signal?: AbortSignal;
+}
+
 export async function savePdf(
   deckName: string,
   images: ExportedSlideImage[],
-  onProgress?: (current: number, total: number) => void,
-  options?: { signal?: AbortSignal },
+  options?: ExportSaveOptions,
 ): Promise<void> {
   const pdf = new jsPDF({
     orientation: "landscape",
@@ -323,16 +328,14 @@ export async function savePdf(
     const imageBytes = new Uint8Array(await image.arrayBuffer());
     pdf.addImage(imageBytes, "JPEG", 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
     images[i] = EMPTY_SLIDE_IMAGE;
-    onProgress?.(i + 1, images.length);
+    options?.onProgress?.(i + 1, images.length);
 
-    // Yield to event loop periodically to prevent blocking
     if ((i + 1) % GENERATION_BATCH_SIZE === 0) {
       await yieldToMain();
       throwIfAborted(options?.signal);
     }
   }
 
-  // Yield before the heavy save() serialisation
   await yieldToMain();
   throwIfAborted(options?.signal);
   await pdf.save(`${deckName}.pdf`, { returnPromise: true });
@@ -345,8 +348,7 @@ export async function savePdf(
 export async function savePptx(
   deckName: string,
   images: ExportedSlideImage[],
-  onProgress?: (current: number, total: number) => void,
-  options?: { signal?: AbortSignal },
+  options?: ExportSaveOptions,
 ): Promise<void> {
   throwIfAborted(options?.signal);
 
@@ -362,7 +364,7 @@ export async function savePptx(
     const slide = pptx.addSlide();
     slide.addImage({ data: dataUrl, x: 0, y: 0, w: "100%", h: "100%" });
     images[i] = EMPTY_SLIDE_IMAGE;
-    onProgress?.(i + 1, images.length);
+    options?.onProgress?.(i + 1, images.length);
 
     if ((i + 1) % GENERATION_BATCH_SIZE === 0) {
       await yieldToMain();
