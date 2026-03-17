@@ -1,8 +1,19 @@
+/* ==========================================================================
+ * CSS custom properties (override per-instance via style prop)
+ * --------------------------------------------------------------------------
+ * --featuregrid-gap            Grid gap               (default: --slide-space-md)
+ * --featuregrid-item-padding   Card padding            (default: 2rem)
+ * --featuregrid-item-align     Card align-items        (default: stretch)
+ * --featuregrid-item-text-align Card text-align        (default: left)
+ * --featuregrid-title-size     Title font-size base    (default: 2.2rem)
+ * --featuregrid-desc-size      Description font-size   (default: 1.8rem)
+ * ========================================================================== */
+
 /* ========== Root ========== */
 
 .root {
   display: grid;
-  gap: var(--slide-space-md);
+  gap: var(--featuregrid-gap, var(--slide-space-md));
   min-height: 0;
   flex: 1;
 }
@@ -12,8 +23,10 @@
 .item {
   display: flex;
   flex-direction: column;
+  align-items: var(--featuregrid-item-align, stretch);
+  text-align: var(--featuregrid-item-text-align, left);
   gap: 0.8rem;
-  padding: 2rem;
+  padding: var(--featuregrid-item-padding, 2rem);
   border-radius: var(--slide-radius);
   background: var(--slide-surface);
   min-width: 0;
@@ -25,7 +38,7 @@
 }
 
 .itemTitle {
-  font-size: calc(2.2rem * var(--slide-font-scale));
+  font-size: calc(var(--featuregrid-title-size, 2.2rem) * var(--slide-font-scale));
   font-weight: 700;
   color: var(--slide-text);
   margin: 0;
@@ -33,7 +46,7 @@
 }
 
 .itemDescription {
-  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-size: calc(var(--featuregrid-desc-size, 1.8rem) * var(--slide-font-scale));
   color: var(--slide-text-muted);
   margin: 0;
   line-height: 1.6;

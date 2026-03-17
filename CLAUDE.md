@@ -90,6 +90,24 @@ minimum_font_size:
   reason: Smaller sizes (1.5-1.7rem) are hard to read when projected
   exception: Dates, badges, and other auxiliary text
 
+flex_overflow_prevention:
+  rule: >
+    When placing images, screenshots, SVGs, charts, or other intrinsic-sized elements
+    inside a flex container (especially with data-growable), always add overflow: "hidden"
+    and minHeight: 0 to the wrapper div.
+  reason: >
+    Elements like <img> expand to their natural dimensions and can overflow the
+    inviolable area. flex: 1 alone does not prevent this; the container needs
+    explicit overflow clipping and min-height reset to allow shrinking.
+  example_good: |
+    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 0, overflow: "hidden" }}>
+      ![Screenshot](./assets/screenshot.png)
+    </div>
+  example_bad: |
+    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      ![Screenshot](./assets/screenshot.png)
+    </div>
+
 content_area_space_usage:
   rule: Minimize whitespace inside the content area; pack content tightly
   details:
