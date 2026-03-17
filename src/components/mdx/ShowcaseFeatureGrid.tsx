@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Icon } from "./Icon";
 import styles from "./ShowcaseFeatureGrid.module.css";
 
@@ -11,16 +12,18 @@ interface ShowcaseFeatureGridProps {
   variant?: "cards" | "bordered" | "dark" | "horizontal";
   columns?: number;
   items: FeatureItem[];
+  style?: CSSProperties;
 }
 
 export function ShowcaseFeatureGrid({
   variant = "cards",
   columns = 3,
   items,
+  style,
 }: ShowcaseFeatureGridProps) {
   if (variant === "horizontal") {
     return (
-      <div data-growable="" className={styles.horizontal}>
+      <div data-growable="" className={styles.horizontal} style={style}>
         {items.map((item, i) => (
           <div key={i} className={styles.item}>
             {item.icon ? (
@@ -53,7 +56,7 @@ export function ShowcaseFeatureGrid({
     <div
       data-growable=""
       className={`${styles.root} ${variantClass}`}
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, ...style }}
     >
       {items.map((item, i) => (
         <div key={i} className={styles.item}>
