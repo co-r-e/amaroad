@@ -1,17 +1,10 @@
 import type { DeckConfig } from "@/types/deck";
 import path from "node:path";
-import { createJiti } from "jiti";
+import { jiti } from "./jiti";
 
 export function defineConfig(config: DeckConfig): DeckConfig {
   return config;
 }
-
-const isDev = process.env.NODE_ENV === "development";
-
-const jiti = createJiti(import.meta.url, {
-  interopDefault: true,
-  moduleCache: !isDev,
-});
 
 export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
   const configPath = path.join(deckDir, "deck.config.ts");

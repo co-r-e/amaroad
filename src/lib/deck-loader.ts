@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { jiti } from "./jiti";
+import { normalizeSlideOrderEntries } from "./slide-order-utils";
 import { loadDeckConfig } from "./deck-config";
 import { processSlideFile } from "./mdx-processor";
 import type { Deck, DeckSummary } from "@/types/deck";
@@ -55,7 +57,57 @@ export async function loadDeck(deckName: string): Promise<Deck> {
   return { name: deckName, config, slides };
 }
 
+async function loadSlideOrder(deckDir: string): Promise<string[] | null> {
+  const manifestPath = path.join(deckDir, "slide-order.ts");
+  const deckName = path.basename(deckDir);
+
+  let mod: unknown;
+  try {
+    mod = await jiti.import(manifestPath);
+  } catch {
+    return null;
+  }
+
+  const order = (mod as { default?: unknown }).default ?? mod;
+
+  if (!Array.isArray(order)) {
+    console.warn(
+      `[dexcode] slide-order.ts in ${deckName}: expected default export to be an array`,
+    );
+    return null;
+  }
+
+  return normalizeSlideOrderEntries(order, deckName);
+}
+
 async function getMdxFiles(deckDir: string): Promise<string[]> {
+  const order = await loadSlideOrder(deckDir);
+
+  if (order) {
+    const entries = new Set(await fs.readdir(deckDir));
+    const deckName = path.basename(deckDir);
+
+    for (const file of order) {
+      if (!entries.has(file)) {
+        console.warn(
+          `[dexcode] ${deckName}/slide-order.ts references missing file: ${file}`,
+        );
+      }
+    }
+
+    const orderSet = new Set(order);
+    for (const entry of entries) {
+      if (entry.endsWith(".mdx") && !orderSet.has(entry)) {
+        console.warn(
+          `[dexcode] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
+        );
+      }
+    }
+
+    return order.filter((file) => entries.has(file));
+  }
+
+  // Fallback: sort by filename (legacy behavior)
   const entries = await fs.readdir(deckDir);
   return entries
     .filter((f) => f.endsWith(".mdx"))
