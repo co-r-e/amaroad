@@ -13,6 +13,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { createJiti } from "jiti";
 import { chromium } from "playwright";
 
 const deckName = process.argv[2] || "sample-deck";
@@ -21,17 +22,80 @@ const outputDir =
   path.join(process.env.HOME, "Downloads", `${deckName}-png-live`);
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3001";
+const jiti = createJiti(import.meta.url, {
+  interopDefault: true,
+  moduleCache: false,
+});
 
 // ---------------------------------------------------------------------------
-// Get sorted MDX file list (same logic as deck-loader)
+// Get slide list (manifest-first, fallback to filename sort)
 // ---------------------------------------------------------------------------
 const deckDir = path.join(process.cwd(), "decks", deckName);
-const mdxFiles = fs
-  .readdirSync(deckDir)
-  .filter((f) => f.endsWith(".mdx"))
-  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+try {
+  if (!fs.statSync(deckDir).isDirectory()) throw null;
+} catch {
+  console.error(`Deck not found: ${deckName}`);
+  process.exit(1);
+}
+
+const { normalizeSlideOrderEntries } = await jiti.import(
+  path.join(process.cwd(), "src", "lib", "slide-order-utils.ts"),
+);
+
+async function getSlideFiles() {
+  const manifestPath = path.join(deckDir, "slide-order.ts");
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const mod = await jiti.import(manifestPath);
+      const order = mod?.default ?? mod;
+      if (Array.isArray(order)) {
+        const files = normalizeSlideOrderEntries(order, deckName);
+        const existing = new Set(fs.readdirSync(deckDir));
+
+        for (const file of files) {
+          if (!existing.has(file)) {
+            console.warn(
+              `[dexcode] ${deckName}/slide-order.ts references missing file: ${file}`,
+            );
+          }
+        }
+
+        const orderSet = new Set(files);
+        for (const entry of existing) {
+          if (entry.endsWith(".mdx") && !orderSet.has(entry)) {
+            console.warn(
+              `[dexcode] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
+            );
+          }
+        }
+
+        return files.filter((f) => existing.has(f));
+      }
+
+      console.warn(
+        `[dexcode] ${deckName}/slide-order.ts did not export an array; falling back to filename sort`,
+      );
+    } catch (error) {
+      console.warn(
+        `[dexcode] Failed to load ${deckName}/slide-order.ts; falling back to filename sort:`,
+        error instanceof Error ? error.message : error,
+      );
+    }
+  }
+
+  return fs
+    .readdirSync(deckDir)
+    .filter((f) => f.endsWith(".mdx"))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+}
+
+const mdxFiles = await getSlideFiles();
 
 const total = mdxFiles.length;
+if (total === 0) {
+  console.error(`No slides found in "${deckName}"`);
+  process.exit(1);
+}
 console.log(`Found ${total} slides in "${deckName}"`);
 console.log(`Output: ${outputDir}\n`);
 

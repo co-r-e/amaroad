@@ -222,4 +222,36 @@ no_em_dash:
   reason: Em dashes look unnatural in Japanese presentation context
   use_instead: Hyphen (-), full-width hyphen (ー), or rephrase without a dash
   scope: All MDX slide files and speaker notes
+
+slide_order_manifest:
+  rule: >
+    Slide order is managed by a slide-order.ts manifest file in each deck directory.
+    New slides are added by inserting a line in the manifest, not by renaming files.
+  format: |
+    // decks/<deck>/slide-order.ts
+    export default [
+      "cover",
+      "speaker",
+      "agenda",
+      "section-overview",
+      "what-is-feature",
+    ];
+  details:
+    - Each entry is a filename without the .mdx extension.
+    - The array order determines presentation order.
+    - To insert a slide, add a new entry at the desired position and create the .mdx file.
+    - To reorder slides, move entries within the array.
+    - Prefer file names without numeric prefixes.
+    - If removing a numeric prefix would cause a filename collision, keep the prefix as a disambiguator.
+    - If slide-order.ts is absent, the deck falls back to filename-based alphabetical sort (legacy).
+  validation:
+    - Files listed in the manifest that do not exist on disk produce a console warning.
+    - .mdx files on disk that are not listed in the manifest produce a console warning.
+  migration:
+    script: "npx tsx scripts/generate-slide-order.mts"
+    options:
+      - "--dry-run: preview changes without writing"
+      - "--force: rerun migration even if slide-order.ts already exists"
+      - "--all: migrate all decks"
+      - "<deck-name>: migrate a single deck"
 ```
