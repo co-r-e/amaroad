@@ -197,6 +197,41 @@ A subtitle or description goes here
 - **`agenda`** -- Agenda / table of contents layout.
 - **`ending`** -- Closing / thank-you slides.
 
+## Recommended Workflow
+
+Building a great deck with DexCode is a conversation with AI. Here is the workflow we recommend:
+
+### Step 1: Establish the deck's visual identity
+
+Start by creating about 4 slides (cover, section, content, ending) and iterate on them with the AI. Focus on typography, colors, spacing, and layout patterns rather than final content. This small set becomes your design reference.
+
+### Step 2: Lock the design rules into a deck-level CLAUDE.md
+
+Once you are happy with the look and feel, tell the AI to extract the design decisions into a `CLAUDE.md` file inside the deck directory (e.g., `decks/my-deck/CLAUDE.md`). This file acts as a persistent style guide that the AI follows for every subsequent slide.
+
+### Step 3: Build a shared image foundation with nanobanana
+
+Use the `nanobanana-image` skill to generate a hero image or key visual that sets the tone for the entire deck. Record the prompt, style keywords, and color palette in the same deck-level `CLAUDE.md` so every future image stays visually consistent.
+
+### Step 4: Iterate slide-by-slide through conversation
+
+For each new slide:
+
+1. **Ask the AI first** -- "I want to add a slide about X. What do you plan to create?"
+2. **Review the proposal** -- The AI will describe the layout, components, and content it intends to use.
+3. **Refine through discussion** -- Push back, adjust, or approve. This back-and-forth is where the quality comes from.
+4. **Generate the slide** -- Once aligned, let the AI write the MDX.
+
+Repeat this cycle. Because the design rules and image style are already locked in, each new slide is consistent with the rest of the deck automatically.
+
+### The result
+
+Hundreds -- even thousands -- of slides can be produced in a matter of hours. A presentation you need for tomorrow can realistically be completed in a single day.
+
+### Not using Claude Code?
+
+This workflow works with any AI coding agent. If you are using a different agent (e.g., Codex, Cursor, Windsurf), place the same instructions in an `AGENTS.md` file instead of `CLAUDE.md`. The principle is identical: give the AI persistent, deck-scoped rules so it stays on-brand across every slide.
+
 ## Built-in MDX Components
 
 All standard Markdown elements are styled for slide presentation (large fonts optimized for projection).

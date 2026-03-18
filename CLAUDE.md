@@ -192,6 +192,31 @@ css_variable_override_pattern:
     - MDX override: `<Component style={{ "--figure-imagetext-columns": "40% 1fr" }} />`
   scope: Layout structure (grid ratios, align, gap) and fixed sizes. Typography stays hardcoded until needed.
 
+screenshot_placeholder:
+  rule: >
+    When a slide needs a real screenshot that only the user can provide (e.g., a logged-in
+    app screen, a specific UI state, proprietary tool), insert a placeholder box instead of
+    generating an AI image. The placeholder must describe what screenshot is needed.
+  implementation: |
+    <div style={{ width: "100%", height: "80%", background: "var(--slide-surface)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)", margin: 0, textAlign: "center", padding: "2rem" }}>📸 ここに必要なスクショの説明を書く</p>
+    </div>
+  when_to_use:
+    - Logged-in states of third-party services (Gmail, Slack, etc.)
+    - Proprietary or internal tool screens
+    - Specific UI states that AI image generation cannot reproduce accurately
+    - Browser screenshots showing real user data or settings
+  when_not_to_use:
+    - Conceptual illustrations (use nanobanana-image instead)
+    - Diagrams or flowcharts (use inline SVG instead)
+
+no_duplicate_slide_deletion:
+  rule: >
+    Never delete slides that appear to be duplicates without explicit user confirmation.
+    In presentation design, similar or identical slides are often reused intentionally
+    at different points in the deck for pacing, emphasis, or structural reasons.
+  action: Always ask the user before removing any slide that looks like a duplicate.
+
 no_em_dash:
   rule: Never use em dashes (—) in slide text or titles
   reason: Em dashes look unnatural in Japanese presentation context
