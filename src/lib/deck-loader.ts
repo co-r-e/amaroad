@@ -8,6 +8,11 @@ import type { Deck, DeckSummary } from "@/types/deck";
 
 const DECKS_DIR = path.join(process.cwd(), "decks");
 
+/** Returns true if deckName contains path traversal characters. */
+export function isUnsafeDeckName(deckName: string): boolean {
+  return deckName.includes("/") || deckName.includes("\\") || deckName.includes("..");
+}
+
 export async function listDecks(): Promise<DeckSummary[]> {
   let entries;
   try {
@@ -40,7 +45,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
 
 export async function loadDeck(deckName: string): Promise<Deck> {
   // Prevent path traversal via deck name
-  if (deckName.includes("/") || deckName.includes("\\") || deckName.includes("..")) {
+  if (isUnsafeDeckName(deckName)) {
     throw new Error(`Invalid deck name: ${deckName}`);
   }
 

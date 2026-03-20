@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { TunnelState } from "@/lib/tunnel-manager";
 
 export type TunnelPhase = "idle" | "connecting" | "active" | "stopping" | "error";
@@ -9,10 +9,16 @@ export interface UseTunnelReturn {
   phase: TunnelPhase;
   url: string | null;
   error: string | null;
+  /** Seconds elapsed since the "connecting" phase began (0 when not connecting). */
+  elapsedSeconds: number;
   start: () => void;
   stop: () => void;
+  /** Retry after an error — re-issues a start request. */
+  retry: () => void;
   copyUrl: () => void;
   copied: boolean;
+  /** True when the clipboard API is unavailable or the write failed. */
+  copyFailed: boolean;
 }
 
 interface ClientState {
@@ -22,8 +28,8 @@ interface ClientState {
 }
 
 const POLL_INTERVAL = 3_000;
-const ERROR_DISPLAY_MS = 3_000;
-const COPY_FEEDBACK_MS = 2_000;
+const POLL_JITTER = 1_000;
+const COPY_FEEDBACK_MS = 3_500;
 
 const IDLE: ClientState = { phase: "idle", url: null, error: null };
 
@@ -37,13 +43,28 @@ function toClientState(data: TunnelState): ClientState | null {
     case "error":
       return { phase: "error", url: null, error: data.error };
     case "idle":
-      return null; // caller decides whether to apply
+      return null;
   }
 }
 
-async function fetchTunnelState(): Promise<TunnelState | null> {
+async function readErrorMessage(res: Response): Promise<string> {
   try {
-    const res = await fetch("/api/tunnel");
+    const data = (await res.json()) as { error?: unknown };
+    if (typeof data.error === "string" && data.error.trim()) {
+      return data.error;
+    }
+  } catch {
+    // Ignore JSON parsing failures and fall back to status text.
+  }
+  return res.statusText || "Tunnel request failed";
+}
+
+async function fetchTunnelState(signal?: AbortSignal): Promise<TunnelState | null> {
+  try {
+    const res = await fetch("/api/tunnel", {
+      cache: "no-store",
+      signal,
+    });
     if (!res.ok) return null;
     return (await res.json()) as TunnelState;
   } catch {
@@ -54,111 +75,220 @@ async function fetchTunnelState(): Promise<TunnelState | null> {
 export function useTunnel(deckName?: string): UseTunnelReturn {
   const [state, setState] = useState<ClientState>(IDLE);
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
+  const [connectingStart, setConnectingStart] = useState<number | null>(null);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const requestVersionRef = useRef(0);
+
+  const syncTimingForPhase = useCallback((phase: TunnelPhase) => {
+    if (phase === "connecting") {
+      setConnectingStart((prev) => prev ?? Date.now());
+      return;
+    }
+    setConnectingStart(null);
+    setElapsedSeconds(0);
+  }, []);
+
+  const applyClientState = useCallback((next: ClientState) => {
+    syncTimingForPhase(next.phase);
+    setState((prev) => {
+      if (
+        prev.phase === next.phase &&
+        prev.url === next.url &&
+        prev.error === next.error
+      ) {
+        return prev;
+      }
+      return next;
+    });
+  }, [syncTimingForPhase]);
 
   const applyServerState = useCallback((data: TunnelState) => {
-    // If an active tunnel belongs to a different deck, treat as idle for this hook.
-    if (
-      deckName &&
-      data.deckName &&
-      data.deckName !== deckName &&
-      (data.status === "active" || data.status === "connecting")
-    ) {
-      setState((prev) => (prev.phase !== "idle" ? IDLE : prev));
+    if (deckName && data.deckName && data.deckName !== deckName) {
+      applyClientState(IDLE);
       return;
     }
 
     const mapped = toClientState(data);
-    if (mapped) {
-      setState(mapped);
-    } else {
-      // Server reports idle -- sync client to idle
-      setState((prev) => (prev.phase !== "idle" ? IDLE : prev));
-    }
-  }, [deckName]);
+    applyClientState(mapped ?? IDLE);
+  }, [applyClientState, deckName]);
 
-  // Sync server state on mount (handles page reload while tunnel is active)
   useEffect(() => {
-    fetchTunnelState().then((data) => {
-      if (data) applyServerState(data);
+    const controller = new AbortController();
+    const requestVersion = ++requestVersionRef.current;
+
+    fetchTunnelState(controller.signal).then((data) => {
+      if (controller.signal.aborted || requestVersion !== requestVersionRef.current || !data) {
+        return;
+      }
+      applyServerState(data);
     });
+
+    return () => controller.abort();
   }, [applyServerState]);
 
-  // Poll while connecting or active (sequential to avoid overlap)
+  // Poll while connecting or active (sequential with jitter to avoid overlap)
   useEffect(() => {
     if (state.phase !== "connecting" && state.phase !== "active") return;
 
+    const controller = new AbortController();
     let cancelled = false;
 
     async function poll() {
       while (!cancelled) {
-        await new Promise((r) => setTimeout(r, POLL_INTERVAL));
+        const jitter = Math.random() * POLL_JITTER;
+        await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL + jitter));
         if (cancelled) break;
-        const data = await fetchTunnelState();
-        if (cancelled) break;
-        if (data) applyServerState(data);
+
+        const requestVersion = ++requestVersionRef.current;
+        const data = await fetchTunnelState(controller.signal);
+        if (
+          cancelled ||
+          controller.signal.aborted ||
+          requestVersion !== requestVersionRef.current ||
+          !data
+        ) {
+          continue;
+        }
+
+        applyServerState(data);
       }
     }
 
-    poll();
+    void poll();
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
-  }, [state.phase, applyServerState]);
+  }, [applyServerState, state.phase]);
 
-  // Auto-reset error after a short delay
   useEffect(() => {
-    if (state.phase !== "error") return;
-    const id = setTimeout(() => setState(IDLE), ERROR_DISPLAY_MS);
-    return () => clearTimeout(id);
-  }, [state.phase]);
+    if (state.phase !== "connecting" || connectingStart === null) return;
 
-  const start = useCallback(async () => {
-    setState({ phase: "connecting", url: null, error: null });
-    try {
-      const res = await fetch("/api/tunnel", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deckName: deckName ?? null }),
-      });
-      if (res.ok) {
-        const data = (await res.json()) as TunnelState;
-        applyServerState(data);
-      }
-    } catch {
-      setState({ phase: "error", url: null, error: "Failed to reach tunnel API" });
-    }
-  }, [deckName, applyServerState]);
+    const id = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - connectingStart) / 1000));
+    }, 1000);
 
-  const stop = useCallback(async () => {
-    setState({ phase: "stopping", url: null, error: null });
-    try {
-      await fetch("/api/tunnel", { method: "DELETE" });
-      setState(IDLE);
-    } catch {
-      setState({ phase: "error", url: null, error: "Failed to stop tunnel" });
-    }
-  }, []);
+    return () => clearInterval(id);
+  }, [connectingStart, state.phase]);
 
-  // Auto-reset copy feedback
   useEffect(() => {
     if (!copied) return;
     const id = setTimeout(() => setCopied(false), COPY_FEEDBACK_MS);
     return () => clearTimeout(id);
   }, [copied]);
 
+  const start = useCallback(async () => {
+    const requestVersion = ++requestVersionRef.current;
+    setCopied(false);
+    setCopyFailed(false);
+    setConnectingStart(Date.now());
+    setElapsedSeconds(0);
+    setState({ phase: "connecting", url: null, error: null });
+
+    try {
+      const res = await fetch("/api/tunnel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deckName: deckName ?? null }),
+      });
+
+      if (requestVersion !== requestVersionRef.current) return;
+
+      if (!res.ok) {
+        applyClientState({
+          phase: "error",
+          url: null,
+          error: await readErrorMessage(res),
+        });
+        return;
+      }
+
+      const data = (await res.json()) as TunnelState;
+      if (requestVersion !== requestVersionRef.current) return;
+      applyServerState(data);
+    } catch {
+      if (requestVersion !== requestVersionRef.current) return;
+      applyClientState({
+        phase: "error",
+        url: null,
+        error: "Failed to reach tunnel API",
+      });
+    }
+  }, [applyClientState, applyServerState, deckName]);
+
+  const stop = useCallback(async () => {
+    const requestVersion = ++requestVersionRef.current;
+    applyClientState({ phase: "stopping", url: null, error: null });
+
+    try {
+      const res = await fetch("/api/tunnel", { method: "DELETE" });
+      if (requestVersion !== requestVersionRef.current) return;
+
+      if (!res.ok) {
+        applyClientState({
+          phase: "error",
+          url: null,
+          error: await readErrorMessage(res),
+        });
+        return;
+      }
+
+      const data = (await res.json()) as TunnelState;
+      if (requestVersion !== requestVersionRef.current) return;
+      applyServerState(data);
+    } catch {
+      if (requestVersion !== requestVersionRef.current) return;
+      applyClientState({
+        phase: "error",
+        url: null,
+        error: "Failed to stop tunnel",
+      });
+    }
+  }, [applyClientState, applyServerState]);
+
+  const retry = useCallback(() => {
+    void start();
+  }, [start]);
+
   const copyUrl = useCallback(() => {
     if (!state.url) return;
-    navigator.clipboard.writeText(state.url).then(() => setCopied(true)).catch(() => {});
+
+    setCopied(false);
+    setCopyFailed(false);
+
+    if (!navigator.clipboard?.writeText) {
+      setCopyFailed(true);
+      return;
+    }
+
+    navigator.clipboard.writeText(state.url).then(
+      () => {
+        setCopyFailed(false);
+        setCopied(true);
+      },
+      () => {
+        setCopied(false);
+        setCopyFailed(true);
+      },
+    );
   }, [state.url]);
 
   return {
     phase: state.phase,
     url: state.url,
     error: state.error,
-    start,
-    stop,
+    elapsedSeconds: state.phase === "connecting" ? elapsedSeconds : 0,
+    start: () => {
+      void start();
+    },
+    stop: () => {
+      void stop();
+    },
+    retry,
     copyUrl,
     copied,
+    copyFailed,
   };
 }
