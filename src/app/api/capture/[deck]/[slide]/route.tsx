@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { loadDeck } from "@/lib/deck-loader";
 import { resolveSlideBackground } from "@/lib/slide-utils";
-import { isLocalHost, getSharedDeckName } from "@/lib/tunnel-access";
+import { isLocalRequest, getSharedDeckName } from "@/lib/tunnel-access";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -33,14 +33,13 @@ interface Theme {
 // ---------------------------------------------------------------------------
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ deck: string; slide: string }> },
 ) {
   const { deck: deckName, slide: slideStr } = await params;
 
   // Block remote access to non-shared decks
-  const host = _request.headers.get("host") ?? "";
-  if (!isLocalHost(host) && getSharedDeckName() !== deckName) {
+  if (!isLocalRequest(request) && getSharedDeckName() !== deckName) {
     return new Response("Not found", { status: 404 });
   }
 
@@ -59,10 +58,7 @@ export async function GET(
 
   const slide = deck.slides[slideIndex];
   if (!slide) {
-    return new Response(
-      `Slide ${slideIndex} not found (deck has ${deck.slides.length} slides)`,
-      { status: 404 },
-    );
+    return new Response("Slide not found", { status: 404 });
   }
 
   const bg = resolveSlideBackground(slide.frontmatter, deck.config);
@@ -75,11 +71,9 @@ export async function GET(
   let blocks: ContentBlock[];
   try {
     blocks = parseMdxContent(slide.rawContent);
-  } catch (e) {
-    return new Response(
-      `Parse error: ${e instanceof Error ? e.message : String(e)}`,
-      { status: 500 },
-    );
+  } catch (error) {
+    console.error("[dexcode] Capture parse failed:", error);
+    return new Response("Capture failed", { status: 500 });
   }
 
   try {
@@ -92,11 +86,9 @@ export async function GET(
       "public, max-age=60, stale-while-revalidate=300",
     );
     return response;
-  } catch (e) {
-    return new Response(
-      `Render error: ${e instanceof Error ? e.message : String(e)}`,
-      { status: 500 },
-    );
+  } catch (error) {
+    console.error("[dexcode] Capture render failed:", error);
+    return new Response("Capture failed", { status: 500 });
   }
 }
 
