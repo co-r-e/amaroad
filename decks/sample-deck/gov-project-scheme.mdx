@@ -1,0 +1,87 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style project scheme diagram (jigyo scheme-zu).
+  Shows the organizational flow between government, local authorities,
+  private operators, and end users with funding and reporting arrows.
+---
+
+# Project Scheme
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 440">
+    <defs>
+      <marker id="ps-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,4 L0,8 Z" fill="var(--slide-text-muted)" />
+      </marker>
+      <marker id="ps-arrow-p" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,4 L0,8 Z" fill="var(--slide-primary)" />
+      </marker>
+    </defs>
+
+    {/* Layer 1: Ministry */}
+    <rect x="250" y="0" width="400" height="65" rx="12" fill="var(--slide-primary)" opacity="0.95" />
+    <text x="450" y="26" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="#FFF">Ministry of Economy</text>
+    <text x="450" y="48" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="13" fill="rgba(255,255,255,0.7)">Policy planning / Budget allocation</text>
+
+    {/* Layer 2: Prefectures (left) + Designated Cities (right) */}
+    <rect x="80" y="150" width="320" height="60" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="240" y="175" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="var(--slide-text)">Prefectural Governments</text>
+    <text x="240" y="195" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Regional coordination / Monitoring</text>
+
+    <rect x="500" y="150" width="320" height="60" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="660" y="175" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="var(--slide-text)">Designated Cities</text>
+    <text x="660" y="195" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Direct program management</text>
+
+    {/* Layer 3: Private operators */}
+    <rect x="80" y="270" width="320" height="65" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="240" y="297" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="var(--slide-text)">Training Providers</text>
+    <text x="240" y="318" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Curriculum design / Instruction</text>
+
+    <rect x="500" y="270" width="320" height="65" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="660" y="297" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="var(--slide-text)">Platform Operators</text>
+    <text x="660" y="318" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">LMS / Assessment tools</text>
+
+    {/* Layer 4: End users */}
+    <rect x="250" y="390" width="400" height="50" rx="12" fill="var(--slide-primary)" opacity="0.15" />
+    <text x="450" y="420" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="var(--slide-primary)">Learners (500,000 target)</text>
+
+    {/* Vertical arrows: Ministry → Prefectures/Cities */}
+    <line x1="350" y1="65" x2="240" y2="150" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#ps-arrow-p)" />
+    <text x="228" y="95" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-primary)" textAnchor="end">Subsidy ¥8.2B</text>
+
+    <line x1="550" y1="65" x2="660" y2="150" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#ps-arrow-p)" />
+    <text x="672" y="95" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-primary)">Subsidy ¥4.6B</text>
+
+    {/* Dashed arrows: Prefectures/Cities → Ministry (reports) */}
+    <line x1="280" y1="150" x2="410" y2="65" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+    <text x="370" y="95" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Reports</text>
+
+    <line x1="620" y1="150" x2="490" y2="65" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+
+    {/* Vertical arrows: Prefectures → Providers */}
+    <line x1="200" y1="210" x2="200" y2="270" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#ps-arrow-p)" />
+    <text x="170" y="243" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-primary)" textAnchor="end">Commission</text>
+
+    <line x1="280" y1="270" x2="280" y2="210" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+    <text x="300" y="243" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Results</text>
+
+    {/* Vertical arrows: Cities → Platform */}
+    <line x1="620" y1="210" x2="620" y2="270" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#ps-arrow-p)" />
+    <text x="590" y="243" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-primary)" textAnchor="end">Contract</text>
+
+    <line x1="700" y1="270" x2="700" y2="210" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+    <text x="720" y="243" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Data</text>
+
+    {/* Horizontal arrow: Providers ↔ Platform */}
+    <line x1="400" y1="302" x2="500" y2="302" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#ps-arrow)" />
+    <text x="450" y="295" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">API integration</text>
+
+    {/* Arrows to learners */}
+    <line x1="240" y1="335" x2="370" y2="390" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+    <text x="280" y="370" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Training</text>
+
+    <line x1="660" y1="335" x2="530" y2="390" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" markerEnd="url(#ps-arrow)" />
+    <text x="620" y="370" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Platform access</text>
+  </svg>
+</ShowcaseDiagram>
