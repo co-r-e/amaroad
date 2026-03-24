@@ -1,0 +1,60 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style legal framework hierarchy (hourei taikei-zu).
+  Shows the cascade from legislation through cabinet orders,
+  ministerial ordinances, to operational guidelines.
+---
+
+# Legal Framework Hierarchy
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 400">
+    <defs>
+      <marker id="lf-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,4 L0,8 Z" fill="var(--slide-text-muted)" />
+      </marker>
+    </defs>
+
+    {/* Layer 1: Act (Law) - darkest */}
+    <rect x="40" y="20" width="820" height="70" rx="12" fill="var(--slide-primary)" opacity="0.95" />
+    <text x="80" y="50" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="#FFF">Act (Law)</text>
+    <text x="80" y="72" fontFamily="Inter, sans-serif" fontSize="12" fill="rgba(255,255,255,0.7)">Enacted by the Diet</text>
+    <text x="820" y="58" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="#FFF">Digital Society Formation Act</text>
+
+    {/* Connector 1-2 */}
+    <line x1="450" y1="90" x2="450" y2="115" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#lf-arrow)" />
+
+    {/* Layer 2: Cabinet Order */}
+    <rect x="40" y="115" width="820" height="70" rx="12" fill="var(--slide-primary)" opacity="0.6" />
+    <text x="80" y="145" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="#FFF">Cabinet Order</text>
+    <text x="80" y="167" fontFamily="Inter, sans-serif" fontSize="12" fill="rgba(255,255,255,0.7)">Issued by the Cabinet</text>
+    <text x="820" y="153" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="#FFF">Digital Talent Development Order</text>
+
+    {/* Connector 2-3 */}
+    <line x1="450" y1="185" x2="450" y2="210" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#lf-arrow)" />
+
+    {/* Layer 3: Ministerial Ordinance */}
+    <rect x="40" y="210" width="820" height="70" rx="12" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="80" y="240" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="var(--slide-text)">Ministerial Ordinance</text>
+    <text x="80" y="262" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Issued by the Minister</text>
+    <text x="820" y="248" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-text)">Program Implementation Rules</text>
+
+    {/* Connector 3-4 */}
+    <line x1="450" y1="280" x2="450" y2="305" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#lf-arrow)" />
+
+    {/* Layer 4: Guidelines */}
+    <rect x="40" y="305" width="820" height="70" rx="12" fill="var(--slide-primary)" opacity="0.15" />
+    <text x="80" y="335" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="var(--slide-text)">Guidelines</text>
+    <text x="80" y="357" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Administrative guidance</text>
+    <text x="820" y="343" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-text)">Digital Skills Standard v2.0</text>
+
+    {/* Side annotation: binding force indicator */}
+    <text x="890" y="55" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="11" fill="rgba(255,255,255,0.6)" transform="rotate(-90, 890, 55)">{"Binding force"}</text>
+
+    {/* Arrow showing decreasing binding force */}
+    <line x1="895" y1="25" x2="895" y2="370" stroke="var(--slide-text-muted)" strokeWidth="1" markerEnd="url(#lf-arrow)" />
+    <text x="885" y="35" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Strong</text>
+    <text x="885" y="365" textAnchor="end" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Flexible</text>
+  </svg>
+</ShowcaseDiagram>

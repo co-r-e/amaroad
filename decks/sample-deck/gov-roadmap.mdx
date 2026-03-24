@@ -1,0 +1,105 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style implementation roadmap (koutei-hyo).
+  Horizontal fiscal year timeline with phased color bands showing
+  Survey, Pilot, and Full Rollout stages across multiple workstreams.
+---
+
+# Implementation Roadmap
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 420">
+    {/* Year headers */}
+    <rect x="180" y="10" width="170" height="36" rx="6" fill="var(--slide-primary)" opacity="0.1" />
+    <text x="265" y="33" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-primary)">FY2025</text>
+
+    <rect x="360" y="10" width="170" height="36" rx="6" fill="var(--slide-primary)" opacity="0.1" />
+    <text x="445" y="33" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-primary)">FY2026</text>
+
+    <rect x="540" y="10" width="170" height="36" rx="6" fill="var(--slide-primary)" opacity="0.1" />
+    <text x="625" y="33" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-primary)">FY2027</text>
+
+    <rect x="720" y="10" width="170" height="36" rx="6" fill="var(--slide-primary)" opacity="0.1" />
+    <text x="805" y="33" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-primary)">FY2028</text>
+
+    {/* Grid lines */}
+    <line x1="180" y1="56" x2="180" y2="400" stroke="var(--slide-border)" strokeWidth="1" />
+    <line x1="360" y1="56" x2="360" y2="400" stroke="var(--slide-border)" strokeWidth="1" />
+    <line x1="540" y1="56" x2="540" y2="400" stroke="var(--slide-border)" strokeWidth="1" />
+    <line x1="720" y1="56" x2="720" y2="400" stroke="var(--slide-border)" strokeWidth="1" />
+    <line x1="890" y1="56" x2="890" y2="400" stroke="var(--slide-border)" strokeWidth="1" />
+
+    {/* Row 1: Curriculum Development */}
+    <text x="10" y="88" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Curriculum</text>
+    <text x="10" y="106" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Development</text>
+
+    <rect x="180" y="72" width="250" height="40" rx="8" fill="var(--slide-primary)" opacity="0.25" />
+    <text x="305" y="96" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-primary)">{"Research & Design"}</text>
+
+    <rect x="440" y="72" width="200" height="40" rx="8" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="540" y="96" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">Pilot Testing</text>
+
+    <rect x="650" y="72" width="240" height="40" rx="8" fill="var(--slide-primary)" opacity="0.9" />
+    <text x="770" y="96" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">Full Deployment</text>
+
+    {/* Row 2: Platform Build */}
+    <text x="10" y="158" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Learning</text>
+    <text x="10" y="176" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Platform</text>
+
+    <rect x="180" y="142" width="170" height="40" rx="8" fill="var(--slide-primary)" opacity="0.25" />
+    <text x="265" y="166" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-primary)">Requirements</text>
+
+    <rect x="360" y="142" width="260" height="40" rx="8" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="490" y="166" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">{"Development & Testing"}</text>
+
+    <rect x="630" y="142" width="260" height="40" rx="8" fill="var(--slide-primary)" opacity="0.9" />
+    <text x="760" y="166" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">{"Operation & Scaling"}</text>
+
+    {/* Row 3: Regional Deployment */}
+    <text x="10" y="228" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Regional</text>
+    <text x="10" y="246" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Deployment</text>
+
+    <rect x="270" y="212" width="180" height="40" rx="8" fill="var(--slide-primary)" opacity="0.25" />
+    <text x="360" y="236" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-primary)">5 Pilot Regions</text>
+
+    <rect x="460" y="212" width="180" height="40" rx="8" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="550" y="236" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">20 Regions</text>
+
+    <rect x="650" y="212" width="240" height="40" rx="8" fill="var(--slide-primary)" opacity="0.9" />
+    <text x="770" y="236" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">All 47 Prefectures</text>
+
+    {/* Row 4: Evaluation */}
+    <text x="10" y="298" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Evaluation</text>
+    <text x="10" y="316" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">{"& Review"}</text>
+
+    <rect x="330" y="282" width="100" height="40" rx="8" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="380" y="306" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-primary)">Interim</text>
+
+    <rect x="510" y="282" width="100" height="40" rx="8" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="560" y="306" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="#FFF">Mid-term</text>
+
+    <rect x="690" y="282" width="100" height="40" rx="8" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="740" y="306" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-primary)">Final</text>
+
+    {/* Milestone markers */}
+    <polygon points="350,340 358,355 342,355" fill="var(--slide-primary)" />
+    <text x="350" y="372" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Pilot launch</text>
+
+    <polygon points="540,340 548,355 532,355" fill="var(--slide-primary)" />
+    <text x="540" y="372" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Scale decision</text>
+
+    <polygon points="810,340 818,355 802,355" fill="var(--slide-primary)" />
+    <text x="810" y="372" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Program review</text>
+
+    {/* Legend */}
+    <rect x="180" y="395" width="50" height="14" rx="4" fill="var(--slide-primary)" opacity="0.25" />
+    <text x="240" y="406" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Survey / Planning</text>
+
+    <rect x="370" y="395" width="50" height="14" rx="4" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="430" y="406" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Pilot / Development</text>
+
+    <rect x="580" y="395" width="50" height="14" rx="4" fill="var(--slide-primary)" opacity="0.9" />
+    <text x="640" y="406" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Full Rollout</text>
+  </svg>
+</ShowcaseDiagram>
