@@ -1,6 +1,6 @@
 {
   "name": "dexcode",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "description": "AI-driven slide authoring tool built with Next.js and MDX",
   "license": "MIT",
