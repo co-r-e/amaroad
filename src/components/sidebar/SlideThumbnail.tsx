@@ -5,13 +5,14 @@ import { cn } from "@/lib/utils";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import type { SlideData, DeckConfig } from "@/types/deck";
 import { SlideFrame } from "@/components/slide/SlideFrame";
+import { useIntersectionVisibility } from "@/hooks/useIntersectionVisibility";
 
 interface SlideThumbnailProps {
   slide: SlideData;
   config: DeckConfig;
   deckName: string;
   active: boolean;
-  onClick: () => void;
+  onSelect: (index: number) => void;
 }
 
 export const SlideThumbnail = memo(function SlideThumbnail({
@@ -19,31 +20,11 @@ export const SlideThumbnail = memo(function SlideThumbnail({
   config,
   deckName,
   active,
-  onClick,
+  onSelect,
 }: SlideThumbnailProps) {
   const buttonRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: containerRef, visible } = useIntersectionVisibility("200px");
   const [scale, setScale] = useState(0.12);
-  const [visible, setVisible] = useState(false);
-
-  // Defer MDX rendering until thumbnail enters viewport
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -66,7 +47,7 @@ export const SlideThumbnail = memo(function SlideThumbnail({
   const bg = resolveSlideBackground(slide.frontmatter, config);
 
   const onActivate = () => {
-    onClick();
+    onSelect(slide.index);
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {

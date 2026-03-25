@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, memo } from "react";
 import { Globe, Search } from "lucide-react";
 import type { DeckSummary, Deck } from "@/types/deck";
 import type { TunnelState } from "@/lib/tunnel-manager";
@@ -19,6 +19,8 @@ type SortOption =
   | "slides-asc"
   | "slides-desc"
   | "name-asc";
+
+const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 
 export function DeckGrid({ decks }: DeckGridProps) {
   const isLocal = useIsLocal();
@@ -39,7 +41,6 @@ export function DeckGrid({ decks }: DeckGridProps) {
   }, [isLocal]);
 
   const filteredAndSortedDecks = useMemo(() => {
-    const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
     const q = query.toLowerCase();
     const filtered = q
       ? decks.filter(
@@ -121,7 +122,7 @@ export function DeckGrid({ decks }: DeckGridProps) {
   );
 }
 
-function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }) {
+const DeckCard = memo(function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState<number | null>(null);
   const [deckData, setDeckData] = useState<Deck | null>(null);
@@ -205,4 +206,4 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
       )}
     </div>
   );
-}
+});

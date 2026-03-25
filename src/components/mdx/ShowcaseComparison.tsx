@@ -132,6 +132,33 @@ function DoDontVariant({
   );
 }
 
+function ProsConsColumn({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className={styles.colPanel}>
+      <p className={styles.pcTitle}>{title}</p>
+      {items.map((item, i) => {
+        const isPro = !item.startsWith("[con]");
+        const text = item.replace(/^\[(pro|con)\]\s*/, "");
+        return (
+          <div
+            key={i}
+            className={isPro ? styles.pcCardPro : styles.pcCardCon}
+          >
+            <p className={styles.pcItemText}>
+              <Icon
+                name={isPro ? "circle-check" : "circle-x"}
+                size={20}
+                color={isPro ? "rgb(34,197,94)" : "rgb(239,68,68)"}
+              />
+              {text}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function ProsConsVariant({
   leftTitle = "Option A",
   rightTitle = "Option B",
@@ -145,54 +172,8 @@ function ProsConsVariant({
 }) {
   return (
     <div className={styles.twoCol}>
-      <div className={styles.colPanel}>
-        <p className={styles.pcTitle}>{leftTitle}</p>
-        {leftItems.map((item, i) => {
-          const isPro = !item.startsWith("[con]");
-          const text = item.replace(/^\[(pro|con)\]\s*/, "");
-          return (
-            <div
-              key={i}
-              className={isPro ? styles.pcCardPro : styles.pcCardCon}
-            >
-              <p className={styles.pcItemText}>
-                <Icon
-                  name={isPro ? "circle-check" : "circle-x"}
-                  size={20}
-                  color={
-                    isPro ? "rgb(34,197,94)" : "rgb(239,68,68)"
-                  }
-                />
-                {text}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-      <div className={styles.colPanel}>
-        <p className={styles.pcTitle}>{rightTitle}</p>
-        {rightItems.map((item, i) => {
-          const isPro = !item.startsWith("[con]");
-          const text = item.replace(/^\[(pro|con)\]\s*/, "");
-          return (
-            <div
-              key={i}
-              className={isPro ? styles.pcCardPro : styles.pcCardCon}
-            >
-              <p className={styles.pcItemText}>
-                <Icon
-                  name={isPro ? "circle-check" : "circle-x"}
-                  size={20}
-                  color={
-                    isPro ? "rgb(34,197,94)" : "rgb(239,68,68)"
-                  }
-                />
-                {text}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <ProsConsColumn title={leftTitle} items={leftItems} />
+      <ProsConsColumn title={rightTitle} items={rightItems} />
     </div>
   );
 }

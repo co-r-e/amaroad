@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useState, useCallback } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Share, Loader2 } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { useExportJob, formatExportLabel, type ExportFormat } from "@/contexts/ExportJobContext";
 
@@ -57,7 +57,7 @@ export function ExportButton({ deckName }: ExportButtonProps): ReactNode {
 
     return (
       <>
-        <Download className="h-4 w-4" />
+        <Share className="h-4 w-4" />
         <span>Export</span>
       </>
     );

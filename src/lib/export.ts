@@ -202,7 +202,8 @@ const CAPTURE_OPTIONS = {
   pixelRatio: 1,
   quality: CAPTURE_JPEG_QUALITY,
   backgroundColor: "#FFFFFF",
-  cacheBust: true,
+  cacheBust: false,
+  skipFonts: true,
   filter: captureFilter,
 } as const;
 

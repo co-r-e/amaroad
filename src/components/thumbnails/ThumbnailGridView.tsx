@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import type { Deck } from "@/types/deck";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
+import { useIntersectionVisibility } from "@/hooks/useIntersectionVisibility";
 
 interface ThumbnailGridViewProps {
   deck: Deck;
@@ -18,27 +19,8 @@ const GridThumbnail = memo(function GridThumbnail({
   config: Deck["config"];
   deckName: string;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: containerRef, visible } = useIntersectionVisibility("300px");
   const [scale, setScale] = useState(0.2);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "300px" },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const el = containerRef.current;

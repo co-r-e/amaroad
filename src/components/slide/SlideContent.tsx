@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { MDXRenderer } from "@/lib/mdx-runtime";
 import type { SlideData, SlideType, DeckConfig } from "@/types/deck";
 import { slideComponents } from "@/components/mdx";
@@ -77,6 +78,11 @@ export function SlideContent({
     verticalAlign === "center" ||
     (verticalAlign !== "top" && !SELF_CENTERED_TYPES.has(type));
 
+  const processedSource = useMemo(
+    () => normalizeMdxSizing(resolveAssetPaths(slide.rawContent, deckName)),
+    [slide.rawContent, deckName],
+  );
+
   return (
     <div
       data-slide-content=""
@@ -84,7 +90,7 @@ export function SlideContent({
       className={styles.content}
     >
       <MDXRenderer
-        source={normalizeMdxSizing(resolveAssetPaths(slide.rawContent, deckName))}
+        source={processedSource}
         components={slideComponents}
       />
     </div>
