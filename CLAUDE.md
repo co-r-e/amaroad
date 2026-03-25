@@ -63,6 +63,17 @@ prefer_p_over_ul_li:
       ・Item 1<br/>・Item 2
     </p>
 
+bullet_points_as_cards:
+  rule: >
+    All bullet-point / list content must be presented as cards. All text inside cards must be bold.
+  details:
+    - When listing items, wrap each item in a Card component instead of using plain bullet points or <p> with middle dots.
+    - When a larger outer card contains inner bullet-point items, render each inner item as a nested list-block card inside the outer card.
+    - All text within cards (both outer and inner) must use fontWeight: 700 or "bold".
+  reason: >
+    Card-based lists are visually stronger and easier to scan in presentations than plain text bullets.
+    Bold text ensures readability at projection scale.
+
 multi_line_text_spacing:
   rule: >
     Avoid using <br/> inside large headings or emphasized text blocks when precise vertical spacing matters.
