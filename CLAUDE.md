@@ -234,6 +234,12 @@ no_em_dash:
   use_instead: Hyphen (-), full-width hyphen (ー), or rephrase without a dash
   scope: All MDX slide files and speaker notes
 
+no_markdown_bold:
+  rule: Never use Markdown bold syntax (**text**) in slide text
+  reason: Slide content uses JSX inline styles (fontWeight) for bold; Markdown ** is unreliable inside JSX and inconsistent with the styling approach
+  use_instead: "fontWeight: 700 or \"bold\" via inline style"
+  scope: All MDX slide files and speaker notes
+
 slide_order_manifest:
   rule: >
     Slide order is managed by a slide-order.ts manifest file in each deck directory.
