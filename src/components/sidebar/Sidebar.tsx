@@ -27,7 +27,7 @@ export function Sidebar({
   return (
     <aside className="flex h-full w-64 flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
       <div className="flex flex-col gap-3 border-b border-gray-200 dark:border-gray-700 p-4">
-        <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+        <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 overflow-x-auto whitespace-nowrap scrollbar-none">
           {deck.config.title}
         </h1>
         <div className="flex gap-2 min-w-0">
