@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import { jiti } from "./jiti";
 import { normalizeSlideOrderEntries } from "./slide-order-utils";
 import { loadDeckConfig } from "./deck-config";
@@ -61,6 +62,9 @@ export async function loadDeck(deckName: string): Promise<Deck> {
 
   return { name: deckName, config, slides };
 }
+
+/** Per-request cached version of loadDeck — deduplicates calls within generateMetadata + page render. */
+export const loadDeckCached = cache(loadDeck);
 
 async function loadSlideOrder(deckDir: string): Promise<string[] | null> {
   const manifestPath = path.join(deckDir, "slide-order.ts");

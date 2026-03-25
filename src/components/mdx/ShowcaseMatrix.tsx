@@ -121,8 +121,8 @@ export function ShowcaseMatrix({
                                 color: "#FFF",
                                 fontSize: "calc(2rem * var(--slide-font-scale))",
                               }
-                            : cell.color
-                              ? { fontWeight: cell.highlight ? 700 : undefined, color: cell.highlight ? undefined : undefined }
+                            : cell.color && cell.highlight
+                              ? { fontWeight: 700 }
                               : undefined
                         }
                       >

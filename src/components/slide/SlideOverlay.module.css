@@ -44,4 +44,5 @@
     font-size: 1.25rem;
     line-height: 1.75rem;
     color: #9ca3af;
+    white-space: nowrap;
 }

@@ -78,7 +78,7 @@ export function Sidebar({
               config={deck.config}
               deckName={deck.name}
               active={slide.index === currentSlide}
-              onClick={() => onSlideSelect(slide.index)}
+              onSelect={onSlideSelect}
             />
           ))}
         </div>

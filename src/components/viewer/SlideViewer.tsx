@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { PanelRight } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import type { DeckConfig, SlideData } from "@/types/deck";
@@ -19,6 +19,7 @@ import { useResizablePanel } from "@/hooks/useResizablePanel";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { KeyboardHelp } from "@/components/ui/KeyboardHelp";
 import { useDevHotReload } from "@/hooks/useDevHotReload";
+import { useIntersectionVisibility } from "@/hooks/useIntersectionVisibility";
 
 interface SlideViewerProps {
   deck: Deck;
@@ -58,29 +59,7 @@ function LazySlide({
   deckName: string;
   scale: number;
 }): React.JSX.Element {
-  const eager = index < EAGER_COUNT;
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(eager);
-
-  useEffect(() => {
-    if (eager) return;
-
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: IO_ROOT_MARGIN },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [eager]);
+  const { ref, visible } = useIntersectionVisibility(IO_ROOT_MARGIN, index < EAGER_COUNT);
 
   const bg = resolveSlideBackground(slide.frontmatter, config);
 

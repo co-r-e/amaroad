@@ -1,4 +1,4 @@
-import { loadDeck } from "@/lib/deck-loader";
+import { loadDeckCached } from "@/lib/deck-loader";
 import { PresenterView } from "@/components/presenter/PresenterView";
 import { getTunnelAccess } from "@/lib/tunnel-access";
 import { notFound } from "next/navigation";
@@ -15,7 +15,7 @@ export async function generateMetadata({
 }: PresenterPageProps): Promise<Metadata> {
   const { deck: deckName } = await params;
   try {
-    const deck = await loadDeck(deckName);
+    const deck = await loadDeckCached(deckName);
     return {
       title: `${deck.config.title} — Presenter`,
       description: `Presenter view for ${deck.config.title}`,
@@ -33,7 +33,7 @@ export default async function PresenterPage({ params }: PresenterPageProps) {
 
   let deck;
   try {
-    deck = await loadDeck(deckName);
+    deck = await loadDeckCached(deckName);
   } catch (e) {
     console.error(`[dexcode] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
     notFound();
