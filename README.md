@@ -41,7 +41,7 @@
 ## Quick Start
 
 ```bash
-git clone git@github.com:co-r-e/dexcode.git
+git clone git@github.com:co-r-e/dexcode
 cd dexcode
 npm install
 npm run dev
