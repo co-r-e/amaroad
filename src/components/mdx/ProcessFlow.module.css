@@ -1,0 +1,59 @@
+.flow {
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  gap: 2.5rem;
+}
+
+.step {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: var(--slide-space-lg) var(--slide-space-md);
+  border: 2px solid transparent;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  right: calc(-1.25rem - 1px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+  border-left: 1rem solid var(--slide-text-subtle);
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.active {
+  background: var(--slide-surface-alt);
+}
+
+.icon {
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.content {
+  margin-top: 0.5rem;
+  font-size: calc(1.5rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  line-height: 1.5;
+}

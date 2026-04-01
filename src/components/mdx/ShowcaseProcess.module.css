@@ -1,0 +1,130 @@
+/* ==========================================================================
+ * ShowcaseProcess
+ * --------------------------------------------------------------------------
+ * CSS custom properties (override per-instance via style prop)
+ * --process-number-size       Number circle diameter    (default: 48px)
+ * --process-title-size        Step title font-size      (default: 2.2rem)
+ * --process-desc-size         Description font-size     (default: 1.8rem)
+ * --process-arrow-size        Arrow triangle size       (default: 14px)
+ * ========================================================================== */
+
+/* ========== Wrapper ========== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-md);
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== Header ========== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: var(--slide-heading-weight, 700);
+  font-family: var(--slide-font-heading);
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== Steps row ========== */
+
+.stepsRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.stepGroup {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ========== Card ========== */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8rem;
+  padding: 2rem 1.5rem;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ========== Number circle ========== */
+
+.numberCircle {
+  width: var(--process-number-size, 48px);
+  height: var(--process-number-size, 48px);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--slide-primary) 12%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.numberText {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-primary);
+  line-height: 1;
+}
+
+/* ========== Step text ========== */
+
+.stepTitle {
+  font-size: calc(var(--process-title-size, 2.2rem) * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.stepDescription {
+  font-size: calc(var(--process-desc-size, 1.8rem) * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== Arrow ========== */
+
+.arrowWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--slide-space-xs);
+  flex-shrink: 0;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: var(--process-arrow-size, 14px) solid transparent;
+  border-bottom: var(--process-arrow-size, 14px) solid transparent;
+  border-left: var(--process-arrow-size, 14px) solid var(--slide-border);
+}

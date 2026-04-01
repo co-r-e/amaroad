@@ -1,0 +1,30 @@
+.callout {
+    background: var(--callout-bg);
+    border-radius: var(--slide-radius);
+    padding: var(--slide-space-lg);
+    border-top: 4px solid var(--callout-color);
+}
+
+.label {
+    display: inline-block;
+    font-size: calc(1.4rem * var(--slide-font-scale));
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--callout-color);
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: var(--slide-space-xs);
+}
+
+.title {
+    font-size: calc(2rem * var(--slide-font-scale));
+    font-weight: 700;
+    color: var(--callout-color);
+    margin-bottom: var(--slide-space-xs);
+}
+
+.content {
+    font-size: calc(1.8rem * var(--slide-font-scale));
+    color: var(--slide-text);
+    line-height: 1.6;
+}

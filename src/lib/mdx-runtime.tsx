@@ -1,18 +1,16 @@
 "use client";
 
-import { evaluate } from "@mdx-js/mdx";
-import * as runtime from "react/jsx-runtime";
 import {
   useState,
   useEffect,
   Component,
+  createElement,
+  Children,
+  Fragment,
   type ComponentType,
   type ReactNode,
   type ErrorInfo,
 } from "react";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 import type { MDXComponents } from "mdx/types";
 
 interface MDXErrorDisplayProps {
@@ -55,19 +53,37 @@ class MDXErrorBoundary extends Component<
 }
 
 interface MDXRendererProps {
-  source: string;
+  moduleUrl: string;
   components?: MDXComponents;
 }
 
 interface CompiledMDX {
-  source: string;
+  moduleUrl: string;
   content: ComponentType<{ components?: MDXComponents }> | null;
   error: string | null;
 }
 
-export function MDXRenderer({ source, components = {} }: MDXRendererProps): React.JSX.Element {
+interface DexcodeReactRuntime {
+  Children: typeof Children;
+  createElement: typeof createElement;
+  Fragment: typeof Fragment;
+}
+
+declare global {
+  var __dexcodeReact: DexcodeReactRuntime | undefined;
+}
+
+function ensureDexcodeReactRuntime(): void {
+  globalThis.__dexcodeReact = {
+    Children,
+    createElement,
+    Fragment,
+  };
+}
+
+export function MDXRenderer({ moduleUrl, components = {} }: MDXRendererProps): React.JSX.Element {
   const [compiled, setCompiled] = useState<CompiledMDX>({
-    source: "",
+    moduleUrl: "",
     content: null,
     error: null,
   });
@@ -77,25 +93,23 @@ export function MDXRenderer({ source, components = {} }: MDXRendererProps): Reac
 
     async function render(): Promise<void> {
       try {
-        const { default: MDXContent } = await evaluate(source, {
-          ...(runtime as Parameters<typeof evaluate>[1]),
-          remarkPlugins: [remarkGfm, remarkMath],
-          rehypePlugins: [rehypeKatex],
-        });
+        ensureDexcodeReactRuntime();
+        const imported = await import(/* webpackIgnore: true */ moduleUrl);
+        const MDXContent = imported.default as ComponentType<{ components?: MDXComponents }>;
 
         if (!cancelled) {
           setCompiled({
-            source,
-            content: MDXContent as ComponentType<{ components?: MDXComponents }>,
+            moduleUrl,
+            content: MDXContent,
             error: null,
           });
         }
       } catch (e) {
         if (!cancelled) {
           const msg = e instanceof Error ? e.message : "MDX compile error";
-          console.error("[dexcode] MDX compile error:", e);
+          console.error("[dexcode] MDX module load error:", e);
           setCompiled({
-            source,
+            moduleUrl,
             content: null,
             error: msg,
           });
@@ -107,11 +121,11 @@ export function MDXRenderer({ source, components = {} }: MDXRendererProps): Reac
     return () => {
       cancelled = true;
     };
-  }, [source]);
+  }, [moduleUrl]);
 
-  const isCurrentSource = compiled.source === source;
-  const error = isCurrentSource ? compiled.error : null;
-  const Content = isCurrentSource ? compiled.content : null;
+  const isCurrentModule = compiled.moduleUrl === moduleUrl;
+  const error = isCurrentModule ? compiled.error : null;
+  const Content = isCurrentModule ? compiled.content : null;
   const status = error ? "error" : Content === null ? "loading" : "ready";
 
   return (

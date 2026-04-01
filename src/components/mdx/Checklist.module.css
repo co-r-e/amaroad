@@ -1,0 +1,40 @@
+.checklist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--slide-space-sm);
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: var(--slide-space-sm);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 9999px;
+    font-size: calc(1.4rem * var(--slide-font-scale));
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.checked {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.unchecked {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.text {
+    font-size: calc(1.8rem * var(--slide-font-scale));
+    color: var(--slide-text);
+    line-height: 1.5;
+}

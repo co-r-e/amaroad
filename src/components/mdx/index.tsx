@@ -34,17 +34,33 @@ import { ShowcaseDiagram } from "./ShowcaseDiagram";
 import { ShowcaseStatGrid } from "./ShowcaseStatGrid";
 import { ShowcaseIconGrid } from "./ShowcaseIconGrid";
 import { ShowcaseShapeGrid, ShapeItem } from "./ShowcaseShapeGrid";
+import { ShowcaseTimeline } from "./ShowcaseTimeline";
+import { ShowcaseProcess } from "./ShowcaseProcess";
+import { ShowcaseRoadmap } from "./ShowcaseRoadmap";
+import { ShowcaseKanban } from "./ShowcaseKanban";
 import { SummaryBanner } from "./SummaryBanner";
 
 import { Center } from "./layout/Center";
 import { Columns, Column } from "./layout/Columns";
+import { Grid } from "./layout/Grid";
+import { Stack } from "./layout/Stack";
 
+import { Badge } from "./Badge";
+import { Callout } from "./Callout";
 import { Card } from "./Card";
 import { Chart } from "./Chart";
+import { Checklist, CheckItem } from "./Checklist";
+import { Divider } from "./Divider";
+import { Highlight } from "./Highlight";
 import { Icon } from "./Icon";
+import { Pill, PillGroup } from "./Pill";
 import { Shape } from "./Shape";
 import { Steps, Step } from "./Steps";
 import { Timeline, TimelineItem } from "./Timeline";
+import { ProgressBar } from "./ProgressBar";
+import { ProcessFlow, FlowStep } from "./ProcessFlow";
+import { Gauge } from "./Gauge";
+import { Ranking, RankItem } from "./Ranking";
 
 export const slideComponents: MDXComponents = {
   // Typography
@@ -68,12 +84,28 @@ export const slideComponents: MDXComponents = {
   Columns,
   Column,
   Center,
+  Grid,
+  Stack,
   // Content
+  Badge,
+  Callout,
   Card,
+  Checklist,
+  CheckItem,
+  Divider,
+  Highlight,
+  Pill,
+  PillGroup,
   Timeline,
   TimelineItem,
   Steps,
   Step,
+  ProgressBar,
+  ProcessFlow,
+  FlowStep,
+  Gauge,
+  Ranking,
+  RankItem,
   // Media & Data
   Chart,
   Icon,
@@ -106,5 +138,9 @@ export const slideComponents: MDXComponents = {
   ShowcaseIconGrid,
   ShowcaseShapeGrid,
   ShapeItem,
+  ShowcaseTimeline,
+  ShowcaseProcess,
+  ShowcaseRoadmap,
+  ShowcaseKanban,
   SummaryBanner,
 };

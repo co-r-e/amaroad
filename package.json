@@ -13,7 +13,7 @@
   },
   "homepage": "https://co-r-e.github.io/dexcode-lp/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3850",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

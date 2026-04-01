@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { PanelRight } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import type { DeckConfig, SlideData } from "@/types/deck";
@@ -36,6 +36,45 @@ function getViewportWidth() {
 }
 function getServerViewportWidth() {
   return 390;
+}
+
+/* ---------- prefetch adjacent slide images ---------- */
+
+const ASSET_PATH_RE = /(?:\(|["'])\/api\/decks\/[^/]+\/assets\/[^)"'\s]+/g;
+
+function extractAssetUrls(rawContent: string, deckName: string): string[] {
+  const apiBase = `/api/decks/${encodeURIComponent(deckName)}/assets/`;
+  const urls: string[] = [];
+  // Match relative asset refs before they're resolved, and resolved API paths
+  const resolved = rawContent.replace(/\.\/assets\//g, apiBase);
+  for (const m of resolved.matchAll(ASSET_PATH_RE)) {
+    urls.push(m[0].replace(/^[("']/, ""));
+  }
+  return urls;
+}
+
+function usePrefetchAdjacentSlides(
+  slides: SlideData[],
+  currentSlide: number,
+  deckName: string,
+) {
+  useEffect(() => {
+    const indices = [currentSlide + 1, currentSlide + 2].filter(
+      (i) => i < slides.length,
+    );
+    for (const i of indices) {
+      const urls = extractAssetUrls(slides[i].rawContent, deckName);
+      for (const url of urls) {
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.as = "image";
+        link.href = url;
+        document.head.appendChild(link);
+        // Clean up to avoid accumulating link tags
+        link.onload = link.onerror = () => link.remove();
+      }
+    }
+  }, [slides, currentSlide, deckName]);
 }
 
 /* ---------- lazy slide (IntersectionObserver) ---------- */
@@ -155,6 +194,8 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
       enabled: !showHelp,
     },
   });
+
+  usePrefetchAdjacentSlides(deck.slides, currentSlide, deck.name);
 
   const handlePresenterMode = useCallback(() => {
     window.open(`/${deck.name}/presenter`, "dexcode-presenter");
