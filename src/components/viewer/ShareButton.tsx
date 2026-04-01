@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useEffectEvent, useRef } from "react";
 import { Globe, Loader2, Copy, Check, Square, RotateCcw, AlertCircle } from "lucide-react";
 import { useTunnel } from "@/hooks/useTunnel";
 import { Modal } from "@/components/ui/Modal";
@@ -36,6 +36,18 @@ export function ShareButton({ deckName, deckTitle }: ShareButtonProps) {
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const isModalVisible = phase === "active" && !!url && openUrl === url;
+
+  // Auto-open modal when tunnel becomes active
+  const prevPhaseRef = useRef(phase);
+  const openShareDetails = useEffectEvent((nextUrl: string) => {
+    setOpenUrl(nextUrl);
+  });
+  useEffect(() => {
+    if (prevPhaseRef.current === "connecting" && phase === "active" && url) {
+      openShareDetails(url);
+    }
+    prevPhaseRef.current = phase;
+  }, [phase, url]);
 
   useEffect(() => {
     if (!isModalVisible || !copyFailed) return;

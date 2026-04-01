@@ -30,6 +30,7 @@ interface ClientState {
 const POLL_INTERVAL = 3_000;
 const POLL_JITTER = 1_000;
 const COPY_FEEDBACK_MS = 3_500;
+const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
 
 const IDLE: ClientState = { phase: "idle", url: null, error: null };
 
@@ -114,6 +115,8 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
   }, [applyClientState, deckName]);
 
   useEffect(() => {
+    if (!TUNNEL_ENABLED) return;
+
     const controller = new AbortController();
     const requestVersion = ++requestVersionRef.current;
 
@@ -129,6 +132,7 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
 
   // Poll while connecting or active (sequential with jitter to avoid overlap)
   useEffect(() => {
+    if (!TUNNEL_ENABLED) return;
     if (state.phase !== "connecting" && state.phase !== "active") return;
 
     const controller = new AbortController();
@@ -180,6 +184,15 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
   }, [copied]);
 
   const start = useCallback(async () => {
+    if (!TUNNEL_ENABLED) {
+      applyClientState({
+        phase: "error",
+        url: null,
+        error: "Sharing is unavailable in production",
+      });
+      return;
+    }
+
     const requestVersion = ++requestVersionRef.current;
     setCopied(false);
     setCopyFailed(false);
@@ -219,6 +232,11 @@ export function useTunnel(deckName?: string): UseTunnelReturn {
   }, [applyClientState, applyServerState, deckName]);
 
   const stop = useCallback(async () => {
+    if (!TUNNEL_ENABLED) {
+      applyClientState(IDLE);
+      return;
+    }
+
     const requestVersion = ++requestVersionRef.current;
     applyClientState({ phase: "stopping", url: null, error: null });
 

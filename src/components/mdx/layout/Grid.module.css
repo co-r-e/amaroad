@@ -1,0 +1,6 @@
+.grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    gap: var(--slide-space-md);
+}

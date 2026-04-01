@@ -1,0 +1,14 @@
+.vertical {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: var(--slide-space-sm);
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: var(--slide-space-sm);
+}

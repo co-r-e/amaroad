@@ -87,14 +87,29 @@ export async function GET(
       return NextResponse.json({ error: "Invalid path" }, { status: 400 });
     }
 
+    // ETag based on mtime + size for conditional requests
+    const etag = `"${stat.mtimeMs.toString(36)}-${stat.size.toString(36)}"`;
+    if (request.headers.get("if-none-match") === etag) {
+      return new NextResponse(null, { status: 304, headers: { ETag: etag } });
+    }
+
     const buffer = await fs.readFile(resolved);
+
+    const isLocal = isLocalRequest(request);
+    let cacheControl: string;
+    if (process.env.NODE_ENV === "production") {
+      cacheControl = "public, max-age=31536000, immutable";
+    } else if (!isLocal) {
+      // Remote viewers via tunnel: cache assets to avoid re-fetching through the tunnel on every navigation
+      cacheControl = "public, max-age=3600, stale-while-revalidate=86400";
+    } else {
+      cacheControl = "no-cache, no-store, must-revalidate";
+    }
 
     const headers = new Headers({
       "Content-Type": contentType,
-      "Cache-Control":
-        process.env.NODE_ENV === "production"
-          ? "public, max-age=31536000, immutable"
-          : "no-cache, no-store, must-revalidate",
+      "Cache-Control": cacheControl,
+      ETag: etag,
       "X-Content-Type-Options": "nosniff",
       "Cross-Origin-Resource-Policy": "same-origin",
     });

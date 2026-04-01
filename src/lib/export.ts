@@ -1,4 +1,4 @@
-import { toSvg } from "html-to-image";
+import { getFontEmbedCSS, toSvg } from "html-to-image";
 import { jsPDF } from "jspdf";
 import { SLIDE_WIDTH, SLIDE_HEIGHT } from "./slide-utils";
 
@@ -29,6 +29,51 @@ function createAbortError(): Error {
 
 function throwIfAborted(signal?: AbortSignal): void {
   if (signal?.aborted) throw createAbortError();
+}
+
+function trimFontToken(token: string): string {
+  return token.trim().replace(/^["']|["']$/g, "");
+}
+
+function collectFontLoadSpecs(container: HTMLElement): string[] {
+  const specs = new Set<string>();
+  const nodes = [container, ...Array.from(container.querySelectorAll("*"))];
+
+  for (const node of nodes) {
+    const font = getComputedStyle(node).font?.trim();
+    if (font) specs.add(font);
+  }
+
+  return Array.from(specs);
+}
+
+function collectFontFamilies(container: HTMLElement): string[] {
+  const families = new Set<string>();
+  const nodes = [container, ...Array.from(container.querySelectorAll("*"))];
+
+  for (const node of nodes) {
+    const fontFamily = getComputedStyle(node).fontFamily;
+    if (!fontFamily) continue;
+
+    for (const token of fontFamily.split(",")) {
+      const family = trimFontToken(token);
+      if (family) families.add(family);
+    }
+  }
+
+  return Array.from(families).sort();
+}
+
+function waitForSettledOrTimeout(
+  tasks: Promise<unknown>[],
+  timeoutMs: number,
+): Promise<void> {
+  return Promise.race([
+    Promise.allSettled(tasks).then(() => undefined),
+    new Promise<void>((resolve) => {
+      setTimeout(resolve, timeoutMs);
+    }),
+  ]);
 }
 
 // ---------------------------------------------------------------------------
@@ -124,6 +169,24 @@ export function waitForImages(
   });
 }
 
+export async function waitForFonts(
+  container: HTMLElement,
+  timeoutMs = 10000,
+): Promise<void> {
+  const fontFaceSet = document.fonts;
+  if (!fontFaceSet) return;
+
+  const tasks: Promise<unknown>[] = [fontFaceSet.ready];
+  const fontSpecs = collectFontLoadSpecs(container);
+
+  for (const font of fontSpecs) {
+    tasks.push(fontFaceSet.load(font, "BESbswy あア亜"));
+  }
+
+  await waitForSettledOrTimeout(tasks, timeoutMs);
+  await yieldToMain();
+}
+
 // ---------------------------------------------------------------------------
 // Wait for DOM to stabilise (ResizeObserver, async re-renders, etc.)
 // ---------------------------------------------------------------------------
@@ -179,7 +242,9 @@ export function waitForDomStable(
 async function waitForSlideReady(container: HTMLElement): Promise<void> {
   await waitForMdxReady(container);
   await waitForImages(container);
+  await waitForFonts(container);
   await waitForDomStable(container);
+  await waitForFonts(container, 3000);
 }
 
 // ---------------------------------------------------------------------------
@@ -203,9 +268,32 @@ const CAPTURE_OPTIONS = {
   quality: CAPTURE_JPEG_QUALITY,
   backgroundColor: "#FFFFFF",
   cacheBust: false,
-  skipFonts: true,
   filter: captureFilter,
 } as const;
+
+const captureFontCssCache = new Map<string, Promise<string | null>>();
+
+async function getCaptureFontEmbedCss(
+  container: HTMLElement,
+): Promise<string | null> {
+  const families = collectFontFamilies(container);
+  if (families.length === 0) return null;
+
+  const cacheKey = families.join("|");
+  const cached = captureFontCssCache.get(cacheKey);
+  if (cached) return cached;
+
+  const request = getFontEmbedCSS(container, {
+    preferredFontFormat: "woff2",
+  }).catch((error) => {
+    console.warn("[dexcode] Failed to prepare embedded export fonts:", error);
+    captureFontCssCache.delete(cacheKey);
+    return null;
+  });
+
+  captureFontCssCache.set(cacheKey, request);
+  return request;
+}
 
 function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -292,7 +380,13 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
 
 export async function captureSlide(container: HTMLElement): Promise<ExportedSlideImage> {
   await waitForSlideReady(container);
-  const svgDataUrl = await toSvg(container, CAPTURE_OPTIONS);
+  const fontEmbedCSS = await getCaptureFontEmbedCss(container);
+  const svgDataUrl = await toSvg(
+    container,
+    fontEmbedCSS
+      ? { ...CAPTURE_OPTIONS, fontEmbedCSS }
+      : CAPTURE_OPTIONS,
+  );
   return renderSvgToJpegBlob(svgDataUrl);
 }
 

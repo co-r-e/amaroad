@@ -1,0 +1,19 @@
+.pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.3rem 1.2rem;
+    font-size: calc(1.6rem * var(--slide-font-scale));
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: nowrap;
+    background: var(--pill-bg);
+    color: var(--pill-color);
+}
+
+.group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pill-gap, var(--slide-space-sm));
+    align-items: center;
+}

@@ -1,0 +1,47 @@
+.root {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+}
+
+.percentage {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-primary);
+}
+
+.track {
+  width: 100%;
+  background: var(--slide-surface-alt);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.sm {
+  height: 0.8rem;
+}
+
+.md {
+  height: 1.2rem;
+}
+
+.lg {
+  height: 2rem;
+}

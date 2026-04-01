@@ -1,0 +1,172 @@
+/* ==========================================================================
+ * ShowcaseRoadmap
+ * --------------------------------------------------------------------------
+ * CSS custom properties (override per-instance via style prop)
+ * --roadmap-label-size        Phase label font-size     (default: 2.2rem)
+ * --roadmap-item-size         Item text font-size       (default: 1.8rem)
+ * --roadmap-bar-height        Progress bar height       (default: 6px)
+ * ========================================================================== */
+
+/* ========== Wrapper ========== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-md);
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== Header ========== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: var(--slide-heading-weight, 700);
+  font-family: var(--slide-font-heading);
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== Phases container ========== */
+
+.phasesRow {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--slide-space-sm);
+}
+
+/* ========== Progress bar ========== */
+
+.progressBar {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  border-radius: calc(var(--roadmap-bar-height, 6px) / 2);
+  overflow: hidden;
+}
+
+.progressSegmentDone {
+  flex: 1;
+  height: var(--roadmap-bar-height, 6px);
+  background: var(--slide-primary);
+  opacity: 0.5;
+}
+
+.progressSegmentActive {
+  flex: 1;
+  height: var(--roadmap-bar-height, 6px);
+  background: var(--slide-primary);
+}
+
+.progressSegmentUpcoming {
+  flex: 1;
+  height: var(--roadmap-bar-height, 6px);
+  background: var(--slide-border-light);
+}
+
+/* ========== Phase columns ========== */
+
+.columns {
+  display: flex;
+  gap: var(--slide-space-sm);
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== Phase card variants ========== */
+
+.phase {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+  border-radius: var(--slide-radius);
+  padding: 1.5rem;
+  min-width: 0;
+}
+
+.phaseDone {
+  composes: phase;
+  background: var(--slide-surface);
+  opacity: 0.6;
+}
+
+.phaseActive {
+  composes: phase;
+  background: var(--slide-surface);
+}
+
+.phaseUpcoming {
+  composes: phase;
+  background: var(--slide-surface);
+  opacity: 0.8;
+}
+
+/* ========== Phase header ========== */
+
+.phaseHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.phaseHeaderDone {
+  composes: phaseHeader;
+  color: var(--slide-text-muted);
+}
+
+.phaseHeaderActive {
+  composes: phaseHeader;
+  color: var(--slide-primary);
+}
+
+.phaseHeaderUpcoming {
+  composes: phaseHeader;
+  color: var(--slide-text-subtle);
+}
+
+.phaseLabel {
+  font-size: calc(var(--roadmap-label-size, 2.2rem) * var(--slide-font-scale));
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+  color: inherit;
+}
+
+/* ========== Phase items ========== */
+
+.phaseItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.phaseItem {
+  background: var(--slide-surface-alt, rgba(0, 0, 0, 0.03));
+  border-radius: calc(var(--slide-radius) * 0.6);
+  padding: 0.8rem 1.2rem;
+}
+
+.phaseItemText {
+  font-size: calc(var(--roadmap-item-size, 1.8rem) * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.5;
+}

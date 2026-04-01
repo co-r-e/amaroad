@@ -9,6 +9,8 @@ import { ExportButton } from "@/components/deck-list/ExportButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useIsLocal } from "@/hooks/useIsLocal";
 
+const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
+
 interface SidebarProps {
   deck: Deck;
   currentSlide: number;
@@ -50,7 +52,7 @@ export function Sidebar({
           </button>
         </div>
         <div className="flex gap-2 min-w-0">
-          {isLocal && (
+          {isLocal && TUNNEL_ENABLED && (
             <div className="flex-1 min-w-0">
               <ShareButton deckName={deck.name} deckTitle={deck.config.title} />
             </div>

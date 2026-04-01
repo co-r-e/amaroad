@@ -1,13 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect, useMemo, memo } from "react";
-import { Globe, Search } from "lucide-react";
+import { useState, useRef, useEffect, useMemo, memo, useCallback, useSyncExternalStore } from "react";
+import { Globe, Pin, Search } from "lucide-react";
 import type { DeckSummary, Deck } from "@/types/deck";
 import type { TunnelState } from "@/lib/tunnel-manager";
 import { useIsLocal } from "@/hooks/useIsLocal";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
+
+const PINNED_STORAGE_KEY = "dexcode-pinned-decks";
+const PINNED_CHANGE_EVENT = "dexcode:pinned-decks-change";
+const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
+
+function parsePinnedDecks(raw: string | null): Set<string> {
+  if (!raw) return new Set();
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(parsed.filter((value): value is string => typeof value === "string"));
+  } catch { /* ignore */ }
+  return new Set();
+}
+
+function getPinnedDecksSnapshot(): string {
+  try {
+    return localStorage.getItem(PINNED_STORAGE_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
+}
+
+function getPinnedDecksServerSnapshot(): string {
+  return "[]";
+}
+
+function subscribeToPinnedDecks(onStoreChange: () => void): () => void {
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === null || event.key === PINNED_STORAGE_KEY) {
+      onStoreChange();
+    }
+  };
+
+  const handlePinnedChange = () => {
+    onStoreChange();
+  };
+
+  window.addEventListener("storage", handleStorage);
+  window.addEventListener(PINNED_CHANGE_EVENT, handlePinnedChange);
+
+  return () => {
+    window.removeEventListener("storage", handleStorage);
+    window.removeEventListener(PINNED_CHANGE_EVENT, handlePinnedChange);
+  };
+}
+
+function savePinnedDecks(pinned: Set<string>) {
+  try {
+    localStorage.setItem(PINNED_STORAGE_KEY, JSON.stringify([...pinned]));
+    window.dispatchEvent(new Event(PINNED_CHANGE_EVENT));
+  } catch { /* ignore */ }
+}
 
 interface DeckGridProps {
   decks: DeckSummary[];
@@ -27,9 +80,28 @@ export function DeckGrid({ decks }: DeckGridProps) {
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>("title-asc");
   const [query, setQuery] = useState("");
+  const pinnedSnapshot = useSyncExternalStore(
+    subscribeToPinnedDecks,
+    getPinnedDecksSnapshot,
+    getPinnedDecksServerSnapshot,
+  );
+  const pinnedDecks = useMemo(
+    () => parsePinnedDecks(pinnedSnapshot),
+    [pinnedSnapshot],
+  );
+
+  const togglePin = useCallback((deckName: string) => {
+    const next = new Set(pinnedDecks);
+    if (next.has(deckName)) {
+      next.delete(deckName);
+    } else {
+      next.add(deckName);
+    }
+    savePinnedDecks(next);
+  }, [pinnedDecks]);
 
   useEffect(() => {
-    if (!isLocal) return;
+    if (!TUNNEL_ENABLED || !isLocal) return;
     fetch("/api/tunnel")
       .then((res) => res.json())
       .then((data: TunnelState) => {
@@ -52,26 +124,39 @@ export function DeckGrid({ decks }: DeckGridProps) {
 
     const next = [...filtered];
 
+    // Priority: pinned decks first, sample-deck last, then normal sort
+    const compare = (a: DeckSummary, b: DeckSummary, cmp: () => number) => {
+      // sample-deck always last
+      if (a.name === "sample-deck") return 1;
+      if (b.name === "sample-deck") return -1;
+      // Pinned decks first
+      const aPinned = pinnedDecks.has(a.name);
+      const bPinned = pinnedDecks.has(b.name);
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return cmp();
+    };
+
     switch (sortOption) {
       case "title-asc":
-        next.sort((a, b) => collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => collator.compare(a.title, b.title)));
         break;
       case "title-desc":
-        next.sort((a, b) => collator.compare(b.title, a.title));
+        next.sort((a, b) => compare(a, b, () => collator.compare(b.title, a.title)));
         break;
       case "slides-asc":
-        next.sort((a, b) => a.slideCount - b.slideCount || collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => a.slideCount - b.slideCount || collator.compare(a.title, b.title)));
         break;
       case "slides-desc":
-        next.sort((a, b) => b.slideCount - a.slideCount || collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => b.slideCount - a.slideCount || collator.compare(a.title, b.title)));
         break;
       case "name-asc":
-        next.sort((a, b) => collator.compare(a.name, b.name));
+        next.sort((a, b) => compare(a, b, () => collator.compare(a.name, b.name)));
         break;
     }
 
     return next;
-  }, [decks, sortOption, query]);
+  }, [decks, sortOption, query, pinnedDecks]);
 
   return (
     <div className="space-y-4">
@@ -110,7 +195,13 @@ export function DeckGrid({ decks }: DeckGridProps) {
       {filteredAndSortedDecks.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredAndSortedDecks.map((deck) => (
-            <DeckCard key={deck.name} deck={deck} isSharing={deck.name === sharingDeck} />
+            <DeckCard
+              key={deck.name}
+              deck={deck}
+              isSharing={deck.name === sharingDeck}
+              isPinned={pinnedDecks.has(deck.name)}
+              onTogglePin={togglePin}
+            />
           ))}
         </div>
       ) : (
@@ -122,7 +213,17 @@ export function DeckGrid({ decks }: DeckGridProps) {
   );
 }
 
-const DeckCard = memo(function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }) {
+const DeckCard = memo(function DeckCard({
+  deck,
+  isSharing,
+  isPinned,
+  onTogglePin,
+}: {
+  deck: DeckSummary;
+  isSharing: boolean;
+  isPinned: boolean;
+  onTogglePin: (name: string) => void;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState<number | null>(null);
   const [deckData, setDeckData] = useState<Deck | null>(null);
@@ -198,12 +299,31 @@ const DeckCard = memo(function DeckCard({ deck, isSharing }: { deck: DeckSummary
         </p>
       </Link>
 
-      {isSharing && (
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/50 px-2.5 py-1 border border-emerald-200 dark:border-emerald-700">
-          <Globe size={12} className="text-emerald-600" />
-          <span className="text-[11px] font-medium text-emerald-600">Sharing</span>
-        </div>
-      )}
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onTogglePin(deck.name);
+          }}
+          aria-label={isPinned ? "Unpin deck" : "Pin deck"}
+          className={`rounded-full p-1.5 transition-all ${
+            isPinned
+              ? "bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 opacity-100"
+              : "bg-gray-200/80 dark:bg-gray-700/80 text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          <Pin size={14} className={isPinned ? "rotate-[-45deg]" : ""} />
+        </button>
+
+        {isSharing && (
+          <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/50 px-2.5 py-1 border border-emerald-200 dark:border-emerald-700">
+            <Globe size={12} className="text-emerald-600" />
+            <span className="text-[11px] font-medium text-emerald-600">Sharing</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 });
