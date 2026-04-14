@@ -76,3 +76,12 @@ pre code {
   transition-duration: 0s !important;
   transition-delay: 0s !important;
 }
+
+/* Hide scrollbars while keeping scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

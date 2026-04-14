@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -9,6 +10,9 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+
+# cloudflare wrangler cache
+**/.wrangler/
 
 # testing
 /coverage

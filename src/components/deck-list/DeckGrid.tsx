@@ -64,6 +64,7 @@ function savePinnedDecks(pinned: Set<string>) {
 
 interface DeckGridProps {
   decks: DeckSummary[];
+  filter?: "all" | "pinned";
 }
 
 type SortOption =
@@ -75,7 +76,7 @@ type SortOption =
 
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 
-export function DeckGrid({ decks }: DeckGridProps) {
+export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
   const isLocal = useIsLocal();
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>("title-asc");
@@ -114,13 +115,17 @@ export function DeckGrid({ decks }: DeckGridProps) {
 
   const filteredAndSortedDecks = useMemo(() => {
     const q = query.toLowerCase();
-    const filtered = q
+    let filtered = q
       ? decks.filter(
           (d) =>
             d.title.toLowerCase().includes(q) ||
             d.name.toLowerCase().includes(q),
         )
       : decks;
+
+    if (filter === "pinned") {
+      filtered = filtered.filter((d) => pinnedDecks.has(d.name));
+    }
 
     const next = [...filtered];
 
@@ -156,7 +161,7 @@ export function DeckGrid({ decks }: DeckGridProps) {
     }
 
     return next;
-  }, [decks, sortOption, query, pinnedDecks]);
+  }, [decks, sortOption, query, pinnedDecks, filter]);
 
   return (
     <div className="space-y-4">
@@ -206,7 +211,11 @@ export function DeckGrid({ decks }: DeckGridProps) {
         </div>
       ) : (
         <p className="py-12 text-center text-sm text-gray-500 dark:text-gray-400">
-          No decks found for &ldquo;{query}&rdquo;
+          {query
+            ? `No decks found for "${query}"`
+            : filter === "pinned"
+              ? "No pinned decks yet. Click the pin icon on any deck to add it here."
+              : "No decks found"}
         </p>
       )}
     </div>
