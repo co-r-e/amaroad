@@ -250,8 +250,8 @@ cp public/amaroad-logo.svg decks/<deck-name>/video/public/  # if logo references
 
 ```bash
 cd decks/<deck-name>/video
-npm install
-npx remotion render DeckVideo out/video.mp4
+pnpm install
+pnpm exec remotion render DeckVideo out/video.mp4
 ```
 
 ### Step 7: Report Results
@@ -330,7 +330,7 @@ User says: "Convert sample-deck to video but let me preview first."
 
 Actions:
 1. Generate the Remotion project under `decks/sample-deck/video/`.
-2. Run `npm install && npx remotion studio` to open the browser preview.
+2. Run `pnpm install && pnpm exec remotion studio` to open the browser preview.
 3. Review each scene in Remotion Studio and adjust timing or animations as needed.
 4. Render final video after user approval.
 
@@ -342,7 +342,7 @@ Result: Interactive preview in browser, then final rendered MP4 after confirmati
 
 Symptom: `npx remotion render` exits with a module resolution error.
 Cause: Dependencies were not installed or the import path is incorrect.
-Fix: Run `npm install` in the `video/` directory. Verify all scene imports in `DeckVideo.tsx` match the actual filenames in `src/scenes/`.
+Fix: Run `pnpm install` in the `video/` directory. Verify all scene imports in `DeckVideo.tsx` match the actual filenames in `src/scenes/`.
 
 ### Images appear as broken placeholders in the video
 
