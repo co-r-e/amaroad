@@ -2,7 +2,7 @@
 
 Last updated: 2026-03-02
 
-This file provides third-party license notices for dependencies used by DexCode.
+This file provides third-party license notices for dependencies used by Amaroad.
 
 - Project license: [MIT](./LICENSE)
 - Package manager: npm
@@ -42,7 +42,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 
 ## Dual-License Selection
 
-Where a dependency offers multiple license options, DexCode uses the following options for redistribution compliance:
+Where a dependency offers multiple license options, Amaroad uses the following options for redistribution compliance:
 
 - `jszip@3.10.1`: `(MIT OR GPL-3.0-or-later)` -> **MIT option selected**
 - `dompurify@3.3.1`: `(MPL-2.0 OR Apache-2.0)` -> **Apache-2.0 option selected**
