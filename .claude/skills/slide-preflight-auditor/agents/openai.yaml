@@ -1,4 +1,4 @@
 interface:
   display_name: "Slide Preflight Auditor"
-  short_description: "Audit DexCode slides against rules and report line-numbered findings"
+  short_description: "Audit Amaroad slides against rules and report line-numbered findings"
   default_prompt: "Use $slide-preflight-auditor to audit all decks and list errors first."

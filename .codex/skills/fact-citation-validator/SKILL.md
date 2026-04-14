@@ -1,7 +1,7 @@
 ---
 name: fact-citation-validator
 description: |
-  Validate factual and numeric claims in DexCode MDX slides and flag lines
+  Validate factual and numeric claims in Amaroad MDX slides and flag lines
   missing citations. Use before release or export when slides need traceable
   sources and a deterministic citation audit.
 ---

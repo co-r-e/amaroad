@@ -1,14 +1,14 @@
 ---
 name: remotion-video
 description: |
-  Convert a DexCode slide deck into a standalone animated Remotion video project.
+  Convert an Amaroad slide deck into a standalone animated Remotion video project.
   Use when a deck should become an MP4 or video-ready Remotion composition that
   reproduces the deck theme, layout, and slide flow.
 ---
 
 # Remotion Video
 
-Convert a DexCode presentation into a Remotion-based video project.
+Convert an Amaroad presentation into a Remotion-based video project.
 
 ## Use When
 

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styles from "./ShowcaseMatrix.module.css";
 
 interface MatrixCell {
@@ -81,7 +82,7 @@ export function ShowcaseMatrix({
             }}
           >
             {cells.map((row, ri) => (
-              <>
+              <Fragment key={`row-${ri}`}>
                 {hasRowHeaders && yHeaders[ri] ? (
                   <div key={`rh-${ri}`} className={styles.rowHeader}>
                     <p className={styles.rowHeaderText}>{yHeaders[ri]}</p>
@@ -131,7 +132,7 @@ export function ShowcaseMatrix({
                     </div>
                   );
                 })}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

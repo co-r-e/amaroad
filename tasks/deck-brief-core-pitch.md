@@ -40,7 +40,7 @@ Vision → Products → Traction → Ask
 | 02 | content | 課題：バーティカルAIの限界 | 汎用AIに飲まれる構造問題。概念を生み出す側にならないと勝てない |
 | 03 | content | ビジョン：概念を創出し、時代をリードする | バイブコーディング/OpenClawのように市場を創出する |
 | 04 | content | メインプロダクト | IrukaDark / Copelf / Nefia の概要 |
-| 05 | content | オープンソース | Zassha / DexCode / Starweft / Cerememory / Rollberry |
+| 05 | content | オープンソース | Zassha / Amaroad / Starweft / Cerememory / Rollberry |
 | 06 | content | トラクション | 売上2億円弱（シード段階） |
 | 07 | content | チーム | 創業メンバー紹介 |
 | 08 | ending | Ask / Thank You | シードラウンド調達・連絡先 |

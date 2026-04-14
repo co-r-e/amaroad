@@ -55,7 +55,7 @@ async function getSlideFiles() {
         for (const file of files) {
           if (!existing.has(file)) {
             console.warn(
-              `[dexcode] ${deckName}/slide-order.ts references missing file: ${file}`,
+              `[amaroad] ${deckName}/slide-order.ts references missing file: ${file}`,
             );
           }
         }
@@ -64,7 +64,7 @@ async function getSlideFiles() {
         for (const entry of existing) {
           if (entry.endsWith(".mdx") && !orderSet.has(entry)) {
             console.warn(
-              `[dexcode] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
+              `[amaroad] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
             );
           }
         }
@@ -73,11 +73,11 @@ async function getSlideFiles() {
       }
 
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts did not export an array; falling back to filename sort`,
+        `[amaroad] ${deckName}/slide-order.ts did not export an array; falling back to filename sort`,
       );
     } catch (error) {
       console.warn(
-        `[dexcode] Failed to load ${deckName}/slide-order.ts; falling back to filename sort:`,
+        `[amaroad] Failed to load ${deckName}/slide-order.ts; falling back to filename sort:`,
         error instanceof Error ? error.message : error,
       );
     }

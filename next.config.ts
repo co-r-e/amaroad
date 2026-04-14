@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   serverExternalPackages: ["jiti", "cloudflared"],
   devIndicators: false,
-  // DexCode shares local dev servers through Cloudflare quick tunnels.
+  // Amaroad shares local dev servers through Cloudflare quick tunnels.
   // Next.js 16 blocks dev-only internal assets/endpoints from cross-origin
   // hosts unless they are explicitly allowlisted, which leaves the app
   // server-rendered but never hydrated on the shared URL.

@@ -1,7 +1,7 @@
 ---
 name: fact-citation-validator
 description: |
-  Scans DexCode MDX slides for numeric and factual claims, then flags lines
+  Scans Amaroad MDX slides for numeric and factual claims, then flags lines
   that lack verifiable citations. Produces a line-numbered report with error
   and warning severity levels.
   Use when user says "citation check", "fact check slides", "source audit",

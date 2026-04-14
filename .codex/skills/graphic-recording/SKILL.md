@@ -1,7 +1,7 @@
 ---
 name: graphic-recording
 description: |
-  Generate a graphic-recording style image from DexCode slide content or slide
+  Generate a graphic-recording style image from Amaroad slide content or slide
   screenshots, match it to the deck theme, save it under the deck assets
   directory, and insert it into MDX. Use for hand-drawn visual note style slides.
 ---

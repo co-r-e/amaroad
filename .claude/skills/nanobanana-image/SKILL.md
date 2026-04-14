@@ -1,7 +1,7 @@
 ---
 name: nanobanana-image
 description: |
-  Generates AI images via Gemini API and inserts them into DexCode MDX slides.
+  Generates AI images via Gemini API and inserts them into Amaroad MDX slides.
   Captures the slide layout to auto-select the optimal aspect ratio, builds an
   optimized English prompt, generates the image, and updates the MDX file.
   Use when user says "generate image", "create image", "add a photo to this slide",

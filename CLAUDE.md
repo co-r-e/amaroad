@@ -1,4 +1,4 @@
-# DexCode — Project CLAUDE.md
+# Amaroad — Project CLAUDE.md
 
 ## MDX Slide Authoring Rules
 
@@ -202,6 +202,26 @@ css_variable_override_pattern:
     - TSX: Accept `style?: React.CSSProperties` prop, spread on root element.
     - MDX override: `<Component style={{ "--figure-imagetext-columns": "40% 1fr" }} />`
   scope: Layout structure (grid ratios, align, gap) and fixed sizes. Typography stays hardcoded until needed.
+
+ai_image_generation:
+  rule: >
+    When generating AI images for slides (via gemini-image or equivalent), prefer simple,
+    minimal compositions and 1K resolution to keep file sizes small without visible quality loss.
+  details:
+    - Resolution: default to `1K`. Only use `2K` when the image will be displayed full-bleed
+      on a high-DPI screen. Never use `4K` unless explicitly requested.
+    - Composition: one clear subject, centered, on a pure white background. No floating icons,
+      decorative sparkles, scattered UI elements, or busy backdrops around the main subject.
+    - Prompt wording: include phrases like "minimal clean composition", "no extra icons or
+      decorations", "pure white background", "centered composition".
+    - Style consistency: match the existing deck mascot style (e.g., for core-pitch, the dark
+      navy dolphin with pink rectangular sunglasses, chibi kawaii, thick black outlines, flat vector art).
+    - Target file size: roughly 500KB–1MB per image at 1K. If an image exceeds ~2MB, regenerate
+      with a simpler prompt rather than compressing lossy.
+  reason: >
+    Cluttered backgrounds compete with slide content and pull focus from the message.
+    Oversized PNGs (5MB+) slow down the slide runtime and bloat the repo unnecessarily.
+  scope: All AI-generated illustrations used inside decks/*/assets/.
 
 screenshot_placeholder:
   rule: >

@@ -1,4 +1,4 @@
 interface:
   display_name: "SVG Diagram"
   short_description: "Generate theme-matched SVG diagrams for slides"
-  default_prompt: "Use $svg-diagram to create a theme-matched SVG diagram for this DexCode slide."
+  default_prompt: "Use $svg-diagram to create a theme-matched SVG diagram for this Amaroad slide."

@@ -1,7 +1,7 @@
 ---
 name: slide-overflow-fixer
 description: |
-  Fix overflowing DexCode MDX slide content while keeping everything inside the
+  Fix overflowing Amaroad MDX slide content while keeping everything inside the
   safe zone. Use for clipped text, oversized media, dense layouts, and overlay
   collisions without changing heading design or slide-frame constraints.
 ---

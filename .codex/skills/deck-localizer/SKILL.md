@@ -1,7 +1,7 @@
 ---
 name: deck-localizer
 description: |
-  Localize DexCode deck MDX slides between Japanese and English while preserving
+  Localize Amaroad deck MDX slides between Japanese and English while preserving
   MDX and JSX structure. Use for deck translation, bilingual deck generation,
   or notes-only/body-only localization. Supports dry-run review before writing.
 ---
@@ -12,7 +12,7 @@ Translate an existing deck to Japanese or English with structure-safe automation
 
 ## Use When
 
-- A DexCode deck needs `ja` to `en` or `en` to `ja` localization
+- A Amaroad deck needs `ja` to `en` or `en` to `ja` localization
 - A bilingual version should be produced from the same source deck
 - Only slide body or only frontmatter `notes` should be translated
 

@@ -198,7 +198,7 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
   usePrefetchAdjacentSlides(deck.slides, currentSlide, deck.name);
 
   const handlePresenterMode = useCallback(() => {
-    window.open(`/${deck.name}/presenter`, "dexcode-presenter");
+    window.open(`/${deck.name}/presenter`, "amaroad-presenter");
   }, [deck.name]);
 
   if (isMobile) {

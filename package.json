@@ -1,17 +1,17 @@
 {
-  "name": "dexcode",
+  "name": "amaroad",
   "version": "0.1.4",
   "private": true,
-  "description": "AI-driven slide authoring tool built with Next.js and MDX",
+  "description": "Amaroad — AI-driven slide authoring tool built with Next.js and MDX",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/co-r-e/dexcode.git"
+    "url": "git+https://github.com/co-r-e/amaroad.git"
   },
   "bugs": {
-    "url": "https://github.com/co-r-e/dexcode/issues"
+    "url": "https://github.com/co-r-e/amaroad/issues"
   },
-  "homepage": "https://co-r-e.github.io/dexcode-lp/",
+  "homepage": "https://co-r-e.github.io/amaroad-lp/",
   "scripts": {
     "dev": "next dev --port 3850",
     "build": "next build",

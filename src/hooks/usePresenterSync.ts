@@ -33,7 +33,7 @@ export function usePresenterSync({
   useEffect(() => {
     let channel: BroadcastChannel;
     try {
-      channel = new BroadcastChannel(`dexcode-presenter-${deckName}`);
+      channel = new BroadcastChannel(`amaroad-presenter-${deckName}`);
     } catch {
       return;
     }

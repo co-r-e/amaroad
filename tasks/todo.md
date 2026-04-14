@@ -7,6 +7,7 @@
 - [completed] Stop production clients from calling the disabled `/api/tunnel` endpoint so `next start` no longer logs a 403 in the browser console.
 - [completed] Remove the remaining `react-hooks/set-state-in-effect` lint violation in `DeckGrid.tsx` by refactoring pinned deck persistence off the effect path.
 - [completed] Remove the React missing-key warning emitted by MDX-rendered `ShowcaseCover` by fixing the custom JSX runtime wrapper used by compiled MDX modules.
+- [completed] Second-pass review the Amaroad Cloud spec/PoC: routing consistency, PoC input handling, and remaining security/error-handling notes.
 
 # Review
 
@@ -29,3 +30,4 @@
 - Added `Children.toArray` normalization to the custom MDX JSX wrapper so compiled MDX sibling arrays keep React’s key semantics even without the standard `react/jsx-runtime` helper.
 - `npm run lint -- src/lib/mdx-runtime.tsx src/app/api/mdx/[deck]/[slide]/route.ts`: passed.
 - Browser verification on `http://localhost:3850/sample-deck` under `next dev`: `ShowcaseCover` rendered without the previous missing-key warning in the console.
+- Amaroad Cloud second-pass: aligned the spec on explicit hash URLs for `svelte-spa-router`, fixed `index.html` wording, clarified failed-ingest polling, documented `FP_SALT` usage and production security hardening, changed `invitation.inviterId` to `SET NULL`, and tightened the PoC DO to reject malformed `sessionId` / fingerprint inputs plus absurd `slideIndex` values.

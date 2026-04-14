@@ -37,7 +37,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
         slideCount: mdxFiles.length,
       });
     } catch (e) {
-      console.warn(`[dexcode] Skipping deck "${entry.name}":`, e instanceof Error ? e.message : e);
+      console.warn(`[amaroad] Skipping deck "${entry.name}":`, e instanceof Error ? e.message : e);
     }
   }
 
@@ -81,7 +81,7 @@ async function loadSlideOrder(deckDir: string): Promise<string[] | null> {
 
   if (!Array.isArray(order)) {
     console.warn(
-      `[dexcode] slide-order.ts in ${deckName}: expected default export to be an array`,
+      `[amaroad] slide-order.ts in ${deckName}: expected default export to be an array`,
     );
     return null;
   }
@@ -99,7 +99,7 @@ async function getMdxFiles(deckDir: string): Promise<string[]> {
     for (const file of order) {
       if (!entries.has(file)) {
         console.warn(
-          `[dexcode] ${deckName}/slide-order.ts references missing file: ${file}`,
+          `[amaroad] ${deckName}/slide-order.ts references missing file: ${file}`,
         );
       }
     }
@@ -108,7 +108,7 @@ async function getMdxFiles(deckDir: string): Promise<string[]> {
     for (const entry of entries) {
       if (entry.endsWith(".mdx") && !orderSet.has(entry)) {
         console.warn(
-          `[dexcode] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
+          `[amaroad] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
         );
       }
     }

@@ -2,7 +2,7 @@ import { listDecks } from "@/lib/deck-loader";
 import { DeckGrid } from "@/components/deck-list/DeckGrid";
 import { getTunnelAccess } from "@/lib/tunnel-access";
 import { redirect, notFound } from "next/navigation";
-import Image from "next/image";
+import { AmaroadLogo } from "@/components/AmaroadLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const dynamic = "force-dynamic";
@@ -19,13 +19,11 @@ export default async function HomePage() {
   return (
     <div className="flex min-h-screen flex-col p-8">
       <header className="mb-12 flex items-center gap-4">
-        <Image
-          src="/dexcode-logo.svg"
-          alt="DexCode"
+        <AmaroadLogo
           width={199}
           height={50}
-          priority
-          className="dark:[filter:invert(1)_hue-rotate(180deg)]"
+          aria-label="Amaroad"
+          className="text-[#02001A] dark:text-white"
         />
         <div className="flex-1" />
         <ThemeToggle />

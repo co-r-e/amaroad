@@ -268,7 +268,7 @@ function getScaffoldCopy(lang: Lang): ScaffoldCopy {
       endingBody: "この下書きをベースに、具体情報とビジュアルを加えてプレゼンに仕上げてください。",
       endingNote: "自動生成したエンディングスライド。",
       endingActions: ["内容を磨く", "図解を追加", "発表準備"],
-      endingFooter: "DexCode なら、このまま MDX を育てて完成版まで持っていけます。",
+      endingFooter: "Amaroad なら、このまま MDX を育てて完成版まで持っていけます。",
     };
   }
 
@@ -310,7 +310,7 @@ function getScaffoldCopy(lang: Lang): ScaffoldCopy {
     endingBody: "Use this scaffold as a base, then add concrete detail and visuals to make it presentation-ready.",
     endingNote: "Auto-generated ending slide.",
     endingActions: ["Refine Story", "Add Visuals", "Prepare Talk"],
-    endingFooter: "DexCode is designed so you can keep evolving the MDX until the final presentation is ready.",
+    endingFooter: "Amaroad is designed so you can keep evolving the MDX until the final presentation is ready.",
   };
 }
 
@@ -416,7 +416,7 @@ function buildDeckConfig(args: Args): string {
 export default defineConfig({
   title: "${escapeTsString(args.title)}",
   logo: {
-    src: "/dexcode-logo.svg",
+    src: "/amaroad-logo.svg",
     position: "top-right",
   },
   copyright: {

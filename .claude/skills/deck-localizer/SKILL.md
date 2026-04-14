@@ -1,7 +1,7 @@
 ---
 name: deck-localizer
 description: |
-  Translates DexCode MDX slides between Japanese and English while preserving
+  Translates Amaroad MDX slides between Japanese and English while preserving
   MDX/JSX structure, code fences, URLs, and asset paths. Uses Gemini API for
   high-quality batch translation with structural validation.
   Use when user says "localize deck", "translate slides", "ja to en deck",

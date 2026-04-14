@@ -289,7 +289,7 @@ function protectSegments(input: string): ProtectedSegments {
 
   const place = (value: string): string => {
     sequence += 1;
-    const token = `__DEXCODE_TOKEN_${String(sequence).padStart(4, "0")}__`;
+    const token = `__AMAROAD_TOKEN_${String(sequence).padStart(4, "0")}__`;
     segments.push({ token, value });
     return token;
   };
@@ -328,13 +328,13 @@ function fromLanguageName(lang: FromLanguage): string {
 
 function buildBodyPrompt(maskedBody: string, to: Language, from: FromLanguage): string {
   return [
-    "You are a professional localization editor for DexCode MDX slides.",
+    "You are a professional localization editor for Amaroad MDX slides.",
     `Translate human-readable prose into ${languageName(to)}.`,
     `Source language hint: ${fromLanguageName(from)}.`,
     "",
     "Strict rules:",
     "- Preserve MDX/Markdown/JSX syntax exactly.",
-    "- Preserve all placeholders like __DEXCODE_TOKEN_0001__ exactly.",
+    "- Preserve all placeholders like __AMAROAD_TOKEN_0001__ exactly.",
     "- Do not change component names, prop keys, asset paths, URLs, or CSS variables.",
     "- Do not add or remove sections.",
     "- Keep heading and bullet structure.",
@@ -355,7 +355,7 @@ function buildNotesPrompt(maskedNotes: string, to: Language, from: FromLanguage)
     "",
     "Strict rules:",
     "- Preserve line breaks and bullet structure.",
-    "- Preserve placeholders like __DEXCODE_TOKEN_0001__ exactly.",
+    "- Preserve placeholders like __AMAROAD_TOKEN_0001__ exactly.",
     "- Keep numbers and URLs unchanged.",
     "- Return only the translated notes text. No commentary.",
     "",

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styles from "./ShowcaseComparisonTable.module.css";
 
 interface ShowcaseComparisonTableProps {
@@ -38,12 +39,19 @@ export function ShowcaseComparisonTable({
           const isLast = ri === rows.length - 1;
 
           return (
-            <RowCells
-              key={ri}
-              feature={row.feature}
-              values={row.values}
-              isLast={isLast}
-            />
+            <Fragment key={ri}>
+              <div className={isLast ? styles.featureCellLast : styles.featureCell}>
+                <p className={styles.featureText}>{row.feature}</p>
+              </div>
+              {row.values.map((val, vi) => (
+                <div
+                  key={vi}
+                  className={isLast ? styles.valueCellLast : styles.valueCell}
+                >
+                  <p className={styles.valueText}>{val}</p>
+                </div>
+              ))}
+            </Fragment>
           );
         })}
       </div>
@@ -51,28 +59,3 @@ export function ShowcaseComparisonTable({
   );
 }
 
-function RowCells({
-  feature,
-  values,
-  isLast,
-}: {
-  feature: string;
-  values: string[];
-  isLast: boolean;
-}) {
-  return (
-    <>
-      <div className={isLast ? styles.featureCellLast : styles.featureCell}>
-        <p className={styles.featureText}>{feature}</p>
-      </div>
-      {values.map((val, vi) => (
-        <div
-          key={vi}
-          className={isLast ? styles.valueCellLast : styles.valueCell}
-        >
-          <p className={styles.valueText}>{val}</p>
-        </div>
-      ))}
-    </>
-  );
-}

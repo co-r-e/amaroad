@@ -1,7 +1,7 @@
 ---
 name: speaker-notes-polisher
 description: |
-  Refine DexCode slide frontmatter notes by extracting key points from headings
+  Refine Amaroad slide frontmatter notes by extracting key points from headings
   and lists, then standardize them into Purpose, Talking Points, and Estimated
   Time. Supports fill mode and full rewrite mode.
 ---

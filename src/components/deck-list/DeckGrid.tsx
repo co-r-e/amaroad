@@ -9,8 +9,8 @@ import { useIsLocal } from "@/hooks/useIsLocal";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
 
-const PINNED_STORAGE_KEY = "dexcode-pinned-decks";
-const PINNED_CHANGE_EVENT = "dexcode:pinned-decks-change";
+const PINNED_STORAGE_KEY = "amaroad-pinned-decks";
+const PINNED_CHANGE_EVENT = "amaroad:pinned-decks-change";
 const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
 
 function parsePinnedDecks(raw: string | null): Set<string> {
@@ -109,7 +109,7 @@ export function DeckGrid({ decks }: DeckGridProps) {
           setSharingDeck(data.deckName);
         }
       })
-      .catch((err) => console.warn("[dexcode] Failed to fetch tunnel state:", err));
+      .catch((err) => console.warn("[amaroad] Failed to fetch tunnel state:", err));
   }, [isLocal]);
 
   const filteredAndSortedDecks = useMemo(() => {
@@ -236,7 +236,7 @@ const DeckCard = memo(function DeckCard({
         return res.json();
       })
       .then((data: Deck) => setDeckData(data))
-      .catch((err) => console.warn("[dexcode] Failed to fetch deck data:", err));
+      .catch((err) => console.warn("[amaroad] Failed to fetch deck data:", err));
   }, [deck.name]);
 
   // Calculate scale based on container width

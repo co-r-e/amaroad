@@ -429,8 +429,8 @@ class TunnelManager {
 // ---------------------------------------------------------------------------
 
 const globalForTunnel = globalThis as typeof globalThis & {
-  __dexcodeTunnel?: TunnelManager;
+  __amaroadTunnel?: TunnelManager;
 };
 
 export const tunnelManager =
-  globalForTunnel.__dexcodeTunnel ??= new TunnelManager();
+  globalForTunnel.__amaroadTunnel ??= new TunnelManager();

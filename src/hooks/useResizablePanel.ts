@@ -7,7 +7,7 @@ interface PanelState {
   isOpen: boolean;
 }
 
-const STORAGE_KEY = "dexcode-notes-panel";
+const STORAGE_KEY = "amaroad-notes-panel";
 const MIN_WIDTH = 240;
 const MAX_WIDTH = 600;
 const DEFAULT_WIDTH = 320;

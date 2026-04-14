@@ -23,8 +23,8 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "DexCode",
-  description: "Slide presentation tool powered by MDX",
+  title: "Amaroad",
+  description: "Amaroad — AI-driven slide authoring tool",
   icons: {
     icon: "/favicon.svg",
   },

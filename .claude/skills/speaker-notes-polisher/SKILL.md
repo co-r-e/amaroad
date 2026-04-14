@@ -1,7 +1,7 @@
 ---
 name: speaker-notes-polisher
 description: |
-  Standardizes speaker notes across all MDX slides in a DexCode deck. Extracts
+  Standardizes speaker notes across all MDX slides in an Amaroad deck. Extracts
   key points from headings and lists, then structures them into Purpose, Talking
   Points, and Estimated Time sections. Supports fill mode (add missing sections
   only) and rewrite mode (unify tone/structure across all slides).

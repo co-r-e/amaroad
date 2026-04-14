@@ -1,4 +1,4 @@
 interface:
   display_name: "Excel to Slides"
-  short_description: "Generate a DexCode slide deck from an Excel file"
+  short_description: "Generate an Amaroad slide deck from an Excel file"
   default_prompt: "Use $excel-to-slides to generate MDX slides from the given Excel file."

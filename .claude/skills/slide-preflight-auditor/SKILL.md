@@ -1,7 +1,7 @@
 ---
 name: slide-preflight-auditor
 description: |
-  Runs preflight audits on DexCode MDX slides to detect rule violations before
+  Runs preflight audits on Amaroad MDX slides to detect rule violations before
   review or export. Checks font sizes, accent borders, Tailwind usage, hard-coded
   colors, and missing speaker notes. Outputs line-numbered findings with severity.
   Use when user says "preflight", "lint slides", "slide audit", "safe zone check",

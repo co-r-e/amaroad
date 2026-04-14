@@ -1,7 +1,7 @@
 ---
 name: nanobanana-image-edit
 description: |
-  Edits existing images via Gemini API and updates them in DexCode slide decks.
+  Edits existing images via Gemini API and updates them in Amaroad slide decks.
   Sends the original image with an edit prompt to apply targeted modifications
   such as removing objects, changing colors, or adding elements.
   Use when user says "edit image", "fix image", "modify image", "remove the
