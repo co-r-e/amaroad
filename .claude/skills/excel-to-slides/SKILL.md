@@ -21,8 +21,7 @@ Generate an Amaroad slide deck where each Excel row becomes one MDX slide.
 # Copy script to project if not present
 cp <skill-dir>/scripts/generate-from-excel.mjs <project>/scripts/
 
-# Ensure xlsx is installed
-npm install --save-dev xlsx
+# xlsx is already a direct dependency (installed by `pnpm install`)
 
 # Dry-run first
 node scripts/generate-from-excel.mjs <excel-file> <deck-name> \
@@ -36,7 +35,7 @@ node scripts/generate-from-excel.mjs <excel-file> <deck-name> \
 ## Workflow
 
 1. **Confirm inputs** — Ask user for: Excel file path, deck name, title, logo (optional).
-2. **Ensure xlsx package** — Run `npm ls xlsx` in the project root. If missing: `npm install --save-dev xlsx`.
+2. **Ensure xlsx package** — Run `pnpm ls xlsx` in the project root. If missing: `pnpm install`.
 3. **Copy script** — Copy `scripts/generate-from-excel.mjs` from skill dir to project `scripts/`.
 4. **Dry-run** — Execute with `--dry-run`, show the file list.
 5. **Generate** — Run without `--dry-run`.

@@ -56,5 +56,14 @@
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.31.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cloudflared",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

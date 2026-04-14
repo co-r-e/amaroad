@@ -11,20 +11,94 @@ if (!validModes.has(mode)) {
 }
 
 const rootDir = process.cwd();
-const lockPath = path.join(rootDir, "package-lock.json");
+const pnpmDir = path.join(rootDir, "node_modules", ".pnpm");
 const noticesPath = path.join(rootDir, "THIRD_PARTY_NOTICES.md");
 
-const lock = JSON.parse(fs.readFileSync(lockPath, "utf8"));
-const packages = lock.packages ?? {};
-
-const resolved = [];
-for (const [pkgPath, meta] of Object.entries(packages)) {
-  if (!pkgPath || !pkgPath.startsWith("node_modules/")) continue;
-  const name = pkgPath.slice("node_modules/".length);
-  const version = String(meta.version ?? "?");
-  const license = String(meta.license ?? "UNKNOWN");
-  resolved.push({ name, version, license });
+if (!fs.existsSync(pnpmDir)) {
+  console.error(
+    "node_modules/.pnpm not found. Run `pnpm install` before running notices.",
+  );
+  process.exit(1);
 }
+
+function normalizeLicense(pkg) {
+  const { license, licenses } = pkg;
+  if (typeof license === "string" && license.length > 0) return license;
+  if (license && typeof license === "object" && typeof license.type === "string") {
+    return license.type;
+  }
+  if (Array.isArray(licenses) && licenses.length > 0) {
+    return licenses
+      .map((l) => (typeof l === "string" ? l : l?.type))
+      .filter(Boolean)
+      .join(" OR ");
+  }
+  return "UNKNOWN";
+}
+
+function readPackageJson(dir) {
+  const pkgPath = path.join(dir, "package.json");
+  try {
+    return JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function collectScopedOrPlain(nmDir) {
+  const results = [];
+  const entries = fs.readdirSync(nmDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory() && !entry.isSymbolicLink()) continue;
+    if (entry.name === ".bin" || entry.name === ".modules.yaml") continue;
+    if (entry.name.startsWith("@")) {
+      const scopeDir = path.join(nmDir, entry.name);
+      let scoped;
+      try {
+        scoped = fs.readdirSync(scopeDir, { withFileTypes: true });
+      } catch {
+        continue;
+      }
+      for (const child of scoped) {
+        if (!child.isDirectory() && !child.isSymbolicLink()) continue;
+        const pkgDir = path.join(scopeDir, child.name);
+        const pkg = readPackageJson(pkgDir);
+        if (pkg && typeof pkg.name === "string") results.push(pkg);
+      }
+    } else {
+      const pkgDir = path.join(nmDir, entry.name);
+      const pkg = readPackageJson(pkgDir);
+      if (pkg && typeof pkg.name === "string") results.push(pkg);
+    }
+  }
+  return results;
+}
+
+const pnpmEntries = fs.readdirSync(pnpmDir, { withFileTypes: true });
+const resolved = [];
+const seen = new Set();
+
+for (const entry of pnpmEntries) {
+  if (!entry.isDirectory()) continue;
+  if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
+  const nmDir = path.join(pnpmDir, entry.name, "node_modules");
+  if (!fs.existsSync(nmDir)) continue;
+  for (const pkg of collectScopedOrPlain(nmDir)) {
+    const key = `${pkg.name}@${pkg.version ?? "?"}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    resolved.push({
+      name: pkg.name,
+      version: String(pkg.version ?? "?"),
+      license: normalizeLicense(pkg),
+    });
+  }
+}
+
+resolved.sort((a, b) => {
+  if (a.name !== b.name) return a.name.localeCompare(b.name);
+  return a.version.localeCompare(b.version);
+});
 
 const resolvedCount = resolved.length;
 
@@ -40,7 +114,7 @@ const licenseRows = Array.from(licenseCountMap.entries()).sort((a, b) => {
 
 const summaryLines = [
   `- Resolved package entries: ${resolvedCount}`,
-  "- Generated from: `package-lock.json`",
+  "- Generated from: `node_modules/.pnpm` (via `pnpm install`)",
   "",
   "| License expression | Package count |",
   "| --- | ---: |",
@@ -137,7 +211,7 @@ if (mode === "--update") {
 
 if (next !== current) {
   console.error("THIRD_PARTY_NOTICES.md is out of date.");
-  console.error("Run: npm run notices:update");
+  console.error("Run: pnpm notices:update");
   process.exit(1);
 }
 

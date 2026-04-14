@@ -9,7 +9,7 @@
  *     --output <output.png> \
  *     [--port 3000]
  *
- * Requires the dev server to be running (`npm run dev`).
+ * Requires the dev server to be running (`pnpm dev`).
  */
 
 import * as fs from "fs";
@@ -80,7 +80,7 @@ async function main(): Promise<void> {
     if (msg.includes("ECONNREFUSED") || msg.includes("fetch failed")) {
       process.stderr.write(
         `Error: Could not connect to dev server at localhost:${args.port}. ` +
-        `Make sure it is running with: npm run dev\n`,
+        `Make sure it is running with: pnpm dev\n`,
       );
     } else {
       process.stderr.write(`Error: ${msg}\n`);

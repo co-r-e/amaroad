@@ -37,7 +37,7 @@ npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
 ```
 Default language is `en` unless you pass `--lang ja`.
 4. Verify the generated files in stdout and on disk
-5. Fill real content, then preview with `npm run dev`
+5. Fill real content, then preview with `pnpm dev`
 
 ## Failure Behavior
 
@@ -60,7 +60,7 @@ Actions:
 1. Confirm deck name (`ai-adoption-strategy`), title, and brief with user.
 2. Run: `npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts --deck ai-adoption-strategy --title "AI Adoption Strategy" --brief "Overview of AI adoption roadmap for engineering teams" --slides 10 --lang en`
 3. Verify generated files in stdout and on disk.
-4. Preview with `npm run dev` and fill in real content.
+4. Preview with `pnpm dev` and fill in real content.
 
 Result: `decks/ai-adoption-strategy/` directory with `deck.config.ts` and 10 numbered MDX files (cover, sections, content, ending).
 

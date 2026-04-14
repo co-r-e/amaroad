@@ -37,6 +37,7 @@ declare global {
     getWebSockets(tag?: string): WebSocket[];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface DurableObjectId {}
 
   interface DurableObjectStub {

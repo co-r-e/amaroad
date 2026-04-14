@@ -42,15 +42,15 @@
 ## Requirements
 
 - Node.js 20+
-- npm
+- pnpm 10+
 
 ## Quick Start
 
 ```bash
 git clone git@github.com:co-r-e/amaroad.git
 cd amaroad
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the deck listing page. Click a deck to view it.
@@ -312,7 +312,7 @@ Numbered process steps:
 
 ```mdx
 <Steps>
-  <Step title="Install">Run npm install</Step>
+  <Step title="Install">Run pnpm install</Step>
   <Step title="Configure">Edit deck.config.ts</Step>
   <Step title="Create">Write MDX slides</Step>
 </Steps>
@@ -633,10 +633,10 @@ Amaroad includes 15 project skills under `.codex/skills/` for Codex. Most of the
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| `pnpm dev` | Start development server with hot reload |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
 
 ## Community
 

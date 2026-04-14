@@ -64,7 +64,7 @@ npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
 
 ## Operational Notes
 
-- After generation, validate visually with `npm run dev`.
+- After generation, validate visually with `pnpm dev`.
 - Treat generated text as draft only; always fact-check and polish narrative tone.
 
 ## Examples
