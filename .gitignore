@@ -33,6 +33,8 @@
 # misc
 .DS_Store
 *.pem
+.tmp-*
+*.tmp.png
 
 # logs
 *.log
