@@ -1,7 +1,7 @@
 ---
 name: deck-scaffold-from-brief
 description: |
-  Scaffolds a new DexCode slide deck from a user brief. Generates deck.config.ts
+  Scaffolds a new Amaroad slide deck from a user brief. Generates deck.config.ts
   and a full set of numbered MDX slide files (cover, section, content, ending).
   Use when user says "new deck", "scaffold deck", "create presentation",
   "make a deck from this brief", or the Japanese equivalent "デッキを作って".
@@ -12,7 +12,7 @@ description: |
 
 # Deck Scaffold From Brief
 
-Create a new DexCode deck skeleton from a short brief with minimal setup time.
+Create a new Amaroad deck skeleton from a short brief with minimal setup time.
 
 ## Outputs
 

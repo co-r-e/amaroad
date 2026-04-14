@@ -1,7 +1,7 @@
 ---
 name: theme-normalizer
 description: |
-  Replaces hard-coded HEX colors in DexCode MDX slides with CSS variable
+  Replaces hard-coded HEX colors in Amaroad MDX slides with CSS variable
   references (var(--slide-*)) based on the deck's theme.colors in deck.config.ts.
   Use when user says "normalize theme", "hardcoded hex", "theme color normalize",
   "replace hex with variables", or "/theme-normalizer".

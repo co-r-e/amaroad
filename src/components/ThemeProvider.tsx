@@ -8,7 +8,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     <NextThemesProvider
       attribute="class"
       defaultTheme="system"
-      storageKey="dexcode-theme"
+      storageKey="amaroad-theme"
     >
       {children}
     </NextThemesProvider>

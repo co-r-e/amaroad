@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to DexCode will be documented in this file.
+All notable changes to Amaroad will be documented in this file.
 
 ## [0.1.4] - 2026-03-25
 
@@ -61,7 +61,7 @@ All notable changes to DexCode will be documented in this file.
 
 ### Added
 
-- Initial release of DexCode
+- Initial release of Amaroad
 - MDX-based slide authoring with live preview
 - PDF and PPTX export
 - Presenter mode with speaker notes

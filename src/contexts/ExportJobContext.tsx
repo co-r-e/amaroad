@@ -264,7 +264,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
         imagesRef.current.push(dataUrl);
       } catch (err) {
         if (isStale()) return;
-        console.warn(`[dexcode] Slide ${currentSlideIndex + 1} export failed:`, err);
+        console.warn(`[amaroad] Slide ${currentSlideIndex + 1} export failed:`, err);
         imagesRef.current.push(await createBlankSlideImage());
       }
 
@@ -336,7 +336,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
           return;
         }
 
-        console.error("[dexcode] Export generation failed:", err);
+        console.error("[amaroad] Export generation failed:", err);
         if (!isStale()) {
           abortRef.current = null;
           setPhase("error");

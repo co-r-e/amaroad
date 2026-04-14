@@ -1,7 +1,7 @@
 ---
 name: excel-to-slides
 description: |
-  Generates a DexCode MDX slide deck from an Excel (.xlsx) file. Each row
+  Generates an Amaroad MDX slide deck from an Excel (.xlsx) file. Each row
   becomes one content slide with a consistent card-based layout. Produces
   deck.config.ts, a ShowcaseCover, and numbered MDX files.
   Use when user says "Excelからスライド", "Excel to slides", "スプレッドシートから
@@ -13,7 +13,7 @@ description: |
 
 # Excel to Slides
 
-Generate a DexCode slide deck where each Excel row becomes one MDX slide.
+Generate an Amaroad slide deck where each Excel row becomes one MDX slide.
 
 ## Workflow
 

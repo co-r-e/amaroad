@@ -10,7 +10,7 @@ export function normalizeSlideOrderEntries(
   for (const [index, entry] of entries.entries()) {
     if (typeof entry !== "string") {
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts has non-string entry at index ${index}`,
+        `[amaroad] ${deckName}/slide-order.ts has non-string entry at index ${index}`,
       );
       continue;
     }
@@ -18,14 +18,14 @@ export function normalizeSlideOrderEntries(
     const raw = entry.trim();
     if (!raw) {
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts has empty entry at index ${index}`,
+        `[amaroad] ${deckName}/slide-order.ts has empty entry at index ${index}`,
       );
       continue;
     }
 
     if (path.isAbsolute(raw) || raw.includes("/") || raw.includes("\\")) {
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts has invalid path-like entry at index ${index}: ${raw}`,
+        `[amaroad] ${deckName}/slide-order.ts has invalid path-like entry at index ${index}: ${raw}`,
       );
       continue;
     }
@@ -33,7 +33,7 @@ export function normalizeSlideOrderEntries(
     const ext = path.extname(raw);
     if (ext && ext !== ".mdx") {
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts has unsupported extension at index ${index}: ${raw}`,
+        `[amaroad] ${deckName}/slide-order.ts has unsupported extension at index ${index}: ${raw}`,
       );
       continue;
     }
@@ -41,7 +41,7 @@ export function normalizeSlideOrderEntries(
     const filename = ext === ".mdx" ? raw : `${raw}.mdx`;
     if (seen.has(filename)) {
       console.warn(
-        `[dexcode] ${deckName}/slide-order.ts has duplicate entry: ${filename}`,
+        `[amaroad] ${deckName}/slide-order.ts has duplicate entry: ${filename}`,
       );
       continue;
     }

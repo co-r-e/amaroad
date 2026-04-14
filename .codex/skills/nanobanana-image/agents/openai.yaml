@@ -1,4 +1,4 @@
 interface:
   display_name: "Nanobanana Image"
   short_description: "Generate slide images and insert them in MDX"
-  default_prompt: "Use $nanobanana-image to generate a new image asset for this DexCode slide and insert it into the MDX."
+  default_prompt: "Use $nanobanana-image to generate a new image asset for this Amaroad slide and insert it into the MDX."

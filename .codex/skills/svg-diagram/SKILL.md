@@ -1,7 +1,7 @@
 ---
 name: svg-diagram
 description: |
-  Generate professional SVG diagrams for DexCode slides, match the current deck
+  Generate professional SVG diagrams for Amaroad slides, match the current deck
   theme, save them under the deck assets directory, and insert them into MDX.
   Use for flows, architecture, comparisons, hierarchies, cycles, and concept maps.
 ---

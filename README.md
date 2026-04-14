@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/dexcode-logo.svg" alt="DexCode" width="240" />
+  <img src="public/amaroad-logo.svg" alt="Amaroad" width="240" />
 </p>
 
 <p align="center">
@@ -7,7 +7,13 @@
   Author your slides from the CLI using tools like Claude Code or Codex, and view them in the browser with a PowerPoint-like sidebar layout.
 </p>
 
-> **DexCode is an AI-driven slide authoring tool.** The web UI is view-only — all slide creation and editing is done through AI coding agents.
+> **Renamed from DexCode to Amaroad** — this project was previously published as **DexCode** (`co-r-e/dexcode`) and was renamed to **Amaroad** (`co-r-e/amaroad`) in April 2026. GitHub preserves the redirect for old URLs, but please update bookmarks and local clones:
+> ```bash
+> git remote set-url origin git@github.com:co-r-e/amaroad.git
+> ```
+> All DexCode references inside this codebase (package name, logo, CSS variables, internal event/storage keys, type names, log prefixes) have been updated. The MDX authoring experience is unchanged.
+
+> **Amaroad is an AI-driven slide authoring tool.** The web UI is view-only — all slide creation and editing is done through AI coding agents.
 >
 > - **AI-first workflow** -- Slides are always created and modified via AI agents such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or [Codex](https://openai.com/index/codex/). The browser is purely for previewing and presenting.
 > - **Small edits, too** -- Even minor tweaks (typo fixes, color changes, reordering slides) are delegated to the AI rather than edited by hand.
@@ -41,8 +47,8 @@
 ## Quick Start
 
 ```bash
-git clone git@github.com:co-r-e/dexcode.git
-cd dexcode
+git clone git@github.com:co-r-e/amaroad.git
+cd amaroad
 npm install
 npm run dev
 ```
@@ -52,7 +58,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the deck listing page
 ## Project Structure
 
 ```
-dexcode/
+amaroad/
 ├── .codex/
 │   └── skills/                # Project skills for Codex
 ├── .claude/
@@ -100,7 +106,7 @@ import { defineConfig } from "../../src/lib/deck-config";
 export default defineConfig({
   title: "My Presentation",
   logo: {
-    src: "/dexcode-logo.svg",  // or "./assets/my-logo.svg"
+    src: "/amaroad-logo.svg",  // or "./assets/my-logo.svg"
     position: "top-right",   // top-left | top-center | top-right | bottom-left | bottom-center | bottom-right
   },
   copyright: {
@@ -199,7 +205,7 @@ A subtitle or description goes here
 
 ## Recommended Workflow
 
-Building a great deck with DexCode is a conversation with AI. Here is the workflow we recommend:
+Building a great deck with Amaroad is a conversation with AI. Here is the workflow we recommend:
 
 ### Step 1: Establish the deck's visual identity
 
@@ -400,7 +406,7 @@ Standard Markdown tables with styled headers:
 
 ## Showcase Components
 
-DexCode includes 25+ pre-built showcase components -- full-slide layout templates that handle positioning, spacing, and responsive design. Use these instead of building layouts from scratch.
+Amaroad includes 25+ pre-built showcase components -- full-slide layout templates that handle positioning, spacing, and responsive design. Use these instead of building layouts from scratch.
 
 ### Covers & Sections
 
@@ -470,7 +476,7 @@ DexCode includes 25+ pre-built showcase components -- full-slide layout template
 - **ScreenshotCallouts** -- Screenshot with annotated callouts
 
 ```mdx
-<ShowcaseQuote quote="DexCode changed how we build presentations." author="Jane Doe" role="CTO, Acme Inc." />
+<ShowcaseQuote quote="Amaroad changed how we build presentations." author="Jane Doe" role="CTO, Acme Inc." />
 
 <ShowcaseTeamGrid variant="circle" members={[{ name: "Alice", role: "Engineer", image: "./assets/alice.jpg" }]} />
 ```
@@ -569,7 +575,7 @@ Then use in any MDX file:
 
 ## AI Skills
 
-DexCode includes 15 project skills under `.codex/skills/` for Codex. Most of them are also mirrored under `.claude/skills/` for Claude Code. These skills are designed to be triggered from normal CLI chat requests, so users do not need to run the skill files manually.
+Amaroad includes 15 project skills under `.codex/skills/` for Codex. Most of them are also mirrored under `.claude/skills/` for Claude Code. These skills are designed to be triggered from normal CLI chat requests, so users do not need to run the skill files manually.
 
 ### How users should ask
 

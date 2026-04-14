@@ -286,7 +286,7 @@ async function getCaptureFontEmbedCss(
   const request = getFontEmbedCSS(container, {
     preferredFontFormat: "woff2",
   }).catch((error) => {
-    console.warn("[dexcode] Failed to prepare embedded export fonts:", error);
+    console.warn("[amaroad] Failed to prepare embedded export fonts:", error);
     captureFontCssCache.delete(cacheKey);
     return null;
   });

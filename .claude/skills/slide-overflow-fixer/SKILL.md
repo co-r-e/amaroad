@@ -1,7 +1,7 @@
 ---
 name: slide-overflow-fixer
 description: |
-  Fixes overflowing MDX slide content in DexCode decks while keeping all content
+  Fixes overflowing MDX slide content in Amaroad decks while keeping all content
   inside the inviolable area. Applies layout changes, media resizing, text and
   spacing tuning, and slide splitting as a last resort.
   Use when user says "overflow", "clipping", "content does not fit", "ha-mi-dashi",

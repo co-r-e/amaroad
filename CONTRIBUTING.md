@@ -1,6 +1,6 @@
-# Contributing to DexCode
+# Contributing to Amaroad
 
-Thanks for contributing to DexCode.
+Thanks for contributing to Amaroad.
 
 ## Before You Start
 
@@ -11,8 +11,8 @@ Thanks for contributing to DexCode.
 ## Development Setup
 
 ```bash
-git clone git@github.com:co-r-e/dexcode.git
-cd dexcode
+git clone git@github.com:co-r-e/amaroad.git
+cd amaroad
 npm install
 npm run dev
 ```

@@ -41,7 +41,7 @@ class MDXErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("[dexcode] MDX render error:", error, info.componentStack);
+    console.error("[amaroad] MDX render error:", error, info.componentStack);
   }
 
   render() {
@@ -63,18 +63,18 @@ interface CompiledMDX {
   error: string | null;
 }
 
-interface DexcodeReactRuntime {
+interface AmaroadReactRuntime {
   Children: typeof Children;
   createElement: typeof createElement;
   Fragment: typeof Fragment;
 }
 
 declare global {
-  var __dexcodeReact: DexcodeReactRuntime | undefined;
+  var __amaroadReact: AmaroadReactRuntime | undefined;
 }
 
-function ensureDexcodeReactRuntime(): void {
-  globalThis.__dexcodeReact = {
+function ensureAmaroadReactRuntime(): void {
+  globalThis.__amaroadReact = {
     Children,
     createElement,
     Fragment,
@@ -93,7 +93,7 @@ export function MDXRenderer({ moduleUrl, components = {} }: MDXRendererProps): R
 
     async function render(): Promise<void> {
       try {
-        ensureDexcodeReactRuntime();
+        ensureAmaroadReactRuntime();
         const imported = await import(/* webpackIgnore: true */ moduleUrl);
         const MDXContent = imported.default as ComponentType<{ components?: MDXComponents }>;
 
@@ -107,7 +107,7 @@ export function MDXRenderer({ moduleUrl, components = {} }: MDXRendererProps): R
       } catch (e) {
         if (!cancelled) {
           const msg = e instanceof Error ? e.message : "MDX compile error";
-          console.error("[dexcode] MDX module load error:", e);
+          console.error("[amaroad] MDX module load error:", e);
           setCompiled({
             moduleUrl,
             content: null,

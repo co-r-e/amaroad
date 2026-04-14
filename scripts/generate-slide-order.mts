@@ -192,7 +192,7 @@ function executeRenames(
 ): void {
   const staged = renames.map((rename, index) => ({
     ...rename,
-    temp: `${rename.from}.__dexcode_tmp_${process.pid}_${index}`,
+    temp: `${rename.from}.__amaroad_tmp_${process.pid}_${index}`,
   }));
 
   for (const rename of staged) {

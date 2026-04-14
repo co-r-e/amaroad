@@ -38,7 +38,7 @@ export default async function ThumbnailsPage({ params }: ThumbnailsPageProps) {
   try {
     deck = await loadDeck(deckName);
   } catch (e) {
-    console.error(`[dexcode] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
+    console.error(`[amaroad] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
     notFound();
   }
 

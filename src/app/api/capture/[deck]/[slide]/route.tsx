@@ -72,7 +72,7 @@ export async function GET(
   try {
     blocks = parseMdxContent(slide.rawContent);
   } catch (error) {
-    console.error("[dexcode] Capture parse failed:", error);
+    console.error("[amaroad] Capture parse failed:", error);
     return new Response("Capture failed", { status: 500 });
   }
 
@@ -87,7 +87,7 @@ export async function GET(
     );
     return response;
   } catch (error) {
-    console.error("[dexcode] Capture render failed:", error);
+    console.error("[amaroad] Capture render failed:", error);
     return new Response("Capture failed", { status: 500 });
   }
 }

@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-DexCode is currently pre-release. Security fixes are provided for the latest code on `main`.
+Amaroad is currently pre-release. Security fixes are provided for the latest code on `main`.
 
 | Version | Supported |
 | --- | --- |

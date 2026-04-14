@@ -1,14 +1,14 @@
 ---
 name: slide-preflight-auditor
 description: |
-  Run preflight audits for DexCode MDX slides before review or export. Detect
+  Run preflight audits for Amaroad MDX slides before review or export. Detect
   rule violations, report line-numbered findings, and surface manual checks for
   safe-zone and overlay problems.
 ---
 
 # Slide Preflight Auditor
 
-Audit DexCode slide quality mechanically before review and export.
+Audit Amaroad slide quality mechanically before review and export.
 
 ## Use When
 

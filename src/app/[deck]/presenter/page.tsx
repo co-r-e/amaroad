@@ -35,7 +35,7 @@ export default async function PresenterPage({ params }: PresenterPageProps) {
   try {
     deck = await loadDeckCached(deckName);
   } catch (e) {
-    console.error(`[dexcode] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
+    console.error(`[amaroad] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
     notFound();
   }
 

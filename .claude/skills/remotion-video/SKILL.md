@@ -1,7 +1,7 @@
 ---
 name: remotion-video
 description: |
-  Converts a DexCode slide deck into an animated video using Remotion. Reads
+  Converts an Amaroad slide deck into an animated video using Remotion. Reads
   deck.config.ts and MDX slides, then generates a standalone Remotion project
   with per-slide scene components, TransitionSeries orchestration, and theme-
   matched styling.
@@ -243,7 +243,7 @@ export const Scene01Cover: React.FC = () => {
 # Copy deck images to video project public/
 cp -r decks/<deck-name>/assets/* decks/<deck-name>/video/public/
 # Copy logo if used
-cp public/dexcode-logo.svg decks/<deck-name>/video/public/  # if logo references /dexcode-logo.svg
+cp public/amaroad-logo.svg decks/<deck-name>/video/public/  # if logo references /amaroad-logo.svg
 ```
 
 ### Step 6: Install and Render
@@ -280,7 +280,7 @@ Total enter+hold+transition per slide is typically 4-5.5 seconds.
 
 ## Font Mapping
 
-Map DexCode theme fonts to Remotion Google Fonts:
+Map Amaroad theme fonts to Remotion Google Fonts:
 
 ```tsx
 // Example: if deck uses "Inter, sans-serif"

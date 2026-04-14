@@ -107,7 +107,7 @@ Match each variable to the data you want displayed.
 
 Edit the `coverMdx` template string to match the new deck's content.
 
-## DexCode slide rules (from CLAUDE.md)
+## Amaroad slide rules (from CLAUDE.md)
 
 - No Tailwind in slides — use inline styles or CSS Modules
 - Minimum font size: 1.8rem (except auxiliary text)

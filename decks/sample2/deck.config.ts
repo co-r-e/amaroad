@@ -3,7 +3,7 @@ import { defineConfig } from "../../src/lib/deck-config";
 export default defineConfig({
   title: "Sample Company Deck",
   logo: {
-    src: "/dexcode-logo.svg",
+    src: "/amaroad-logo.svg",
     position: "top-left",
   },
   copyright: {

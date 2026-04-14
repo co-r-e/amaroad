@@ -2,7 +2,7 @@
 name: deck-designer
 description: |
   Interactive deck design consultant that guides users through structured Q&A
-  to plan a new DexCode slide deck before building it. Gathers purpose, audience,
+  to plan a new Amaroad slide deck before building it. Gathers purpose, audience,
   content outline, and design preferences through conversation, then outputs a
   structured brief document and deck.config.ts parameters.
   Use when user says "デッキを設計", "deck design", "プレゼンの企画", "壁打ち",
@@ -14,7 +14,7 @@ description: |
 
 # Deck Designer
 
-Interactive Q&A workflow to design a DexCode slide deck before building it.
+Interactive Q&A workflow to design an Amaroad slide deck before building it.
 Output: a structured brief markdown file (`tasks/deck-brief-<name>.md`) that
 feeds directly into the `deck-scaffold-from-brief` skill.
 

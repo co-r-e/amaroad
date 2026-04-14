@@ -8,7 +8,7 @@ description: |
 
 # Nanobanana Image
 
-Generate images for DexCode slides and insert them into MDX.
+Generate images for Amaroad slides and insert them into MDX.
 
 ## Use When
 
