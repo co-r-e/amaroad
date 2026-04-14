@@ -13,8 +13,8 @@ Thanks for contributing to Amaroad.
 ```bash
 git clone git@github.com:co-r-e/amaroad.git
 cd amaroad
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Branch and Commit Guidelines

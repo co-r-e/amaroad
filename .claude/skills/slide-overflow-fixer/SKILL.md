@@ -142,4 +142,4 @@ Fix: Do not reduce below 1.8rem. Instead, split the slide into two slides or res
 
 Symptom: `capture-slide.ts` returns an error or blank image.
 Cause: The dev server is not running or the slide index is incorrect (0-indexed).
-Fix: Start the dev server with `npm run dev`, then confirm the correct 0-indexed slide number by counting files in `decks/<deck>/*.mdx` sorted by name.
+Fix: Start the dev server with `pnpm dev`, then confirm the correct 0-indexed slide number by counting files in `decks/<deck>/*.mdx` sorted by name.

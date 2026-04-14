@@ -18,7 +18,7 @@ Generate an Amaroad slide deck where each Excel row becomes one MDX slide.
 ## Workflow
 
 1. Confirm inputs: Excel file path, deck name, title, logo (optional)
-2. Ensure `xlsx` is installed: `npm install --save-dev xlsx`
+2. Ensure `xlsx` is installed (already a direct dep — `pnpm install` covers it)
 3. Dry-run to preview file list
 4. Generate all slides
 5. Verify in browser

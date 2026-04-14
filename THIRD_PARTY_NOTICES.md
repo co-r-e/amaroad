@@ -16,27 +16,25 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Resolved package entries: 792
-- Generated from: `package-lock.json`
+- Resolved package entries: 638
+- Generated from: `node_modules/.pnpm` (via `pnpm install`)
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 631 |
-| Apache-2.0 | 49 |
-| ISC | 44 |
+| MIT | 535 |
+| Apache-2.0 | 31 |
+| ISC | 31 |
 | BSD-3-Clause | 17 |
-| MPL-2.0 | 13 |
-| LGPL-3.0-or-later | 10 |
 | BSD-2-Clause | 9 |
-| BlueOak-1.0.0 | 5 |
-| Apache-2.0 AND LGPL-3.0-or-later | 3 |
+| MPL-2.0 | 3 |
 | (MIT AND Zlib) | 2 |
 | (MIT OR GPL-3.0-or-later) | 1 |
 | (MPL-2.0 OR Apache-2.0) | 1 |
 | 0BSD | 1 |
-| Apache-2.0 AND LGPL-3.0-or-later AND MIT | 1 |
+| BlueOak-1.0.0 | 1 |
 | CC-BY-4.0 | 1 |
 | CC0-1.0 | 1 |
+| LGPL-3.0-or-later | 1 |
 | MIT AND ISC | 1 |
 | MIT OR SEE LICENSE IN FEEL-FREE.md | 1 |
 | Python-2.0 | 1 |
@@ -56,11 +54,10 @@ The following dependencies have notice/copyleft considerations and should be rev
 <!-- BEGIN_AUTOGEN:NOTICE_RELEVANT -->
 | Package (family) | Version(s) in lockfile | License |
 | --- | --- | --- |
-| `caniuse-lite` | `1.0.30001774` | `CC-BY-4.0` |
-| `axe-core` | `4.11.1` | `MPL-2.0` |
-| `lightningcss` + platform binaries | `1.31.1` | `MPL-2.0` |
+| `caniuse-lite` | `1.0.30001788` | `CC-BY-4.0` |
+| `axe-core` | `4.11.3` | `MPL-2.0` |
+| `lightningcss` + platform binaries | `1.32.0` | `MPL-2.0` |
 | `@img/sharp-libvips-*` platform binaries | `1.2.4` | `LGPL-3.0-or-later` |
-| `@img/sharp-wasm32` | `0.34.5` | `Apache-2.0 AND LGPL-3.0-or-later AND MIT` |
 <!-- END_AUTOGEN:NOTICE_RELEVANT -->
 
 ## Upstream License and Source References
@@ -81,8 +78,8 @@ When distributing artifacts, include applicable upstream license texts from inst
 Update and check notices with:
 
 ```bash
-npm run notices:update
-npm run notices:check
+pnpm notices:update
+pnpm notices:check
 ```
 
 ## Disclaimer

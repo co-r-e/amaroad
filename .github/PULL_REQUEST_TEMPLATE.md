@@ -5,8 +5,8 @@
 
 ## Checklist
 
-- [ ] I have run `npm run lint`
-- [ ] I have run `npm run build`
+- [ ] I have run `pnpm lint`
+- [ ] I have run `pnpm build`
 - [ ] I updated docs if needed
 - [ ] I linked related issues
 - [ ] I confirmed no secrets are included

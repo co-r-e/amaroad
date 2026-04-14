@@ -42,7 +42,7 @@ Capture a screenshot of the slide and have Claude visually analyze it to **autom
 
 #### Procedure
 
-1. **Confirm the dev server is running** (`npm run dev`)
+1. **Confirm the dev server is running** (`pnpm dev`)
 2. **Capture a screenshot**:
 
 ```bash
@@ -126,7 +126,7 @@ Report the following to the user:
 - File path of the generated image
 - Prompt used
 - MDX file and position where the image was inserted
-- How to verify on the dev server (`npm run dev` then navigate to the relevant slide)
+- How to verify on the dev server (`pnpm dev` then navigate to the relevant slide)
 
 ## Generation Script Specification
 
@@ -174,4 +174,4 @@ Report the following to the user:
 
 ### Slide capture fails
 - **Symptom**: `capture-slide.ts` returns an error or blank image
-- **Fix**: Ensure the dev server is running (`npm run dev`). The capture API requires the Next.js server at `localhost:3000`. Also verify the deck name and slide index (0-based) are correct.
+- **Fix**: Ensure the dev server is running (`pnpm dev`). The capture API requires the Next.js server at `localhost:3000`. Also verify the deck name and slide index (0-based) are correct.

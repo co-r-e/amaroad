@@ -45,7 +45,7 @@ Use **all** the color and font values from the output JSON in subsequent SVG gen
 
 If a target slide is specified, check the current slide layout to understand the available placement space:
 
-1. Confirm the dev server is running (`npm run dev`)
+1. Confirm the dev server is running (`pnpm dev`)
 2. Capture a screenshot:
 
 ```bash
@@ -107,7 +107,7 @@ Report the following to the user:
 - File path of the generated SVG
 - Diagram type and size
 - Theme colors used
-- How to verify on the dev server (`npm run dev` then navigate to the relevant slide)
+- How to verify on the dev server (`pnpm dev` then navigate to the relevant slide)
 
 ---
 
