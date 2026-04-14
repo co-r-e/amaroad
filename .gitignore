@@ -11,24 +11,31 @@
 !.yarn/releases
 !.yarn/versions
 
-# cloudflare wrangler cache
+# cloudflare workers
 **/.wrangler/
+.dev.vars
+.dev.vars.*
 
 # testing
 /coverage
+**/coverage/
+/playwright-report/
+/test-results/
 
 # next.js
-/.next/
+**/.next/
 /out/
 
 # production
 /build
+**/dist/
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -47,9 +54,6 @@ next-env.d.ts
 
 # gemini
 .gemini/
-
-# test results
-/test-results/
 
 # decks (keep sample-deck only)
 /decks/*
