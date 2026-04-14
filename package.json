@@ -31,7 +31,7 @@
     "jspdf": "^4.2.1",
     "katex": "^0.16.40",
     "lucide-react": "^0.577.0",
-    "next": "16.2.1",
+    "next": "16.2.3",
     "next-themes": "^0.4.6",
     "pptxgenjs": "^4.0.1",
     "react": "19.2.4",
@@ -40,7 +40,8 @@
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -54,7 +55,6 @@
     "playwright": "^1.58.2",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5",
-    "xlsx": "^0.18.5"
+    "typescript": "^5"
   }
 }
