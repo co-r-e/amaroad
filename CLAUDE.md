@@ -1,5 +1,9 @@
 # Amaroad — Project CLAUDE.md
 
+## Related Repositories
+
+- 商用クラウド用リポジトリ: `~/Projects/dev_amaroad/amaroad-cloud`
+
 ## MDX Slide Authoring Rules
 
 ```yaml
