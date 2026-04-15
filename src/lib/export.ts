@@ -1,4 +1,4 @@
-import { getFontEmbedCSS, toSvg } from "html-to-image";
+import { getFontEmbedCSS, toCanvas } from "html-to-image";
 import { jsPDF } from "jspdf";
 import { SLIDE_WIDTH, SLIDE_HEIGHT } from "./slide-utils";
 
@@ -295,73 +295,6 @@ async function getCaptureFontEmbedCss(
   return request;
 }
 
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-
-    const cleanup = () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-
-    img.onload = async () => {
-      try {
-        if (typeof img.decode === "function") {
-          await img.decode().catch(() => undefined);
-        }
-        cleanup();
-        resolve(img);
-      } catch (error) {
-        cleanup();
-        reject(error);
-      }
-    };
-
-    img.onerror = () => {
-      cleanup();
-      reject(new Error("Failed to decode slide image"));
-    };
-
-    img.crossOrigin = "anonymous";
-    img.decoding = "async";
-    img.src = url;
-  });
-}
-
-function canvasToJpegBlob(canvas: HTMLCanvasElement): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        reject(new Error("Failed to create slide export blob"));
-        return;
-      }
-      resolve(blob);
-    }, CAPTURE_MIME_TYPE, CAPTURE_JPEG_QUALITY);
-  });
-}
-
-async function renderSvgToJpegBlob(svgDataUrl: string): Promise<Blob> {
-  const image = await loadImage(svgDataUrl);
-  const canvas = document.createElement("canvas");
-  canvas.width = SLIDE_WIDTH;
-  canvas.height = SLIDE_HEIGHT;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Failed to create export canvas context");
-
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
-  ctx.drawImage(image, 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
-
-  try {
-    return await canvasToJpegBlob(canvas);
-  } finally {
-    ctx.clearRect(0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
-    canvas.width = 0;
-    canvas.height = 0;
-  }
-}
-
 async function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -378,16 +311,36 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
   });
 }
 
+function canvasToJpegBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Failed to create slide export blob"));
+        return;
+      }
+      resolve(blob);
+    }, CAPTURE_MIME_TYPE, CAPTURE_JPEG_QUALITY);
+  });
+}
+
 export async function captureSlide(container: HTMLElement): Promise<ExportedSlideImage> {
   await waitForSlideReady(container);
   const fontEmbedCSS = await getCaptureFontEmbedCss(container);
-  const svgDataUrl = await toSvg(
+  const canvas = await toCanvas(
     container,
     fontEmbedCSS
-      ? { ...CAPTURE_OPTIONS, fontEmbedCSS }
+      ? {
+        ...CAPTURE_OPTIONS,
+        fontEmbedCSS,
+      }
       : CAPTURE_OPTIONS,
   );
-  return renderSvgToJpegBlob(svgDataUrl);
+  try {
+    return await canvasToJpegBlob(canvas);
+  } finally {
+    canvas.width = 0;
+    canvas.height = 0;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -420,8 +373,8 @@ export async function savePdf(
     if (i > 0) pdf.addPage([SLIDE_WIDTH, SLIDE_HEIGHT], "landscape");
 
     const image = images[i];
-    const imageBytes = new Uint8Array(await image.arrayBuffer());
-    pdf.addImage(imageBytes, "JPEG", 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
+    const imageDataUrl = await blobToDataUrl(image);
+    pdf.addImage(imageDataUrl, "JPEG", 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
     images[i] = EMPTY_SLIDE_IMAGE;
     options?.onProgress?.(i + 1, images.length);
 
