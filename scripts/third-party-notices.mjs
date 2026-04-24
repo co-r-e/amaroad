@@ -12,6 +12,7 @@ if (!validModes.has(mode)) {
 
 const rootDir = process.cwd();
 const pnpmDir = path.join(rootDir, "node_modules", ".pnpm");
+const lockfilePath = path.join(rootDir, "pnpm-lock.yaml");
 const noticesPath = path.join(rootDir, "THIRD_PARTY_NOTICES.md");
 
 if (!fs.existsSync(pnpmDir)) {
@@ -20,6 +21,60 @@ if (!fs.existsSync(pnpmDir)) {
   );
   process.exit(1);
 }
+
+if (!fs.existsSync(lockfilePath)) {
+  console.error("pnpm-lock.yaml not found. Run `pnpm install` first.");
+  process.exit(1);
+}
+
+// Minimal parser for pnpm-lock.yaml's `packages:` section. We only need each
+// package's name/version plus any declared `cpu`/`os` markers to decide
+// whether the package is an optional platform-specific binary — the full
+// YAML surface area would be overkill here.
+function parseLockfilePlatformPackages(text) {
+  const lines = text.split("\n");
+  const startIndex = lines.findIndex((line) => line === "packages:");
+  if (startIndex === -1) return [];
+  const packages = [];
+  let current = null;
+  for (let i = startIndex + 1; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (line.length === 0) continue;
+    // A top-level sibling section ends the packages block.
+    if (/^[^\s]/.test(line)) break;
+    const pkgHeader = line.match(/^ {2}(?:'([^']+)'|([^\s:]+)):\s*$/);
+    if (pkgHeader) {
+      const key = pkgHeader[1] ?? pkgHeader[2];
+      const atIndex = key.lastIndexOf("@");
+      const name = atIndex > 0 ? key.slice(0, atIndex) : key;
+      const version = atIndex > 0 ? key.slice(atIndex + 1) : "";
+      current = { name, version, cpu: null, os: null };
+      packages.push(current);
+      continue;
+    }
+    if (!current) continue;
+    const cpuMatch = line.match(/^ {4}cpu:\s*\[([^\]]*)\]/);
+    if (cpuMatch) {
+      current.cpu = cpuMatch[1].split(",").map((s) => s.trim()).filter(Boolean);
+      continue;
+    }
+    const osMatch = line.match(/^ {4}os:\s*\[([^\]]*)\]/);
+    if (osMatch) {
+      current.os = osMatch[1].split(",").map((s) => s.trim()).filter(Boolean);
+      continue;
+    }
+  }
+  return packages;
+}
+
+const lockfilePackages = parseLockfilePlatformPackages(
+  fs.readFileSync(lockfilePath, "utf8"),
+);
+const platformBinaryKeys = new Set(
+  lockfilePackages
+    .filter((p) => p.cpu || p.os)
+    .map((p) => `${p.name}@${p.version}`),
+);
 
 function normalizeLicense(pkg) {
   const { license, licenses } = pkg;
@@ -91,6 +146,7 @@ for (const entry of pnpmEntries) {
       name: pkg.name,
       version: String(pkg.version ?? "?"),
       license: normalizeLicense(pkg),
+      isPlatformBinary: platformBinaryKeys.has(key),
     });
   }
 }
@@ -100,10 +156,147 @@ resolved.sort((a, b) => {
   return a.version.localeCompare(b.version);
 });
 
-const resolvedCount = resolved.length;
+// A package with declared `cpu` or `os` is an optional platform-specific
+// binary. pnpm only installs variants that match the current host, so
+// counting them directly would make THIRD_PARTY_NOTICES.md diverge between
+// macOS/Linux/Windows developers. Collapse every variant into a single
+// family entry keyed by the base package name with the platform/arch/libc
+// suffix replaced by `*`.
+//
+// The suffix is derived from the package's own `cpu` / `os` declarations
+// plus a small set of libc markers that commonly appear in names but not
+// in the os array (e.g. `gnu`, `musl`, `linuxmusl`).
+// Trailing ABI / libc markers that appear in platform-binary package names
+// but never in the `os` / `cpu` arrays the package declares in its own
+// package.json. Strip them so family grouping works across libraries that
+// follow different naming conventions (musl vs gnu vs msvc, etc.).
+const LIBC_TOKENS = [
+  "gnu",
+  "gnueabi",
+  "gnueabihf",
+  "musl",
+  "musleabihf",
+  "eabi",
+  "androideabi",
+  "msvc",
+  "wasi",
+  "linuxmusl",
+];
+
+function platformFamilyLabel(pkg) {
+  const tokens = new Set();
+  for (const value of pkg.cpu ?? []) tokens.add(value.toLowerCase());
+  for (const value of pkg.os ?? []) tokens.add(value.toLowerCase());
+  for (const value of LIBC_TOKENS) tokens.add(value);
+
+  let trimmed = pkg.name;
+  let trailingDelim = null;
+  while (true) {
+    const match = trimmed.match(/^(.+?)([/-])([A-Za-z0-9]+)$/);
+    if (!match) break;
+    if (!tokens.has(match[3].toLowerCase())) break;
+    trimmed = match[1];
+    trailingDelim = match[2];
+  }
+
+  if (trailingDelim === null) {
+    // Package has os/cpu but the name carries no platform suffix (e.g.
+    // `fsevents` is darwin-only). Treat it as a single-member family.
+    return pkg.name;
+  }
+  return `${trimmed}${trailingDelim}*`;
+}
+
+const crossPlatform = resolved.filter((item) => !item.isPlatformBinary);
+
+// Platform family membership is driven by the lockfile so the output is
+// identical regardless of which OS ran `pnpm install`. Licenses come from
+// whichever host variant happens to be installed locally — variants in the
+// same family share a license by convention (e.g. every `@esbuild/*` is MIT).
+const platformFamilies = new Map();
+for (const pkg of lockfilePackages) {
+  if (!pkg.cpu && !pkg.os) continue;
+  const label = platformFamilyLabel(pkg);
+  const family = platformFamilies.get(label) ?? {
+    label,
+    versions: new Set(),
+    licenses: new Set(),
+  };
+  family.versions.add(pkg.version);
+  platformFamilies.set(label, family);
+}
+
+// Index of installed platform-binary licenses, keyed by name@version. We
+// need this to fill in the family license field using whichever variant
+// happens to be installed on the host OS.
+const installedByKey = new Map();
+for (const item of resolved) {
+  if (!item.isPlatformBinary) continue;
+  installedByKey.set(`${item.name}@${item.version}`, item.license);
+}
+
+for (const pkg of lockfilePackages) {
+  if (!pkg.cpu && !pkg.os) continue;
+  const license = installedByKey.get(`${pkg.name}@${pkg.version}`);
+  if (!license) continue;
+  const family = platformFamilies.get(platformFamilyLabel(pkg));
+  if (family) family.licenses.add(license);
+}
+
+// For families whose host variant isn't installed on the current OS
+// (e.g. `fsevents` when running on Linux), fall back to a known license
+// so the table stays identical across platforms. Keep this map tight and
+// audited; a missing entry surfaces as an explicit error rather than a
+// silent UNKNOWN.
+const PLATFORM_FAMILY_LICENSE_FALLBACKS = {
+  fsevents: "MIT",
+};
+
+for (const family of platformFamilies.values()) {
+  if (family.licenses.size > 0) continue;
+  const fallback = PLATFORM_FAMILY_LICENSE_FALLBACKS[family.label];
+  if (!fallback) {
+    throw new Error(
+      `No installed variant found for platform family "${family.label}" and no fallback license is registered. Add an entry to PLATFORM_FAMILY_LICENSE_FALLBACKS.`,
+    );
+  }
+  family.licenses.add(fallback);
+}
+
+// Pull in cross-platform companion packages whose license or copyleft status
+// is noteworthy when distributing artifacts. Matched by exact name so a
+// rename surfaces here instead of silently dropping.
+const COMPANION_PACKAGES = [
+  "caniuse-lite",
+  "axe-core",
+  "lightningcss",
+  "sharp",
+];
+
+const companionRows = COMPANION_PACKAGES.map((name) => {
+  const matches = crossPlatform.filter((item) => item.name === name);
+  if (matches.length === 0) return null;
+  const versions = Array.from(new Set(matches.map((m) => m.version))).sort();
+  const licenses = Array.from(new Set(matches.map((m) => m.license))).sort();
+  return {
+    label: `\`${name}\``,
+    versions: versions.join(", "),
+    licenses: licenses.join(" / "),
+  };
+}).filter(Boolean);
+
+const platformFamilyRows = Array.from(platformFamilies.values())
+  .sort((a, b) => a.label.localeCompare(b.label))
+  .map((family) => ({
+    label: `\`${family.label}\` platform binaries`,
+    versions: Array.from(family.versions).sort().join(", "),
+    licenses: Array.from(family.licenses).sort().join(" / "),
+  }));
+
+const noticeRelevantRows = [...companionRows, ...platformFamilyRows];
 
 const licenseCountMap = new Map();
-for (const item of resolved) {
+for (const item of crossPlatform) {
   licenseCountMap.set(item.license, (licenseCountMap.get(item.license) ?? 0) + 1);
 }
 
@@ -113,57 +306,20 @@ const licenseRows = Array.from(licenseCountMap.entries()).sort((a, b) => {
 });
 
 const summaryLines = [
-  `- Resolved package entries: ${resolvedCount}`,
+  `- Cross-platform package entries: ${crossPlatform.length}`,
+  `- Platform-specific binary families: ${platformFamilies.size}`,
   "- Generated from: `node_modules/.pnpm` (via `pnpm install`)",
+  "- Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.",
   "",
   "| License expression | Package count |",
   "| --- | ---: |",
   ...licenseRows.map(([license, count]) => `| ${license} | ${count} |`),
 ];
 
-const familyDefinitions = [
-  {
-    label: "`caniuse-lite`",
-    match: (name) => name === "caniuse-lite",
-  },
-  {
-    label: "`axe-core`",
-    match: (name) => name === "axe-core",
-  },
-  {
-    label: "`lightningcss` + platform binaries",
-    match: (name) => name === "lightningcss" || name.startsWith("lightningcss-"),
-  },
-  {
-    label: "`@img/sharp-libvips-*` platform binaries",
-    match: (name) => name.startsWith("@img/sharp-libvips-"),
-  },
-  {
-    label: "`@img/sharp-wasm32`",
-    match: (name) => name === "@img/sharp-wasm32",
-  },
-];
-
-const familyRows = familyDefinitions
-  .map((family) => {
-    const matches = resolved.filter((item) => family.match(item.name));
-    if (matches.length === 0) return null;
-
-    const versions = Array.from(new Set(matches.map((item) => item.version))).sort();
-    const licenses = Array.from(new Set(matches.map((item) => item.license))).sort();
-
-    return {
-      label: family.label,
-      versions: versions.join(", "),
-      licenses: licenses.join(" / "),
-    };
-  })
-  .filter(Boolean);
-
 const noticeLines = [
   "| Package (family) | Version(s) in lockfile | License |",
   "| --- | --- | --- |",
-  ...familyRows.map(
+  ...noticeRelevantRows.map(
     (row) => `| ${row.label} | \`${row.versions}\` | \`${row.licenses}\` |`,
   ),
 ];
