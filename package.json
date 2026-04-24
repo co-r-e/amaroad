@@ -41,7 +41,7 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "tailwind-merge": "^3.5.0",
-    "xlsx": "file:vendor/xlsx-0.20.3.tgz"
+    "xlsx": "file:vendor/xlsx"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

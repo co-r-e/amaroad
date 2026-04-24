@@ -69,8 +69,8 @@ importers:
         specifier: ^3.5.0
         version: 3.5.0
       xlsx:
-        specifier: file:vendor/xlsx-0.20.3.tgz
-        version: file:vendor/xlsx-0.20.3.tgz
+        specifier: file:vendor/xlsx
+        version: file:vendor/xlsx
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -3128,9 +3128,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  xlsx@file:vendor/xlsx-0.20.3.tgz:
-    resolution: {integrity: sha512-oLDq3jw7AcLqKWH2AhCpVTZl8mf6X2YReP+Neh0SJUzV/BdZYjth94tG5toiMB1PPrYtxOCfaoUCkvtuH+3AJA==}
-    version: 0.20.3
+  xlsx@file:vendor/xlsx:
+    resolution: {directory: vendor/xlsx, type: directory}
     engines: {node: '>=0.8'}
     hasBin: true
 
@@ -6816,7 +6815,7 @@ snapshots:
 
   ws@8.20.0: {}
 
-  xlsx@file:vendor/xlsx-0.20.3.tgz: {}
+  xlsx@file:vendor/xlsx: {}
 
   yallist@3.1.1: {}
 
