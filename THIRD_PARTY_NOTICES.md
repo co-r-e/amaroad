@@ -16,12 +16,12 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Resolved package entries: 638
+- Resolved package entries: 636
 - Generated from: `node_modules/.pnpm` (via `pnpm install`)
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 535 |
+| MIT | 533 |
 | Apache-2.0 | 31 |
 | ISC | 31 |
 | BSD-3-Clause | 17 |
