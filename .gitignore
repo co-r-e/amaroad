@@ -29,6 +29,8 @@
 # production
 /build
 **/dist/
+# vendored third-party packages need their bundled dist/
+!vendor/**/dist/
 
 # misc
 .DS_Store
