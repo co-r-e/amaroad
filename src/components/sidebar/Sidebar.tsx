@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Monitor, LayoutGrid } from "lucide-react";
+import { Monitor, LayoutGrid, ArrowLeft } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import { SlideThumbnail } from "./SlideThumbnail";
 import { ShareButton } from "@/components/viewer/ShareButton";
 import { ExportButton } from "@/components/deck-list/ExportButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { AmaroadIcon } from "@/components/AmaroadIcon";
 import { useIsLocal } from "@/hooks/useIsLocal";
 
 const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
@@ -39,13 +38,9 @@ export function Sidebar({
               href="/"
               aria-label="Back to deck list"
               title="Back to deck list"
-              className="flex items-center justify-center transition-opacity hover:opacity-60"
+              className="flex items-center justify-center rounded-lg px-2 text-[#02001A] dark:text-white transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <AmaroadIcon
-                width={28}
-                height={30}
-                className="text-[#02001A] dark:text-white"
-              />
+              <ArrowLeft size={20} />
             </Link>
           )}
           <button
