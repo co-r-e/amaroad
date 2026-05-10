@@ -1,0 +1,44 @@
+---
+type: content
+notes: |
+  Horizontal process flow with arrow connectors.
+  Shows a linear workflow from left to right using inline SVG.
+---
+
+# Deployment Pipeline
+
+<Center>
+  <svg viewBox="0 0 900 240" style={{ width: "100%", maxHeight: "100%" }}>
+    <rect x="20" y="60" width="140" height="120" rx="12" fill="var(--slide-primary)" />
+    <text x="90" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="#FFF">Code</text>
+    <text x="90" y="138" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="rgba(255,255,255,0.75)">Push to repo</text>
+
+    <polygon points="175,120 200,108 200,132" fill="var(--slide-text-muted)" />
+    <line x1="160" y1="120" x2="200" y2="120" stroke="var(--slide-text-muted)" strokeWidth="2" />
+
+    <rect x="210" y="60" width="140" height="120" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="280" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="var(--slide-text)">Build</text>
+    <text x="280" y="138" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="var(--slide-text-muted)">CI pipeline</text>
+
+    <polygon points="365,120 390,108 390,132" fill="var(--slide-text-muted)" />
+    <line x1="350" y1="120" x2="390" y2="120" stroke="var(--slide-text-muted)" strokeWidth="2" />
+
+    <rect x="400" y="60" width="140" height="120" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="470" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="var(--slide-text)">Test</text>
+    <text x="470" y="138" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="var(--slide-text-muted)">Automated QA</text>
+
+    <polygon points="555,120 580,108 580,132" fill="var(--slide-text-muted)" />
+    <line x1="540" y1="120" x2="580" y2="120" stroke="var(--slide-text-muted)" strokeWidth="2" />
+
+    <rect x="590" y="60" width="140" height="120" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="660" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="var(--slide-text)">Stage</text>
+    <text x="660" y="138" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="var(--slide-text-muted)">Pre-production</text>
+
+    <polygon points="745,120 770,108 770,132" fill="var(--slide-text-muted)" />
+    <line x1="730" y1="120" x2="770" y2="120" stroke="var(--slide-text-muted)" strokeWidth="2" />
+
+    <rect x="780" y="60" width="110" height="120" rx="12" fill="var(--slide-primary)" />
+    <text x="835" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="#FFF">Deploy</text>
+    <text x="835" y="138" textAnchor="middle" fontFamily="Noto Sans JP, sans-serif" fontSize="14" fill="rgba(255,255,255,0.75)">Production</text>
+  </svg>
+</Center>

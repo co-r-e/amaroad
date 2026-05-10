@@ -1,0 +1,37 @@
+---
+type: content
+notes: |
+  Two-day conference agenda in a dense grid layout.
+  Day 1 and Day 2 side by side, each with multiple sessions.
+  Compact spacing to fit a large number of items on one slide.
+---
+
+# Conference Agenda
+
+<ShowcaseAgenda
+  variant="grid"
+  days={[
+    {
+      label: "Day 1",
+      items: [
+        { time: "09:00", title: "Opening Keynote" },
+        { time: "10:00", title: "Platform Architecture Overview" },
+        { time: "11:00", title: "API Design Best Practices" },
+        { time: "13:00", title: "Hands-on Workshop: CI/CD" },
+        { time: "14:30", title: "Security & Compliance Deep Dive" },
+        { time: "16:00", title: "Lightning Talks & Networking" },
+      ],
+    },
+    {
+      label: "Day 2",
+      items: [
+        { time: "09:00", title: "Day 1 Recap & Insights" },
+        { time: "09:30", title: "Performance Optimization" },
+        { time: "10:30", title: "Observability & Monitoring" },
+        { time: "13:00", title: "Hands-on Workshop: Testing" },
+        { time: "14:30", title: "Product Roadmap 2027" },
+        { time: "16:00", title: "Closing Keynote & Awards" },
+      ],
+    },
+  ]}
+/>

@@ -1,0 +1,30 @@
+---
+type: content
+notes: |
+  Data narrative slide combining a big number headline with a supporting chart.
+  Tells a data story: headline metric + trend visualization.
+---
+
+# Revenue Growth
+
+<ShowcaseSplit
+  variant="data-narrative"
+  value="+147%"
+  label="Year-over-Year"
+  description="Driven by enterprise adoption and expansion revenue from existing accounts."
+>
+  <Chart
+    type="bar"
+    data={[
+      { quarter: "Q1", revenue: 1.2 },
+      { quarter: "Q2", revenue: 1.8 },
+      { quarter: "Q3", revenue: 2.4 },
+      { quarter: "Q4", revenue: 3.1 },
+      { quarter: "Q5", revenue: 3.9 },
+      { quarter: "Q6", revenue: 4.8 }
+    ]}
+    xKey="quarter"
+    yKey="revenue"
+    colors={["var(--slide-primary)"]}
+  />
+</ShowcaseSplit>

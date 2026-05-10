@@ -1,0 +1,25 @@
+---
+type: content
+notes: |
+  Three-column text-only layout. No images.
+  Useful for comparing three concepts, phases, or options side by side.
+---
+
+# Migration Phases
+
+<ShowcaseColumnText
+  columns={[
+    {
+      title: "Phase 1 — Assessment",
+      body: "Audit existing infrastructure, identify dependencies, and map data flows across all services. Establish baseline performance metrics for latency, throughput, and error rates. Document all third-party integrations and their SLAs. Identify critical paths and single points of failure. Produce a risk assessment report with prioritized remediation steps."
+    },
+    {
+      title: "Phase 2 — Migration",
+      body: "Execute incremental migration with parallel running. Validate data integrity at each checkpoint. Roll back capability maintained throughout the process. Migrate stateless services first, followed by stateful workloads with blue-green deployment. Run shadow traffic to compare old and new system outputs. Coordinate cross-team cutover windows with clear ownership."
+    },
+    {
+      title: "Phase 3 — Optimization",
+      body: "Fine-tune performance, decommission legacy systems, and enable auto-scaling. Set up continuous monitoring with alerting on key SLOs. Optimize cost allocation across regions with reserved capacity planning. Conduct load testing at 2x projected peak. Establish runbooks for common failure scenarios and train the on-call team on new operational procedures."
+    }
+  ]}
+/>

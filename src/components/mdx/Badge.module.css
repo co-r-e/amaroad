@@ -1,29 +1,34 @@
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    border-radius: 9999px;
-    padding: 0.5rem 1.25rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+    border-radius: 999px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
 }
 
-.primary {
-    background: var(--slide-primary);
-    color: #fff;
+.solid {
+    background: var(--badge-color);
+    color: #ffffff;
 }
 
-.secondary {
-    background: var(--slide-secondary);
-    color: #fff;
+.outline {
+    background: transparent;
+    border: 2px solid var(--badge-color);
+    color: var(--badge-color);
 }
 
-.accent {
-    background: var(--slide-accent);
-    color: #fff;
+.subtle {
+    background: var(--badge-bg);
+    color: var(--badge-color);
 }
 
-.muted {
-    background: var(--slide-surface-alt);
-    color: var(--slide-text-muted);
+.sm {
+    font-size: calc(1.4rem * var(--slide-font-scale));
+    padding: 0.2rem 0.8rem;
+}
+
+.md {
+    font-size: calc(1.6rem * var(--slide-font-scale));
+    padding: 0.3rem 1rem;
 }

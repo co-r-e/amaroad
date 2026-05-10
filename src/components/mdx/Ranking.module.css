@@ -1,0 +1,57 @@
+.ranking {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--slide-space-sm);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--slide-space-md);
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: var(--slide-space-md) var(--slide-space-lg);
+}
+
+.rankCircle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #ffffff;
+}
+
+.rankNumber {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 700;
+  line-height: 1;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: calc(2rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.description {
+  margin-top: 0.25rem;
+  font-size: calc(1.5rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  line-height: 1.5;
+}
+
+.value {
+  flex-shrink: 0;
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-primary);
+}

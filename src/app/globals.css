@@ -6,7 +6,8 @@
 @theme inline {
   --color-ice-gray: #F0F2F5;
   --color-ice-gray-dark: #0f1117;
-  --color-dexcode-dark: #02001A;
+  --color-amaroad-ink: #02001A;
+  --color-amaroad-accent: #009776;
   --color-slide-bg: #FFFFFF;
   --font-sans: "Inter", "Noto Sans JP", sans-serif;
   --font-heading: "Inter", "Noto Sans JP", sans-serif;
@@ -49,7 +50,9 @@ pre code {
 
 /* ── Growable elements fill remaining space in flex-col containers ── */
 [data-mdx-status] > [data-growable],
-[data-column] > [data-growable] {
+[data-mdx-status] [data-growable],
+[data-column] > [data-growable],
+[data-column] [data-growable] {
   flex: 1;
   min-height: 0;
 }
@@ -72,4 +75,13 @@ pre code {
   animation-delay: 0s !important;
   transition-duration: 0s !important;
   transition-delay: 0s !important;
+}
+
+/* Hide scrollbars while keeping scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

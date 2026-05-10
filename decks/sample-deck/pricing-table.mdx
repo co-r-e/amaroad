@@ -1,0 +1,16 @@
+---
+type: content
+notes: |
+  Pricing table with three tiers.
+  The recommended plan is highlighted with primary color border and badge.
+---
+
+# Pricing Plans
+
+<ShowcasePricing
+  tiers={[
+    { name: "Starter", price: "$0", period: "/mo", features: ["5 projects", "1 GB storage", "Community support", "Basic analytics"] },
+    { name: "Pro", price: "$29", period: "/mo", features: ["Unlimited projects", "100 GB storage", "Priority support", "Advanced analytics"], highlighted: true, highlightLabel: "RECOMMENDED" },
+    { name: "Enterprise", price: "Custom", features: ["Everything in Pro", "SSO & SAML", "Dedicated support", "Custom integrations"] },
+  ]}
+/>

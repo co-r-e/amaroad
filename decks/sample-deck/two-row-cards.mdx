@@ -1,0 +1,21 @@
+---
+type: content
+notes: |
+  A 2-row by 3-column layout with 6 cards.
+  Suitable for feature lists or FAQ-style content.
+---
+
+# Key Features
+
+<ShowcaseFeatureGrid
+  variant="cards"
+  columns={3}
+  items={[
+    { icon: "file-code", title: "MDX Syntax", description: "A powerful format combining Markdown and JSX" },
+    { icon: "refresh-cw", title: "Live Reload", description: "Preview auto-updates on file save" },
+    { icon: "palette", title: "Theme System", description: "Manage colors and fonts in a single config" },
+    { icon: "bar-chart-2", title: "Chart Rendering", description: "Bar, line, pie, and area charts powered by Recharts" },
+    { icon: "sigma", title: "Math Support", description: "Display LaTeX-style math with KaTeX" },
+    { icon: "file-down", title: "PDF Export", description: "Export to high-quality PDF with one click" },
+  ]}
+/>

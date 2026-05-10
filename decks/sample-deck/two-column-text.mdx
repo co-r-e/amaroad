@@ -1,0 +1,21 @@
+---
+type: content
+notes: |
+  Two-column text-only layout. No images.
+  Useful for detailed explanations, articles, or side-by-side narratives.
+---
+
+# Platform Strategy
+
+<ShowcaseColumnText
+  columns={[
+    {
+      title: "Current State",
+      body: "The existing platform serves 50k daily active users across three regions. Core infrastructure runs on a monolithic architecture deployed to a single cloud provider. Development velocity has slowed as the codebase grows, with deploy cycles averaging 2 weeks. The test suite takes 45 minutes to complete, blocking rapid iteration. Observability is limited to basic health checks with no distributed tracing. On-call engineers rely on manual runbooks that are frequently outdated."
+    },
+    {
+      title: "Target State",
+      body: "Migrate to a microservices architecture with multi-region deployment. Enable independent service deployments with CI/CD pipelines targeting sub-hour release cycles. Scale to support 500k DAU with auto-scaling and edge caching across 12 regions. Implement OpenTelemetry-based distributed tracing and centralized logging. Adopt GitOps workflows with automated canary deployments and rollback triggers. Target 99.95% availability SLA with proactive incident detection."
+    }
+  ]}
+/>

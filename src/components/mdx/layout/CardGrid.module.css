@@ -1,8 +1,0 @@
-.grid {
-    flex: 1 1 0%;
-    display: grid;
-    align-content: center;
-    margin-top: var(--slide-space-sm);
-    grid-template-columns: repeat(var(--columns, 3), 1fr);
-    gap: var(--slide-space-lg);
-}

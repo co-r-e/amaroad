@@ -1,0 +1,32 @@
+---
+type: content
+notes: |
+  Side-by-side product/plan comparison using cards.
+  Highlights the recommended option with primary color accent.
+---
+
+# Choose Your Plan
+
+<ShowcasePricing
+  tiers={[
+    {
+      name: "Starter",
+      price: "$0",
+      period: "/mo",
+      features: ["5 projects", "1 GB storage", "Community support", "Basic analytics"]
+    },
+    {
+      name: "Pro",
+      price: "$29",
+      period: "/mo",
+      highlighted: true,
+      highlightLabel: "Popular",
+      features: ["Unlimited projects", "50 GB storage", "Priority support", "Advanced analytics"]
+    },
+    {
+      name: "Enterprise",
+      price: "Custom",
+      features: ["Unlimited everything", "Dedicated infrastructure", "24/7 SLA support", "Custom integrations"]
+    }
+  ]}
+/>

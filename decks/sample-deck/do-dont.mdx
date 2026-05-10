@@ -1,0 +1,27 @@
+---
+type: content
+notes: |
+  Do / Don't comparison slide.
+  Left column shows recommended practices, right column shows anti-patterns.
+  Check and X icons convey meaning (good vs bad).
+---
+
+# Code Review Guidelines
+
+<ShowcaseComparison
+  variant="do-dont"
+  leftTitle="Do"
+  rightTitle="Don't"
+  leftItems={[
+    "Review logic and intent, not just style",
+    "Keep PRs small and focused",
+    "Provide actionable suggestions",
+    "Test edge cases before approving"
+  ]}
+  rightItems={[
+    "Nitpick formatting that linters handle",
+    "Submit 1000+ line PRs for review",
+    "Leave vague \"this looks wrong\" comments",
+    "Approve without running the code"
+  ]}
+/>

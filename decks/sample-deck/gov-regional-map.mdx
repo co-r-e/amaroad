@@ -1,0 +1,94 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style regional deployment map (chihou tenkai map).
+  Schematic representation of Japan's regions showing program
+  deployment status across the country.
+---
+
+# Regional Deployment Map
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 420">
+    <defs>
+      <marker id="rm-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,4 L0,8 Z" fill="var(--slide-primary)" />
+      </marker>
+    </defs>
+
+    {/* Hokkaido - top center, Active */}
+    <rect x="480" y="10" width="140" height="56" rx="12" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="550" y="34" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Hokkaido</text>
+    <text x="550" y="52" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Active</text>
+
+    {/* Tohoku - upper right, Planned */}
+    <rect x="630" y="80" width="140" height="56" rx="12" fill="none" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="6,4" />
+    <text x="700" y="104" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Tohoku</text>
+    <text x="700" y="122" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Planned</text>
+
+    {/* Kanto - right, HQ, highlighted */}
+    <rect x="620" y="170" width="160" height="64" rx="12" fill="var(--slide-primary)" opacity="0.95" />
+    <text x="700" y="196" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="#FFF">Kanto</text>
+    <text x="700" y="218" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="rgba(255,255,255,0.8)">HQ - Active</text>
+
+    {/* Chubu - center, Active */}
+    <rect x="430" y="155" width="140" height="56" rx="12" fill="var(--slide-primary)" opacity="0.4" />
+    <text x="500" y="179" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Chubu</text>
+    <text x="500" y="197" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Active</text>
+
+    {/* Kansai - center-left, Pilot, highlighted */}
+    <rect x="300" y="195" width="150" height="64" rx="12" fill="var(--slide-primary)" opacity="0.7" />
+    <text x="375" y="221" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="700" fill="#FFF">Kansai</text>
+    <text x="375" y="243" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="rgba(255,255,255,0.8)">Pilot - Active</text>
+
+    {/* Chugoku - left, Planned */}
+    <rect x="170" y="230" width="140" height="56" rx="12" fill="none" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="6,4" />
+    <text x="240" y="254" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Chugoku</text>
+    <text x="240" y="272" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Planned</text>
+
+    {/* Shikoku - lower center-left, Active */}
+    <rect x="300" y="295" width="140" height="56" rx="12" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="370" y="319" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Shikoku</text>
+    <text x="370" y="337" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fontWeight="600" fill="var(--slide-primary)">Active</text>
+
+    {/* Kyushu - bottom left, Planned */}
+    <rect x="140" y="310" width="140" height="56" rx="12" fill="none" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="6,4" />
+    <text x="210" y="334" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Kyushu</text>
+    <text x="210" y="352" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Planned</text>
+
+    {/* Connection lines from HQ (Kanto) to active pilot regions */}
+    {/* Kanto → Hokkaido */}
+    <line x1="660" y1="170" x2="580" y2="66" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="6,4" markerEnd="url(#rm-arrow)" />
+
+    {/* Kanto → Chubu */}
+    <line x1="620" y1="195" x2="570" y2="183" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#rm-arrow)" />
+
+    {/* Kanto → Kansai */}
+    <line x1="620" y1="210" x2="450" y2="225" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#rm-arrow)" />
+
+    {/* Kanto → Shikoku */}
+    <line x1="640" y1="234" x2="440" y2="318" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="6,4" markerEnd="url(#rm-arrow)" />
+
+    {/* Summary stats */}
+    <rect x="20" y="20" width="130" height="80" rx="12" fill="var(--slide-surface)" />
+    <text x="85" y="44" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="600" fill="var(--slide-text-muted)">Deployment</text>
+    <text x="85" y="68" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="22" fontWeight="800" fill="var(--slide-primary)">5 / 8</text>
+    <text x="85" y="86" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">regions active</text>
+
+    {/* Legend */}
+    <rect x="60" y="390" width="40" height="16" rx="6" fill="var(--slide-primary)" opacity="0.95" />
+    <text x="110" y="402" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">HQ</text>
+
+    <rect x="200" y="390" width="40" height="16" rx="6" fill="var(--slide-primary)" opacity="0.5" />
+    <text x="250" y="402" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Active (Pilot)</text>
+
+    <rect x="380" y="390" width="40" height="16" rx="6" fill="var(--slide-primary)" opacity="0.3" />
+    <text x="430" y="402" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Active</text>
+
+    <rect x="530" y="390" width="40" height="16" rx="6" fill="none" stroke="var(--slide-primary)" strokeWidth="1.5" strokeDasharray="4,3" />
+    <text x="580" y="402" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Planned</text>
+
+    <line x1="690" y1="398" x2="730" y2="398" stroke="var(--slide-primary)" strokeWidth="1.5" markerEnd="url(#rm-arrow)" />
+    <text x="740" y="402" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">HQ coordination</text>
+  </svg>
+</ShowcaseDiagram>

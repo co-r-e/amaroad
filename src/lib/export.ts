@@ -1,6 +1,80 @@
-import { toJpeg } from "html-to-image";
+import { getFontEmbedCSS, toCanvas } from "html-to-image";
 import { jsPDF } from "jspdf";
 import { SLIDE_WIDTH, SLIDE_HEIGHT } from "./slide-utils";
+
+// ---------------------------------------------------------------------------
+// Scheduling helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Yield to the main thread using MessageChannel.
+ * Unlike setTimeout(0), this is NOT throttled in background tabs.
+ */
+export function yieldToMain(): Promise<void> {
+  return new Promise((resolve) => {
+    const ch = new MessageChannel();
+    ch.port1.onmessage = () => {
+      ch.port1.onmessage = null;
+      ch.port1.close();
+      ch.port2.close();
+      resolve();
+    };
+    ch.port2.postMessage(undefined);
+  });
+}
+
+function createAbortError(): Error {
+  return new DOMException("The operation was aborted", "AbortError");
+}
+
+function throwIfAborted(signal?: AbortSignal): void {
+  if (signal?.aborted) throw createAbortError();
+}
+
+function trimFontToken(token: string): string {
+  return token.trim().replace(/^["']|["']$/g, "");
+}
+
+function collectFontLoadSpecs(container: HTMLElement): string[] {
+  const specs = new Set<string>();
+  const nodes = [container, ...Array.from(container.querySelectorAll("*"))];
+
+  for (const node of nodes) {
+    const font = getComputedStyle(node).font?.trim();
+    if (font) specs.add(font);
+  }
+
+  return Array.from(specs);
+}
+
+function collectFontFamilies(container: HTMLElement): string[] {
+  const families = new Set<string>();
+  const nodes = [container, ...Array.from(container.querySelectorAll("*"))];
+
+  for (const node of nodes) {
+    const fontFamily = getComputedStyle(node).fontFamily;
+    if (!fontFamily) continue;
+
+    for (const token of fontFamily.split(",")) {
+      const family = trimFontToken(token);
+      if (family) families.add(family);
+    }
+  }
+
+  return Array.from(families).sort();
+}
+
+function waitForSettledOrTimeout(
+  tasks: Promise<unknown>[],
+  timeoutMs: number,
+): Promise<void> {
+  return Promise.race([
+    Promise.allSettled(tasks).then(() => undefined),
+    new Promise<void>((resolve) => {
+      setTimeout(resolve, timeoutMs);
+    }),
+  ]);
+}
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -61,22 +135,56 @@ export function waitForImages(
 
     let settled = 0;
     const total = pending.length;
+    let finished = false;
 
-    const timer = setTimeout(() => resolve(), timeoutMs);
-
-    const onDone = () => {
-      settled++;
-      if (settled >= total) {
-        clearTimeout(timer);
-        resolve();
+    const cleanup = () => {
+      clearTimeout(timer);
+      for (const img of pending) {
+        img.removeEventListener("load", onDone);
+        img.removeEventListener("error", onDone);
       }
     };
 
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      cleanup();
+      resolve();
+    };
+
+    const onDone = () => {
+      if (finished) return;
+      settled++;
+      if (settled >= total) {
+        finish();
+      }
+    };
+
+    const timer = setTimeout(finish, timeoutMs);
+
     for (const img of pending) {
-      img.addEventListener("load", onDone, { once: true });
-      img.addEventListener("error", onDone, { once: true });
+      img.addEventListener("load", onDone);
+      img.addEventListener("error", onDone);
     }
   });
+}
+
+export async function waitForFonts(
+  container: HTMLElement,
+  timeoutMs = 10000,
+): Promise<void> {
+  const fontFaceSet = document.fonts;
+  if (!fontFaceSet) return;
+
+  const tasks: Promise<unknown>[] = [fontFaceSet.ready];
+  const fontSpecs = collectFontLoadSpecs(container);
+
+  for (const font of fontSpecs) {
+    tasks.push(fontFaceSet.load(font, "BESbswy あア亜"));
+  }
+
+  await waitForSettledOrTimeout(tasks, timeoutMs);
+  await yieldToMain();
 }
 
 // ---------------------------------------------------------------------------
@@ -134,35 +242,124 @@ export function waitForDomStable(
 async function waitForSlideReady(container: HTMLElement): Promise<void> {
   await waitForMdxReady(container);
   await waitForImages(container);
+  await waitForFonts(container);
   await waitForDomStable(container);
+  await waitForFonts(container, 3000);
 }
 
 // ---------------------------------------------------------------------------
 // Image capture (JPEG data URL for each slide)
 // ---------------------------------------------------------------------------
 
+const CAPTURE_MIME_TYPE = "image/jpeg";
 const CAPTURE_JPEG_QUALITY = 0.92;
+const EMPTY_SLIDE_IMAGE = new Blob([], { type: CAPTURE_MIME_TYPE });
 
-export async function captureSlide(container: HTMLElement): Promise<string> {
-  await waitForSlideReady(container);
+export type ExportedSlideImage = Blob;
 
-  return toJpeg(container, {
-    width: SLIDE_WIDTH,
-    height: SLIDE_HEIGHT,
-    pixelRatio: 1,
-    quality: CAPTURE_JPEG_QUALITY,
-    backgroundColor: "#FFFFFF",
-    cacheBust: true,
-    filter: (node) =>
-      !(node instanceof HTMLIFrameElement || node instanceof HTMLVideoElement),
+function captureFilter(node: HTMLElement | SVGElement): boolean {
+  return !(node instanceof HTMLIFrameElement || node instanceof HTMLVideoElement);
+}
+
+const CAPTURE_OPTIONS = {
+  width: SLIDE_WIDTH,
+  height: SLIDE_HEIGHT,
+  pixelRatio: 1,
+  quality: CAPTURE_JPEG_QUALITY,
+  backgroundColor: "#FFFFFF",
+  cacheBust: false,
+  filter: captureFilter,
+} as const;
+
+const captureFontCssCache = new Map<string, Promise<string | null>>();
+
+async function getCaptureFontEmbedCss(
+  container: HTMLElement,
+): Promise<string | null> {
+  const families = collectFontFamilies(container);
+  if (families.length === 0) return null;
+
+  const cacheKey = families.join("|");
+  const cached = captureFontCssCache.get(cacheKey);
+  if (cached) return cached;
+
+  const request = getFontEmbedCSS(container, {
+    preferredFontFormat: "woff2",
+  }).catch((error) => {
+    console.warn("[amaroad] Failed to prepare embedded export fonts:", error);
+    captureFontCssCache.delete(cacheKey);
+    return null;
   });
+
+  captureFontCssCache.set(cacheKey, request);
+  return request;
+}
+
+async function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result;
+      if (typeof result === "string") {
+        resolve(result);
+      } else {
+        reject(new Error("Failed to convert slide blob to data URL"));
+      }
+    };
+    reader.onerror = () => reject(reader.error ?? new Error("Failed to read slide blob"));
+    reader.readAsDataURL(blob);
+  });
+}
+
+function canvasToJpegBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Failed to create slide export blob"));
+        return;
+      }
+      resolve(blob);
+    }, CAPTURE_MIME_TYPE, CAPTURE_JPEG_QUALITY);
+  });
+}
+
+export async function captureSlide(container: HTMLElement): Promise<ExportedSlideImage> {
+  await waitForSlideReady(container);
+  const fontEmbedCSS = await getCaptureFontEmbedCss(container);
+  const canvas = await toCanvas(
+    container,
+    fontEmbedCSS
+      ? {
+        ...CAPTURE_OPTIONS,
+        fontEmbedCSS,
+      }
+      : CAPTURE_OPTIONS,
+  );
+  try {
+    return await canvasToJpegBlob(canvas);
+  } finally {
+    canvas.width = 0;
+    canvas.height = 0;
+  }
 }
 
 // ---------------------------------------------------------------------------
 // PDF output
 // ---------------------------------------------------------------------------
 
-export function savePdf(deckName: string, images: string[]): void {
+/** Batch size for yielding to main thread during PDF/PPTX generation */
+const GENERATION_BATCH_SIZE = 5;
+
+export interface ExportSaveOptions {
+  onProgress?: (current: number, total: number) => void;
+  signal?: AbortSignal;
+}
+
+export async function savePdf(
+  deckName: string,
+  images: ExportedSlideImage[],
+  options?: ExportSaveOptions,
+): Promise<void> {
   const pdf = new jsPDF({
     orientation: "landscape",
     unit: "px",
@@ -171,26 +368,58 @@ export function savePdf(deckName: string, images: string[]): void {
   });
 
   for (let i = 0; i < images.length; i++) {
+    throwIfAborted(options?.signal);
+
     if (i > 0) pdf.addPage([SLIDE_WIDTH, SLIDE_HEIGHT], "landscape");
-    pdf.addImage(images[i], "JPEG", 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
+
+    const image = images[i];
+    const imageDataUrl = await blobToDataUrl(image);
+    pdf.addImage(imageDataUrl, "JPEG", 0, 0, SLIDE_WIDTH, SLIDE_HEIGHT);
+    images[i] = EMPTY_SLIDE_IMAGE;
+    options?.onProgress?.(i + 1, images.length);
+
+    if ((i + 1) % GENERATION_BATCH_SIZE === 0) {
+      await yieldToMain();
+      throwIfAborted(options?.signal);
+    }
   }
 
-  pdf.save(`${deckName}.pdf`);
+  await yieldToMain();
+  throwIfAborted(options?.signal);
+  await pdf.save(`${deckName}.pdf`, { returnPromise: true });
 }
 
 // ---------------------------------------------------------------------------
 // PPTX output (image-based)
 // ---------------------------------------------------------------------------
 
-export async function savePptx(deckName: string, images: string[]): Promise<void> {
+export async function savePptx(
+  deckName: string,
+  images: ExportedSlideImage[],
+  options?: ExportSaveOptions,
+): Promise<void> {
+  throwIfAborted(options?.signal);
+
   const PptxGenJS = (await import("pptxgenjs")).default;
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE";
 
-  for (const dataUrl of images) {
+  for (let i = 0; i < images.length; i++) {
+    throwIfAborted(options?.signal);
+
+    const image = images[i];
+    const dataUrl = await blobToDataUrl(image);
     const slide = pptx.addSlide();
     slide.addImage({ data: dataUrl, x: 0, y: 0, w: "100%", h: "100%" });
+    images[i] = EMPTY_SLIDE_IMAGE;
+    options?.onProgress?.(i + 1, images.length);
+
+    if ((i + 1) % GENERATION_BATCH_SIZE === 0) {
+      await yieldToMain();
+      throwIfAborted(options?.signal);
+    }
   }
 
+  throwIfAborted(options?.signal);
   await pptx.writeFile({ fileName: `${deckName}.pptx` });
 }

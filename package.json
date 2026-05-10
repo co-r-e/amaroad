@@ -1,19 +1,19 @@
 {
-  "name": "dexcode",
-  "version": "0.1.0",
+  "name": "amaroad",
+  "version": "0.1.4",
   "private": true,
-  "description": "AI-driven slide authoring tool built with Next.js and MDX",
+  "description": "Amaroad — AI-driven slide authoring tool built with Next.js and MDX",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/co-r-e/dexcode.git"
+    "url": "git+https://github.com/co-r-e/amaroad.git"
   },
   "bugs": {
-    "url": "https://github.com/co-r-e/dexcode/issues"
+    "url": "https://github.com/co-r-e/amaroad/issues"
   },
-  "homepage": "https://co-r-e.github.io/dexcode-lp/",
+  "homepage": "https://co-r-e.github.io/amaroad-lp/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3850",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -21,26 +21,27 @@
     "notices:check": "node scripts/third-party-notices.mjs --check"
   },
   "dependencies": {
-    "@google/genai": "^1.43.0",
+    "@google/genai": "^1.51.0",
     "@mdx-js/mdx": "^3.1.1",
     "cloudflared": "^0.7.1",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
     "html-to-image": "^1.11.13",
     "jiti": "^2.6.1",
-    "jspdf": "^4.2.0",
-    "katex": "^0.16.33",
-    "lucide-react": "^0.575.0",
-    "next": "16.1.6",
+    "jspdf": "^4.2.1",
+    "katex": "^0.16.40",
+    "lucide-react": "^0.577.0",
+    "next": "16.2.3",
     "next-themes": "^0.4.6",
     "pptxgenjs": "^4.0.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^3.7.0",
+    "recharts": "^3.8.0",
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "xlsx": "file:vendor/xlsx"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -50,9 +51,23 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9.39.3",
-    "eslint-config-next": "^16.1.6",
+    "eslint-config-next": "^16.2.1",
+    "playwright": "^1.58.2",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.31.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cloudflared",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

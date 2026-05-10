@@ -7,7 +7,7 @@ interface UseSlideNavigationOptions {
   onSlideChange?: (index: number) => void;
 }
 
-const SLIDE_CHANGE_EVENT = "dexcode:slidechange";
+const SLIDE_CHANGE_EVENT = "amaroad:slidechange";
 
 function clampIndex(index: number, totalSlides: number): number {
   if (totalSlides <= 0) return 0;

@@ -1,0 +1,61 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style issue and countermeasure slide (kadai to taiou-saku).
+  Left side shows issues as speech-bubble-style callout boxes (voices from the field),
+  right side shows corresponding policy responses, connected by a central arrow.
+---
+
+# Issues and Countermeasures
+
+<div data-growable="" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "var(--slide-space-sm)", flex: 1, minHeight: 0, alignItems: "center" }}>
+
+  {/* Left: Issues */}
+  <div style={{ display: "flex", flexDirection: "column", gap: "var(--slide-space-sm)" }}>
+    <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text-muted)", margin: "0 0 0.2rem 0", textAlign: "center" }}>Current Issues</p>
+
+    <div style={{ background: "var(--slide-surface)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", position: "relative" }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text)", margin: "0 0 0.3rem 0" }}>Shortage of instructors</p>
+      <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)", margin: 0, lineHeight: 1.6 }}>Only 12% of municipalities have certified digital skills trainers on staff</p>
+    </div>
+
+    <div style={{ background: "var(--slide-surface)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", position: "relative" }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text)", margin: "0 0 0.3rem 0" }}>Low completion rates</p>
+      <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)", margin: 0, lineHeight: 1.6 }}>Average course completion sits at 34%, well below the 70% target</p>
+    </div>
+
+    <div style={{ background: "var(--slide-surface)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", position: "relative" }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text)", margin: "0 0 0.3rem 0" }}>Regional disparity</p>
+      <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)", margin: 0, lineHeight: 1.6 }}>Urban areas 3x more program availability than rural prefectures</p>
+    </div>
+  </div>
+
+  {/* Center: Arrow */}
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 0.8rem" }}>
+    <svg width="80" height="120" viewBox="0 0 80 120">
+      <rect x="0" y="35" width="45" height="50" rx="8" fill="var(--slide-primary)" opacity="0.15" />
+      <polygon points="80,60 45,30 45,90" fill="var(--slide-primary)" opacity="0.5" />
+    </svg>
+  </div>
+
+  {/* Right: Countermeasures */}
+  <div style={{ display: "flex", flexDirection: "column", gap: "var(--slide-space-sm)" }}>
+    <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--slide-text-muted)", margin: "0 0 0.2rem 0", textAlign: "center" }}>Policy Response</p>
+
+    <div style={{ background: "var(--slide-primary)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", opacity: 0.9 }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "#FFF", margin: "0 0 0.3rem 0" }}>Train-the-trainer program</p>
+      <p style={{ fontSize: "1.8rem", color: "rgba(255,255,255,0.75)", margin: 0, lineHeight: 1.6 }}>Certify 5,000 new instructors by FY2027 through subsidized training</p>
+    </div>
+
+    <div style={{ background: "var(--slide-primary)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", opacity: 0.9 }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "#FFF", margin: "0 0 0.3rem 0" }}>Modular micro-credentials</p>
+      <p style={{ fontSize: "1.8rem", color: "rgba(255,255,255,0.75)", margin: 0, lineHeight: 1.6 }}>Replace long courses with stackable 20-hour modules and badges</p>
+    </div>
+
+    <div style={{ background: "var(--slide-primary)", borderRadius: "var(--slide-radius)", padding: "1.2rem 1.6rem", opacity: 0.9 }}>
+      <p style={{ fontSize: "1.8rem", fontWeight: 700, color: "#FFF", margin: "0 0 0.3rem 0" }}>Satellite learning hubs</p>
+      <p style={{ fontSize: "1.8rem", color: "rgba(255,255,255,0.75)", margin: 0, lineHeight: 1.6 }}>Deploy 200 remote-access centers in underserved municipalities</p>
+    </div>
+  </div>
+
+</div>

@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Monitor } from "lucide-react";
+import { Monitor, LayoutGrid, ArrowLeft } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import { SlideThumbnail } from "./SlideThumbnail";
 import { ShareButton } from "@/components/viewer/ShareButton";
 import { ExportButton } from "@/components/deck-list/ExportButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useIsLocal } from "@/hooks/useIsLocal";
+
+const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
 
 interface SidebarProps {
   deck: Deck;
@@ -27,20 +29,22 @@ export function Sidebar({
   return (
     <aside className="flex h-full w-64 flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
       <div className="flex flex-col gap-3 border-b border-gray-200 dark:border-gray-700 p-4">
-        <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+        <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 overflow-x-auto whitespace-nowrap scrollbar-none">
           {deck.config.title}
         </h1>
-        <div className="flex gap-2">
+        <div className="flex gap-2 min-w-0">
           {isLocal && (
             <Link
               href="/"
               aria-label="Back to deck list"
-              className="flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              title="Back to deck list"
+              className="flex items-center justify-center rounded-lg px-2 text-[#02001A] dark:text-white transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <ArrowLeft size={14} className="text-gray-600 dark:text-gray-400" />
+              <ArrowLeft size={20} />
             </Link>
           )}
           <button
+            type="button"
             onClick={onPresenterMode}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#02001A] dark:bg-gray-100 px-3 py-2 text-xs font-medium text-white dark:text-gray-900 transition-opacity hover:opacity-80"
           >
@@ -48,13 +52,23 @@ export function Sidebar({
             Presenter Mode
           </button>
         </div>
-        <div className="flex gap-2">
-          {isLocal && (
+        <div className="flex gap-2 min-w-0">
+          {isLocal && TUNNEL_ENABLED && (
             <div className="flex-1 min-w-0">
-              <ShareButton deckName={deck.name} />
+              <ShareButton deckName={deck.name} deckTitle={deck.config.title} />
             </div>
           )}
           <ExportButton deckName={deck.name} />
+          <div>
+            <button
+              type="button"
+              onClick={() => window.open(`/${deck.name}/thumbnails`, "_blank")}
+              className="flex h-full items-center gap-1 rounded-lg bg-[#02001A] dark:bg-gray-100 px-2 py-1.5 text-sm text-white dark:text-gray-900 transition-colors hover:bg-[#1a1a3a] dark:hover:bg-gray-200"
+              title="Thumbnail overview"
+            >
+              <LayoutGrid size={14} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -67,7 +81,7 @@ export function Sidebar({
               config={deck.config}
               deckName={deck.name}
               active={slide.index === currentSlide}
-              onClick={() => onSlideSelect(slide.index)}
+              onSelect={onSlideSelect}
             />
           ))}
         </div>

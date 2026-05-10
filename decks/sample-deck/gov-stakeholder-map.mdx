@@ -1,0 +1,78 @@
+---
+type: content
+notes: |
+  Kasumigaseki-style inter-agency coordination map (kankei-kikan renkeizu).
+  Shows the Cabinet Office as central coordinator with surrounding ministries
+  connected by solid lines (oversight) and dashed lines (cooperation).
+---
+
+# Inter-agency Coordination
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 440">
+    <defs>
+      <marker id="sm-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,4 L0,8 Z" fill="var(--slide-text-muted)" />
+      </marker>
+    </defs>
+
+    {/* Central: Cabinet Office */}
+    <circle cx="450" cy="220" r="72" fill="var(--slide-primary)" opacity="0.95" />
+    <text x="450" y="210" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="#FFF">Cabinet</text>
+    <text x="450" y="232" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" fill="#FFF">Office</text>
+
+    {/* Surrounding ministries - 6 nodes */}
+    {/* Top */}
+    <rect x="365" y="20" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="450" y="44" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">Digital Agency</text>
+    <text x="450" y="62" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">System architecture</text>
+
+    {/* Top-right */}
+    <rect x="660" y="70" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="745" y="94" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">METI</text>
+    <text x="745" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Industry promotion</text>
+
+    {/* Bottom-right */}
+    <rect x="660" y="310" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="745" y="334" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">MIC</text>
+    <text x="745" y="352" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Telecom / Local gov</text>
+
+    {/* Bottom */}
+    <rect x="365" y="370" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="450" y="394" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">MHLW</text>
+    <text x="450" y="412" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Labor / Employment</text>
+
+    {/* Bottom-left */}
+    <rect x="70" y="310" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="155" y="334" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">MEXT</text>
+    <text x="155" y="352" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Education / Research</text>
+
+    {/* Top-left */}
+    <rect x="70" y="70" width="170" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="155" y="94" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="var(--slide-text)">MOF</text>
+    <text x="155" y="112" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="11" fill="var(--slide-text-muted)">Budget allocation</text>
+
+    {/* Solid lines: Cabinet → each ministry (oversight) */}
+    <line x1="450" y1="148" x2="450" y2="76" stroke="var(--slide-primary)" strokeWidth="2" />
+    <line x1="510" y1="165" x2="660" y2="98" stroke="var(--slide-primary)" strokeWidth="2" />
+    <line x1="510" y1="275" x2="660" y2="338" stroke="var(--slide-primary)" strokeWidth="2" />
+    <line x1="450" y1="292" x2="450" y2="370" stroke="var(--slide-primary)" strokeWidth="2" />
+    <line x1="390" y1="275" x2="240" y2="338" stroke="var(--slide-primary)" strokeWidth="2" />
+    <line x1="390" y1="165" x2="240" y2="98" stroke="var(--slide-primary)" strokeWidth="2" />
+
+    {/* Dashed lines: inter-ministry cooperation (selected pairs) */}
+    <line x1="240" y1="98" x2="365" y2="48" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <line x1="535" y1="48" x2="660" y2="98" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <line x1="240" y1="338" x2="365" y2="398" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <line x1="535" y1="398" x2="660" y2="338" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <line x1="155" y1="126" x2="155" y2="310" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <line x1="745" y1="126" x2="745" y2="310" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+
+    {/* Legend */}
+    <line x1="70" y1="10" x2="110" y2="10" stroke="var(--slide-primary)" strokeWidth="2" />
+    <text x="120" y="14" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Oversight</text>
+
+    <line x1="220" y1="10" x2="260" y2="10" stroke="var(--slide-text-muted)" strokeWidth="1" strokeDasharray="6,4" />
+    <text x="270" y="14" fontFamily="Inter, sans-serif" fontSize="12" fill="var(--slide-text-muted)">Cooperation</text>
+  </svg>
+</ShowcaseDiagram>

@@ -37,10 +37,16 @@ export function SlideOverlay({
   deckName,
   darkBackground,
 }: SlideOverlayProps): React.JSX.Element {
-  const { logo, copyright, pageNumber } = config;
+  const { overlay, logo, copyright, pageNumber } = config;
   const isCover = slideType === "cover" || slideType === "ending";
   const showPageNumber =
     pageNumber && !(isCover && (pageNumber.hideOnCover ?? true));
+  const overlayTextStyle =
+    darkBackground && overlay?.textColorDark
+      ? { color: overlay.textColorDark }
+      : !darkBackground && overlay?.textColor
+        ? { color: overlay.textColor }
+        : undefined;
 
   return (
     <>
@@ -63,6 +69,7 @@ export function SlideOverlay({
             styles.text,
             positionClasses[copyright.position]
           )}
+          style={overlayTextStyle}
         >
           {copyright.text}
         </div>
@@ -75,6 +82,7 @@ export function SlideOverlay({
             styles.text,
             positionClasses[pageNumber.position]
           )}
+          style={overlayTextStyle}
         >
           {currentPage + (pageNumber.startFrom ?? 1)}
         </div>

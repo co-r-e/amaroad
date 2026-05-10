@@ -1,12 +1,14 @@
 ---
 name: svg-diagram
 description: |
-  SVG diagram generation skill. Generates professional diagrams (flow, architecture,
-  comparison, hierarchy, cycle, etc.) as SVG matching the slide's theme colors and fonts,
-  saves them to the deck's assets directory, and inserts them into MDX.
-  Text is kept minimal, prioritizing visual clarity.
-  All arrows use orthogonal (right-angle) routing.
-  Trigger: /svg-diagram
+  Generates professional SVG diagrams (flowchart, architecture, process flow,
+  comparison, hierarchy, cycle, concept grid) that match a deck's theme colors
+  and fonts. Saves to the deck's assets directory and inserts into MDX slides.
+  Use when user says "create a diagram", "draw a flowchart", "architecture
+  diagram", "add an SVG diagram to this slide", or "/svg-diagram".
+  Key capabilities: theme-aware color extraction, orthogonal arrow routing,
+  7 diagram templates, 24px grid alignment, transparent background for
+  seamless slide integration.
 allowed-tools:
   - Bash
   - Read
@@ -15,11 +17,6 @@ allowed-tools:
   - Glob
   - Grep
 ---
-
-# svg-diagram Skill
-
-A skill that generates SVG diagrams matching the slide's design theme and inserts them into MDX files.
-No external API required — Claude generates SVG markup directly.
 
 ## Workflow
 
@@ -48,7 +45,7 @@ Use **all** the color and font values from the output JSON in subsequent SVG gen
 
 If a target slide is specified, check the current slide layout to understand the available placement space:
 
-1. Confirm the dev server is running (`npm run dev`)
+1. Confirm the dev server is running (`pnpm dev`)
 2. Capture a screenshot:
 
 ```bash
@@ -110,7 +107,7 @@ Report the following to the user:
 - File path of the generated SVG
 - Diagram type and size
 - Theme colors used
-- How to verify on the dev server (`npm run dev` then navigate to the relevant slide)
+- How to verify on the dev server (`pnpm dev` then navigate to the relevant slide)
 
 ---
 
@@ -311,12 +308,6 @@ Verify the following before writing the SVG file:
 - [ ] **Visual balance**: The diagram is roughly centered within the viewBox
 - [ ] **Padding**: 48px safe area is maintained around the perimeter
 
-## Error Handling
-
-- `extract-theme.ts` cannot find the deck -> Verify the deck name and retry
-- `deck.config.ts` has no theme settings -> Display an error message
-- SVG output directory does not exist -> Create `decks/{deck}/assets/` before writing
-
 ## File Naming Convention
 
 ```
@@ -337,3 +328,41 @@ Rules:
 - Words separated by hyphens
 - Maximum 40 characters
 - Generic names like `diagram.svg` or `chart.svg` are prohibited
+
+## Examples
+
+### Example 1: Architecture diagram for a microservices slide
+
+- User says: "Add a system architecture diagram to slide 07 of the platform-overview deck"
+- Actions:
+  1. Read `decks/platform-overview/07-architecture.mdx` to understand the slide context.
+  2. Run `extract-theme.ts --deck platform-overview` to get theme colors.
+  3. Load `templates/architecture.md` with the Read tool.
+  4. Generate an SVG with left-to-right flow showing microservices layers. Use `primary` for the API gateway node, `surface` for service nodes, and dashed `surfaceAlt` group backgrounds for each layer.
+  5. Write to `decks/platform-overview/assets/microservices-architecture.svg`.
+  6. Insert `![Microservices Architecture](./assets/microservices-architecture.svg)` into the MDX.
+- Result: Theme-matched architecture diagram saved and embedded in slide 07.
+
+### Example 2: Decision flowchart
+
+- User says: "/svg-diagram create a decision tree for the hiring process in the hr-handbook deck, slide 12"
+- Actions:
+  1. Gather information about the hiring process steps and decision points.
+  2. Extract theme and load `templates/flowchart.md`.
+  3. Generate a top-to-bottom flowchart with diamond decision nodes and rectangular step nodes.
+  4. Write to `decks/hr-handbook/assets/hiring-decision-flow.svg` and insert into slide 12.
+- Result: Orthogonal-routed flowchart with clear decision branches.
+
+## Troubleshooting
+
+### extract-theme.ts cannot find the deck
+- **Cause**: The deck name does not match any directory under `decks/`.
+- **Fix**: Run `ls decks/` to verify the exact directory name. Pass the correct name to `--deck`.
+
+### Text overflows node boundaries
+- **Cause**: Node labels are too long for the specified node width.
+- **Fix**: Shorten labels to 1-4 words. If longer text is necessary, increase the node width (ensure it remains on the 24px grid) or split into two lines using multiple `<text>` elements with adjusted `y` coordinates.
+
+### Arrows pass through nodes
+- **Cause**: The routing path was not adjusted for node positions.
+- **Fix**: Add an intermediate bend (Z-shape routing) to route around the obstructing node. Ensure all arrows use only horizontal (H) and vertical (V) segments.

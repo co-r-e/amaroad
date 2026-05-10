@@ -24,7 +24,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 9999px;
-    font-size: 2.5rem;
+    font-size: calc(2.5rem * var(--slide-font-scale));
     font-weight: bold;
     color: #fff;
     background: var(--slide-primary);
@@ -32,14 +32,14 @@
 
 .title {
     margin-top: 1.25rem;
-    font-size: 2rem;
+    font-size: calc(2rem * var(--slide-font-scale));
     font-weight: bold;
     color: var(--slide-text);
 }
 
 .content {
     margin-top: 0.75rem;
-    font-size: 1.5rem;
+    font-size: calc(1.5rem * var(--slide-font-scale));
     color: var(--slide-text-muted);
     line-height: 1.6;
 }

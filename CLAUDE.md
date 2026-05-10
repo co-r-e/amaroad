@@ -1,4 +1,8 @@
-# DexCode — Project CLAUDE.md
+# Amaroad — Project CLAUDE.md
+
+## Related Repositories
+
+- 商用クラウド用リポジトリ: `~/Projects/dev_amaroad/amaroad-cloud`
 
 ## MDX Slide Authoring Rules
 
@@ -63,10 +67,61 @@ prefer_p_over_ul_li:
       ・Item 1<br/>・Item 2
     </p>
 
+bullet_points_as_cards:
+  rule: >
+    All bullet-point / list content must be presented as cards. All text inside cards must be bold.
+  details:
+    - When listing items, wrap each item in a Card component instead of using plain bullet points or <p> with middle dots.
+    - When a larger outer card contains inner bullet-point items, render each inner item as a nested list-block card inside the outer card.
+    - All text within cards (both outer and inner) must use fontWeight: 700 or "bold".
+  reason: >
+    Card-based lists are visually stronger and easier to scan in presentations than plain text bullets.
+    Bold text ensures readability at projection scale.
+
+multi_line_text_spacing:
+  rule: >
+    Avoid using <br/> inside large headings or emphasized text blocks when precise vertical spacing matters.
+    For multi-line headings, stack separate inline elements with display:block instead.
+  reason: >
+    In large Japanese text, <br/> keeps the text inside one paragraph line box, so line-height can make it look
+    like there is a blank line. Default paragraph margins can also create unexpected extra spacing.
+  use_instead:
+    - Use `<span style={{ display: "block" }}>...</span>` for each line in a heading or emphasized phrase
+    - Set `margin: 0` explicitly on raw `<p>` / `<div>` blocks used inside slides
+    - Tune `line-height` deliberately for 2-line headings; start around `1.1` to `1.25`
+  example_bad: |
+    <p style={{ fontSize: "2.4rem", fontWeight: 800, lineHeight: 1.4 }}>
+      Claude Code を<br/>
+      非エンジニアでも使えるようにするツール
+    </p>
+  example_good: |
+    <div style={{ fontSize: "2.4rem", fontWeight: 800, lineHeight: 1.2 }}>
+      <span style={{ display: "block" }}>Claude Code を</span>
+      <span style={{ display: "block" }}>非エンジニアでも使えるようにするツール</span>
+    </div>
+
 minimum_font_size:
   rule: All text on slides must be 1.8rem or larger
   reason: Smaller sizes (1.5-1.7rem) are hard to read when projected
   exception: Dates, badges, and other auxiliary text
+
+flex_overflow_prevention:
+  rule: >
+    When placing images, screenshots, SVGs, charts, or other intrinsic-sized elements
+    inside a flex container (especially with data-growable), always add overflow: "hidden"
+    and minHeight: 0 to the wrapper div.
+  reason: >
+    Elements like <img> expand to their natural dimensions and can overflow the
+    inviolable area. flex: 1 alone does not prevent this; the container needs
+    explicit overflow clipping and min-height reset to allow shrinking.
+  example_good: |
+    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 0, overflow: "hidden" }}>
+      ![Screenshot](./assets/screenshot.png)
+    </div>
+  example_bad: |
+    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      ![Screenshot](./assets/screenshot.png)
+    </div>
 
 content_area_space_usage:
   rule: Minimize whitespace inside the content area; pack content tightly
@@ -96,6 +151,18 @@ no_side_accent_borders:
     - No border at all for clean, minimal boxes
   exception: Timeline vertical lines where the line represents a chronological axis
 
+card_border_defaults:
+  rule: Card-like containers should be borderless by default
+  reason: >
+    A generic 1px outline on every card adds visual noise and makes layouts feel busy.
+    Most cards should separate themselves by surface color, spacing, and radius instead.
+  use_border_when:
+    - The border conveys a state such as selected, highlighted, recommended, before/after, or warning
+    - The component explicitly exposes an outlined/bordered variant
+    - A comparison needs a stronger edge than background fill alone
+  default: >
+    Surface background + radius, no outer border.
+
 icon_usage:
   rule: Only use icons when they accurately convey meaning. Never use icons "just because."
   allowed:
@@ -104,10 +171,128 @@ icon_usage:
     - Platform links like GitHub/Docs (github, book-open)
     - Process representation inside flow diagram steps
     - Avatar placeholders (user)
+    - Card heading icons that visually categorize or distinguish each card's topic
   prohibited:
-    - Decorative icons next to headings
+    - Decorative icons next to standalone headings (non-card context)
     - Atmosphere-setting icons on cover slides
-    - Icons above feature card text when the text already conveys the meaning
     - Circle-background + icon combos for section dividers
   test: "If removing the icon loses no information, the icon is unnecessary."
+  note: >
+    Card layouts are an exception — icons as card headings help users quickly
+    scan and differentiate multiple cards at a glance, even if the text alone
+    conveys the meaning.
+
+visual_first:
+  rule: Proactively use diagrams, graphs, and charts wherever visual explanation is clearer than text
+  details:
+    - When content involves processes, comparisons, data, architecture, relationships, or flows,
+      prefer a visual (SVG diagram, chart, graph) over bullet points or paragraphs.
+    - Use the svg-diagram skill for flowcharts, architecture diagrams, and process flows.
+    - Use chart components (bar, pie, line, etc.) for quantitative data.
+    - Visuals should be the primary content; supporting text is secondary.
+  test: "Could this content be understood faster as a diagram or chart? If yes, visualize it."
+
+css_variable_override_pattern:
+  rule: >
+    Shared MDX components use CSS custom properties with fallbacks for layout values
+    that may need per-deck or per-instance customization.
+  naming: "--{component}-{variant}-{property}"
+  examples:
+    - "--figure-side-columns"       # FigureShowcase, side variant, grid-template-columns
+    - "--figure-imagetext-gap"      # FigureShowcase, image-text variant, gap
+    - "--logo-columns"              # LogoWall, columns count
+  implementation:
+    - CSS: Use `var(--name, fallback)` so existing decks are unaffected.
+    - TSX: Accept `style?: React.CSSProperties` prop, spread on root element.
+    - MDX override: `<Component style={{ "--figure-imagetext-columns": "40% 1fr" }} />`
+  scope: Layout structure (grid ratios, align, gap) and fixed sizes. Typography stays hardcoded until needed.
+
+ai_image_generation:
+  rule: >
+    When generating AI images for slides (via gemini-image or equivalent), prefer simple,
+    minimal compositions and 1K resolution to keep file sizes small without visible quality loss.
+  details:
+    - Resolution: default to `1K`. Only use `2K` when the image will be displayed full-bleed
+      on a high-DPI screen. Never use `4K` unless explicitly requested.
+    - Composition: one clear subject, centered, on a pure white background. No floating icons,
+      decorative sparkles, scattered UI elements, or busy backdrops around the main subject.
+    - Prompt wording: include phrases like "minimal clean composition", "no extra icons or
+      decorations", "pure white background", "centered composition".
+    - Style consistency: match the existing deck mascot style (e.g., for core-pitch, the dark
+      navy dolphin with pink rectangular sunglasses, chibi kawaii, thick black outlines, flat vector art).
+    - Target file size: roughly 500KB–1MB per image at 1K. If an image exceeds ~2MB, regenerate
+      with a simpler prompt rather than compressing lossy.
+  reason: >
+    Cluttered backgrounds compete with slide content and pull focus from the message.
+    Oversized PNGs (5MB+) slow down the slide runtime and bloat the repo unnecessarily.
+  scope: All AI-generated illustrations used inside decks/*/assets/.
+
+screenshot_placeholder:
+  rule: >
+    When a slide needs a real screenshot that only the user can provide (e.g., a logged-in
+    app screen, a specific UI state, proprietary tool), insert a placeholder box instead of
+    generating an AI image. The placeholder must describe what screenshot is needed.
+  implementation: |
+    <div style={{ width: "100%", height: "80%", background: "var(--slide-surface)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <p style={{ fontSize: "1.8rem", color: "var(--slide-text-muted)", margin: 0, textAlign: "center", padding: "2rem" }}>📸 ここに必要なスクショの説明を書く</p>
+    </div>
+  when_to_use:
+    - Logged-in states of third-party services (Gmail, Slack, etc.)
+    - Proprietary or internal tool screens
+    - Specific UI states that AI image generation cannot reproduce accurately
+    - Browser screenshots showing real user data or settings
+  when_not_to_use:
+    - Conceptual illustrations (use nanobanana-image instead)
+    - Diagrams or flowcharts (use inline SVG instead)
+
+no_duplicate_slide_deletion:
+  rule: >
+    Never delete slides that appear to be duplicates without explicit user confirmation.
+    In presentation design, similar or identical slides are often reused intentionally
+    at different points in the deck for pacing, emphasis, or structural reasons.
+  action: Always ask the user before removing any slide that looks like a duplicate.
+
+no_em_dash:
+  rule: Never use em dashes (—) in slide text or titles
+  reason: Em dashes look unnatural in Japanese presentation context
+  use_instead: Hyphen (-), full-width hyphen (ー), or rephrase without a dash
+  scope: All MDX slide files and speaker notes
+
+no_markdown_bold:
+  rule: Never use Markdown bold syntax (**text**) in slide text
+  reason: Slide content uses JSX inline styles (fontWeight) for bold; Markdown ** is unreliable inside JSX and inconsistent with the styling approach
+  use_instead: "fontWeight: 700 or \"bold\" via inline style"
+  scope: All MDX slide files and speaker notes
+
+slide_order_manifest:
+  rule: >
+    Slide order is managed by a slide-order.ts manifest file in each deck directory.
+    New slides are added by inserting a line in the manifest, not by renaming files.
+  format: |
+    // decks/<deck>/slide-order.ts
+    export default [
+      "cover",
+      "speaker",
+      "agenda",
+      "section-overview",
+      "what-is-feature",
+    ];
+  details:
+    - Each entry is a filename without the .mdx extension.
+    - The array order determines presentation order.
+    - To insert a slide, add a new entry at the desired position and create the .mdx file.
+    - To reorder slides, move entries within the array.
+    - Prefer file names without numeric prefixes.
+    - If removing a numeric prefix would cause a filename collision, keep the prefix as a disambiguator.
+    - If slide-order.ts is absent, the deck falls back to filename-based alphabetical sort (legacy).
+  validation:
+    - Files listed in the manifest that do not exist on disk produce a console warning.
+    - .mdx files on disk that are not listed in the manifest produce a console warning.
+  migration:
+    script: "npx tsx scripts/generate-slide-order.mts"
+    options:
+      - "--dry-run: preview changes without writing"
+      - "--force: rerun migration even if slide-order.ts already exists"
+      - "--all: migrate all decks"
+      - "<deck-name>: migrate a single deck"
 ```

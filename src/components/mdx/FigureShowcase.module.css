@@ -1,0 +1,514 @@
+/*
+ * FigureShowcase — CSS Custom Property Overrides
+ *
+ * All layout values below accept per-instance overrides via the `style` prop.
+ * Pass CSS variables through React's style object:
+ *
+ *   <FigureShowcase style={{ "--figure-side-columns": "2fr 1fr" }} />
+ *
+ * Variable                          | Default        | Variant(s)
+ * --------------------------------- | -------------- | ----------------------------
+ * --figure-side-columns             | 3fr 1fr        | left-caption
+ * --figure-side-columns-reverse     | 1fr 3fr        | right-caption
+ * --figure-side-gap                 | 2.5rem         | left-caption, right-caption
+ * --figure-comparison-align         | stretch        | comparison
+ * --figure-cardlist-columns         | 55% 1fr        | card-list
+ * --figure-cardlist-gap             | 2.5rem         | card-list
+ * --figure-threeflow-align          | stretch        | three-flow
+ * --figure-imagetext-columns        | 55% 1fr        | image-text
+ * --figure-imagetext-columns-reverse| 1fr 55%        | text-image
+ * --figure-imagetext-gap            | 3rem           | image-text, text-image
+ * --figure-colimg-gap               | 3rem           | column-image-text (2-col)
+ * --figure-colimg3-gap              | 2.5rem         | column-image-text (3-col)
+ * --figure-colimg-height            | 200px          | column-image-text (2-col)
+ * --figure-colimg3-height           | 180px          | column-image-text (3-col)
+ * --figure-media-fit                | cover          | all (mediaImage object-fit)
+ * --figure-overlay-bg               | #000000        | overlay
+ * --figure-overlay-gradient         | linear-gradient(…) | overlay (scrim gradient)
+ * --figure-accent-width             | 50px           | left-caption, right-caption
+ * --figure-accent-height            | 3px            | left-caption, right-caption
+ * --figure-cardlist-item-padding    | 1.6rem 2rem    | card-list
+ * --figure-imagetext-quote-padding  | 1.2rem 1.6rem  | image-text, text-image
+ * --figure-colimg2-columns          | 1fr 1fr        | column-image-text (2-col)
+ * --figure-fulldark-justify         | flex-start     | full-dark (text vertical position)
+ */
+
+/* ── Base ── */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--slide-space-md);
+  min-height: 0;
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+}
+
+.title {
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+  white-space: pre-line;
+}
+
+.titleLg {
+  font-size: calc(4.5rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+  font-family: var(--slide-font-heading);
+  letter-spacing: -0.025em;
+  white-space: pre-line;
+}
+
+.description {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.descriptionLight {
+  font-size: calc(2.2rem * var(--slide-font-scale));
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.accentLine {
+  width: var(--figure-accent-width, 50px);
+  height: var(--figure-accent-height, 3px);
+  background: var(--slide-primary);
+  border-radius: 2px;
+}
+
+/* ── Media frame ── */
+.mediaFrame {
+  position: relative;
+  min-height: 0;
+  border-radius: var(--slide-radius);
+  background: var(--slide-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mediaGrow {
+  flex: 1;
+}
+
+.mediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--figure-media-fit, cover);
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  color: var(--slide-text-subtle);
+}
+
+.placeholderLabel {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Side layout (left-caption / right-caption) ── */
+.sideLayout {
+  display: grid;
+  grid-template-columns: var(--figure-side-columns, 3fr 1fr);
+  gap: var(--figure-side-gap, 2.5rem);
+  height: 100%;
+  min-height: 0;
+}
+
+.sideLayoutReverse {
+  grid-template-columns: var(--figure-side-columns-reverse, 1fr 3fr);
+}
+
+.sideCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--slide-space-sm);
+  min-width: 0;
+}
+
+/* ── Comparison ── */
+.comparisonRow {
+  display: flex;
+  align-items: var(--figure-comparison-align, stretch);
+  gap: var(--slide-space-md);
+  min-height: 0;
+  flex: 1;
+}
+
+.comparisonArrow {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.comparisonCopy {
+  display: flex;
+  gap: var(--slide-space-xl);
+}
+
+.comparisonColumn {
+  flex: 1;
+  min-width: 0;
+}
+
+.comparisonTitle {
+  font-size: calc(2rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.comparisonDescription {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0.4rem 0 0;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* ── Overlay ── */
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: var(--figure-overlay-bg, #000000);
+}
+
+.overlayContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--slide-space-xl);
+  text-align: center;
+  gap: var(--slide-space-md);
+  background: var(--figure-overlay-gradient, linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.4)
+  ));
+}
+
+/* ── Card-list ── */
+.cardListLayout {
+  display: grid;
+  grid-template-columns: var(--figure-cardlist-columns, 55% 1fr);
+  gap: var(--figure-cardlist-gap, 2.5rem);
+  height: 100%;
+  min-height: 0;
+}
+
+.cardListStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+  height: 100%;
+}
+
+.cardListItem {
+  flex: 1;
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: var(--figure-cardlist-item-padding, 1.6rem 2rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardListItemTitle {
+  font-size: calc(2rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.cardListItemDesc {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0.4rem 0 0;
+  line-height: 1.6;
+}
+
+/* ── Three-flow ── */
+.threeFlowRow {
+  display: flex;
+  align-items: var(--figure-threeflow-align, stretch);
+  height: 100%;
+  gap: var(--slide-space-sm);
+}
+
+.threeFlowItem {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+}
+
+.threeFlowArrow {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── Heading-image ── */
+.headingImageTitle {
+  font-size: calc(3.6rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  font-family: var(--slide-font-heading);
+  letter-spacing: -0.02em;
+}
+
+.headingImageSubtitle {
+  font-size: calc(2rem * var(--slide-font-scale));
+  font-weight: 500;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Three-caption ── */
+.threeCaptionRow {
+  display: flex;
+  gap: var(--slide-space-sm);
+  min-height: 0;
+  flex: 1;
+}
+
+.threeCaptionItem {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.threeCaptionTitle {
+  font-size: calc(2.2rem * var(--slide-font-scale));
+  font-weight: 600;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Image-text / Text-image ── */
+.imageTextLayout {
+  display: grid;
+  grid-template-columns: var(--figure-imagetext-columns, 55% 1fr);
+  gap: var(--figure-imagetext-gap, 3rem);
+  height: 100%;
+  min-height: 0;
+}
+
+.imageTextLayoutReverse {
+  grid-template-columns: var(--figure-imagetext-columns-reverse, 1fr 55%);
+}
+
+.imageTextCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: var(--slide-space-sm);
+}
+
+.imageTextTitle {
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.imageTextDesc {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.8;
+}
+
+.imageTextBullets {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 2;
+}
+
+.imageTextQuote {
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  padding: var(--figure-imagetext-quote-padding, 1.2rem 1.6rem);
+}
+
+.imageTextQuoteText {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-style: italic;
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Full-dark ── */
+.fullDarkRoot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.fullDarkImage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullDarkImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fullDarkOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: var(--figure-fulldark-justify, flex-start);
+  text-align: center;
+  padding: var(--slide-space-md) 0 0;
+}
+
+.fullDarkLabel {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.fullDarkTitle {
+  font-size: calc(4rem * var(--slide-font-scale));
+  font-weight: 700;
+  font-family: var(--slide-font-heading);
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.fullDarkDesc {
+  font-size: calc(2rem * var(--slide-font-scale));
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0.4rem 0 0;
+  line-height: 1.6;
+}
+
+/* ── Stacked ── */
+.stackedColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--slide-space-sm);
+}
+
+.stackedItem {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Column-image-text ── */
+.columnImageTextRow {
+  display: grid;
+  gap: var(--figure-colimg-gap, 3rem);
+  height: 100%;
+  min-height: 0;
+}
+
+.columnImageTextRow2 {
+  grid-template-columns: var(--figure-colimg2-columns, 1fr 1fr);
+}
+
+.columnImageTextRow3 {
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--figure-colimg3-gap, 2.5rem);
+}
+
+.columnImageTextItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-sm);
+  min-width: 0;
+}
+
+.columnImageTextMedia {
+  width: 100%;
+  height: var(--figure-colimg-height, 200px);
+  background: var(--slide-surface);
+  border-radius: var(--slide-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.columnImageTextMedia3 {
+  height: var(--figure-colimg3-height, 180px);
+}
+
+.columnImageTextMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.columnImageTextLabel {
+  font-size: calc(2.2rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-primary);
+  margin: 0;
+}
+
+.columnImageTextTitle {
+  font-size: calc(2.2rem * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+}
+
+.columnImageTextTitle600 {
+  font-weight: 600;
+}
+
+.columnImageTextDesc {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.8;
+}

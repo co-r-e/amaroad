@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  gap: var(--slide-space-md);
+  min-height: 0;
+}
+
+.label {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  font-weight: 600;
+  color: var(--slide-primary);
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: calc(10rem * var(--slide-font-scale));
+  font-weight: 800;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1;
+  font-family: var(--slide-font-heading);
+}
+
+.description {
+  font-size: calc(2rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.6;
+}

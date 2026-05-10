@@ -1,0 +1,25 @@
+---
+type: content
+notes: |
+  Demo of the Shape component.
+  Place SVG-based shapes on slides.
+---
+
+# Shapes
+
+Place basic SVG shapes:
+
+<ShowcaseShapeGrid>
+  <ShapeItem label="Circle">
+    <Shape type="circle" size={140} fill="var(--slide-primary)" />
+  </ShapeItem>
+  <ShapeItem label="Rectangle">
+    <Shape type="rectangle" size={140} fill="var(--slide-text-muted)" />
+  </ShapeItem>
+  <ShapeItem label="Triangle">
+    <Shape type="triangle" size={140} fill="var(--slide-text-subtle)" />
+  </ShapeItem>
+  <ShapeItem label="Arrow">
+    <Shape type="arrow" size={160} fill="var(--slide-border)" />
+  </ShapeItem>
+</ShowcaseShapeGrid>

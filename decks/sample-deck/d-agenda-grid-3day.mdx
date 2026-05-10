@@ -1,0 +1,48 @@
+---
+type: content
+notes: |
+  Three-day conference agenda in a dense 3-column grid.
+  Compact layout to fit many sessions on a single slide.
+  Time labels use smaller font as auxiliary text (minimum font exception).
+---
+
+# 3-Day Conference Agenda
+
+<ShowcaseAgenda
+  variant="grid-3day"
+  days={[
+    {
+      label: "Day 1",
+      items: [
+        { time: "09:00", title: "Opening Keynote" },
+        { time: "10:00", title: "Platform Architecture" },
+        { time: "11:00", title: "API Design Patterns" },
+        { time: "13:00", title: "Workshop: CI/CD" },
+        { time: "14:30", title: "Security Deep Dive" },
+        { time: "16:00", title: "Lightning Talks" },
+      ],
+    },
+    {
+      label: "Day 2",
+      items: [
+        { time: "09:00", title: "Day 1 Recap" },
+        { time: "09:30", title: "Performance Tuning" },
+        { time: "10:30", title: "Observability Stack" },
+        { time: "13:00", title: "Workshop: Testing" },
+        { time: "14:30", title: "Product Roadmap 2027" },
+        { time: "16:00", title: "Panel Discussion" },
+      ],
+    },
+    {
+      label: "Day 3",
+      items: [
+        { time: "09:00", title: "Emerging Tech Trends" },
+        { time: "10:00", title: "AI/ML Integration" },
+        { time: "11:00", title: "Edge Computing" },
+        { time: "13:00", title: "Workshop: Migration" },
+        { time: "14:30", title: "Open Source Showcase" },
+        { time: "16:00", title: "Closing & Awards" },
+      ],
+    },
+  ]}
+/>
