@@ -1,0 +1,53 @@
+---
+type: content
+notes: |
+  A dashboard-style layout with multiple charts side by side.
+  Use this when you want to show an overview of KPIs and metrics at a glance.
+---
+
+# Dashboard
+
+<ShowcaseDashboard
+  metrics={[
+    { icon: "users", value: "12,847", label: "Active Users" },
+    { icon: "trending-up", value: "+32.5%", label: "MoM Growth" },
+    { icon: "clock", value: "99.97%", label: "Uptime" },
+    { icon: "star", value: "4.8", label: "CSAT" }
+  ]}
+>
+
+<Columns gap="2rem">
+  <Column>
+
+  ### User Growth
+
+  <Chart
+    type="line"
+    data={[
+      { name: "Jan", value: 820 },
+      { name: "Feb", value: 1100 },
+      { name: "Mar", value: 1450 },
+      { name: "Apr", value: 1780 }
+    ]}
+    colors={["var(--slide-primary)", "#888", "#CCC", "#555", "#AAA"]}
+  />
+
+  </Column>
+  <Column>
+
+  ### Revenue Breakdown
+
+  <Chart
+    type="pie"
+    data={[
+      { name: "Domestic", value: 65 },
+      { name: "International", value: 25 },
+      { name: "Partners", value: 10 }
+    ]}
+    colors={["var(--slide-primary)", "#888", "#CCC", "#555", "#AAA"]}
+  />
+
+  </Column>
+</Columns>
+
+</ShowcaseDashboard>

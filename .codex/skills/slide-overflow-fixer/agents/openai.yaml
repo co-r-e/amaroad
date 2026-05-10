@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slide Overflow Fixer"
+  short_description: "Fix overflowing slide content safely"
+  default_prompt: "Use $slide-overflow-fixer to make this slide fit inside the safe zone without changing heading design."

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_JP } from "next/font/google";
+import { Inter, Noto_Sans_JP, Figtree } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ExportJobProvider } from "@/contexts/ExportJobContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,9 +16,15 @@ const notoSansJP = Noto_Sans_JP({
   display: "swap",
 });
 
+const figtree = Figtree({
+  variable: "--font-figtree",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "DexCode",
-  description: "Slide presentation tool powered by MDX",
+  title: "Amaroad",
+  description: "Amaroad — AI-driven slide authoring tool",
   icons: {
     icon: "/favicon.svg",
   },
@@ -31,9 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${notoSansJP.variable} antialiased`}
+        suppressHydrationWarning
+        className={`${inter.variable} ${notoSansJP.variable} ${figtree.variable} antialiased`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ExportJobProvider>{children}</ExportJobProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

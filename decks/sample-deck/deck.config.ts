@@ -1,13 +1,13 @@
 import { defineConfig } from "../../src/lib/deck-config";
 
 export default defineConfig({
-  title: "DexCode Sample Deck",
+  title: "Amaroad Sample Deck",
   logo: {
-    src: "/dexcode-logo.svg",
+    src: "/amaroad-logo.svg",
     position: "top-right",
   },
   copyright: {
-    text: "© 2026 DexCode",
+    text: "© 2026 Amaroad",
     position: "bottom-left",
   },
   pageNumber: {

@@ -1,5 +1,19 @@
 .divider {
-    height: 0.25rem;
-    border-radius: 9999px;
-    background: var(--slide-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--slide-space-md);
+    width: 100%;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background: var(--divider-color, var(--slide-border));
+}
+
+.label {
+    font-size: calc(1.6rem * var(--slide-font-scale));
+    font-weight: 700;
+    color: var(--slide-text-muted);
+    white-space: nowrap;
 }

@@ -1,0 +1,20 @@
+---
+type: content
+notes: |
+  Agenda with the current section highlighted.
+  Reuse this slide between sections, changing which item is active.
+  Non-active items are dimmed to guide the audience's focus.
+---
+
+# Agenda
+
+<ShowcaseAgenda
+  variant="highlight"
+  activeIndex={1}
+  items={[
+    { number: "01", title: "Introduction" },
+    { number: "02", title: "Research & Analysis", description: "Market trends and user insights" },
+    { number: "03", title: "Proposed Solution" },
+    { number: "04", title: "Timeline & Next Steps" },
+  ]}
+/>

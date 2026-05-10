@@ -8,13 +8,13 @@
 .table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 1.75rem;
+    font-size: calc(1.75rem * var(--slide-font-scale));
 }
 
 .th {
     padding: 1.25rem 2rem;
     text-align: left;
-    font-size: 1.5rem;
+    font-size: calc(1.5rem * var(--slide-font-scale));
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;

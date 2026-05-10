@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import { MDXRenderer } from "@/lib/mdx-runtime";
+import { hashSlideSource, processSlideSource } from "@/lib/mdx-slide-source";
 import type { SlideData, SlideType, DeckConfig } from "@/types/deck";
 import { slideComponents } from "@/components/mdx";
 import styles from "./SlideContent.module.css";
@@ -19,15 +21,6 @@ interface SlideContentProps {
   deckName: string;
 }
 
-/** Replace relative `./assets/` references with the deck's API asset path. */
-function resolveAssetPaths(rawContent: string, deckName: string): string {
-  const apiBase = `/api/decks/${encodeURIComponent(deckName)}/assets/`;
-  return rawContent
-    .replace(/\(\.\/assets\//g, `(${apiBase}`)
-    .replace(/"\.\/assets\//g, `"${apiBase}`)
-    .replace(/'\.\/assets\//g, `'${apiBase}`);
-}
-
 export function SlideContent({
   slide,
   deckName,
@@ -37,6 +30,20 @@ export function SlideContent({
     verticalAlign === "center" ||
     (verticalAlign !== "top" && !SELF_CENTERED_TYPES.has(type));
 
+  const processedSource = useMemo(
+    () => processSlideSource(slide.rawContent, deckName),
+    [slide.rawContent, deckName],
+  );
+  const sourceHash = useMemo(
+    () => hashSlideSource(processedSource),
+    [processedSource],
+  );
+  const moduleUrl = useMemo(
+    () =>
+      `/api/mdx/${encodeURIComponent(deckName)}/${slide.index}?v=${encodeURIComponent(sourceHash)}`,
+    [deckName, slide.index, sourceHash],
+  );
+
   return (
     <div
       data-slide-content=""
@@ -44,7 +51,7 @@ export function SlideContent({
       className={styles.content}
     >
       <MDXRenderer
-        source={resolveAssetPaths(slide.rawContent, deckName)}
+        moduleUrl={moduleUrl}
         components={slideComponents}
       />
     </div>

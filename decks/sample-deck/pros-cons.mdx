@@ -1,0 +1,28 @@
+---
+type: content
+notes: |
+  Pros and cons comparison using two columns.
+  Green-tinted and red-tinted backgrounds for visual distinction.
+---
+
+# Monorepo vs Polyrepo
+
+<ShowcaseComparison
+  variant="pros-cons"
+  leftTitle="Monorepo"
+  rightTitle="Polyrepo"
+  leftItems={[
+    "Unified dependency management",
+    "Atomic cross-project refactors",
+    "Single source of truth for tooling",
+    "[con] CI complexity at scale",
+    "[con] Requires custom build tooling"
+  ]}
+  rightItems={[
+    "Independent deploy cycles",
+    "Clear ownership boundaries",
+    "Simpler CI per repository",
+    "[con] Dependency version drift",
+    "[con] Cross-repo changes are painful"
+  ]}
+/>

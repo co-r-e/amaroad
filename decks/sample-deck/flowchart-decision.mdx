@@ -1,0 +1,55 @@
+---
+type: content
+notes: |
+  Decision flowchart with Yes/No branching.
+  Diamond shape for decision node, rectangles for action nodes.
+---
+
+# Incident Response Flow
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 900 420">
+    <defs>
+      <marker id="fc-arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 4 L 0 8 z" fill="var(--slide-text-muted)" />
+      </marker>
+    </defs>
+
+    <rect x="60" y="30" width="160" height="56" rx="12" fill="var(--slide-primary)" />
+    <text x="140" y="58" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="#FFF">Alert Received</text>
+
+    <path d="M 140 86 V 120" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+
+    <polygon points="140,130 240,185 140,240 40,185" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="140" y="178" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Critical?</text>
+
+    <path d="M 240 185 H 370" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+    <text x="300" y="175" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-primary)">Yes</text>
+
+    <rect x="380" y="157" width="180" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="470" y="185" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Page On-Call</text>
+
+    <path d="M 560 185 H 660" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+
+    <polygon points="760,130 860,185 760,240 660,185" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="760" y="178" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Resolved?</text>
+
+    <path d="M 760 240 V 310" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+    <text x="773" y="272" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-text-muted)">No</text>
+
+    <rect x="680" y="320" width="160" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="760" y="348" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Escalate</text>
+
+    <path d="M 860 185 H 890 V 50 H 810" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+    <text x="875" y="120" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-primary)">Yes</text>
+
+    <rect x="650" y="22" width="160" height="56" rx="12" fill="var(--slide-primary)" />
+    <text x="730" y="50" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="17" fontWeight="700" fill="#FFF">Post-mortem</text>
+
+    <path d="M 140 240 V 310" fill="none" stroke="var(--slide-text-muted)" strokeWidth="1.5" markerEnd="url(#fc-arrow)" />
+    <text x="153" y="272" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="600" fill="var(--slide-text-muted)">No</text>
+
+    <rect x="60" y="320" width="160" height="56" rx="12" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+    <text x="140" y="348" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="16" fontWeight="600" fill="var(--slide-text)">Log & Monitor</text>
+  </svg>
+</ShowcaseDiagram>

@@ -5,7 +5,7 @@
 }
 
 .a {
-    font-size: 2rem;
+    font-size: calc(2rem * var(--slide-font-scale));
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;

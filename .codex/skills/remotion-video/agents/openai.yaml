@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remotion Video"
+  short_description: "Turn Amaroad decks into Remotion video projects"
+  default_prompt: "Use $remotion-video to convert this Amaroad deck into a Remotion video project."

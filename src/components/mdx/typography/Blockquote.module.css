@@ -1,7 +1,7 @@
 .blockquote {
     border-radius: 0.5rem;
     padding: 1.5rem 2rem;
-    font-size: 2rem;
+    font-size: calc(2rem * var(--slide-font-scale));
     font-style: italic;
     background: var(--slide-surface);
     color: var(--slide-text-muted);

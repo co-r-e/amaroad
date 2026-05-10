@@ -1,0 +1,36 @@
+---
+type: content
+notes: |
+  Risk assessment matrix (Impact x Probability).
+  Color-coded cells indicate severity levels.
+---
+
+# Risk Assessment Matrix
+
+<ShowcaseMatrix
+  xHeaders={["Low Impact", "Medium Impact", "High Impact"]}
+  yHeaders={["High", "Medium", "Low"]}
+  cells={[
+    [
+      { label: "API rate limiting", color: "rgba(234,179,8,0.15)" },
+      { label: "Data breach", color: "rgba(239,68,68,0.15)" },
+      { label: "System outage", color: "rgba(239,68,68,0.25)", highlight: true }
+    ],
+    [
+      { label: "Minor UI bugs", color: "rgba(34,197,94,0.12)" },
+      { label: "Vendor lock-in", color: "rgba(234,179,8,0.15)" },
+      { label: "Key person risk", color: "rgba(239,68,68,0.15)" }
+    ],
+    [
+      { label: "Typos in docs", color: "rgba(34,197,94,0.12)" },
+      { label: "Slow test suite", color: "rgba(34,197,94,0.12)" },
+      { label: "Scaling limits", color: "rgba(234,179,8,0.15)" }
+    ]
+  ]}
+  legend={[
+    { label: "Low", color: "rgba(34,197,94,0.12)" },
+    { label: "Medium", color: "rgba(234,179,8,0.15)" },
+    { label: "High", color: "rgba(239,68,68,0.15)" },
+    { label: "Critical", color: "rgba(239,68,68,0.25)" }
+  ]}
+/>

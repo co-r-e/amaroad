@@ -1,19 +1,30 @@
 .callout {
-    background: var(--slide-surface);
+    background: var(--callout-bg);
+    border-radius: var(--slide-radius);
     padding: var(--slide-space-lg);
-    margin: var(--slide-space-sm) 0;
-    border-radius: var(--slide-radius, 0.5rem);
+    border-top: 4px solid var(--callout-color);
+}
+
+.label {
+    display: inline-block;
+    font-size: calc(1.4rem * var(--slide-font-scale));
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--callout-color);
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: var(--slide-space-xs);
 }
 
 .title {
-    color: var(--slide-text);
+    font-size: calc(2rem * var(--slide-font-scale));
+    font-weight: 700;
+    color: var(--callout-color);
     margin-bottom: var(--slide-space-xs);
-    font-size: 2rem;
-    font-weight: bold;
 }
 
 .content {
-    color: var(--slide-text-muted);
-    line-height: var(--slide-body-leading);
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--slide-font-scale));
+    color: var(--slide-text);
+    line-height: 1.6;
 }

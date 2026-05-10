@@ -1,0 +1,38 @@
+---
+type: content
+notes: |
+  Hub and spoke / radial diagram with a central node and surrounding satellite nodes.
+---
+
+# Integration Hub
+
+<ShowcaseDiagram>
+  <svg viewBox="0 0 800 440">
+    <g transform="translate(400, 220)">
+      <line x1="0" y1="0" x2="0" y2="-170" stroke="var(--slide-text-muted)" strokeWidth="1.5" strokeDasharray="6,4" />
+      <line x1="0" y1="0" x2="161" y2="-52" stroke="var(--slide-text-muted)" strokeWidth="1.5" strokeDasharray="6,4" />
+      <line x1="0" y1="0" x2="99" y2="137" stroke="var(--slide-text-muted)" strokeWidth="1.5" strokeDasharray="6,4" />
+      <line x1="0" y1="0" x2="-99" y2="137" stroke="var(--slide-text-muted)" strokeWidth="1.5" strokeDasharray="6,4" />
+      <line x1="0" y1="0" x2="-161" y2="-52" stroke="var(--slide-text-muted)" strokeWidth="1.5" strokeDasharray="6,4" />
+
+      <circle cx="0" cy="-170" r="48" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="0" y="-170" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="600" fill="var(--slide-text)">CRM</text>
+
+      <circle cx="161" cy="-52" r="48" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="161" y="-52" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="600" fill="var(--slide-text)">Analytics</text>
+
+      <circle cx="99" cy="137" r="48" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="99" y="137" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="600" fill="var(--slide-text)">Storage</text>
+
+      <circle cx="-99" cy="137" r="48" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="-99" y="137" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="600" fill="var(--slide-text)">Auth</text>
+
+      <circle cx="-161" cy="-52" r="48" fill="var(--slide-surface)" stroke="var(--slide-border)" strokeWidth="1.5" />
+      <text x="-161" y="-52" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="15" fontWeight="600" fill="var(--slide-text)">Payment</text>
+
+      <circle cx="0" cy="0" r="56" fill="var(--slide-primary)" />
+      <text x="0" y="-6" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="700" fill="#FFF">API</text>
+      <text x="0" y="16" textAnchor="middle" dominantBaseline="central" fontFamily="Inter, sans-serif" fontSize="14" fill="rgba(255,255,255,0.7)">Hub</text>
+    </g>
+  </svg>
+</ShowcaseDiagram>

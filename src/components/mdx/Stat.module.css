@@ -21,25 +21,25 @@
 }
 
 .smValue {
-    font-size: 2.5rem;
+    font-size: calc(2.5rem * var(--slide-font-scale));
 }
 
 .smLabel {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--slide-font-scale));
 }
 
 .mdValue {
-    font-size: 3.2rem;
+    font-size: calc(3.2rem * var(--slide-font-scale));
 }
 
 .mdLabel {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--slide-font-scale));
 }
 
 .lgValue {
-    font-size: 5rem;
+    font-size: calc(5rem * var(--slide-font-scale));
 }
 
 .lgLabel {
-    font-size: 2rem;
+    font-size: calc(2rem * var(--slide-font-scale));
 }

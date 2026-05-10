@@ -1,6 +1,6 @@
 .paragraph {
     display: block;
-    font-size: 2rem;
+    font-size: calc(2rem * var(--slide-font-scale));
     line-height: var(--slide-body-leading);
     margin-bottom: var(--slide-space-sm);
 }

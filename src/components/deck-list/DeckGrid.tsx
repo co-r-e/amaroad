@@ -1,16 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect, useMemo } from "react";
-import { Globe } from "lucide-react";
+import { useState, useRef, useEffect, useMemo, memo, useCallback, useSyncExternalStore } from "react";
+import { Globe, Pin, Search } from "lucide-react";
 import type { DeckSummary, Deck } from "@/types/deck";
 import type { TunnelState } from "@/lib/tunnel-manager";
 import { useIsLocal } from "@/hooks/useIsLocal";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
 
+const PINNED_STORAGE_KEY = "amaroad-pinned-decks";
+const PINNED_CHANGE_EVENT = "amaroad:pinned-decks-change";
+const TUNNEL_ENABLED = process.env.NODE_ENV !== "production";
+
+function parsePinnedDecks(raw: string | null): Set<string> {
+  if (!raw) return new Set();
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(parsed.filter((value): value is string => typeof value === "string"));
+  } catch { /* ignore */ }
+  return new Set();
+}
+
+function getPinnedDecksSnapshot(): string {
+  try {
+    return localStorage.getItem(PINNED_STORAGE_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
+}
+
+function getPinnedDecksServerSnapshot(): string {
+  return "[]";
+}
+
+function subscribeToPinnedDecks(onStoreChange: () => void): () => void {
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === null || event.key === PINNED_STORAGE_KEY) {
+      onStoreChange();
+    }
+  };
+
+  const handlePinnedChange = () => {
+    onStoreChange();
+  };
+
+  window.addEventListener("storage", handleStorage);
+  window.addEventListener(PINNED_CHANGE_EVENT, handlePinnedChange);
+
+  return () => {
+    window.removeEventListener("storage", handleStorage);
+    window.removeEventListener(PINNED_CHANGE_EVENT, handlePinnedChange);
+  };
+}
+
+function savePinnedDecks(pinned: Set<string>) {
+  try {
+    localStorage.setItem(PINNED_STORAGE_KEY, JSON.stringify([...pinned]));
+    window.dispatchEvent(new Event(PINNED_CHANGE_EVENT));
+  } catch { /* ignore */ }
+}
+
 interface DeckGridProps {
   decks: DeckSummary[];
+  filter?: "all" | "pinned";
 }
 
 type SortOption =
@@ -20,13 +74,35 @@ type SortOption =
   | "slides-desc"
   | "name-asc";
 
-export function DeckGrid({ decks }: DeckGridProps) {
+const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+
+export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
   const isLocal = useIsLocal();
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>("title-asc");
+  const [query, setQuery] = useState("");
+  const pinnedSnapshot = useSyncExternalStore(
+    subscribeToPinnedDecks,
+    getPinnedDecksSnapshot,
+    getPinnedDecksServerSnapshot,
+  );
+  const pinnedDecks = useMemo(
+    () => parsePinnedDecks(pinnedSnapshot),
+    [pinnedSnapshot],
+  );
+
+  const togglePin = useCallback((deckName: string) => {
+    const next = new Set(pinnedDecks);
+    if (next.has(deckName)) {
+      next.delete(deckName);
+    } else {
+      next.add(deckName);
+    }
+    savePinnedDecks(next);
+  }, [pinnedDecks]);
 
   useEffect(() => {
-    if (!isLocal) return;
+    if (!TUNNEL_ENABLED || !isLocal) return;
     fetch("/api/tunnel")
       .then((res) => res.json())
       .then((data: TunnelState) => {
@@ -34,38 +110,77 @@ export function DeckGrid({ decks }: DeckGridProps) {
           setSharingDeck(data.deckName);
         }
       })
-      .catch((err) => console.warn("[dexcode] Failed to fetch tunnel state:", err));
+      .catch((err) => console.warn("[amaroad] Failed to fetch tunnel state:", err));
   }, [isLocal]);
 
-  const sortedDecks = useMemo(() => {
-    const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
-    const next = [...decks];
+  const filteredAndSortedDecks = useMemo(() => {
+    const q = query.toLowerCase();
+    let filtered = q
+      ? decks.filter(
+          (d) =>
+            d.title.toLowerCase().includes(q) ||
+            d.name.toLowerCase().includes(q),
+        )
+      : decks;
+
+    if (filter === "pinned") {
+      filtered = filtered.filter((d) => pinnedDecks.has(d.name));
+    }
+
+    const next = [...filtered];
+
+    // Priority: pinned decks first, sample-deck last, then normal sort
+    const compare = (a: DeckSummary, b: DeckSummary, cmp: () => number) => {
+      // sample-deck always last
+      if (a.name === "sample-deck") return 1;
+      if (b.name === "sample-deck") return -1;
+      // Pinned decks first
+      const aPinned = pinnedDecks.has(a.name);
+      const bPinned = pinnedDecks.has(b.name);
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return cmp();
+    };
 
     switch (sortOption) {
       case "title-asc":
-        next.sort((a, b) => collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => collator.compare(a.title, b.title)));
         break;
       case "title-desc":
-        next.sort((a, b) => collator.compare(b.title, a.title));
+        next.sort((a, b) => compare(a, b, () => collator.compare(b.title, a.title)));
         break;
       case "slides-asc":
-        next.sort((a, b) => a.slideCount - b.slideCount || collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => a.slideCount - b.slideCount || collator.compare(a.title, b.title)));
         break;
       case "slides-desc":
-        next.sort((a, b) => b.slideCount - a.slideCount || collator.compare(a.title, b.title));
+        next.sort((a, b) => compare(a, b, () => b.slideCount - a.slideCount || collator.compare(a.title, b.title)));
         break;
       case "name-asc":
-        next.sort((a, b) => collator.compare(a.name, b.name));
+        next.sort((a, b) => compare(a, b, () => collator.compare(a.name, b.name)));
         break;
     }
 
     return next;
-  }, [decks, sortOption]);
+  }, [decks, sortOption, query, pinnedDecks, filter]);
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end">
-        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search
+            size={16}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none"
+          />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search decks..."
+            aria-label="Search decks"
+            className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-9 pr-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
+          />
+        </div>
+        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 shrink-0">
           Sort
           <select
             value={sortOption}
@@ -82,16 +197,42 @@ export function DeckGrid({ decks }: DeckGridProps) {
         </label>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {sortedDecks.map((deck) => (
-          <DeckCard key={deck.name} deck={deck} isSharing={deck.name === sharingDeck} />
-        ))}
-      </div>
+      {filteredAndSortedDecks.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredAndSortedDecks.map((deck) => (
+            <DeckCard
+              key={deck.name}
+              deck={deck}
+              isSharing={deck.name === sharingDeck}
+              isPinned={pinnedDecks.has(deck.name)}
+              onTogglePin={togglePin}
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+          {query
+            ? `No decks found for "${query}"`
+            : filter === "pinned"
+              ? "No pinned decks yet. Click the pin icon on any deck to add it here."
+              : "No decks found"}
+        </p>
+      )}
     </div>
   );
 }
 
-function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }) {
+const DeckCard = memo(function DeckCard({
+  deck,
+  isSharing,
+  isPinned,
+  onTogglePin,
+}: {
+  deck: DeckSummary;
+  isSharing: boolean;
+  isPinned: boolean;
+  onTogglePin: (name: string) => void;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState<number | null>(null);
   const [deckData, setDeckData] = useState<Deck | null>(null);
@@ -104,7 +245,7 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
         return res.json();
       })
       .then((data: Deck) => setDeckData(data))
-      .catch((err) => console.warn("[dexcode] Failed to fetch deck data:", err));
+      .catch((err) => console.warn("[amaroad] Failed to fetch deck data:", err));
   }, [deck.name]);
 
   // Calculate scale based on container width
@@ -156,6 +297,9 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
             </div>
           )}
         </div>
+        <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
+          /{deck.name}
+        </p>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[#02001A] dark:group-hover:text-white">
           {deck.title}
         </h2>
@@ -164,12 +308,31 @@ function DeckCard({ deck, isSharing }: { deck: DeckSummary; isSharing: boolean }
         </p>
       </Link>
 
-      {isSharing && (
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/50 px-2.5 py-1 border border-emerald-200 dark:border-emerald-700">
-          <Globe size={12} className="text-emerald-600" />
-          <span className="text-[11px] font-medium text-emerald-600">Sharing</span>
-        </div>
-      )}
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onTogglePin(deck.name);
+          }}
+          aria-label={isPinned ? "Unpin deck" : "Pin deck"}
+          className={`rounded-full p-1.5 transition-all ${
+            isPinned
+              ? "bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 opacity-100"
+              : "bg-gray-200/80 dark:bg-gray-700/80 text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          <Pin size={14} className={isPinned ? "rotate-[-45deg]" : ""} />
+        </button>
+
+        {isSharing && (
+          <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/50 px-2.5 py-1 border border-emerald-200 dark:border-emerald-700">
+            <Globe size={12} className="text-emerald-600" />
+            <span className="text-[11px] font-medium text-emerald-600">Sharing</span>
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+});

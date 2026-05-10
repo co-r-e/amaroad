@@ -1,0 +1,183 @@
+/* ==========================================================================
+ * ShowcaseTimeline
+ * --------------------------------------------------------------------------
+ * CSS custom properties (override per-instance via style prop)
+ * --timeline-dot-size         Dot diameter              (default: 16px)
+ * --timeline-dot-active-size  Active dot diameter       (default: 24px)
+ * --timeline-line-thickness   Line thickness            (default: 3px)
+ * --timeline-title-size       Title font-size base      (default: 2.2rem)
+ * --timeline-date-size        Date font-size base       (default: 1.8rem)
+ * --timeline-desc-size        Description font-size     (default: 1.8rem)
+ * ========================================================================== */
+
+/* ========== Wrapper ========== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-md);
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========== Header ========== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: calc(2.4rem * var(--slide-font-scale));
+  font-weight: var(--slide-heading-weight, 700);
+  font-family: var(--slide-font-heading);
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: calc(1.8rem * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== Shared dot styles ========== */
+
+.dot {
+  width: var(--timeline-dot-size, 16px);
+  height: var(--timeline-dot-size, 16px);
+  border-radius: 50%;
+  background: var(--slide-surface-alt);
+  border: var(--timeline-line-thickness, 3px) solid var(--slide-border);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.dotActive {
+  composes: dot;
+  width: var(--timeline-dot-active-size, 24px);
+  height: var(--timeline-dot-active-size, 24px);
+  background: var(--slide-primary);
+  border-color: var(--slide-primary);
+}
+
+/* ========== Item text ========== */
+
+.date {
+  font-size: calc(var(--timeline-date-size, 1.8rem) * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.itemTitle {
+  font-size: calc(var(--timeline-title-size, 2.2rem) * var(--slide-font-scale));
+  font-weight: 700;
+  color: var(--slide-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.itemDescription {
+  font-size: calc(var(--timeline-desc-size, 1.8rem) * var(--slide-font-scale));
+  color: var(--slide-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== Horizontal orientation ========== */
+
+.horizontal {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+  gap: 0;
+}
+
+.lineRow {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.horizontalLine {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  top: 50%;
+  height: var(--timeline-line-thickness, 3px);
+  background: var(--slide-border);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.dotWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.labelsRow {
+  display: flex;
+  padding: 0 1rem;
+  margin-top: var(--slide-space-sm);
+}
+
+.horizontalItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  padding: 0 0.5rem;
+}
+
+/* ========== Vertical orientation ========== */
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: var(--slide-space-md);
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  padding-left: calc(var(--timeline-dot-active-size, 24px) / 2);
+  justify-content: center;
+}
+
+.verticalLine {
+  position: absolute;
+  left: calc(var(--timeline-dot-active-size, 24px) / 2);
+  top: 0;
+  bottom: 0;
+  width: var(--timeline-line-thickness, 3px);
+  background: var(--slide-border);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.verticalItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--slide-space-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.verticalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0;
+}
