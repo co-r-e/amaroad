@@ -16,14 +16,14 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 629
+- Cross-platform package entries: 630
 - Platform-specific binary families: 8
 - Generated from: `node_modules/.pnpm` (via `pnpm install`)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 529 |
+| MIT | 530 |
 | ISC | 31 |
 | Apache-2.0 | 30 |
 | BSD-3-Clause | 17 |
@@ -55,14 +55,14 @@ The following dependencies have notice/copyleft considerations and should be rev
 <!-- BEGIN_AUTOGEN:NOTICE_RELEVANT -->
 | Package (family) | Version(s) in lockfile | License |
 | --- | --- | --- |
-| `caniuse-lite` | `1.0.30001788` | `CC-BY-4.0` |
+| `caniuse-lite` | `1.0.30001792` | `CC-BY-4.0` |
 | `axe-core` | `4.11.3` | `MPL-2.0` |
 | `lightningcss` | `1.32.0` | `MPL-2.0` |
 | `sharp` | `0.34.5` | `Apache-2.0` |
 | `@esbuild/*` platform binaries | `0.27.7` | `MIT` |
 | `@img/sharp-*` platform binaries | `0.34.5` | `Apache-2.0` |
 | `@img/sharp-libvips-*` platform binaries | `1.2.4` | `LGPL-3.0-or-later` |
-| `@next/swc-*` platform binaries | `16.2.3` | `MIT` |
+| `@next/swc-*` platform binaries | `16.2.6` | `MIT` |
 | `@tailwindcss/oxide-*` platform binaries | `4.2.2` | `MIT` |
 | `@unrs/resolver-binding-*` platform binaries | `1.11.1` | `MIT` |
 | `fsevents` platform binaries | `2.3.2, 2.3.3` | `MIT` |
