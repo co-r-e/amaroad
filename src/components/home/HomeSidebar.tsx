@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { createPortal } from "react-dom";
@@ -64,6 +65,24 @@ export function HomeSidebar({ decks }: HomeSidebarProps) {
             ))}
           </ul>
         </nav>
+
+        <div className="px-5 pt-3">
+          <a
+            href="https://irukadark.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="IrukaDark - High-Speed Sub-AI for AI Users"
+            className="block overflow-hidden rounded-lg transition-opacity hover:opacity-80"
+          >
+            <Image
+              src="/irukadark-banner.png"
+              alt="IrukaDark - High-Speed Sub-AI for AI Users"
+              width={1880}
+              height={1000}
+              className="h-auto w-full"
+            />
+          </a>
+        </div>
 
         <div className="flex flex-col gap-3 p-5">
           <div className="flex items-center justify-between">
