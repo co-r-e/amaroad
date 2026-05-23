@@ -2,8 +2,11 @@
 name: nanobanana-image
 description: |
   Generate slide images with Gemini, save them under the target deck assets
-  directory, and insert them into MDX. Use for new illustrations, hero images,
-  concept visuals, and other deck imagery.
+  directory, and insert them into MDX. Use when the user explicitly asks for
+  Gemini, Nanobanana, or the existing Gemini script workflow, or when a deck is
+  already standardized on Gemini-generated imagery. For provider-ambiguous
+  image requests, use image-provider first so the user can choose GPT/Codex or
+  Gemini/Nanobanana.
 ---
 
 # Nanobanana Image
@@ -12,13 +15,19 @@ Generate images for Amaroad slides and insert them into MDX.
 
 ## Use When
 
-- A slide needs a new image asset
-- The user asks to generate or create an image for a deck
+- The user asks for Gemini or Nanobanana image generation
+- The user asks to use the existing Gemini script workflow
+- A deck is already standardized on Gemini-generated imagery
 - A concept visual should be added directly into an MDX slide
 
 ## Prerequisites
 
 - `GEMINI_API_KEY` is set in `.env.local`
+
+## Provider Boundary
+
+- If the user has not chosen Gemini/Nanobanana, stop and use `image-provider`
+  before generating.
 
 ## Workflow
 

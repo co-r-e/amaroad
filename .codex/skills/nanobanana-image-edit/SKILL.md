@@ -3,7 +3,10 @@ name: nanobanana-image-edit
 description: |
   Edit an existing slide image with Gemini image editing, save the result, and
   optionally keep MDX references intact by overwriting the original asset. Use
-  for image fixes, removals, additions, recoloring, and targeted revisions.
+  when the user explicitly asks for Gemini, Nanobanana, or the existing Gemini
+  edit script workflow, or when a deck is already standardized on Gemini-edited
+  imagery. For provider-ambiguous image edit requests, use image-provider first
+  so the user can choose GPT/Codex or Gemini/Nanobanana.
 ---
 
 # Nanobanana Image Edit
@@ -12,13 +15,19 @@ Edit existing images using Gemini and return a revised asset for the deck.
 
 ## Use When
 
-- An existing deck asset should be modified rather than regenerated
-- The user asks to fix, remove, add, or recolor part of an image
+- The user asks for Gemini or Nanobanana image editing
+- The user asks to use the existing Gemini edit script workflow
+- A deck is already standardized on Gemini-edited imagery
 - MDX already points at an image and the path should remain valid
 
 ## Prerequisites
 
 - `GEMINI_API_KEY` is set in `.env.local`
+
+## Provider Boundary
+
+- If the user has not chosen Gemini/Nanobanana, stop and use `image-provider`
+  before editing.
 
 ## Workflow
 

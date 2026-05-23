@@ -215,9 +215,9 @@ Start by creating about 4 slides (cover, section, content, ending) and iterate o
 
 Once you are happy with the look and feel, tell the AI to extract the design decisions into a `CLAUDE.md` file inside the deck directory (e.g., `decks/my-deck/CLAUDE.md`). This file acts as a persistent style guide that the AI follows for every subsequent slide.
 
-### Step 3: Build a shared image foundation with nanobanana
+### Step 3: Build a shared image foundation
 
-Use the `nanobanana-image` skill to generate a hero image or key visual that sets the tone for the entire deck. Record the prompt, style keywords, and color palette in the same deck-level `CLAUDE.md` so every future image stays visually consistent.
+Use `image-provider` when the provider has not been chosen yet, then choose GPT/Codex or Gemini/Nanobanana before creating a hero image or key visual that sets the tone for the entire deck. Record the prompt, style keywords, and color palette in the same deck-level `CLAUDE.md` so every future image stays visually consistent.
 
 ### Step 4: Iterate slide-by-slide through conversation
 
@@ -575,14 +575,14 @@ Then use in any MDX file:
 
 ## AI Skills
 
-Amaroad includes 15 project skills under `.codex/skills/` for Codex. Most of them are also mirrored under `.claude/skills/` for Claude Code. These skills are designed to be triggered from normal CLI chat requests, so users do not need to run the skill files manually.
+Amaroad includes 18 project skills under `.codex/skills/` for Codex. Most of them are also mirrored under `.claude/skills/` for Claude Code. These skills are designed to be triggered from normal CLI chat requests, so users do not need to run the skill files manually.
 
 ### How users should ask
 
 - Mention the skill name explicitly when you want deterministic behavior, for example: `Use deck-scaffold-from-brief with tasks/deck-brief-launch.md and create an 8-slide Japanese deck.`
 - Natural language also works. If the request clearly matches a skill, the agent can choose it automatically.
 - Put the important constraints in the same message: target deck path, source files, language, slide count, dry-run vs write mode, logo path, and whether overwriting is allowed.
-- Chain skills when the task spans multiple stages. A common flow is `deck-designer` -> `deck-scaffold-from-brief` -> `nanobanana-image` / `svg-diagram` -> `speaker-notes-polisher` -> `slide-preflight-auditor`.
+- Chain skills when the task spans multiple stages. A common flow is `deck-designer` -> `deck-scaffold-from-brief` -> `image-provider` -> `nanobanana-image` / `codex-image` / `svg-diagram` -> `speaker-notes-polisher` -> `slide-preflight-auditor`.
 
 ### Recommended prompt patterns
 
@@ -592,7 +592,10 @@ Amaroad includes 15 project skills under `.codex/skills/` for Codex. Most of the
 | `deck-scaffold-from-brief` | Generating a full deck from a brief | `tasks/deck-brief-ai-launch.md から deck-scaffold-from-brief でデッキを作って。日本語、10枚構成。` |
 | `excel-to-slides` | Turning a spreadsheet into a deck | `Excelからスライド化して。data/attack-catalog.xlsx を decks/attack-catalog に変換して。` |
 | `deck-localizer` | Translating a deck between Japanese and English | `decks/sample-deck を英語化して。MDX 構造は保って、notes は日本語のまま。` |
+| `image-provider` | Choosing GPT/Codex or Gemini for image work | `05-market-landscape.mdx 用の hero image を作りたい。どちらの画像生成で進めるか選ばせて。` |
 | `nanobanana-image` | Creating a new illustration or hero image | `05-market-landscape.mdx 用に、青基調の hero image を作って assets に保存し、MDX に差し込んで。` |
+| `codex-image` | Creating a new illustration with Codex imagegen | `codex-image で 05-market-landscape.mdx 用の hero image を作って、assets に保存して MDX に差し込んで。` |
+| `codex-image-edit` | Revising an existing image with Codex imagegen | `codex-image-edit で decks/sample-deck/assets/hero.png の背景だけを白に変えて、人物はそのままにして。` |
 | `nanobanana-image-edit` | Revising an existing image asset | `decks/sample-deck/assets/hero.png の背景だけ差し替えて。人物はそのまま、全体を暖色寄りに。` |
 | `svg-diagram` | Creating architecture, flow, or comparison diagrams | `03-architecture.mdx に入れる SVG 図を作って。現在の deck theme に合わせた構成図にして。` |
 | `graphic-recording` | Creating a hand-drawn visual summary slide | `このセクションをグラレコ風の1枚絵にして、該当スライドへ挿入して。` |

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Codex Image Edit"
+  short_description: "Edit deck images with Codex imagegen"
+  default_prompt: "Use $codex-image-edit to revise this Amaroad deck image while keeping the asset usable in MDX."
+
+policy:
+  allow_implicit_invocation: false
