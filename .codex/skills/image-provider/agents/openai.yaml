@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Provider"
+  short_description: "Choose GPT/Codex or Gemini for images"
+  default_prompt: "Use $image-provider to choose GPT/Codex or Gemini/Nanobanana before generating or editing Amaroad deck images."

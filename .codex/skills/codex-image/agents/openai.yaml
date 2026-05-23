@@ -1,0 +1,7 @@
+interface:
+  display_name: "Codex Image"
+  short_description: "Generate slide images with Codex imagegen"
+  default_prompt: "Use $codex-image to generate a new image asset for this Amaroad slide and insert it into the MDX."
+
+policy:
+  allow_implicit_invocation: false

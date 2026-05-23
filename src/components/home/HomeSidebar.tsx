@@ -73,6 +73,10 @@ export function HomeSidebar({ decks }: HomeSidebarProps) {
             rel="noopener noreferrer"
             aria-label="IrukaDark - High-Speed Sub-AI for AI Users"
             className="block overflow-hidden rounded-lg transition-opacity hover:opacity-80"
+            onMouseEnter={(e) => showTooltip(e, "Open the IrukaDark website.")}
+            onMouseLeave={hideTooltip}
+            onFocus={(e) => showTooltip(e, "Open the IrukaDark website.")}
+            onBlur={hideTooltip}
           >
             <Image
               src="/irukadark-banner.png"

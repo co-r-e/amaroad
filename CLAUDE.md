@@ -209,9 +209,18 @@ css_variable_override_pattern:
 
 ai_image_generation:
   rule: >
-    When generating AI images for slides (via gemini-image or equivalent), prefer simple,
-    minimal compositions and 1K resolution to keep file sizes small without visible quality loss.
+    When generating or editing AI images for slides (via image-provider,
+    nanobanana-image, nanobanana-image-edit, codex-image, codex-image-edit,
+    or equivalent), prefer simple, minimal compositions and 1K resolution to
+    keep file sizes small without visible quality loss.
   details:
+    - Provider choice: if the user has not explicitly chosen GPT/Codex/image_gen or
+      Gemini/Nanobanana, use `image-provider` and ask:
+      "画像生成/編集は GPT/Codex と Gemini/Nanobanana のどちらで行いますか？"
+      Do not generate, edit, overwrite, or update MDX until the user chooses a provider.
+    - Routing: GPT/Codex new images use `codex-image`; GPT/Codex existing-image edits use
+      `codex-image-edit`; Gemini/Nanobanana new images use `nanobanana-image`;
+      Gemini/Nanobanana existing-image edits use `nanobanana-image-edit`.
     - Resolution: default to `1K`. Only use `2K` when the image will be displayed full-bleed
       on a high-DPI screen. Never use `4K` unless explicitly requested.
     - Composition: one clear subject, centered, on a pure white background. No floating icons,
@@ -242,7 +251,7 @@ screenshot_placeholder:
     - Specific UI states that AI image generation cannot reproduce accurately
     - Browser screenshots showing real user data or settings
   when_not_to_use:
-    - Conceptual illustrations (use nanobanana-image instead)
+    - Conceptual illustrations (use image-provider first unless the provider is already explicit)
     - Diagrams or flowcharts (use inline SVG instead)
 
 no_duplicate_slide_deletion:

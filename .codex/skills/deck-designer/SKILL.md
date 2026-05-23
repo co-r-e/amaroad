@@ -99,5 +99,6 @@ After the brief is finalized:
 - **deck-scaffold-from-brief**: Generate the deck structure
 - **speaker-notes-polisher**: Fill speaker notes after content is written
 - **slide-preflight-auditor**: Validate before export
-- **nanobanana-image**: Generate images for slides
+- **image-provider**: Ask the user to choose GPT/Codex or Gemini/Nanobanana for image work
+- **nanobanana-image** / **codex-image**: Generate images for slides after provider choice
 - **svg-diagram**: Create diagrams
