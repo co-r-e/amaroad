@@ -2,6 +2,44 @@
 
 All notable changes to Amaroad will be documented in this file.
 
+## [0.1.5] - 2026-05-25
+
+### Added
+
+- `codex-image` / `codex-image-edit` / `image-provider` skills for routing AI
+  image generation between GPT/Codex and Gemini/Nanobanana providers
+- IrukaDark banner above the sidebar About Us footer
+- Sidebar-driven deck browser layout for the home page
+- GitHub and Website links in the home sidebar; arrow-style deck back button
+- MDX components and export runtime stabilization
+- `no_markdown_bold` and `bullet_points_as_cards` slide authoring rules
+- `AMAROAD_CLOUD_SPEC` and Durable Objects PoC client scaffolding
+
+### Changed
+
+- Rebrand DexCode → Amaroad across the codebase and docs
+- Migrate package manager from npm to pnpm
+- Increase slide logo height from `3rem` to `3.5rem` in `SlideOverlay`
+- Bump Next.js to 16.2.6, `@google/genai` to 1.51.0, `actions/checkout` to 6,
+  `actions/setup-node` to 6, and Wrangler 3 → 4 (patches undici + esbuild
+  advisories)
+- Revert May 10–11 dependency updates that introduced regressions
+- Broaden `.gitignore` patterns for workers, logs, and nested builds
+
+### Fixed
+
+- PDF export image rendering
+- `third-party-notices` script now runs cross-platform (regenerated on Linux
+  to match CI)
+- Vendor `xlsx` as an extracted directory instead of a tarball for reliable
+  CI installs
+- Resolve 11 Dependabot security alerts
+- Allow horizontal scroll for long deck names in the sidebar
+
+### Removed
+
+- Stray debug PNGs left over from the DexCode → Amaroad rename
+
 ## [0.1.4] - 2026-03-25
 
 ### Performance
