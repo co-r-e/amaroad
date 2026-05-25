@@ -1,6 +1,6 @@
 {
   "name": "amaroad",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Amaroad — AI-driven slide authoring tool built with Next.js and MDX",
   "license": "MIT",
