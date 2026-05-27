@@ -27,7 +27,7 @@
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
     "html-to-image": "^1.11.13",
-    "jiti": "^2.6.1",
+    "jiti": "^2.7.0",
     "jspdf": "^4.2.1",
     "katex": "^0.16.40",
     "lucide-react": "^0.577.0",
