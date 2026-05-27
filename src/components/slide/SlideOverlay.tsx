@@ -51,13 +51,19 @@ export function SlideOverlay({
   return (
     <>
       {logo && (
-        <div className={cn(styles.overlay, positionClasses[logo.position])}>
+        <div
+          className={cn(styles.overlay, positionClasses[logo.position])}
+          style={logo.offset}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={resolveAssetPath(logo.src, deckName)}
             alt="Logo"
             className={styles.logoImage}
-            style={darkBackground ? { filter: "brightness(0) invert(1)" } : undefined}
+            style={{
+              ...(logo.height ? { height: logo.height } : undefined),
+              ...(darkBackground ? { filter: "brightness(0) invert(1)" } : undefined),
+            }}
           />
         </div>
       )}

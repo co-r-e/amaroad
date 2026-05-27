@@ -85,6 +85,8 @@ export interface DeckConfig {
   logo?: {
     src: string;
     position: LogoPosition;
+    height?: string;
+    offset?: { top?: string; right?: string; bottom?: string; left?: string };
   };
   copyright?: {
     text: string;
@@ -101,6 +103,7 @@ export interface DeckConfig {
     width?: number;
     gradient?: string;
   };
+  layoutPadding?: Partial<Record<SlideType, string>>;
   transition?: TransitionType;
 }
 

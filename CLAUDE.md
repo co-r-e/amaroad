@@ -14,11 +14,11 @@ slide_layout:
       Overlay elements (logo, copyright, page number) float above this area via absolute positioning.
       All MDX content is rendered exclusively within this area.
     padding_by_type:
-      content: "80px top, 72px left/right, 64px bottom"
-      cover: "96px top, 96px left/right, 80px bottom"
-      ending: "96px top, 96px left/right, 80px bottom"
-      section: "96px top, 96px left/right, 80px bottom"
-      quote: "120px top, 140px left/right, 100px bottom"
+      content: "64px top, 72px left/right, 64px bottom"
+      cover: "80px top, 96px left/right, 80px bottom"
+      ending: "80px top, 96px left/right, 80px bottom"
+      section: "80px top, 96px left/right, 80px bottom"
+      quote: "100px top, 140px left/right, 100px bottom"
       image-full: "0 (no padding)"
     structure: |
       SlideFrame (relative, overflow-hidden)

@@ -23,15 +23,15 @@ function getTypeLayout(type: SlideType): TypeLayout {
   switch (type) {
     case "cover":
     case "ending":
-      return { padding: "96px 96px 80px", className: styles.layoutCover };
+      return { padding: "80px 96px 80px", className: styles.layoutCover };
     case "section":
-      return { padding: "96px 96px 80px calc(18% + 72px)", className: styles.layoutSection };
+      return { padding: "80px 96px 80px calc(18% + 72px)", className: styles.layoutSection };
     case "quote":
-      return { padding: "120px 140px 100px", className: styles.layoutQuote };
+      return { padding: "100px 140px 100px", className: styles.layoutQuote };
     case "image-full":
       return { padding: "0", className: styles.layoutImageFull };
     default:
-      return { padding: "80px 72px 64px", className: styles.layoutDefault };
+      return { padding: "64px 72px 64px", className: styles.layoutDefault };
   }
 }
 
@@ -57,9 +57,10 @@ export function SlideFrame({
   deckName,
   currentPage,
 }: SlideFrameProps): React.JSX.Element {
-  const { accentLine, theme } = config;
+  const { accentLine, theme, layoutPadding } = config;
   const slideType = slide.frontmatter.type;
   const layout = getTypeLayout(slideType);
+  const effectivePadding = layoutPadding?.[slideType] ?? layout.padding;
 
   const bgOverride = slide.frontmatter.background;
   const effectiveBg = bgOverride ?? theme.colors?.background ?? "#FFFFFF";
@@ -111,7 +112,7 @@ export function SlideFrame({
 
       <div
         className={cn(styles.contentContainer, layout.className)}
-        style={{ padding: layout.padding }}
+        style={{ padding: effectivePadding }}
       >
         <SlideContent slide={slide} config={config} deckName={deckName} />
       </div>

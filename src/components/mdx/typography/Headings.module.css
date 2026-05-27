@@ -1,6 +1,6 @@
 .h1 {
     font-size: calc(4.5rem * var(--slide-font-scale));
-    font-weight: bold;
+    font-weight: 900;
     line-height: 1.1;
     font-family: var(--slide-font-heading);
     letter-spacing: var(--slide-heading-tracking);
