@@ -31,17 +31,33 @@ export async function listDecks(): Promise<DeckSummary[]> {
     try {
       const config = await loadDeckConfig(deckDir);
       const mdxFiles = await getMdxFiles(deckDir);
+      const createdAt =
+        typeof config.createdAt === "string" && !Number.isNaN(Date.parse(config.createdAt))
+          ? config.createdAt
+          : undefined;
       decks.push({
         name: entry.name,
         title: config.title,
         slideCount: mdxFiles.length,
+        createdAt,
       });
     } catch (e) {
       console.warn(`[amaroad] Skipping deck "${entry.name}":`, e instanceof Error ? e.message : e);
     }
   }
 
-  return decks.sort((a, b) => a.name.localeCompare(b.name));
+  // Default order: newest created first. Decks without a valid createdAt sort last,
+  // then ties (and undated decks) fall back to deck name. The client can re-sort.
+  return decks.sort((a, b) => {
+    const ta = a.createdAt ? Date.parse(a.createdAt) : NaN;
+    const tb = b.createdAt ? Date.parse(b.createdAt) : NaN;
+    const aMissing = Number.isNaN(ta);
+    const bMissing = Number.isNaN(tb);
+    if (aMissing && bMissing) return a.name.localeCompare(b.name);
+    if (aMissing) return 1;
+    if (bMissing) return -1;
+    return tb - ta || a.name.localeCompare(b.name);
+  });
 }
 
 export async function loadDeck(deckName: string): Promise<Deck> {

@@ -139,7 +139,8 @@ if (logoPath && existsSync(logoPath)) {
 const deckConfig = `import { defineConfig } from "../../src/lib/deck-config";
 
 export default defineConfig({
-  title: ${JSON.stringify(deckTitle)},${logoConfig}
+  title: ${JSON.stringify(deckTitle)},
+  createdAt: ${JSON.stringify(new Date().toISOString().slice(0, 10))},${logoConfig}
   copyright: {
     text: ${JSON.stringify(copyrightText)},
     position: "bottom-right",

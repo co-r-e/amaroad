@@ -68,18 +68,38 @@ interface DeckGridProps {
 }
 
 type SortOption =
+  | "created-desc"
+  | "created-asc"
   | "title-asc"
   | "title-desc"
   | "slides-asc"
   | "slides-desc"
   | "name-asc";
 
+/** Parse a deck's createdAt into a timestamp; NaN when missing/invalid (sorts last). */
+function createdTimestamp(deck: DeckSummary): number {
+  return deck.createdAt ? Date.parse(deck.createdAt) : NaN;
+}
+
+/** Compare by created date with the given direction; missing dates always sort last, ties fall back to title. */
+function compareByCreated(a: DeckSummary, b: DeckSummary, direction: "asc" | "desc"): number {
+  const ta = createdTimestamp(a);
+  const tb = createdTimestamp(b);
+  const aMissing = Number.isNaN(ta);
+  const bMissing = Number.isNaN(tb);
+  if (aMissing && bMissing) return collator.compare(a.title, b.title);
+  if (aMissing) return 1;
+  if (bMissing) return -1;
+  const diff = direction === "desc" ? tb - ta : ta - tb;
+  return diff || collator.compare(a.title, b.title);
+}
+
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 
 export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
   const isLocal = useIsLocal();
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
-  const [sortOption, setSortOption] = useState<SortOption>("title-asc");
+  const [sortOption, setSortOption] = useState<SortOption>("created-desc");
   const [query, setQuery] = useState("");
   const pinnedSnapshot = useSyncExternalStore(
     subscribeToPinnedDecks,
@@ -143,6 +163,12 @@ export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
     };
 
     switch (sortOption) {
+      case "created-desc":
+        next.sort((a, b) => compare(a, b, () => compareByCreated(a, b, "desc")));
+        break;
+      case "created-asc":
+        next.sort((a, b) => compare(a, b, () => compareByCreated(a, b, "asc")));
+        break;
       case "title-asc":
         next.sort((a, b) => compare(a, b, () => collator.compare(a.title, b.title)));
         break;
@@ -188,6 +214,8 @@ export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
             className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-2.5 py-1.5 text-sm text-gray-700 dark:text-gray-200"
             aria-label="Sort decks"
           >
+            <option value="created-desc">Newest first</option>
+            <option value="created-asc">Oldest first</option>
             <option value="title-asc">Title (A-Z)</option>
             <option value="title-desc">Title (Z-A)</option>
             <option value="slides-asc">Slides (Low-High)</option>

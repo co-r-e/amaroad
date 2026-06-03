@@ -72,6 +72,20 @@ export function SlideFrame({
     ? `linear-gradient(to bottom, transparent, color-mix(in srgb, var(--slide-primary) 50%, transparent) 15%, var(--slide-primary) 50%, var(--slide-secondary) 85%, transparent)`
     : undefined;
 
+  // Per-slide logo override: merge frontmatter.logo over the deck-level logo.
+  const slideLogo = slide.frontmatter.logo;
+  const overlayConfig =
+    slideLogo && slideLogo.src
+      ? {
+          ...config,
+          logo: {
+            position: config.logo?.position ?? "top-right",
+            ...config.logo,
+            ...slideLogo,
+          },
+        }
+      : config;
+
   return (
     <div
       className={styles.frame}
@@ -102,7 +116,7 @@ export function SlideFrame({
 
       <div className={styles.overlayContainer}>
         <SlideOverlay
-          config={config}
+          config={overlayConfig}
           currentPage={currentPage}
           slideType={slideType}
           deckName={deckName}

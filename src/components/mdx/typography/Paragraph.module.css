@@ -1,6 +1,8 @@
+/* font-size omitted intentionally: the base size lives on [data-mdx-status]
+   in globals.css so that wrapping elements with an inline fontSize
+   can cascade through MDX's implicit paragraph wrapping. */
 .paragraph {
     display: block;
-    font-size: calc(2rem * var(--slide-font-scale));
     line-height: var(--slide-body-leading);
     margin-bottom: var(--slide-space-sm);
 }
