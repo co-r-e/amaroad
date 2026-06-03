@@ -48,6 +48,7 @@ export async function processSlideFile(
       notes: frontmatter.notes,
       background: frontmatter.background,
       verticalAlign: frontmatter.verticalAlign as SlideFrontmatter["verticalAlign"],
+      logo: frontmatter.logo,
     },
     rawContent: content,
     notes: frontmatter.notes,

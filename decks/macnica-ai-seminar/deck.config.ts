@@ -2,6 +2,7 @@ import { defineConfig } from "../../src/lib/deck-config";
 
 export default defineConfig({
   title: "エンジニア向け生成AI情報共有会",
+  createdAt: "2026-03-12",
   overlay: {
     textColor: "#7F748A",
   },

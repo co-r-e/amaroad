@@ -399,7 +399,9 @@ function createMiddleSlides(slides: number, lang: Lang, points: string[]): Middl
 }
 
 function buildDeckConfig(args: Args): string {
-  const year = new Date().getFullYear();
+  const now = new Date();
+  const year = now.getFullYear();
+  const createdAt = now.toISOString().slice(0, 10);
   const copyrightText =
     args.copyright ??
     (args.lang === "ja"
@@ -415,6 +417,7 @@ function buildDeckConfig(args: Args): string {
 
 export default defineConfig({
   title: "${escapeTsString(args.title)}",
+  createdAt: "${createdAt}",
   logo: {
     src: "/amaroad-logo.svg",
     position: "top-right",

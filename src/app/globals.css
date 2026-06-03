@@ -42,6 +42,14 @@ pre code {
   background: var(--slide-surface, #f8f9fa);
 }
 
+/* Base paragraph font-size lives on the MDX container so it cascades
+   through implicit paragraph wrapping. SlideParagraph (.paragraph) does
+   NOT set its own font-size; this lets a wrapping element's inline
+   fontSize override the default for nested text. */
+[data-mdx-status] {
+  font-size: calc(2rem * var(--slide-font-scale));
+}
+
 /* ── KaTeX block math: use slide spacing instead of default 1em ── */
 [data-mdx-status] .katex-display {
   margin: var(--slide-space-md, 24px) 0;

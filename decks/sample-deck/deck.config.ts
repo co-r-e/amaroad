@@ -2,6 +2,7 @@ import { defineConfig } from "../../src/lib/deck-config";
 
 export default defineConfig({
   title: "Amaroad Sample Deck",
+  createdAt: "2026-02-24",
   logo: {
     src: "/amaroad-logo.svg",
     position: "top-right",

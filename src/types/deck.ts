@@ -32,6 +32,18 @@ export interface SlideFrontmatter {
   notes?: string;
   background?: string;
   verticalAlign?: VerticalAlign;
+  /**
+   * Per-slide logo override. Merged over the deck-level `logo` config for this
+   * slide only (e.g. show a corporate logo on a company-overview slide while
+   * the rest of the deck keeps the product logo). `src` is required; other
+   * fields fall back to the deck config.
+   */
+  logo?: {
+    src: string;
+    position?: LogoPosition;
+    height?: string;
+    offset?: { top?: string; right?: string; bottom?: string; left?: string };
+  };
 }
 
 export interface ThemeColors {
@@ -78,6 +90,8 @@ export interface DeckTheme {
 
 export interface DeckConfig {
   title: string;
+  /** Deck creation date as an ISO date string (e.g. "2026-06-02"). Used for "newest first" sorting on the deck list. */
+  createdAt: string;
   overlay?: {
     textColor?: string;
     textColorDark?: string;
@@ -119,6 +133,8 @@ export interface DeckSummary {
   name: string;
   title: string;
   slideCount: number;
+  /** ISO date string from deck.config.ts `createdAt`. Undefined when the config omits or has an invalid value. */
+  createdAt?: string;
 }
 
 export interface Deck {

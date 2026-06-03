@@ -46,5 +46,13 @@ export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
     throw new Error(`Deck config in ${configPath} is missing required "theme.colors.primary" field`);
   }
 
+  // createdAt is required for "newest first" sorting, but we degrade gracefully:
+  // a missing/invalid value only warns (the deck still loads and sorts to the end).
+  if (typeof c.createdAt !== "string" || Number.isNaN(Date.parse(c.createdAt))) {
+    console.warn(
+      `[amaroad] Deck config in ${configPath} is missing a valid "createdAt" (ISO date string, e.g. "2026-06-02"); it will sort last in "newest first" order`,
+    );
+  }
+
   return config as DeckConfig;
 }
