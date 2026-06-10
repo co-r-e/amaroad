@@ -46,7 +46,7 @@ Capture a screenshot of the slide and have Claude visually analyze it to **autom
 2. **Capture a screenshot**:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed> \
   --output /tmp/slide-capture.png
@@ -101,7 +101,7 @@ Convert the user's description into a prompt suitable for Gemini image generatio
 Generate the image with the following command:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "<optimized prompt>" \
   --output "decks/<deck>/assets/<filename>.png" \
   --aspect-ratio <ratio> \

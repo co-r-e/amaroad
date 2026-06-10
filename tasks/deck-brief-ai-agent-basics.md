@@ -89,7 +89,7 @@ Before → After → 危機感
 ## Scaffold Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck ai-agent-basics \
   --title "AIエージェント基礎" \
   --brief "tasks/deck-brief-ai-agent-basics.md" \

@@ -18,7 +18,7 @@ description: |
 ## Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck <deck-name> \
   --title "<deck title>" \
   --brief "<short brief>" \

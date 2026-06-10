@@ -38,7 +38,7 @@ ls decks/<deck-name>/*.mdx | sort -V
 ```
 
 ```bash
-npx tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed-slide> \
   --output /tmp/<deck-name>-<slide>-after.png

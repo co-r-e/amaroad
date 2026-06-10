@@ -40,7 +40,7 @@ body:
       placeholder: |
         - OS:
         - Node.js:
-        - npm:
+        - pnpm:
         - Browser:
     validations:
       required: true

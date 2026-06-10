@@ -298,7 +298,7 @@ slide_order_manifest:
     - Files listed in the manifest that do not exist on disk produce a console warning.
     - .mdx files on disk that are not listed in the manifest produce a console warning.
   migration:
-    script: "npx tsx scripts/generate-slide-order.mts"
+    script: "pnpm exec tsx scripts/generate-slide-order.mts"
     options:
       - "--dry-run: preview changes without writing"
       - "--force: rerun migration even if slide-order.ts already exists"

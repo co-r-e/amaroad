@@ -26,7 +26,7 @@ Create a new Amaroad deck skeleton from a short brief with minimal setup time.
 2. If needed, inspect `references/outline-patterns.md` for a suitable outline
 3. Generate the scaffold
 ```bash
-npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck <deck-name> \
   --title "<deck title>" \
   --brief "<short brief>" \
@@ -58,7 +58,7 @@ User says: "Create a new deck about AI adoption strategy for my team."
 
 Actions:
 1. Confirm deck name (`ai-adoption-strategy`), title, and brief with user.
-2. Run: `npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts --deck ai-adoption-strategy --title "AI Adoption Strategy" --brief "Overview of AI adoption roadmap for engineering teams" --slides 10 --lang en`
+2. Run: `pnpm exec tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts --deck ai-adoption-strategy --title "AI Adoption Strategy" --brief "Overview of AI adoption roadmap for engineering teams" --slides 10 --lang en`
 3. Verify generated files in stdout and on disk.
 4. Preview with `pnpm dev` and fill in real content.
 
@@ -69,7 +69,7 @@ Result: `decks/ai-adoption-strategy/` directory with `deck.config.ts` and 10 num
 User says: "Redo the sample-deck scaffold in Japanese with 8 slides."
 
 Actions:
-1. Run with overwrite flag: `npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts --deck sample-deck --title "サンプルデッキ" --brief "デモ用サンプル" --slides 8 --lang ja --overwrite`
+1. Run with overwrite flag: `pnpm exec tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts --deck sample-deck --title "サンプルデッキ" --brief "デモ用サンプル" --slides 8 --lang ja --overwrite`
 2. Confirm the existing deck was replaced.
 
 Result: `decks/sample-deck/` is regenerated with 8 Japanese-language MDX slides.

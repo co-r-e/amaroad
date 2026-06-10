@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * normalize-theme.ts
  *
@@ -6,9 +6,9 @@
  * using decks/<deck>/deck.config.ts theme.colors as the source of truth.
  *
  * Usage:
- *   npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
- *   npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --write
- *   npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --files "03-*.mdx"
+ *   pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
+ *   pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --write
+ *   pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --files "03-*.mdx"
  */
 
 import * as fs from "node:fs";
@@ -68,9 +68,9 @@ function printUsage(): void {
   console.log(
     [
       "Usage:",
-      "  npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>",
-      "  npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --write",
-      "  npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --files \"03-*.mdx\"",
+      "  pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>",
+      "  pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --write",
+      "  pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck> --files \"03-*.mdx\"",
       "",
       "Options:",
       "  --deck <name>      Required. Deck name under decks/<name>",

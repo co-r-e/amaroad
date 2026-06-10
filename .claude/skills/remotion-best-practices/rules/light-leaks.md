@@ -7,7 +7,7 @@ metadata:
 
 ## Light Leaks
 
-This only works from Remotion 4.0.415 and up. Use `npx remotion versions` to check your Remotion version and `npx remotion upgrade` to upgrade your Remotion version.
+This only works from Remotion 4.0.415 and up. Use `pnpm exec remotion versions` to check your Remotion version and `pnpm exec remotion upgrade` to upgrade your Remotion version.
 
 `<LightLeak>` from `@remotion/light-leaks` renders a WebGL-based light leak effect. It reveals during the first half of its duration and retracts during the second half.
 
@@ -16,7 +16,7 @@ Typically used inside a `<TransitionSeries.Overlay>` to play over the cut point 
 ## Prerequisites
 
 ```bash
-npx remotion add @remotion/light-leaks
+pnpm exec remotion add @remotion/light-leaks
 ```
 
 ## Basic usage with TransitionSeries

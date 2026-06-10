@@ -5,7 +5,7 @@
  * applies the same default resolution as buildThemeStyle(), and outputs as JSON.
  *
  * Usage:
- *   npx tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
+ *   pnpm exec tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
  */
 
 import * as path from "node:path";

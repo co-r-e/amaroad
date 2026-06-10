@@ -15,7 +15,7 @@ First, the @remotion/install-whisper-cpp package needs to be installed.
 If it is not installed, use the following command:
 
 ```bash
-npx remotion add @remotion/install-whisper-cpp
+pnpm exec remotion add @remotion/install-whisper-cpp
 ```
 
 ## Transcribing

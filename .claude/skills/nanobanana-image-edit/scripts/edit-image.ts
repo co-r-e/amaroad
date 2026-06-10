@@ -1,9 +1,9 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * nanobanana-image-edit: Gemini API image editing script
  *
  * Usage:
- *   npx tsx edit-image.ts --image "path/to/input.png" --prompt "Edit instructions" --output "path/to/output.png"
+ *   pnpm exec tsx edit-image.ts --image "path/to/input.png" --prompt "Edit instructions" --output "path/to/output.png"
  *
  * Options:
  *   --image         Input image file path (required)

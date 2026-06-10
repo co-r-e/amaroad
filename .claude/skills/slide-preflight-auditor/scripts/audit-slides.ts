@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -111,7 +111,7 @@ function parseArgs(args: string[]): CliOptions {
 function printUsage(): void {
   const usage = [
     "Usage:",
-    "  npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts [options]",
+    "  pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts [options]",
     "",
     "Options:",
     "  --deck <name>      Audit only one deck under decks/<name> (default: all decks)",

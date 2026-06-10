@@ -83,7 +83,7 @@ Problem → Solution
 ## Scaffold Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck envest-claude-adoption \
   --title "Claude 導入企画" \
   --brief "エンベスト経営層に、全社共通の Microsoft Copilot は継続しつつ、コアメンバー3名（部門長/ディレクター/ライター）に Claude を追加導入し少数精鋭を最強装備にすることを提案する10分間のプレゼン。Copilot は定型・MS内業務に強いが複合データ取得＋柔軟アウトプット（数万字記事の一発生成、GA分析→仮説→資料化、クリエイティブ編集）に非対応で人力処理が発生。競合エージェントは Claude Code/Codex で武装し劣位。記事作成10倍を目玉に効果を訴求。Problem→Solution構成。" \

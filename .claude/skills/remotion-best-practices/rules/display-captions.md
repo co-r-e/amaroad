@@ -17,7 +17,7 @@ First, the [`@remotion/captions`](https://www.remotion.dev/docs/captions) packag
 If it is not installed, use the following command:
 
 ```bash
-npx remotion add @remotion/captions
+pnpm exec remotion add @remotion/captions
 ```
 
 ## Fetching captions

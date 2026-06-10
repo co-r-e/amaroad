@@ -17,7 +17,7 @@ Search the project for lockfiles and run the correct command depending on the pa
 If `package-lock.json` is found, use the following command:
 
 ```bash
-npm i mapbox-gl @turf/turf @types/mapbox-gl
+pnpm add mapbox-gl @turf/turf @types/mapbox-gl
 ```
 
 If `bun.lock` is found, use the following command:
@@ -408,5 +408,5 @@ _map.setConfigProperty("basemap", "show3dBuildings", true);
 When rendering a map animation, make sure to render with the following flags:
 
 ```
-npx remotion render --gl=angle --concurrency=1
+pnpm exec remotion render --gl=angle --concurrency=1
 ```

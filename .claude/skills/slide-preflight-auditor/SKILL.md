@@ -32,19 +32,19 @@ See `references/rules.md` for detailed policy notes.
 All decks:
 
 ```bash
-npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts
+pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts
 ```
 
 Single deck:
 
 ```bash
-npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sample-deck
+pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sample-deck
 ```
 
 CI mode (fail on error):
 
 ```bash
-npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --fail-on error
+pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --fail-on error
 ```
 
 ### 2. Resolve findings by priority
@@ -86,7 +86,7 @@ Include:
 
 - User says: "Run preflight on my sales-pitch deck before I export"
 - Actions:
-  1. Run `npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sales-pitch`.
+  1. Run `pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sales-pitch`.
   2. Review output for errors and warnings.
   3. Fix all `error` findings (e.g., replace `fontSize: "1.5rem"` with `fontSize: "1.8rem"`).
   4. Manually check safe zone by viewing slides in the dev server.
@@ -97,7 +97,7 @@ Include:
 
 - User says: "Lint all slides and fail if there are errors"
 - Actions:
-  1. Run `npx tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --fail-on error`.
+  1. Run `pnpm exec tsx .claude/skills/slide-preflight-auditor/scripts/audit-slides.ts --fail-on error`.
   2. Script exits with code 1 if any `error` exists, code 0 if clean.
   3. Fix any flagged errors before re-running.
 - Result: All decks pass automated checks; exit code 0.

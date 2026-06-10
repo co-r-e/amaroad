@@ -1,9 +1,9 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * deck-scaffold-from-brief: Create a new deck scaffold from a short brief.
  *
  * Usage:
- *   npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+ *   pnpm exec tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
  *     --deck <deck-name> \
  *     --title "<deck title>" \
  *     --brief "<short brief>" \
@@ -74,7 +74,7 @@ interface ScaffoldCopy {
 
 const USAGE = `
 Usage:
-  npx tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \\
+  pnpm exec tsx .codex/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \\
     --deck <deck-name> --title "<deck title>" --brief "<brief>"
 
 Required:

@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * polish-notes.ts
  *
@@ -7,8 +7,8 @@
  * - Mode `rewrite`: replace notes with regenerated structured notes.
  *
  * Usage:
- *   npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck
- *   npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck --mode rewrite --write
+ *   pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck
+ *   pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck --mode rewrite --write
  */
 
 import * as fs from "node:fs";
@@ -48,7 +48,7 @@ interface ChangeItem {
 
 function printHelp(): void {
   console.log(`Usage:
-  npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck <deck-name> [--mode fill|rewrite] [--write]
+  pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck <deck-name> [--mode fill|rewrite] [--write]
 
 Options:
   --deck   Required. Deck name under decks/ (or direct deck directory path)

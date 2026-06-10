@@ -27,7 +27,7 @@ Generate graphic-recording style visual note illustrations from slide content.
    - Prefer reading the target MDX slide directly
    - If layout context matters, capture the slide image:
 ```bash
-npx tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed> \
   --output /tmp/slide-capture.png
@@ -38,7 +38,7 @@ npx tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
 5. Show the prompt to the user before generation
 6. Generate the image
 ```bash
-npx tsx .codex/skills/nanobanana-image/scripts/generate-image.ts \
+pnpm exec tsx .codex/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "<constructed prompt>" \
   --output "decks/<deck>/assets/<filename>.png" \
   --aspect-ratio 16:9 \

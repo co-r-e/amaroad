@@ -39,7 +39,7 @@ Edit existing images using Gemini and return a revised asset for the deck.
 4. Show the prompt to the user before execution
 5. Run the edit script
 ```bash
-npx tsx .codex/skills/nanobanana-image-edit/scripts/edit-image.ts \
+pnpm exec tsx .codex/skills/nanobanana-image-edit/scripts/edit-image.ts \
   --image "decks/<deck>/assets/<filename>.png" \
   --prompt "<edit prompt>" \
   --output "decks/<deck>/assets/<filename>.png"

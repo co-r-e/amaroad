@@ -33,13 +33,13 @@ Detailed policy: `references/citation-policy.md`
 All decks:
 
 ```bash
-npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts
+pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts
 ```
 
 Single deck:
 
 ```bash
-npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck
+pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck
 ```
 
 ### 2. Fix by priority
@@ -50,7 +50,7 @@ npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --d
 ### 3. Enforce in CI when needed
 
 ```bash
-npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error
+pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error
 ```
 
 ### 4. Share report
@@ -78,7 +78,7 @@ Include:
 
 - User says: "Check citations in sample-deck before I share it"
 - Actions:
-  1. Run: `npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck`
+  1. Run: `pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck`
   2. Review the report: errors (claims with no citation) and warnings (citation markers without verifiable links)
   3. Fix errors first by adding source URLs near claim lines
   4. Upgrade warnings by replacing plain "Source:" markers with full markdown links
@@ -88,7 +88,7 @@ Include:
 
 - User says: "Add citation validation to our CI pipeline"
 - Actions:
-  1. Add to CI config: `npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error`
+  1. Add to CI config: `pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error`
   2. This will exit with non-zero status if any error-level findings exist
   3. Optionally use `--format json` for machine-readable output
 - Result: CI pipeline fails when slides contain unsupported numeric claims, preventing uncited content from being published.

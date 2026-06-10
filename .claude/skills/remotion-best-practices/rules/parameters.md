@@ -14,7 +14,7 @@ Search the project for lockfiles and run the correct command depending on the pa
 If `package-lock.json` is found, use the following command:
 
 ```bash
-npm i zod
+pnpm add zod
 ```
 
 If `bun.lockb` is found, use the following command:
@@ -88,10 +88,7 @@ For adding a color picker, use `zColor()` from `@remotion/zod-types`.
 If it is not installed, use the following command:
 
 ```bash
-npx remotion add @remotion/zod-types # If project uses npm
-bunx remotion add @remotion/zod-types # If project uses bun
-yarn remotion add @remotion/zod-types # If project uses yarn
-pnpm exec remotion add @remotion/zod-types # If project uses pnpm
+pnpm exec remotion add @remotion/zod-types
 ```
 
 Then import `zColor` from `@remotion/zod-types`:

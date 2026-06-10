@@ -1,12 +1,12 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * localize-deck.ts
  *
  * Translate deck MDX files between Japanese and English with MDX structure safeguards.
  *
  * Usage:
- *   npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to en
- *   npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to ja --write
+ *   pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to en
+ *   pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to ja --write
  */
 
 import { GoogleGenAI } from "@google/genai";
@@ -45,7 +45,7 @@ interface ProtectedSegments {
 function printUsage(): void {
   const usage = [
     "Usage:",
-    "  npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck <deck-name> --to <ja|en> [options]",
+    "  pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck <deck-name> --to <ja|en> [options]",
     "",
     "Options:",
     "  --deck <name|path>     Required. Deck name under decks/ or direct directory path",
