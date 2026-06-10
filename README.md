@@ -53,7 +53,7 @@ pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the deck listing page. Click a deck to view it.
+Open [http://localhost:3850](http://localhost:3850) to see the deck listing page. Click a deck to view it.
 
 ## Project Structure
 
