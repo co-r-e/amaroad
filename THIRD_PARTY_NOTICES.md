@@ -16,14 +16,14 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 634
+- Cross-platform package entries: 631
 - Platform-specific binary families: 8
 - Generated from: `node_modules/.pnpm` (via `pnpm install`)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 531 |
+| MIT | 528 |
 | ISC | 32 |
 | Apache-2.0 | 31 |
 | BSD-3-Clause | 17 |
