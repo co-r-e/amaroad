@@ -13,6 +13,7 @@
   },
   "homepage": "https://co-r-e.github.io/amaroad-lp/",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "next dev --port 3850",
     "build": "next build",
     "start": "next start",
@@ -57,17 +58,9 @@
     "tsx": "^4.21.0",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@10.31.0",
+  "packageManager": "pnpm@11.5.2",
   "engines": {
     "node": ">=20",
-    "pnpm": ">=10"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "cloudflared",
-      "esbuild",
-      "sharp",
-      "unrs-resolver"
-    ]
+    "pnpm": ">=11"
   }
 }

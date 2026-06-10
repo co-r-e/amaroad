@@ -1,0 +1,11 @@
+allowBuilds:
+  # Postinstall scripts that must run (binaries / native builds).
+  cloudflared: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  # Scripts intentionally not run (funding notices / version stamping only).
+  # Same effective behavior as before the pnpm 11 migration.
+  '@google/genai': false
+  core-js: false
+  protobufjs: false
