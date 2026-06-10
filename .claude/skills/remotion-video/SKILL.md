@@ -40,7 +40,7 @@ Read the deck config and all MDX slides:
 
 ```bash
 # Extract theme
-npx tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
+pnpm exec tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
 ```
 
 Also read `decks/<deck-name>/deck.config.ts` to get the full config (title, logo, copyright, pageNumber, transition, accentLine).
@@ -305,9 +305,9 @@ If the deck font is not available in Google Fonts, use the closest match or load
 
 ## Error Handling
 
-- If `npx remotion render` fails, check the error output and fix the scene component
+- If `pnpm exec remotion render` fails, check the error output and fix the scene component
 - Common issues: missing fonts, broken asset paths, invalid interpolation ranges
-- Run `npx remotion studio` first to preview in browser before rendering
+- Run `pnpm exec remotion studio` first to preview in browser before rendering
 
 ## Examples
 
@@ -320,7 +320,7 @@ Actions:
 2. Read all 10 MDX files and build a slide manifest with types and content summaries.
 3. Design a storyboard mapping each slide type to its animation pattern (cover -> fade-in title, content -> staggered cards, ending -> logo + CTA).
 4. Generate the Remotion project under `decks/product-launch/video/` with 10 scene components.
-5. Copy assets and render: `npx remotion render DeckVideo out/video.mp4`.
+5. Copy assets and render: `pnpm exec remotion render DeckVideo out/video.mp4`.
 
 Result: A 45-second animated video at 1920x1080 30fps with smooth transitions between all 10 slides.
 
@@ -340,7 +340,7 @@ Result: Interactive preview in browser, then final rendered MP4 after confirmati
 
 ### Render fails with "Cannot find module" error
 
-Symptom: `npx remotion render` exits with a module resolution error.
+Symptom: `pnpm exec remotion render` exits with a module resolution error.
 Cause: Dependencies were not installed or the import path is incorrect.
 Fix: Run `pnpm install` in the `video/` directory. Verify all scene imports in `DeckVideo.tsx` match the actual filenames in `src/scenes/`.
 

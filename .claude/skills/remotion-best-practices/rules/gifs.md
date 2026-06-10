@@ -93,7 +93,7 @@ Use the `style` prop for additional CSS (use `width` and `height` props for sizi
 Use `getGifDurationInSeconds()` from `@remotion/gif` to get the duration of a GIF.
 
 ```bash
-npx remotion add @remotion/gif
+pnpm exec remotion add @remotion/gif
 ```
 
 ```tsx
@@ -123,10 +123,7 @@ const calculateMetadata: CalculateMetadataFunction = async () => {
 If `<AnimatedImage>` does not work (only supported in Chrome and Firefox), you can use `<Gif>` from `@remotion/gif` instead.
 
 ```bash
-npx remotion add @remotion/gif # If project uses npm
-bunx remotion add @remotion/gif # If project uses bun
-yarn remotion add @remotion/gif # If project uses yarn
-pnpm exec remotion add @remotion/gif # If project uses pnpm
+pnpm exec remotion add @remotion/gif
 ```
 
 ```tsx

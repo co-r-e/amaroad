@@ -1,9 +1,9 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * nanobanana-image: Gemini API image generation script
  *
  * Usage:
- *   npx tsx generate-image.ts --prompt "..." --output "path/to/output.png"
+ *   pnpm exec tsx generate-image.ts --prompt "..." --output "path/to/output.png"
  *
  * Options:
  *   --prompt        Image generation prompt (required)

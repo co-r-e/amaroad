@@ -43,7 +43,7 @@ Read the target MDX file and extract text content.
 If dev server is running, capture the slide and analyze visually:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed> \
   --output /tmp/slide-capture.png
@@ -72,7 +72,7 @@ See `references/prompt-guide.md` for prompt construction guidelines.
 Use the nanobanana-image generation script:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "<constructed prompt>" \
   --output "decks/<deck>/assets/<filename>.png" \
   --aspect-ratio 16:9 \

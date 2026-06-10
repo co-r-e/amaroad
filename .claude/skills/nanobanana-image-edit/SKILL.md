@@ -57,7 +57,7 @@ Construct a clear, specific edit prompt in **English** (Gemini produces best res
 Run the edit script:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image-edit/scripts/edit-image.ts \
+pnpm exec tsx .claude/skills/nanobanana-image-edit/scripts/edit-image.ts \
   --image "decks/<deck>/assets/<filename>.png" \
   --prompt "<edit prompt>" \
   --output "decks/<deck>/assets/<filename>.png"

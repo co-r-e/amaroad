@@ -36,7 +36,7 @@ Manual checks still required:
 
 1. Run the audit
 ```bash
-npx tsx .codex/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sample-deck
+pnpm exec tsx .codex/skills/slide-preflight-auditor/scripts/audit-slides.ts --deck sample-deck
 ```
 2. Reduce `error` to zero
 3. Resolve or document `warning` items

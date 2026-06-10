@@ -123,7 +123,7 @@
 ## Scaffold Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck leader-ai-sharing \
   --title "リーダー層向け生成AI情報共有会" \
   --brief "大手企業リーダー層向けAIエージェント研修。Why→What→Security→Howの4部構成。モノクロ＋濃い紫アクセント。" \

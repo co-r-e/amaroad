@@ -24,7 +24,7 @@ Improve `.mdx` frontmatter `notes` for presentation-ready delivery.
    - `rewrite` replaces notes for consistency
 3. Start with dry-run
 ```bash
-npx tsx .codex/skills/speaker-notes-polisher/scripts/polish-notes.ts \
+pnpm exec tsx .codex/skills/speaker-notes-polisher/scripts/polish-notes.ts \
   --deck <deck-name> \
   --mode fill
 ```

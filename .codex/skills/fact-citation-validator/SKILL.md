@@ -36,13 +36,13 @@ See `references/citation-policy.md` when policy detail is needed.
 
 1. Run a dry audit first
 ```bash
-npx tsx .codex/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck
+pnpm exec tsx .codex/skills/fact-citation-validator/scripts/validate-citations.ts --deck sample-deck
 ```
 2. Reduce `error` to zero
 3. Upgrade weak citations to verifiable links
 4. Use CI mode if the deck should fail on unresolved findings
 ```bash
-npx tsx .codex/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error
+pnpm exec tsx .codex/skills/fact-citation-validator/scripts/validate-citations.ts --fail-on error
 ```
 
 ## CLI Spec

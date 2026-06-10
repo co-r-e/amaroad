@@ -44,7 +44,7 @@ const IDLE_STATE: TunnelState = {
 
 function normalizeTunnelError(message: string): string {
   return /ENOENT/i.test(message)
-    ? "cloudflared binary not found. Ensure the 'cloudflared' npm package is installed correctly."
+    ? "cloudflared binary not found. Ensure the 'cloudflared' package is installed correctly (run 'pnpm install')."
     : message;
 }
 

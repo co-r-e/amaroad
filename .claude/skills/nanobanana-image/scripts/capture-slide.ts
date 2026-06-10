@@ -1,9 +1,9 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * capture-slide.ts: Capture a slide as PNG via the /api/capture route
  *
  * Usage:
- *   npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+ *   pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
  *     --deck <deck-name> \
  *     --slide <0-indexed> \
  *     --output <output.png> \

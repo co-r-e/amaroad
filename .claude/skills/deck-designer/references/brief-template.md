@@ -74,7 +74,7 @@ Fill all sections from gathered Q&A responses.
 ## Scaffold Command
 
 \`\`\`bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck <deck-name> \
   --title "<title>" \
   --brief "<brief text>" \

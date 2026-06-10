@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -146,7 +146,7 @@ function parseArgs(args: string[]): CliOptions {
 function printUsage(): void {
   const usage = [
     "Usage:",
-    "  npx tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts [options]",
+    "  pnpm exec tsx .claude/skills/fact-citation-validator/scripts/validate-citations.ts [options]",
     "",
     "Options:",
     "  --deck <name>         Audit one deck under decks/<name> (default: all decks)",

@@ -31,7 +31,7 @@ The skill will automatically optimize the prompt, generate the image, and insert
 ## Running the Script Standalone
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "A futuristic cityscape at sunset, wide angle, cinematic lighting" \
   --output "decks/sample-deck/assets/hero-cityscape.png" \
   --aspect-ratio 16:9 \

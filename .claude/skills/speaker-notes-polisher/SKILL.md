@@ -27,7 +27,7 @@ description: |
 Start with dry-run to inspect changes.
 
 ```bash
-npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
+pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
   --deck <deck-name> \
   --mode fill
 ```
@@ -35,7 +35,7 @@ npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
 If results look good, apply changes with `--write`.
 
 ```bash
-npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
+pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts \
   --deck <deck-name> \
   --mode rewrite \
   --write
@@ -78,7 +78,7 @@ Apply manual refinements only where needed.
 - User says: "Add speaker notes to my sample-deck"
 - Actions:
   1. Confirm the target deck: `decks/sample-deck`
-  2. Run in dry-run fill mode: `npx tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck --mode fill`
+  2. Run in dry-run fill mode: `pnpm exec tsx .claude/skills/speaker-notes-polisher/scripts/polish-notes.ts --deck sample-deck --mode fill`
   3. Review the dry-run output showing which files will be updated and what sections are missing
   4. Apply changes with `--write` after user confirms
 - Result: All MDX files in sample-deck now have standardized notes with Purpose, Talking Points, and Estimated Time. Files that already had complete notes are left unchanged.
@@ -87,7 +87,7 @@ Apply manual refinements only where needed.
 
 - User says: "Rewrite all speaker notes in sample-deck to have a consistent professional tone"
 - Actions:
-  1. Run dry-run in rewrite mode: `npx tsx ... --deck sample-deck --mode rewrite`
+  1. Run dry-run in rewrite mode: `pnpm exec tsx ... --deck sample-deck --mode rewrite`
   2. Review proposed changes across all slides
   3. Apply with `--write` after confirmation
 - Result: Every slide's notes are rewritten with uniform structure and tone, with accurate time estimates based on content density.

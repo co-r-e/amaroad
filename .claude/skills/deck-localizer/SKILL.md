@@ -29,7 +29,7 @@ description: |
 ### 2. Run dry-run first
 
 ```bash
-npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en
 ```
@@ -37,7 +37,7 @@ npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
 ### 3. Narrow target files when needed
 
 ```bash
-npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en \
   --files "0*-*.mdx"
@@ -46,7 +46,7 @@ npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
 ### 4. Apply changes
 
 ```bash
-npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en \
   --write
@@ -83,7 +83,7 @@ Run these after translation:
 
 - User says: "Translate sample-deck to English"
 - Actions:
-  1. Run dry-run: `npx tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to en`
+  1. Run dry-run: `pnpm exec tsx .claude/skills/deck-localizer/scripts/localize-deck.ts --deck sample-deck --to en`
   2. Review the dry-run output showing proposed translations for each file
   3. Apply with `--write` after user confirms the preview
   4. Run `slide-preflight-auditor` to check for any rule violations introduced by translation
@@ -94,7 +94,7 @@ Run these after translation:
 
 - User says: "Translate the speaker notes of slides 01 through 05 to Japanese"
 - Actions:
-  1. Run with scope and file filter: `npx tsx ... --deck sample-deck --to ja --scope notes --files "0[1-5]*"`
+  1. Run with scope and file filter: `pnpm exec tsx ... --deck sample-deck --to ja --scope notes --files "0[1-5]*"`
   2. Review dry-run output
   3. Apply with `--write`
 - Result: Only the frontmatter `notes` of slides matching the pattern are translated to Japanese. Slide body content remains unchanged.

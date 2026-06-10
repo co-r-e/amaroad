@@ -75,7 +75,7 @@ Vision → Products → Traction → Ask
 ## Scaffold Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck core-pitch \
   --title "コーレ株式会社" \
   --brief "AI領域のマルチプロダクト展開。概念を創出し時代をリードする。VCピッチ（シードラウンド）" \

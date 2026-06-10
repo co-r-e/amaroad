@@ -20,7 +20,7 @@ description: |
 ### 2. Run dry-run first (required)
 
 ```bash
-npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
+pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
 ```
 
 - Does not modify files
@@ -30,7 +30,7 @@ npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
 ### 3. Narrow scope when needed
 
 ```bash
-npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
+pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
   --deck <deck> \
   --files "03-*.mdx"
 ```
@@ -42,7 +42,7 @@ npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
 ### 4. Apply changes
 
 ```bash
-npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
+pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts \
   --deck <deck> \
   --write
 ```
@@ -76,10 +76,10 @@ See `references/color-mapping.md` for full key mapping.
 User says: "Normalize the hex colors in my sample-deck."
 
 Actions:
-1. Run dry-run: `npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck`
+1. Run dry-run: `pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck`
 2. Review the per-file output showing `#1E3A5F -> var(--slide-primary)` candidates.
 3. Confirm the mapping looks correct with the user.
-4. Apply: `npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck --write`
+4. Apply: `pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck --write`
 
 Result: All matching hard-coded HEX values across the deck are replaced with `var(--slide-*)` references. Non-matching HEX values (those not in `theme.colors`) are left untouched.
 
@@ -88,7 +88,7 @@ Result: All matching hard-coded HEX values across the deck are replaced with `va
 User says: "Only fix the colors in 03-overview.mdx."
 
 Actions:
-1. Run with file filter: `npx tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck --files "03-overview.mdx"`
+1. Run with file filter: `pnpm exec tsx .claude/skills/theme-normalizer/scripts/normalize-theme.ts --deck sample-deck --files "03-overview.mdx"`
 2. Review output and apply with `--write` if correct.
 
 Result: Only the specified file is updated; other MDX files remain unchanged.

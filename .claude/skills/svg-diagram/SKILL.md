@@ -36,7 +36,7 @@ Ask for missing information if needed.
 Retrieve the deck's theme colors:
 
 ```bash
-npx tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
+pnpm exec tsx .claude/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
 ```
 
 Use **all** the color and font values from the output JSON in subsequent SVG generation.
@@ -49,7 +49,7 @@ If a target slide is specified, check the current slide layout to understand the
 2. Capture a screenshot:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed> \
   --output /tmp/slide-layout.png

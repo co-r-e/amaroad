@@ -57,7 +57,7 @@ const offset = interpolate(progress, [0, 1], [segmentLength, 0]);
 
 Use `@remotion/paths` for animating SVG paths (line charts, stock graphs, signatures).
 
-Install: `npx remotion add @remotion/paths`  
+Install: `pnpm exec remotion add @remotion/paths`  
 Docs: https://remotion.dev/docs/paths.md
 
 ### Convert data points to SVG path

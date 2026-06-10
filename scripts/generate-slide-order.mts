@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S pnpm exec tsx
 /**
  * Migration script: generate slide-order.ts manifests for all decks.
  *
@@ -9,11 +9,11 @@
  *  4. Write slide-order.ts with the new names
  *
  * Usage:
- *   npx tsx scripts/generate-slide-order.mts --dry-run          # preview all
- *   npx tsx scripts/generate-slide-order.mts --all              # migrate all
- *   npx tsx scripts/generate-slide-order.mts --force my-deck    # rerun on deck with manifest
- *   npx tsx scripts/generate-slide-order.mts my-deck            # single deck
- *   npx tsx scripts/generate-slide-order.mts my-deck --dry-run  # preview single
+ *   pnpm exec tsx scripts/generate-slide-order.mts --dry-run          # preview all
+ *   pnpm exec tsx scripts/generate-slide-order.mts --all              # migrate all
+ *   pnpm exec tsx scripts/generate-slide-order.mts --force my-deck    # rerun on deck with manifest
+ *   pnpm exec tsx scripts/generate-slide-order.mts my-deck            # single deck
+ *   pnpm exec tsx scripts/generate-slide-order.mts my-deck --dry-run  # preview single
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -40,7 +40,7 @@ const deckNames = args.filter((a) => !a.startsWith("--"));
 
 if (!all && deckNames.length === 0) {
   console.log(
-    "Usage: npx tsx scripts/generate-slide-order.mts [--dry-run] [--force] [--all | <deck-name> ...]",
+    "Usage: pnpm exec tsx scripts/generate-slide-order.mts [--dry-run] [--force] [--all | <deck-name> ...]",
   );
   process.exit(1);
 }

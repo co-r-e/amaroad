@@ -21,7 +21,7 @@ Generate SVG diagrams that match the deck theme and fit slide layouts.
 1. Gather deck, slide, diagram content, and filename
 2. Extract theme colors and fonts
 ```bash
-npx tsx .codex/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
+pnpm exec tsx .codex/skills/svg-diagram/scripts/extract-theme.ts --deck <deck-name>
 ```
 3. If placement matters, inspect the target slide layout
 4. Choose a diagram type and read the matching template under `templates/`

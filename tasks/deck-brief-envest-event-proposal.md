@@ -77,7 +77,7 @@ Problem → Solution
 ## Scaffold Command
 
 ```bash
-npx tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
+pnpm exec tsx .claude/skills/deck-scaffold-from-brief/scripts/scaffold-deck.ts \
   --deck envest-event-proposal \
   --title "エンベストイベント企画" \
   --brief "エンベスト経営層に、外部エンジニアコミュニティと会場提供スポンサーとして連携し、ゼロ予算でエンジニア接点を作るイベント企画を提案する10分間のプレゼン。Problem→Solution構成。" \

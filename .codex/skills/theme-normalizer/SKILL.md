@@ -21,17 +21,17 @@ Unify hard-coded MDX colors into deck-theme CSS variables.
 1. Select the target deck
 2. Run dry-run first
 ```bash
-npx tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
+pnpm exec tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts --deck <deck>
 ```
 3. Narrow the target file set when needed
 ```bash
-npx tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts \
+pnpm exec tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts \
   --deck <deck> \
   --files "03-*.mdx"
 ```
 4. Apply changes only after reviewing candidates
 ```bash
-npx tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts \
+pnpm exec tsx .codex/skills/theme-normalizer/scripts/normalize-theme.ts \
   --deck <deck> \
   --write
 ```

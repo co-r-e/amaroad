@@ -43,7 +43,7 @@ ls decks/<deck-name>/*.mdx | sort -V
 2. Capture before state if needed:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed-slide> \
   --output /tmp/<deck-name>-<slide>-before.png
@@ -77,7 +77,7 @@ Detailed patterns: `references/fix-patterns.md`
 Capture after state:
 
 ```bash
-npx tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
+pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
   --deck <deck-name> \
   --slide <0-indexed-slide> \
   --output /tmp/<deck-name>-<slide>-after.png

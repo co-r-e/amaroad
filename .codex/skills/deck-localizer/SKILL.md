@@ -28,20 +28,20 @@ Translate an existing deck to Japanese or English with structure-safe automation
    - `--scope all|body|notes`
 2. Start with dry-run
 ```bash
-npx tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en
 ```
 3. Narrow files when needed
 ```bash
-npx tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en \
   --files "0*-*.mdx"
 ```
 4. Apply changes only after reviewing dry-run output
 ```bash
-npx tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
+pnpm exec tsx .codex/skills/deck-localizer/scripts/localize-deck.ts \
   --deck sample-deck \
   --to en \
   --write
