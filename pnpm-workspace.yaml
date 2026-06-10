@@ -1,3 +1,8 @@
+# Force the patched postcss everywhere: next pins 8.4.31 exactly, which is
+# below the security-advisory floor (>=8.5.10). Drop once next bumps it.
+overrides:
+  postcss: '>=8.5.10'
+
 allowBuilds:
   # Postinstall scripts that must run (binaries / native builds).
   cloudflared: true
