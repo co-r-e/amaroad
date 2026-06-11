@@ -18,7 +18,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
 - Cross-platform package entries: 631
 - Platform-specific binary families: 8
-- Generated from: `node_modules/.pnpm` (via `pnpm install`)
+- Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
 
 | License expression | Package count |
