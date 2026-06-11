@@ -42,7 +42,10 @@ function parseLockfilePlatformPackages(text) {
     if (line.length === 0) continue;
     // A top-level sibling section ends the packages block.
     if (/^[^\s]/.test(line)) break;
-    const pkgHeader = line.match(/^ {2}(?:'([^']+)'|([^\s:]+)):\s*$/);
+    // Keys may themselves contain colons (e.g. `xlsx@file:vendor/xlsx:`),
+    // so match greedily up to the trailing colon instead of stopping at
+    // the first one.
+    const pkgHeader = line.match(/^ {2}(?:'([^']+)'|(\S+)):\s*$/);
     if (pkgHeader) {
       const key = pkgHeader[1] ?? pkgHeader[2];
       const atIndex = key.lastIndexOf("@");
@@ -74,6 +77,20 @@ const platformBinaryKeys = new Set(
   lockfilePackages
     .filter((p) => p.cpu || p.os)
     .map((p) => `${p.name}@${p.version}`),
+);
+// Membership is driven by the lockfile: node_modules/.pnpm can contain
+// orphaned directories from previous resolutions (pnpm does not prune them
+// on re-install), and counting those would make the output depend on the
+// install history of the machine instead of the committed lockfile.
+const lockfileKeys = new Set(
+  lockfilePackages.map((p) => `${p.name}@${p.version}`),
+);
+// Non-registry entries (e.g. `xlsx@file:vendor/xlsx`) carry a specifier
+// instead of a version in their lockfile key, so they are matched by name.
+const nonRegistryNames = new Set(
+  lockfilePackages
+    .filter((p) => /^(file|link|git|https?):/.test(p.version))
+    .map((p) => p.name),
 );
 
 function normalizeLicense(pkg) {
@@ -141,6 +158,7 @@ for (const entry of pnpmEntries) {
   for (const pkg of collectScopedOrPlain(nmDir)) {
     const key = `${pkg.name}@${pkg.version ?? "?"}`;
     if (seen.has(key)) continue;
+    if (!lockfileKeys.has(key) && !nonRegistryNames.has(pkg.name)) continue;
     seen.add(key);
     resolved.push({
       name: pkg.name,
@@ -308,7 +326,7 @@ const licenseRows = Array.from(licenseCountMap.entries()).sort((a, b) => {
 const summaryLines = [
   `- Cross-platform package entries: ${crossPlatform.length}`,
   `- Platform-specific binary families: ${platformFamilies.size}`,
-  "- Generated from: `node_modules/.pnpm` (via `pnpm install`)",
+  "- Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)",
   "- Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.",
   "",
   "| License expression | Package count |",
