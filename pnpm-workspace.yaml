@@ -14,3 +14,7 @@ allowBuilds:
   '@google/genai': false
   core-js: false
   protobufjs: false
+
+# pnpm 11's optimistic repeat-install can silently skip config/lockfile
+# changes (pnpm/pnpm#12100 family); always re-validate instead.
+optimisticRepeatInstall: false
