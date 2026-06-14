@@ -41,13 +41,16 @@
 
 ## Requirements
 
-- Node.js 20+
-- pnpm 10+
+- Node.js 22.13+
+- pnpm 11+
 
 ## Quick Start
 
 ```bash
-git clone git@github.com:co-r-e/amaroad.git
+# Clone over HTTPS (works for everyone, no SSH setup required)
+git clone https://github.com/co-r-e/amaroad.git
+# ...or over SSH if you have keys configured with GitHub:
+# git clone git@github.com:co-r-e/amaroad.git
 cd amaroad
 pnpm install
 pnpm dev
