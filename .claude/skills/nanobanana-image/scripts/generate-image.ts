@@ -10,6 +10,8 @@
  *   --output        Output file path, must end with .png (required)
  *   --aspect-ratio  Aspect ratio (default: 16:9)
  *   --resolution    Resolution: 1K, 2K, or 4K (default: 2K)
+ *   --model         Gemini image model: gemini-3.1-flash-image-preview or
+ *                   gemini-3.1-flash-lite-image (default: gemini-3.1-flash-image-preview)
  *
  * Environment:
  *   GEMINI_API_KEY  Gemini API key (required)
@@ -63,11 +65,18 @@ loadEnvLocal();
 // CLI argument parsing
 // ---------------------------------------------------------------------------
 
+const VALID_MODELS = [
+  "gemini-3.1-flash-image-preview",
+  "gemini-3.1-flash-lite-image",
+] as const;
+const DEFAULT_MODEL = "gemini-3.1-flash-image-preview";
+
 interface Args {
   prompt: string;
   output: string;
   aspectRatio: string;
   resolution: string;
+  model: string;
 }
 
 function parseArgs(): Args {
@@ -126,7 +135,15 @@ function parseArgs(): Args {
     process.exit(1);
   }
 
-  return { prompt, output, aspectRatio, resolution };
+  const model = map.get("--model") ?? DEFAULT_MODEL;
+  if (!VALID_MODELS.includes(model as (typeof VALID_MODELS)[number])) {
+    process.stderr.write(
+      `Error: --model must be one of: ${VALID_MODELS.join(", ")}\n`,
+    );
+    process.exit(1);
+  }
+
+  return { prompt, output, aspectRatio, resolution, model };
 }
 
 // ---------------------------------------------------------------------------
@@ -145,7 +162,7 @@ async function generateImage(args: Args): Promise<void> {
   const ai = new GoogleGenAI({ apiKey });
 
   const response = await ai.models.generateContent({
-    model: "gemini-3.1-flash-image-preview",
+    model: args.model,
     contents: args.prompt,
     config: {
       responseModalities: ["image"],

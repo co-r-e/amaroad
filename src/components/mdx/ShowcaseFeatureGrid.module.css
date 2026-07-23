@@ -4,9 +4,11 @@
  * --featuregrid-gap            Grid gap               (default: --slide-space-md)
  * --featuregrid-item-padding   Card padding            (default: 2rem)
  * --featuregrid-item-align     Card align-items        (default: stretch)
+ * --featuregrid-item-justify   Card justify-content    (default: flex-start)
  * --featuregrid-item-text-align Card text-align        (default: left)
  * --featuregrid-title-size     Title font-size base    (default: 2.2rem)
  * --featuregrid-desc-size      Description font-size   (default: 1.8rem)
+ * --featuregrid-image-height   Item image height       (default: 130px)
  * ========================================================================== */
 
 /* ========== Root ========== */
@@ -21,20 +23,68 @@
 /* ========== Card item (default: surface background) ========== */
 
 .item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: var(--featuregrid-item-align, stretch);
+  justify-content: var(--featuregrid-item-justify, flex-start);
   text-align: var(--featuregrid-item-text-align, left);
   gap: 0.8rem;
   padding: var(--featuregrid-item-padding, 2rem);
+  border: 2px solid transparent;
   border-radius: var(--slide-radius);
   background: var(--slide-surface);
   min-width: 0;
 }
 
+/* ========== Highlighted card (e.g. recommended / important) ========== */
+
+.highlighted {
+  border-color: var(--slide-secondary);
+  background: color-mix(in srgb, var(--slide-secondary) 7%, var(--slide-surface));
+}
+
+/* ========== Corner badge (e.g. crown for the key item) ========== */
+
+.badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--slide-secondary);
+  color: #ffffff;
+  font-size: calc(1.5rem * var(--slide-font-scale));
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .itemIcon {
   flex-shrink: 0;
   color: var(--slide-text);
+}
+
+.itemImage {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--featuregrid-image-height, 130px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.itemImage img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: var(--slide-radius);
 }
 
 .itemTitle {

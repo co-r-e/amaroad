@@ -1,13 +1,14 @@
-import fs from "node:fs/promises";
 import path from "node:path";
 import { cache } from "react";
 import { jiti } from "./jiti";
 import { normalizeSlideOrderEntries } from "./slide-order-utils";
 import { loadDeckConfig } from "./deck-config";
 import { processSlideFile } from "./mdx-processor";
+import fs from "./runtime-fs";
 import type { Deck, DeckSummary } from "@/types/deck";
 
 const DECKS_DIR = path.join(process.cwd(), "decks");
+const warnedManifestStates = new Set<string>();
 
 /** Returns true if deckName contains path traversal characters. */
 export function isUnsafeDeckName(deckName: string): boolean {
@@ -111,22 +112,27 @@ async function getMdxFiles(deckDir: string): Promise<string[]> {
   if (order) {
     const entries = new Set(await fs.readdir(deckDir));
     const deckName = path.basename(deckDir);
+    const missing = order.filter((file) => !entries.has(file));
+    const orderSet = new Set(order);
+    const unlisted = [...entries]
+      .filter((entry) => entry.endsWith(".mdx") && !orderSet.has(entry))
+      .sort();
+    const warningKey = `${deckName}|missing:${missing.join(",")}|unlisted:${unlisted.join(",")}`;
 
-    for (const file of order) {
-      if (!entries.has(file)) {
+    if (!warnedManifestStates.has(warningKey)) {
+      for (const file of missing) {
         console.warn(
           `[amaroad] ${deckName}/slide-order.ts references missing file: ${file}`,
         );
       }
-    }
 
-    const orderSet = new Set(order);
-    for (const entry of entries) {
-      if (entry.endsWith(".mdx") && !orderSet.has(entry)) {
+      for (const entry of unlisted) {
         console.warn(
           `[amaroad] ${deckName}: ${entry} exists but is not listed in slide-order.ts`,
         );
       }
+
+      warnedManifestStates.add(warningKey);
     }
 
     return order.filter((file) => entries.has(file));
