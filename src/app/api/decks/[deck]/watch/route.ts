@@ -4,7 +4,7 @@ import { join } from "path";
 import { isLocalRequest, getSharedDeckName } from "@/lib/tunnel-access";
 import { isUnsafeDeckName } from "@/lib/deck-loader";
 
-const DEBOUNCE_MS = 300;
+const DEBOUNCE_MS = 600;
 const KEEPALIVE_MS = 30_000;
 
 export async function GET(

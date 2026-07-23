@@ -105,8 +105,11 @@ pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "<optimized prompt>" \
   --output "decks/<deck>/assets/<filename>.png" \
   --aspect-ratio <ratio> \
-  --resolution <resolution>
+  --resolution <resolution> \
+  --model <model>
 ```
+
+If the user hasn't specified a model, use the default (`gemini-3.1-flash-image-preview`). Offer `gemini-3.1-flash-lite-image` as a faster/lighter alternative when the user asks for it or asks what options exist.
 
 ### Step 4: Insert into MDX
 
@@ -136,6 +139,7 @@ Report the following to the user:
 | `--output` | Yes | - | Output file path (.png) |
 | `--aspect-ratio` | No | `16:9` | Aspect ratio (1:1, 3:2, 4:3, 16:9, 21:9, etc.) |
 | `--resolution` | No | `2K` | Resolution (1K, 2K, 4K) |
+| `--model` | No | `gemini-3.1-flash-image-preview` | Gemini image model: `gemini-3.1-flash-image-preview` or `gemini-3.1-flash-lite-image` |
 
 ## Examples
 

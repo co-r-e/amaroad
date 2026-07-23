@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "node:fs/promises";
 import path from "node:path";
 import { isLocalRequest, getSharedDeckName } from "@/lib/tunnel-access";
+import fs from "@/lib/runtime-fs";
 
 const DECKS_DIR = path.join(process.cwd(), "decks");
 const DECKS_DIR_RESOLVED = path.resolve(DECKS_DIR);

@@ -60,11 +60,13 @@ Run the edit script:
 pnpm exec tsx .claude/skills/nanobanana-image-edit/scripts/edit-image.ts \
   --image "decks/<deck>/assets/<filename>.png" \
   --prompt "<edit prompt>" \
-  --output "decks/<deck>/assets/<filename>.png"
+  --output "decks/<deck>/assets/<filename>.png" \
+  --model <model>
 ```
 
 - Omit `--output` to overwrite the original file in-place
 - Optionally specify `--aspect-ratio` and `--resolution` (defaults: preserve original aspect, 2K)
+- Optionally specify `--model` (default: `gemini-3.1-flash-image-preview`; `gemini-3.1-flash-lite-image` is available as a faster/lighter alternative)
 
 ### Step 5: Verify Result
 
@@ -94,6 +96,7 @@ Report the following to the user:
 | `--output` | No | Same as `--image` | Output file path (.png) |
 | `--aspect-ratio` | No | `16:9` | Aspect ratio for the output |
 | `--resolution` | No | `2K` | Resolution (1K, 2K, 4K) |
+| `--model` | No | `gemini-3.1-flash-image-preview` | Gemini image model: `gemini-3.1-flash-image-preview` or `gemini-3.1-flash-lite-image` |
 
 ## Examples
 

@@ -1,6 +1,6 @@
-import fs from "node:fs/promises";
 import matter from "gray-matter";
 import type { SlideFrontmatter, SlideData, SlideType } from "@/types/deck";
+import fs from "./runtime-fs";
 
 const VALID_SLIDE_TYPES: Set<string> = new Set<SlideType>([
   "cover",

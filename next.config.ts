@@ -19,6 +19,7 @@ const securityHeaders = [
       "font-src 'self' data:",
       "media-src 'self' blob:",
       `connect-src 'self'${IS_DEV ? " ws: wss:" : ""}`,
+      "frame-src https://www.youtube.com https://player.vimeo.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
