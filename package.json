@@ -14,9 +14,9 @@
   "homepage": "https://co-r-e.github.io/amaroad-lp/",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "next dev --port 3850",
+    "dev": "next dev --hostname 127.0.0.1 --port 3850",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --hostname 127.0.0.1",
     "lint": "eslint",
     "notices:update": "node scripts/third-party-notices.mjs --update",
     "notices:check": "node scripts/third-party-notices.mjs --check"

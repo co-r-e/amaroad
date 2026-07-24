@@ -4,6 +4,18 @@ import { tunnelManager } from "./tunnel-manager";
 // ---------------------------------------------------------------------------
 // Localhost detection
 // ---------------------------------------------------------------------------
+//
+// SECURITY INVARIANT: The Host-header trust decision below (isLocalHost /
+// isLocalRequest / getTunnelAccess) is only sound because the HTTP server is
+// bound to loopback (127.0.0.1) in both `dev` and `start` — see the `--hostname
+// 127.0.0.1` flags in package.json. Because no off-host peer can open a
+// connection, a request whose Host is localhost/127.0.0.1 can only come from the
+// local browser; the Cloudflare quick tunnel forwards the public
+// `*.trycloudflare.com` Host instead (cloudflared dials http://localhost:<port>
+// from this same machine). Do NOT relax that loopback bind, and do NOT derive
+// trust from any other client-controllable header (e.g. X-Forwarded-For), which
+// Next.js only fills from the socket peer via nullish-assignment and is
+// therefore spoofable when sent by the client.
 
 const LOCALHOST_HOSTNAMES = new Set([
   "localhost",
