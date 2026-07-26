@@ -1,7 +1,15 @@
+/* Slide images carry data-growable, so in a flex layout they get `flex: 1`.
+   That only grows them along the main axis: in a row container the intrinsic
+   height still applies and a tall image spills out of the slide. Cap the
+   height so an image can never exceed the box it was placed in (Tailwind
+   preflight already caps width but forces `height: auto`), and drop the
+   block margin, which would push the margin-box past that cap; the engine's
+   growable seam rules in globals.css supply the block rhythm instead. */
 .image {
     border-radius: var(--slide-radius, 1rem);
     object-fit: contain;
-    margin: var(--slide-space-sm) 0;
+    max-height: 100%;
+    margin: 0;
 }
 
 .videoWrapper {
