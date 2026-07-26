@@ -65,6 +65,38 @@ pre code {
   min-height: 0;
 }
 
+/* ── Breathing room around growable blocks ──
+   A [data-growable] block expands to consume every remaining pixel and
+   carries no margins of its own, so a sibling placed next to it (typically a
+   SummaryBanner or a raw JSX heading) ends up flush against its edge. Its
+   children are usually filled surfaces (cards, images) that reach that edge,
+   which reads as two boxes glued together.
+
+   Enforce the block rhythm (--slide-space-sm, the engine-wide baseline) on
+   both sides. Because the growable box shrinks by exactly the margin we add,
+   the total content height is unchanged and no slide can start overflowing
+   because of these rules. Inline styles on the element still win, so authors
+   keep per-slide control. */
+[data-mdx-status] > [data-growable] + *,
+[data-column] > [data-growable] + * {
+  margin-top: var(--slide-space-sm);
+}
+
+/* The engine owns the seam below a growable, so a growable that carries its
+   own bottom margin (CodeBlock, Chart) must not stack it on top of the gap
+   above. Scoped to the direct-child seams the rule above governs. */
+[data-mdx-status] > [data-growable],
+[data-column] > [data-growable] {
+  margin-bottom: 0;
+}
+
+/* Unstyled raw JSX elements (e.g. <h1 style={{...}}>) get no component
+   margin, so they too sit flush against a growable sibling below. */
+[data-mdx-status] > :not([class]):has(+ [data-growable]),
+[data-column] > :not([class]):has(+ [data-growable]) {
+  margin-bottom: var(--slide-space-sm);
+}
+
 /* Vertically center MDX content when the slide opts in */
 [data-vertical-align="center"] > [data-mdx-status] {
   justify-content: center;

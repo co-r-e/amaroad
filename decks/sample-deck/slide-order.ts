@@ -13,6 +13,7 @@ export default [
   "f-section-minimal",
   "features",
   "overview",
+  "growable-with-banner",
   "speaker",
   "code-example",
   "charts",

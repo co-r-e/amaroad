@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { compile } from "@mdx-js/mdx";
 import rehypeKatex from "rehype-katex";
+import rehypeUnwrapImages from "rehype-unwrap-images";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { loadDeck } from "@/lib/deck-loader";
@@ -68,7 +69,7 @@ async function compileSlideModule(deckName: string, slideIndex: number): Promise
   const pending = compile(processedSource, {
     outputFormat: "function-body",
     remarkPlugins: [remarkGfm, remarkMath],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, rehypeUnwrapImages],
   })
     .then((file) => wrapCompiledModule(String(file)))
     .catch((error) => {

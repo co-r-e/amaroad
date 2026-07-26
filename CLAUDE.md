@@ -111,9 +111,16 @@ flex_overflow_prevention:
     inside a flex container (especially with data-growable), always add overflow: "hidden"
     and minHeight: 0 to the wrapper div.
   reason: >
-    Elements like <img> expand to their natural dimensions and can overflow the
-    inviolable area. flex: 1 alone does not prevent this; the container needs
-    explicit overflow clipping and min-height reset to allow shrinking.
+    Elements like <svg> or a chart expand to their natural dimensions and can
+    overflow the inviolable area. flex: 1 alone does not prevent this; the
+    container needs explicit overflow clipping and min-height reset to allow
+    shrinking.
+  images_are_handled: >
+    Slide images (both `![alt](./assets/x.png)` and a raw <img>) are already
+    capped at max-width/max-height 100% with object-fit: contain by the engine,
+    and a Markdown image is unwrapped out of its paragraph so the cap resolves
+    against the real layout box. Keep minHeight/overflow on the wrapper anyway:
+    it costs nothing and still matters for every other intrinsic-sized child.
   example_good: |
     <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 0, overflow: "hidden" }}>
       ![Screenshot](./assets/screenshot.png)
@@ -122,6 +129,35 @@ flex_overflow_prevention:
     <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
       ![Screenshot](./assets/screenshot.png)
     </div>
+
+growable_block_spacing:
+  rule: >
+    Never hand-patch the gap around a data-growable block with an inline
+    marginTop / marginBottom. The engine guarantees it.
+  reason: >
+    A data-growable block expands to consume every remaining pixel and carries
+    no margins of its own, so a sibling placed next to it (typically a
+    SummaryBanner, or a raw JSX heading above it) ended up flush against its
+    edge. Its children are usually filled surfaces (cards, images) that reach
+    that edge, which reads as two boxes glued together.
+  implementation: >
+    globals.css applies `margin-top: var(--slide-space-sm)` to any sibling that
+    follows a [data-growable] block, zeroes the growable's own bottom margin at
+    that seam so component margins (CodeBlock, Chart) never stack with the
+    engine gap, and applies `margin-bottom: var(--slide-space-sm)` to an
+    unstyled raw element that precedes one. The growable box shrinks by exactly
+    that amount, so total slide height never changes.
+  note: >
+    Inline styles still win, so a slide that genuinely needs a different gap can
+    override it. Do that deliberately, not as a fix for content that touches.
+  example_good: |
+    <Columns gap="2.4rem" data-growable>
+      ...
+    </Columns>
+
+    <SummaryBanner>まとめの一文</SummaryBanner>
+  example_bad: |
+    <SummaryBanner style={{ marginTop: "var(--slide-space-md)" }}>まとめの一文</SummaryBanner>
 
 content_area_space_usage:
   rule: Minimize whitespace inside the content area; pack content tightly

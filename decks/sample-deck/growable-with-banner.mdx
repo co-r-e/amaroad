@@ -1,0 +1,47 @@
+---
+type: content
+notes: |
+  Reference layout for the most common content slide: a growable block that
+  fills the remaining height, with a SummaryBanner as its sibling underneath.
+
+  Nothing here sets a margin by hand. A [data-growable] block consumes every
+  remaining pixel and has no margins of its own, so the engine adds the gap
+  above the banner (and below an unstyled heading) automatically. If you find
+  yourself writing style={{ marginTop: ... }} on a SummaryBanner, the layout is
+  fighting the engine — remove it.
+
+  The left column also shows a Markdown image inside a flex box. The engine
+  unwraps it out of its paragraph and caps it at 100% of the box, so it can
+  never spill past the slide edge no matter how tall the source file is.
+---
+
+# Growable Block + Summary Banner
+
+<Columns gap="2.4rem" data-growable>
+  <Column width="38%">
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", minHeight: 0, overflow: "hidden" }}>
+
+  ![Placeholder illustration](./assets/placeholder-app.svg)
+
+  </div>
+  </Column>
+  <Column width="62%">
+  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%", gap: "var(--slide-space-sm)" }}>
+
+    <Card style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "center", padding: "2rem 2.4rem" }}>
+      <p style={{ fontSize: "2.1rem", fontWeight: 700, margin: 0, lineHeight: 1.5 }}>Cards stretch with flex: 1, so the column fills the height evenly</p>
+    </Card>
+
+    <Card style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "center", padding: "2rem 2.4rem" }}>
+      <p style={{ fontSize: "2.1rem", fontWeight: 700, margin: 0, lineHeight: 1.5 }}>The banner below is a sibling of Columns, not a child of it</p>
+    </Card>
+
+    <Card style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "center", padding: "2rem 2.4rem" }}>
+      <p style={{ fontSize: "2.1rem", fontWeight: 700, margin: 0, lineHeight: 1.5 }}>No marginTop anywhere: the gap above the banner comes from the engine</p>
+    </Card>
+
+  </div>
+  </Column>
+</Columns>
+
+<SummaryBanner>A growable block never sits flush against its neighbours</SummaryBanner>
