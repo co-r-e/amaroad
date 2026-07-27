@@ -7,9 +7,9 @@
  *     --deck <deck-name> \
  *     --slide <0-indexed> \
  *     --output <output.png> \
- *     [--port 3000]
+ *     [--port 3850]
  *
- * Requires the dev server to be running (`pnpm dev`).
+ * Requires the dev server to be running (`pnpm dev`, which serves port 3850).
  */
 
 import * as fs from "fs";
@@ -40,7 +40,8 @@ function parseArgs(): Args {
   const deck = map.get("--deck");
   const slideStr = map.get("--slide");
   const output = map.get("--output");
-  const port = parseInt(map.get("--port") || "3000", 10);
+  // Matches the `dev` script in package.json (`next dev --port 3850`).
+  const port = parseInt(map.get("--port") || "3850", 10);
 
   if (!deck) {
     process.stderr.write("Error: --deck is required\n");
