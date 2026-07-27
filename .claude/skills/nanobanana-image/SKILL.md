@@ -21,6 +21,18 @@ allowed-tools:
 ## Prerequisites
 
 - The `GEMINI_API_KEY` environment variable must be set (write it in `.env.local` at the project root and the script will auto-load it)
+- `oxipng` is used to shrink the generated PNG losslessly. It is optional — the
+  script warns and continues without it — but install it with `brew install oxipng`
+  to cut roughly 30-40% off every generated image at zero quality cost.
+
+## Model Selection
+
+The default is **`gemini-3.1-flash-lite-image`**: faster, cheaper, and good
+enough for the illustration and photo styles decks actually use.
+
+Switch to `gemini-3.1-flash-image-preview` with `--model` only when lite is not
+good enough — typically dense in-image text, intricate detail, or a first attempt
+that came back visibly weak. Say why when you switch.
 
 ## Workflow
 
@@ -42,7 +54,7 @@ Capture a screenshot of the slide and have Claude visually analyze it to **autom
 
 #### Procedure
 
-1. **Confirm the dev server is running** (`pnpm dev`)
+1. **Confirm the dev server is running** (`pnpm dev`, which serves port **3850**)
 2. **Capture a screenshot**:
 
 ```bash
@@ -105,11 +117,18 @@ pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
   --prompt "<optimized prompt>" \
   --output "decks/<deck>/assets/<filename>.png" \
   --aspect-ratio <ratio> \
-  --resolution <resolution> \
-  --model <model>
+  --resolution <resolution>
 ```
 
-If the user hasn't specified a model, use the default (`gemini-3.1-flash-image-preview`). Offer `gemini-3.1-flash-lite-image` as a faster/lighter alternative when the user asks for it or asks what options exist.
+The model defaults to `gemini-3.1-flash-lite-image` — add `--model gemini-3.1-flash-image-preview` only for the cases described in **Model Selection** above.
+
+The saved PNG is losslessly optimized before the script exits, and the size
+before and after is reported on stderr. Pass `--optimize aggressive` when the
+file is still too heavy: it adds high-quality palette quantization (pngquant at
+a 90-100 quality floor), which typically reaches -55% instead of -38% and is
+visually indistinguishable on flat illustration. Photographic images fail that
+quality floor on their own and keep full color depth. `--optimize off` disables
+the step entirely.
 
 ### Step 4: Insert into MDX
 
@@ -139,7 +158,8 @@ Report the following to the user:
 | `--output` | Yes | - | Output file path (.png) |
 | `--aspect-ratio` | No | `16:9` | Aspect ratio (1:1, 3:2, 4:3, 16:9, 21:9, etc.) |
 | `--resolution` | No | `2K` | Resolution (1K, 2K, 4K) |
-| `--model` | No | `gemini-3.1-flash-image-preview` | Gemini image model: `gemini-3.1-flash-image-preview` or `gemini-3.1-flash-lite-image` |
+| `--model` | No | `gemini-3.1-flash-lite-image` | Gemini image model: `gemini-3.1-flash-lite-image` or `gemini-3.1-flash-image-preview` |
+| `--optimize` | No | `lossless` | PNG shrinking: `lossless` (oxipng, pixel-identical), `aggressive` (adds pngquant at quality floor 90), `off` |
 
 ## Examples
 
@@ -178,4 +198,24 @@ Report the following to the user:
 
 ### Slide capture fails
 - **Symptom**: `capture-slide.ts` returns an error or blank image
-- **Fix**: Ensure the dev server is running (`pnpm dev`). The capture API requires the Next.js server at `localhost:3000`. Also verify the deck name and slide index (0-based) are correct.
+- **Fix**: Ensure the dev server is running (`pnpm dev`). The capture API requires the Next.js server at `localhost:3850`, which is the script's default port. Also verify the deck name and slide index (0-based) are correct.
+
+### Generated image is still too large
+- **Symptom**: The file is well over 1MB after lossless optimization
+- **Fix**: Lower `--resolution` first (2K to 1K halves the pixel count), then try
+  `--optimize aggressive`. Only reach for a simpler prompt if both are not enough
+  — CLAUDE.md targets roughly 500KB-1MB per deck image.
+
+### Gemini returned JPEG instead of PNG
+- **Symptom**: none normally — this is handled automatically
+- **Detail**: The lite model often answers with JPEG even for a `.png`
+  destination. The script re-encodes it into the requested container, which is
+  lossless and measured within 1% of the JPEG's own file size, so every deck
+  asset keeps one predictable extension. Always use the path printed on stdout.
+  Outside macOS (`sips` unavailable) the script instead renames the file to match
+  the real format and warns, rather than hiding JPEG bytes behind a `.png` name.
+
+### oxipng is not installed
+- **Symptom**: "skipped image optimization: `oxipng` is not installed"
+- **Fix**: `brew install oxipng`. The image is still saved correctly; it is just
+  30-40% larger than it needs to be.

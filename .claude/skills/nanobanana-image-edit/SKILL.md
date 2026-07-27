@@ -21,6 +21,18 @@ allowed-tools:
 ## Prerequisites
 
 - `GEMINI_API_KEY` set in `.env.local` at the project root
+- `oxipng` is used to shrink the edited PNG losslessly. It is optional — the
+  script warns and continues without it — but install it with `brew install oxipng`
+  to cut roughly 30-40% off every image at zero quality cost.
+
+## Model Selection
+
+The default is **`gemini-3.1-flash-lite-image`**: faster, cheaper, and good
+enough for the edits decks actually need.
+
+Switch to `gemini-3.1-flash-image-preview` with `--model` only when lite is not
+good enough — typically fine detail that must be preserved exactly, in-image
+text, or a first attempt that drifted. Say why when you switch.
 
 ## Workflow
 
@@ -59,14 +71,16 @@ Run the edit script:
 ```bash
 pnpm exec tsx .claude/skills/nanobanana-image-edit/scripts/edit-image.ts \
   --image "decks/<deck>/assets/<filename>.png" \
-  --prompt "<edit prompt>" \
-  --output "decks/<deck>/assets/<filename>.png" \
-  --model <model>
+  --prompt "<edit prompt>"
 ```
 
 - Omit `--output` to overwrite the original file in-place
 - Optionally specify `--aspect-ratio` and `--resolution` (defaults: preserve original aspect, 2K)
-- Optionally specify `--model` (default: `gemini-3.1-flash-image-preview`; `gemini-3.1-flash-lite-image` is available as a faster/lighter alternative)
+- The model defaults to `gemini-3.1-flash-lite-image` — add `--model gemini-3.1-flash-image-preview` only for the cases described in **Model Selection** above
+- The saved PNG is losslessly optimized before the script exits, and the size
+  before and after is reported on stderr. Pass `--optimize aggressive` when the
+  file is still too heavy (adds pngquant at a 90-100 quality floor, typically
+  -55% instead of -38%), or `--optimize off` to disable the step
 
 ### Step 5: Verify Result
 
@@ -96,7 +110,8 @@ Report the following to the user:
 | `--output` | No | Same as `--image` | Output file path (.png) |
 | `--aspect-ratio` | No | `16:9` | Aspect ratio for the output |
 | `--resolution` | No | `2K` | Resolution (1K, 2K, 4K) |
-| `--model` | No | `gemini-3.1-flash-image-preview` | Gemini image model: `gemini-3.1-flash-image-preview` or `gemini-3.1-flash-lite-image` |
+| `--model` | No | `gemini-3.1-flash-lite-image` | Gemini image model: `gemini-3.1-flash-lite-image` or `gemini-3.1-flash-image-preview` |
+| `--optimize` | No | `lossless` | PNG shrinking: `lossless` (oxipng, pixel-identical), `aggressive` (adds pngquant at quality floor 90), `off` |
 
 ## Examples
 
@@ -135,3 +150,19 @@ Report the following to the user:
 ### Input image not found
 - **Symptom**: Script exits with a file-not-found error
 - **Fix**: Verify the image path. Images are stored under `decks/<deck-name>/assets/`. Use `Glob` to search for the file if the exact name is uncertain.
+
+### Lite model result is not good enough
+- **Symptom**: The edit is imprecise, loses fine detail, or mangles in-image text
+- **Fix**: Re-run with `--model gemini-3.1-flash-image-preview`. Tell the user
+  you switched and why.
+
+### Gemini returned JPEG instead of PNG
+- **Symptom**: none normally — this is handled automatically
+- **Detail**: The lite model often answers with JPEG. The script re-encodes it
+  back into the destination's container so an in-place edit keeps its filename
+  and every MDX reference stays valid. Always use the path printed on stdout.
+
+### oxipng is not installed
+- **Symptom**: "skipped image optimization: `oxipng` is not installed"
+- **Fix**: `brew install oxipng`. The image is still saved correctly; it is just
+  30-40% larger than it needs to be.
