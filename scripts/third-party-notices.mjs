@@ -268,6 +268,13 @@ for (const pkg of lockfilePackages) {
 // silent UNKNOWN.
 const PLATFORM_FAMILY_LICENSE_FALLBACKS = {
   fsevents: "MIT",
+  // sharp 0.35 added these WebAssembly targets. Both are thin wrappers that
+  // declare Apache-2.0 and depend on `@img/sharp-wasm32`, which carries the
+  // bundled libvips (`Apache-2.0 AND LGPL-3.0-or-later AND MIT`) and is listed
+  // separately as a cross-platform package. Neither installs on a non-FreeBSD,
+  // non-WebContainers host, so the license can never be read locally.
+  "@img/sharp-freebsd-wasm32": "Apache-2.0",
+  "@img/sharp-webcontainers-*": "Apache-2.0",
 };
 
 for (const family of platformFamilies.values()) {
