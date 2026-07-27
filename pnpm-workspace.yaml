@@ -1,7 +1,14 @@
-# Force the patched postcss everywhere: next pins 8.4.31 exactly, which is
-# below the security-advisory floor (>=8.5.10). Drop once next bumps it.
+# Security floors for transitive packages that next holds below the advisory
+# line. Every other advisory in `pnpm audit` is reachable from an upstream range
+# and is fixed by the lockfile alone, so it does not belong here.
 overrides:
-  postcss: '>=8.5.10'
+  # next pins postcss 8.4.31 exactly, below the fix for GHSA-r28c-9q8g-f849
+  # (sourceMappingURL path traversal). Drop once next bumps it.
+  postcss: '>=8.5.18'
+  # next declares sharp ^0.34.5, below the libvips CVE fix line (0.35.0).
+  # next only passes limitInputPixels / sequentialRead to sharp, both still
+  # supported in 0.35. Drop once next widens its range.
+  sharp: '>=0.35.0'
 
 allowBuilds:
   # Postinstall scripts that must run (binaries / native builds).
