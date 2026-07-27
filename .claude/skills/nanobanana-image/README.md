@@ -44,3 +44,19 @@ pnpm exec tsx .claude/skills/nanobanana-image/scripts/generate-image.ts \
 | `--output` | Yes | - | Output path (.png) |
 | `--aspect-ratio` | No | `16:9` | Aspect ratio |
 | `--resolution` | No | `2K` | Resolution (1K / 2K / 4K) |
+| `--model` | No | `gemini-3.1-flash-lite-image` | `gemini-3.1-flash-lite-image` (default, faster/cheaper) or `gemini-3.1-flash-image-preview` |
+| `--optimize` | No | `lossless` | `lossless` (oxipng, pixel-identical), `aggressive` (adds pngquant at quality floor 90), `off` |
+
+## Optional: PNG optimization
+
+The script shrinks the saved PNG before exiting. `lossless` mode uses
+[oxipng](https://github.com/shssoichiro/oxipng) and preserves every pixel
+exactly, typically cutting 30-40%:
+
+```bash
+brew install oxipng      # required for lossless mode
+brew install pngquant    # additionally required for --optimize aggressive
+```
+
+Both are optional. Without them the script warns once and saves the image
+unoptimized.

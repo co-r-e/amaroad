@@ -7,20 +7,30 @@
  *
  * Options:
  *   --prompt        Image generation prompt (required)
- *   --output        Output file path, must end with .png (required)
+ *   --output        Output file path: .png, .jpg, .jpeg, or .webp (required).
+ *                   Gemini's bytes are re-encoded into this container when they
+ *                   arrive in another format; stdout reports the path written.
  *   --aspect-ratio  Aspect ratio (default: 16:9)
  *   --resolution    Resolution: 1K, 2K, or 4K (default: 2K)
- *   --model         Gemini image model: gemini-3.1-flash-image-preview or
- *                   gemini-3.1-flash-lite-image (default: gemini-3.1-flash-image-preview)
+ *   --model         Gemini image model: gemini-3.1-flash-lite-image or
+ *                   gemini-3.1-flash-image-preview (default: gemini-3.1-flash-lite-image)
+ *   --optimize      Shrink the PNG: lossless (default) | aggressive | off
  *
  * Environment:
  *   GEMINI_API_KEY  Gemini API key (required)
  */
 
 import { GoogleGenAI } from "@google/genai";
-import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
+import {
+  OPTIMIZE_MODES,
+  OptimizeMode,
+  SUPPORTED_IMAGE_EXTENSIONS,
+  describeOptimization,
+  optimizePng,
+  saveImage,
+} from "../../_shared/image";
 
 // ---------------------------------------------------------------------------
 // Load .env.local from project root
@@ -69,7 +79,10 @@ const VALID_MODELS = [
   "gemini-3.1-flash-image-preview",
   "gemini-3.1-flash-lite-image",
 ] as const;
-const DEFAULT_MODEL = "gemini-3.1-flash-image-preview";
+// Lite is the default: it is faster and cheaper, and matches slide illustration
+// quality. Switch to gemini-3.1-flash-image-preview for dense text, intricate
+// detail, or when lite output is not good enough.
+const DEFAULT_MODEL = "gemini-3.1-flash-lite-image";
 
 interface Args {
   prompt: string;
@@ -77,6 +90,7 @@ interface Args {
   aspectRatio: string;
   resolution: string;
   model: string;
+  optimize: OptimizeMode;
 }
 
 function parseArgs(): Args {
@@ -101,8 +115,14 @@ function parseArgs(): Args {
     process.stderr.write("Error: --output is required\n");
     process.exit(1);
   }
-  if (!output.endsWith(".png")) {
-    process.stderr.write("Error: --output must end with .png\n");
+  if (
+    !(SUPPORTED_IMAGE_EXTENSIONS as readonly string[]).includes(
+      path.extname(output).toLowerCase(),
+    )
+  ) {
+    process.stderr.write(
+      `Error: --output must end with one of: ${SUPPORTED_IMAGE_EXTENSIONS.join(", ")}\n`,
+    );
     process.exit(1);
   }
 
@@ -143,7 +163,15 @@ function parseArgs(): Args {
     process.exit(1);
   }
 
-  return { prompt, output, aspectRatio, resolution, model };
+  const optimize = (map.get("--optimize") ?? "lossless") as OptimizeMode;
+  if (!OPTIMIZE_MODES.includes(optimize)) {
+    process.stderr.write(
+      `Error: --optimize must be one of: ${OPTIMIZE_MODES.join(", ")}\n`,
+    );
+    process.exit(1);
+  }
+
+  return { prompt, output, aspectRatio, resolution, model, optimize };
 }
 
 // ---------------------------------------------------------------------------
@@ -200,14 +228,6 @@ async function generateImage(args: Args): Promise<void> {
     process.exit(1);
   }
 
-  // Validate the returned MIME type
-  const returnedMime = imagePart.inlineData.mimeType;
-  if (returnedMime && returnedMime !== "image/png") {
-    process.stderr.write(
-      `Warning: Requested image/png but received ${returnedMime}. Attempting to save anyway.\n`,
-    );
-  }
-
   // Ensure output directory exists
   const outputDir = path.dirname(args.output);
   if (outputDir && !fs.existsSync(outputDir)) {
@@ -221,36 +241,27 @@ async function generateImage(args: Args): Promise<void> {
     process.exit(1);
   }
 
-  // Check PNG magic bytes — if not PNG, convert using sips (macOS) or save as-is
-  const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-  const isPng = imageBuffer.length >= 8 && imageBuffer.subarray(0, 8).equals(PNG_MAGIC);
+  // The lite model often answers with JPEG even for a .png destination;
+  // saveImage re-encodes into the requested container, or renames to match the
+  // real format when it cannot. stdout reports the path actually written.
+  const saved = saveImage(imageBuffer, args.output);
+  if (saved.note) {
+    process.stderr.write(`Warning: ${saved.note}\n`);
+  }
 
-  if (!isPng && args.output.endsWith(".png")) {
-    process.stderr.write(
-      `Info: Gemini returned non-PNG data (MIME: ${returnedMime || "unknown"}). Converting to PNG...\n`,
-    );
-    // Save raw data to a temp file, then convert with sips (macOS built-in)
-    const tmpPath = args.output + ".tmp";
-    fs.writeFileSync(tmpPath, imageBuffer);
-    try {
-      execSync(`sips -s format png "${tmpPath}" --out "${args.output}"`, {
-        stdio: "pipe",
-      });
-      fs.unlinkSync(tmpPath);
-      process.stderr.write("Info: Successfully converted to PNG.\n");
-    } catch {
-      // sips not available (non-macOS) — rename tmp to output as-is
-      fs.renameSync(tmpPath, args.output);
-      process.stderr.write(
-        "Warning: Could not convert to PNG (sips not available). File saved with original format.\n",
-      );
-    }
-  } else {
-    fs.writeFileSync(args.output, imageBuffer);
+  // Shrink the saved file. Lossless by default, so pixels are untouched.
+  // JPEG/WebP are already compressed and are left alone.
+  const absolutePath = path.resolve(saved.path);
+  const optimization = optimizePng(absolutePath, args.optimize);
+  const optimizationSummary = describeOptimization(optimization);
+  if (optimizationSummary) {
+    process.stderr.write(`${optimizationSummary}\n`);
+  }
+  if (optimization.note) {
+    process.stderr.write(`Warning: ${optimization.note}\n`);
   }
 
   // Output absolute path to stdout
-  const absolutePath = path.resolve(args.output);
   process.stdout.write(absolutePath + "\n");
 }
 
