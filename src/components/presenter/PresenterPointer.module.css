@@ -1,0 +1,62 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+  --pointer-glow: var(--pointer-color);
+}
+
+/* Dark theme colors (e.g. near-black navy primaries) don't read as "light";
+   lift lightness/chroma into a range that glows on both white and dark slides. */
+@supports (color: oklch(from red l c h)) {
+  .overlay {
+    --pointer-glow: oklch(from var(--pointer-color) clamp(0.68, l, 0.82) max(c, 0.19) h);
+  }
+}
+
+.laser {
+  position: absolute;
+  top: -9px;
+  left: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, var(--pointer-glow) 45%, transparent 72%);
+  box-shadow:
+    0 0 10px 3px var(--pointer-glow),
+    0 0 26px 10px color-mix(in srgb, var(--pointer-glow) 55%, transparent);
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.laserHidden {
+  opacity: 0;
+}
+
+.burst {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(--pointer-glow);
+  box-shadow: 0 0 6px 1px color-mix(in srgb, var(--pointer-glow) 70%, transparent);
+  animation: particle-burst 500ms ease-out forwards;
+}
+
+@keyframes particle-burst {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
+    opacity: 0;
+  }
+}

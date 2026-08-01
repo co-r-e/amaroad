@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 
-interface UseKeyboardNavigationOptions {
+export interface UseKeyboardNavigationOptions {
   onNext: () => void;
   onPrevious: () => void;
   onFirst: () => void;
@@ -10,6 +10,8 @@ interface UseKeyboardNavigationOptions {
   onEscape?: () => void;
   onFullscreen?: () => void;
   onHelp?: () => void;
+  onZoom?: () => void;
+  onShowSelection?: () => void;
   enabled?: boolean;
 }
 
@@ -21,6 +23,8 @@ export function useKeyboardNavigation({
   onEscape,
   onFullscreen,
   onHelp,
+  onZoom,
+  onShowSelection,
   enabled = true,
 }: UseKeyboardNavigationOptions) {
   const handleKeyDown = useCallback(
@@ -37,6 +41,9 @@ export function useKeyboardNavigation({
         tag === "VIDEO" ||
         target.isContentEditable
       ) return;
+
+      // Never swallow browser/OS chords (Cmd+S, Cmd+Z, Cmd+ArrowLeft, ...)
+      if (e.metaKey || e.ctrlKey) return;
 
       // Preserve Space/Enter for native button/link activation
       const isActivatable = tag === "BUTTON" || tag === "A";
@@ -71,10 +78,16 @@ export function useKeyboardNavigation({
           onEscape?.();
           break;
         case "f":
-          if (!e.metaKey && !e.ctrlKey) {
-            e.preventDefault();
-            onFullscreen?.();
-          }
+          e.preventDefault();
+          onFullscreen?.();
+          break;
+        case "z":
+          e.preventDefault();
+          onZoom?.();
+          break;
+        case "s":
+          e.preventDefault();
+          onShowSelection?.();
           break;
         case "?":
           e.preventDefault();
@@ -82,7 +95,7 @@ export function useKeyboardNavigation({
           break;
       }
     },
-    [enabled, onNext, onPrevious, onFirst, onLast, onEscape, onFullscreen, onHelp],
+    [enabled, onNext, onPrevious, onFirst, onLast, onEscape, onFullscreen, onHelp, onZoom, onShowSelection],
   );
 
   useEffect(() => {
