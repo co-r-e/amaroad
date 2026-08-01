@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import type { SlideData, SlideType, DeckConfig } from "@/types/deck";
 import { SlideOverlay } from "@/components/slide/SlideOverlay";
 import { SlideContent } from "@/components/slide/SlideContent";
@@ -50,8 +51,9 @@ function isDarkColor(hex: string): boolean {
 /**
  * Shared layout for a single slide: overlay layer (logo, copyright, page number)
  * on top of content rendered inside the safe zone with type-aware padding.
+ * Memoized so parent-only state (e.g. presenter spotlight) skips the MDX tree.
  */
-export function SlideFrame({
+export const SlideFrame = memo(function SlideFrame({
   slide,
   config,
   deckName,
@@ -132,4 +134,4 @@ export function SlideFrame({
       </div>
     </div>
   );
-}
+});

@@ -3,18 +3,20 @@
 import { useCallback } from "react";
 import { useSlideNavigation } from "./useSlideNavigation";
 import { usePresenterSync } from "./usePresenterSync";
-import { useKeyboardNavigation } from "./useKeyboardNavigation";
+import {
+  useKeyboardNavigation,
+  type UseKeyboardNavigationOptions,
+} from "./useKeyboardNavigation";
 
 interface UseDeckNavigationOptions {
   deckName: string;
   totalSlides: number;
   role: "viewer" | "presenter";
-  keyboard?: {
-    onEscape?: () => void;
-    onFullscreen?: () => void;
-    onHelp?: () => void;
-    enabled?: boolean;
-  };
+  /** Extra keyboard handlers; navigation keys are wired here. */
+  keyboard?: Omit<
+    UseKeyboardNavigationOptions,
+    "onNext" | "onPrevious" | "onFirst" | "onLast"
+  >;
 }
 
 export function useDeckNavigation({
@@ -58,10 +60,7 @@ export function useDeckNavigation({
     onPrevious: handlePrevious,
     onFirst: () => handleNavigate(0),
     onLast: () => handleNavigate(totalSlides - 1),
-    onEscape: keyboard?.onEscape,
-    onFullscreen: keyboard?.onFullscreen,
-    onHelp: keyboard?.onHelp,
-    enabled: keyboard?.enabled,
+    ...keyboard,
   });
 
   return { currentSlide, handleNavigate };
