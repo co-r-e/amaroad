@@ -96,7 +96,7 @@ export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element |
   return (
     <div
       ref={containerRef}
-      className="h-screen w-screen cursor-none bg-black overflow-hidden"
+      className="h-screen w-screen bg-black overflow-hidden"
     >
       <div
         ref={zoomRef}

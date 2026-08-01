@@ -8,7 +8,6 @@ interface PresenterPointerProps {
   color: string;
 }
 
-const IDLE_HIDE_MS = 3000;
 const PARTICLE_COUNT = 12;
 const BURST_CLEANUP_MS = 800;
 
@@ -27,13 +26,12 @@ export function PresenterPointer({ color }: PresenterPointerProps): React.JSX.El
     if (!overlay || !laser) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let idleTimer: ReturnType<typeof setTimeout> | undefined;
 
+    // laserHidden only masks the pre-first-move state (dot parked at 0,0);
+    // once the pointer moves the laser stays visible permanently.
     const handlePointerMove = (event: PointerEvent): void => {
       laser.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
       laser.classList.remove(styles.laserHidden);
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => laser.classList.add(styles.laserHidden), IDLE_HIDE_MS);
     };
 
     const handlePointerDown = (event: PointerEvent): void => {
@@ -67,7 +65,6 @@ export function PresenterPointer({ color }: PresenterPointerProps): React.JSX.El
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
-      clearTimeout(idleTimer);
     };
   }, []);
 
