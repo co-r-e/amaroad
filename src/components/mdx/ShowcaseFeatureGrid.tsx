@@ -11,6 +11,8 @@ interface FeatureItem {
   description?: string;
   /** Highlight this card with an accent border + subtle accent background. */
   highlight?: boolean;
+  /** Override this card's background color (icon/title/description switch to white text automatically). */
+  color?: string;
   /** Badge label shown at the top-right corner (e.g. "重要"). */
   badge?: string;
   /** Optional icon name rendered before the badge label (e.g. "crown"). */
@@ -58,8 +60,6 @@ export function ShowcaseFeatureGrid({
         : "";
 
   const iconSize = 56;
-  const iconColor =
-    variant === "dark" ? "#ffffff" : "var(--slide-text)";
 
   return (
     <div
@@ -70,7 +70,12 @@ export function ShowcaseFeatureGrid({
       {items.map((item, i) => (
         <div
           key={i}
-          className={`${styles.item} ${item.highlight ? styles.highlighted : ""}`}
+          className={`${styles.item} ${item.highlight ? styles.highlighted : ""} ${item.color ? styles.colored : ""}`}
+          style={
+            item.color
+              ? ({ "--featuregrid-item-color": item.color } as CSSProperties)
+              : undefined
+          }
         >
           {item.badge ? (
             <span className={styles.badge}>
@@ -86,7 +91,8 @@ export function ShowcaseFeatureGrid({
             </div>
           ) : item.icon ? (
             <div className={styles.itemIcon}>
-              <Icon name={item.icon} size={iconSize} color={iconColor} />
+              {/* lucide strokes with currentColor, so .itemIcon / .dark / .colored own the color */}
+              <Icon name={item.icon} size={iconSize} />
             </div>
           ) : null}
           <p className={styles.itemTitle}>{item.title}</p>

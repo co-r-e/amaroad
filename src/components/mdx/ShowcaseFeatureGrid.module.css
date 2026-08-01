@@ -127,6 +127,21 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* ========== Per-item colored card (item.color) ========== */
+
+.item.colored {
+  background: var(--featuregrid-item-color);
+}
+
+.colored .itemIcon,
+.colored .itemTitle {
+  color: #ffffff;
+}
+
+.colored .itemDescription {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 /* ========== Horizontal variant ========== */
 
 .horizontal {
