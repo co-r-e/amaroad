@@ -16,15 +16,15 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 635
+- Cross-platform package entries: 633
 - Platform-specific binary families: 10
 - Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 535 |
-| ISC | 32 |
+| MIT | 534 |
+| ISC | 31 |
 | Apache-2.0 | 30 |
 | BSD-3-Clause | 16 |
 | BSD-2-Clause | 9 |
@@ -64,7 +64,7 @@ The following dependencies have notice/copyleft considerations and should be rev
 | `@img/sharp-freebsd-wasm32` platform binaries | `0.35.3` | `Apache-2.0` |
 | `@img/sharp-libvips-*` platform binaries | `1.3.2` | `LGPL-3.0-or-later` |
 | `@img/sharp-webcontainers-*` platform binaries | `0.35.3` | `Apache-2.0` |
-| `@next/swc-*` platform binaries | `16.2.12` | `MIT` |
+| `@next/swc-*` platform binaries | `16.3.0` | `MIT` |
 | `@tailwindcss/oxide-*` platform binaries | `4.2.2` | `MIT` |
 | `@unrs/resolver-binding-*` platform binaries | `1.11.1` | `MIT` |
 | `fsevents` platform binaries | `2.3.2, 2.3.3` | `MIT` |
