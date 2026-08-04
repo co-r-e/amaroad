@@ -22,6 +22,8 @@ interface ShowcaseCoverProps {
   imageSrc?: string;
   imageAlt?: string;
   imageLabel?: string;
+  /** Minimal variant: set false to drop the short rule above the title. */
+  showAccentLine?: boolean;
 }
 
 function CoverMedia({
@@ -64,6 +66,7 @@ export function ShowcaseCover({
   imageSrc,
   imageAlt,
   imageLabel,
+  showAccentLine = true,
 }: ShowcaseCoverProps) {
   if (variant === "image-right") {
     return (
@@ -112,7 +115,7 @@ export function ShowcaseCover({
   if (variant === "minimal") {
     return (
       <div className={styles.minimal}>
-        <div className={styles.minimalAccent} />
+        {showAccentLine ? <div className={styles.minimalAccent} /> : null}
         <p className={styles.minimalTitle}>{title}</p>
         {subtitle ? <p className={styles.minimalSubtitle}>{subtitle}</p> : null}
         {meta ? <p className={styles.minimalMeta}>{meta}</p> : null}
