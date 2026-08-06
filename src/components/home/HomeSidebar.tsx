@@ -81,8 +81,8 @@ export function HomeSidebar({ decks }: HomeSidebarProps) {
             <Image
               src="/irukadark-banner.png"
               alt="IrukaDark - High-Speed Sub-AI for AI Users"
-              width={1880}
-              height={1000}
+              width={1920}
+              height={1080}
               className="h-auto w-full"
             />
           </a>
