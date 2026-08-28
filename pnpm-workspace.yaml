@@ -1,14 +1,8 @@
-# Security floors for transitive packages that next holds below the advisory
-# line. Every other advisory in `pnpm audit` is reachable from an upstream range
-# and is fixed by the lockfile alone, so it does not belong here.
-overrides:
-  # next pins postcss 8.4.31 exactly, below the fix for GHSA-r28c-9q8g-f849
-  # (sourceMappingURL path traversal). Drop once next bumps it.
-  postcss: '>=8.5.18'
-  # next declares sharp ^0.34.5, below the libvips CVE fix line (0.35.0).
-  # next only passes limitInputPixels / sequentialRead to sharp, both still
-  # supported in 0.35. Drop once next widens its range.
-  sharp: '>=0.35.0'
+# Security floors for transitive packages used to live here (postcss, sharp)
+# while next held them below the advisory line. next 16.3.x now pins postcss
+# 8.5.23 and declares sharp ^0.35.3, so no overrides are needed. If a future
+# next release regresses a floor, re-add the override with a pointer to the
+# advisory it covers.
 
 allowBuilds:
   # Postinstall scripts that must run (binaries / native builds).
@@ -25,17 +19,3 @@ allowBuilds:
 # pnpm 11's optimistic repeat-install can silently skip config/lockfile
 # changes (pnpm/pnpm#12100 family); always re-validate instead.
 optimisticRepeatInstall: false
-
-minimumReleaseAgeExclude:
-  - '@next/env@16.3.0'
-  - '@next/eslint-plugin-next@16.3.0'
-  - '@next/swc-darwin-arm64@16.3.0'
-  - '@next/swc-darwin-x64@16.3.0'
-  - '@next/swc-linux-arm64-gnu@16.3.0'
-  - '@next/swc-linux-arm64-musl@16.3.0'
-  - '@next/swc-linux-x64-gnu@16.3.0'
-  - '@next/swc-linux-x64-musl@16.3.0'
-  - '@next/swc-win32-arm64-msvc@16.3.0'
-  - '@next/swc-win32-x64-msvc@16.3.0'
-  - eslint-config-next@16.3.0
-  - next@16.3.0
