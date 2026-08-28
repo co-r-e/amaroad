@@ -142,10 +142,14 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
   const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  // Keep refs in sync so async callbacks can read current values without stale closures
-  phaseRef.current = phase;
-  deckNameRef.current = deckName;
-  formatRef.current = format;
+  // Keep refs in sync so async callbacks can read current values without stale closures.
+  // Written in an effect (not during render) so the React Compiler / react-hooks/refs
+  // rule accept it; this effect is declared before every effect that reads these refs.
+  useEffect(() => {
+    phaseRef.current = phase;
+    deckNameRef.current = deckName;
+    formatRef.current = format;
+  }, [phase, deckName, format]);
 
   const resetExportState = useCallback(() => {
     imagesRef.current = [];
