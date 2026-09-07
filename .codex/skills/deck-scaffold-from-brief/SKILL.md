@@ -16,7 +16,10 @@ Create a new Amaroad deck skeleton from a short brief with minimal setup time.
 
 ## Outputs
 
-- `decks/<deck>/deck.config.ts`
+- `decks/<deck>/deck.config.ts` (when the brand already has a preset under
+  `decks/_themes/`, rewrite the generated config to `extends: <preset>` and keep
+  only `title`, `createdAt`, and deck-specific overrides; see README "Sharing a
+  theme between decks")
 - Numbered `.mdx` slides
 - At minimum: `cover`, `section`, `content`, and `ending`
 

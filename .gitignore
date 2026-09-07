@@ -21,6 +21,7 @@
 **/coverage/
 /playwright-report/
 /test-results/
+/screenshots/
 
 # next.js
 **/.next/
@@ -60,9 +61,12 @@ next-env.d.ts
 # gemini
 .gemini/
 
-# decks (keep sample-deck only)
+# decks (keep sample-deck and shared theme presets only)
 /decks/*
 !/decks/sample-deck/
+!/decks/_themes/
+# Private presets you do not want to commit can use the *.local.ts suffix.
+/decks/_themes/*.local.ts
 
 # exports
 /output/

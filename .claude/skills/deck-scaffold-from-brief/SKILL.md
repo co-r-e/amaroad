@@ -11,7 +11,10 @@ description: |
 
 ## Outputs
 
-- `decks/<deck>/deck.config.ts`
+- `decks/<deck>/deck.config.ts` (when the brand already has a preset under
+  `decks/_themes/`, rewrite the generated config to `extends: <preset>` and keep
+  only `title`, `createdAt`, and deck-specific overrides; see README "Sharing a
+  theme between decks")
 - A full set of numbered `.mdx` files
 - At minimum includes `cover`, `section`, `content`, and `ending`
 

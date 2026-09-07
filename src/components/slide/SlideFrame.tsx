@@ -13,6 +13,12 @@ interface SlideFrameProps {
   config: DeckConfig;
   deckName: string;
   currentPage: number;
+  /**
+   * Ask the MDX compiler to stamp `data-mdx-line` on rendered elements so
+   * tooling (overflow detector) can map DOM nodes back to MDX source lines.
+   * Only the native single-slide render route sets this.
+   */
+  sourceLines?: boolean;
 }
 
 interface TypeLayout {
@@ -58,6 +64,7 @@ export const SlideFrame = memo(function SlideFrame({
   config,
   deckName,
   currentPage,
+  sourceLines = false,
 }: SlideFrameProps): React.JSX.Element {
   const { accentLine, theme, layoutPadding } = config;
   const slideType = slide.frontmatter.type;
@@ -91,6 +98,9 @@ export const SlideFrame = memo(function SlideFrame({
   return (
     <div
       className={styles.frame}
+      data-slide-frame=""
+      data-slide-index={slide.index}
+      data-slide-type={slideType}
       style={{
         ...themeVars,
         background: "var(--slide-bg)",
@@ -128,9 +138,15 @@ export const SlideFrame = memo(function SlideFrame({
 
       <div
         className={cn(styles.contentContainer, layout.className)}
+        data-slide-safe-area=""
         style={{ padding: effectivePadding }}
       >
-        <SlideContent slide={slide} config={config} deckName={deckName} />
+        <SlideContent
+          slide={slide}
+          config={config}
+          deckName={deckName}
+          sourceLines={sourceLines}
+        />
       </div>
     </div>
   );

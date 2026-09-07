@@ -33,6 +33,7 @@ export async function processSlideFile(
 
   const { data, content } = matter(raw);
   const frontmatter = data as Partial<SlideFrontmatter>;
+  const contentStartLine = computeContentStartLine(raw, content);
 
   const type: SlideType =
     frontmatter.type && VALID_SLIDE_TYPES.has(frontmatter.type)
@@ -52,5 +53,26 @@ export async function processSlideFile(
     },
     rawContent: content,
     notes: frontmatter.notes,
+    contentStartLine,
   };
+}
+
+/**
+ * gray-matter strips the frontmatter block (and the newline after the closing
+ * `---`). Count how many lines of the original file precede the body so line
+ * numbers reported against `content` can be converted to file lines.
+ */
+function computeContentStartLine(raw: string, content: string): number {
+  if (!content) return countLines(raw) + 1;
+  const bodyStart = raw.lastIndexOf(content);
+  if (bodyStart <= 0) return 1;
+  return countLines(raw.slice(0, bodyStart)) + 1;
+}
+
+function countLines(text: string): number {
+  let count = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text.charCodeAt(i) === 10) count++;
+  }
+  return count;
 }

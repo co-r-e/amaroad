@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { compile } from "@mdx-js/mdx";
+import { compile, type CompileOptions } from "@mdx-js/mdx";
 import rehypeKatex from "rehype-katex";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { loadDeck } from "@/lib/deck-loader";
 import { processSlideSource } from "@/lib/mdx-slide-source";
+import rehypeSourceLines from "@/lib/rehype-source-lines";
 import { getSharedDeckName, isLocalRequest } from "@/lib/tunnel-access";
 
 const compiledModuleCache = new Map<string, Promise<string>>();
@@ -53,7 +54,11 @@ function wrapCompiledModule(code: string): string {
   ].join("\n");
 }
 
-async function compileSlideModule(deckName: string, slideIndex: number): Promise<string> {
+async function compileSlideModule(
+  deckName: string,
+  slideIndex: number,
+  options: { sourceLines: boolean },
+): Promise<string> {
   const deck = await loadDeck(deckName);
   const slide = deck.slides[slideIndex];
 
@@ -62,14 +67,21 @@ async function compileSlideModule(deckName: string, slideIndex: number): Promise
   }
 
   const processedSource = processSlideSource(slide.rawContent, deckName);
-  const cacheKey = `${deckName}:${slide.filename}:${processedSource}`;
+  const cacheKey = `${deckName}:${slide.filename}:${options.sourceLines ? "lines:" : ""}${processedSource}`;
   const cached = compiledModuleCache.get(cacheKey);
   if (cached) return cached;
+
+  // `processSlideSource` only rewrites within lines, so hast positions map
+  // 1:1 onto the frontmatter-stripped body; add the frontmatter offset here.
+  const rehypePlugins: NonNullable<CompileOptions["rehypePlugins"]> = [rehypeKatex, rehypeUnwrapImages];
+  if (options.sourceLines) {
+    rehypePlugins.push([rehypeSourceLines, { lineOffset: slide.contentStartLine - 1 }]);
+  }
 
   const pending = compile(processedSource, {
     outputFormat: "function-body",
     remarkPlugins: [remarkGfm, remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeUnwrapImages],
+    rehypePlugins,
   })
     .then((file) => wrapCompiledModule(String(file)))
     .catch((error) => {
@@ -97,7 +109,9 @@ export async function GET(
   }
 
   try {
-    const body = await compileSlideModule(deckName, slideIndex);
+    const linesParam = request.nextUrl.searchParams.get("lines");
+    const sourceLines = linesParam === "1" || linesParam === "true";
+    const body = await compileSlideModule(deckName, slideIndex, { sourceLines });
     const version = request.nextUrl.searchParams.get("v");
 
     return new NextResponse(body, {

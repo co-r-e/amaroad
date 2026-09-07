@@ -4,6 +4,38 @@
 
 - 商用クラウド用リポジトリ: `~/Projects/dev_amaroad/amaroad-cloud`
 
+## Quality Gate
+
+```yaml
+doctor_before_done:
+  rule: >
+    Before finishing any deck edit, run `pnpm --silent amaroad doctor <deck>` and
+    bring `error` to zero. Warnings should be resolved or explicitly justified.
+  details:
+    - The doctor runs: config, preflight (font floor, side borders, tailwind, hex
+      colors, notes), manifest (slide-order.ts vs files), assets (missing / unused /
+      unservable), fonts (unbundled families), and overflow (real-browser safe-zone
+      measurement with element selector, MDX line, and px per edge).
+    - The overflow check needs the dev server (`pnpm dev`). Without it the check is
+      skipped with a warning; pass `--skip overflow` to be explicit.
+    - Do not "fix" an overflow by shrinking text below 1.8rem; change the layout.
+    - `pnpm --silent amaroad overflow <deck> --slide N` re-measures one slide quickly
+      while iterating. `pnpm amaroad capture <deck> --slide N --output x.png` gives a
+      real-render screenshot when you need to look at the slide.
+    - pnpm prints install-check lines before run scripts; use `pnpm --silent` or
+      `--output <file>` when you need clean JSON.
+
+component_catalog:
+  rule: >
+    `docs/components.md` is the authoritative list of MDX components and their props.
+    A prop that is not listed there does not exist; do not invent props.
+  details:
+    - Regenerate with `pnpm amaroad catalog` after changing anything under
+      `src/components/mdx/`; CI fails when the catalog is stale.
+    - Adding a component: register it in `src/components/mdx/index.tsx`, add JSDoc on
+      its props (they become the catalog descriptions), then regenerate.
+```
+
 ## MDX Slide Authoring Rules
 
 ```yaml
@@ -308,6 +340,18 @@ no_markdown_bold:
   reason: Slide content uses JSX inline styles (fontWeight) for bold; Markdown ** is unreliable inside JSX and inconsistent with the styling approach
   use_instead: "fontWeight: 700 or \"bold\" via inline style"
   scope: All MDX slide files and speaker notes
+
+deck_theme_presets:
+  rule: >
+    Shared branding lives in `decks/_themes/<name>.ts` (`definePreset`) and decks
+    opt in with `extends: preset` in `defineConfig`. Deck-level fields override;
+    theme.colors/fonts/spacing, logo, copyright, pageNumber, overlay, accentLine and
+    layoutPadding merge one level deep.
+  fonts: >
+    Bundled font families are Inter, Noto Sans JP, Figtree, JetBrains Mono and
+    Fira Code (see `src/lib/fonts.ts`). Other families in `theme.fonts.*` render only
+    if the viewer's OS has them and are reported by `pnpm amaroad doctor`.
+  note: `decks/_themes/` is never treated as a deck.
 
 slide_order_manifest:
   rule: >

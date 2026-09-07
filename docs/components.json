@@ -1,0 +1,2674 @@
+{
+  "generatedBy": "pnpm amaroad catalog",
+  "registry": "src/components/mdx/index.tsx",
+  "htmlOverrides": [
+    {
+      "tag": "h1",
+      "component": "SlideH1",
+      "file": "src/components/mdx/typography/Headings.tsx"
+    },
+    {
+      "tag": "h2",
+      "component": "SlideH2",
+      "file": "src/components/mdx/typography/Headings.tsx"
+    },
+    {
+      "tag": "h3",
+      "component": "SlideH3",
+      "file": "src/components/mdx/typography/Headings.tsx"
+    },
+    {
+      "tag": "p",
+      "component": "SlideParagraph",
+      "file": "src/components/mdx/typography/Paragraph.tsx"
+    },
+    {
+      "tag": "blockquote",
+      "component": "SlideBlockquote",
+      "file": "src/components/mdx/typography/Blockquote.tsx"
+    },
+    {
+      "tag": "code",
+      "component": "SlideCode",
+      "file": "src/components/mdx/CodeBlock.tsx"
+    },
+    {
+      "tag": "pre",
+      "component": "SlidePreCode",
+      "file": "src/components/mdx/CodeBlock.tsx"
+    },
+    {
+      "tag": "img",
+      "component": "SlideImage",
+      "file": "src/components/mdx/SlideImage.tsx"
+    },
+    {
+      "tag": "table",
+      "component": "SlideTable",
+      "file": "src/components/mdx/SlideTable.tsx"
+    },
+    {
+      "tag": "th",
+      "component": "SlideTh",
+      "file": "src/components/mdx/SlideTable.tsx"
+    },
+    {
+      "tag": "td",
+      "component": "SlideTd",
+      "file": "src/components/mdx/SlideTable.tsx"
+    },
+    {
+      "tag": "ul",
+      "component": "SlideUl",
+      "file": "src/components/mdx/typography/Lists.tsx"
+    },
+    {
+      "tag": "ol",
+      "component": "SlideOl",
+      "file": "src/components/mdx/typography/Lists.tsx"
+    },
+    {
+      "tag": "li",
+      "component": "SlideLi",
+      "file": "src/components/mdx/typography/Lists.tsx"
+    },
+    {
+      "tag": "hr",
+      "component": "SlideHr",
+      "file": "src/components/mdx/typography/InlineElements.tsx"
+    },
+    {
+      "tag": "a",
+      "component": "SlideAnchor",
+      "file": "src/components/mdx/typography/InlineElements.tsx"
+    }
+  ],
+  "components": [
+    {
+      "name": "Columns",
+      "category": "Layout",
+      "file": "src/components/mdx/layout/Columns.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Column",
+      "category": "Layout",
+      "file": "src/components/mdx/layout/Columns.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Center",
+      "category": "Layout",
+      "file": "src/components/mdx/layout/Center.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Grid",
+      "category": "Layout",
+      "file": "src/components/mdx/layout/Grid.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "type": "string | number",
+          "required": false,
+          "default": "2"
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\" | \"stretch\"",
+          "required": false,
+          "values": [
+            "start",
+            "center",
+            "end",
+            "stretch"
+          ]
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Stack",
+      "category": "Layout",
+      "file": "src/components/mdx/layout/Stack.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "direction",
+          "type": "\"vertical\" | \"horizontal\"",
+          "required": false,
+          "default": "\"vertical\"",
+          "values": [
+            "vertical",
+            "horizontal"
+          ]
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\" | \"stretch\"",
+          "required": false,
+          "values": [
+            "start",
+            "center",
+            "end",
+            "stretch"
+          ]
+        },
+        {
+          "name": "justify",
+          "type": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\"",
+          "required": false,
+          "values": [
+            "start",
+            "center",
+            "end",
+            "between",
+            "around"
+          ]
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Badge",
+      "category": "Content",
+      "file": "src/components/mdx/Badge.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "\"solid\" | \"outline\" | \"subtle\"",
+          "required": false,
+          "default": "\"subtle\"",
+          "values": [
+            "solid",
+            "outline",
+            "subtle"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "default": "\"md\"",
+          "values": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Callout",
+      "category": "Content",
+      "file": "src/components/mdx/Callout.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "type",
+          "type": "CalloutType",
+          "required": false,
+          "default": "\"info\"",
+          "values": [
+            "info",
+            "warning",
+            "success",
+            "tip"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Card",
+      "category": "Content",
+      "file": "src/components/mdx/Card.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "type": "CardVariant",
+          "required": false,
+          "default": "\"default\"",
+          "values": [
+            "default",
+            "filled",
+            "outlined"
+          ]
+        },
+        {
+          "name": "padding",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Checklist",
+      "category": "Content",
+      "file": "src/components/mdx/Checklist.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "CheckItem",
+      "category": "Content",
+      "file": "src/components/mdx/Checklist.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Divider",
+      "category": "Content",
+      "file": "src/components/mdx/Divider.tsx",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Highlight",
+      "category": "Content",
+      "file": "src/components/mdx/Highlight.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Pill",
+      "category": "Content",
+      "file": "src/components/mdx/Pill.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "PillGroup",
+      "category": "Content",
+      "file": "src/components/mdx/Pill.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Timeline",
+      "category": "Content",
+      "file": "src/components/mdx/Timeline.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "TimelineItem",
+      "category": "Content",
+      "file": "src/components/mdx/Timeline.tsx",
+      "props": [
+        {
+          "name": "date",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Steps",
+      "category": "Content",
+      "file": "src/components/mdx/Steps.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Step",
+      "category": "Content",
+      "file": "src/components/mdx/Steps.tsx",
+      "props": [
+        {
+          "name": "number",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ProgressBar",
+      "category": "Content",
+      "file": "src/components/mdx/ProgressBar.tsx",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "\"md\"",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "ProcessFlow",
+      "category": "Content",
+      "file": "src/components/mdx/ProcessFlow.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "FlowStep",
+      "category": "Content",
+      "file": "src/components/mdx/ProcessFlow.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Gauge",
+      "category": "Content",
+      "file": "src/components/mdx/Gauge.tsx",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Ranking",
+      "category": "Content",
+      "file": "src/components/mdx/Ranking.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "RankItem",
+      "category": "Content",
+      "file": "src/components/mdx/Ranking.tsx",
+      "props": [
+        {
+          "name": "rank",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Chart",
+      "category": "Media & Data",
+      "file": "src/components/mdx/Chart.tsx",
+      "props": [
+        {
+          "name": "type",
+          "type": "ChartType",
+          "required": true,
+          "values": [
+            "bar",
+            "line",
+            "pie",
+            "area"
+          ]
+        },
+        {
+          "name": "data",
+          "type": "Record<string, unknown>[]",
+          "required": true
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": false,
+          "default": "\"name\""
+        },
+        {
+          "name": "yKey",
+          "type": "string",
+          "required": false,
+          "default": "\"value\""
+        },
+        {
+          "name": "colors",
+          "type": "string[]",
+          "required": false,
+          "default": "DEFAULT_COLORS"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "default": "400"
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "Icon",
+      "category": "Media & Data",
+      "file": "src/components/mdx/Icon.tsx",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [
+        "React HTML attributes for the underlying element",
+        "LucideProps (size, color, strokeWidth, className, style, …)"
+      ],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    },
+    {
+      "name": "Shape",
+      "category": "Media & Data",
+      "file": "src/components/mdx/Shape.tsx",
+      "props": [
+        {
+          "name": "type",
+          "type": "\"line\" | \"circle\" | \"rectangle\" | \"triangle\" | \"arrow\"",
+          "required": true,
+          "values": [
+            "circle",
+            "rectangle",
+            "triangle",
+            "arrow",
+            "line"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "default": "100"
+        },
+        {
+          "name": "fill",
+          "type": "string",
+          "required": false,
+          "default": "\"var(--slide-primary)\""
+        },
+        {
+          "name": "stroke",
+          "type": "string",
+          "required": false,
+          "default": "\"none\""
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "default": "2"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseCover",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseCover.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "eyebrow",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "meta",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "tags",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "variant",
+          "type": "ShowcaseCoverVariant",
+          "required": false,
+          "default": "\"split-band\"",
+          "values": [
+            "split-band",
+            "image-right",
+            "overlay",
+            "typography",
+            "minimal",
+            "creative",
+            "artistic"
+          ]
+        },
+        {
+          "name": "imageSrc",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "imageAlt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "imageLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "showAccentLine",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Minimal variant: set false to drop the short rule above the title."
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseSection",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseSection.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "section",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "chips",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "variant",
+          "type": "ShowcaseSectionVariant",
+          "required": false,
+          "default": "\"left\"",
+          "values": [
+            "left",
+            "number",
+            "dark",
+            "split",
+            "minimal",
+            "centered"
+          ]
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "FigureShowcase",
+      "category": "Showcase",
+      "file": "src/components/mdx/FigureShowcase.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "FigureShowcaseVariant",
+          "required": false,
+          "default": "\"caption-bottom\"",
+          "values": [
+            "caption-bottom",
+            "caption-top",
+            "left-caption",
+            "right-caption",
+            "comparison",
+            "overlay",
+            "card-list",
+            "three-flow",
+            "heading-image",
+            "three-caption",
+            "image-text",
+            "text-image",
+            "full-dark",
+            "stacked",
+            "column-image-text"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "imageLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftDescription",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftSrc",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftAlt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightDescription",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightSrc",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightAlt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "FigureShowcaseItem[]",
+          "required": false,
+          "description": "For variants with multiple items (three-flow, three-caption, stacked, column-image-text)"
+        },
+        {
+          "name": "cards",
+          "type": "{ title: string; description: string; }[]",
+          "required": false,
+          "description": "For card-list variant"
+        },
+        {
+          "name": "bullets",
+          "type": "string[]",
+          "required": false,
+          "description": "For image-text variant"
+        },
+        {
+          "name": "quote",
+          "type": "string",
+          "required": false,
+          "description": "For image-text variant"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "For full-dark variant"
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false,
+          "description": "CSS variable overrides for layout customization per instance"
+        }
+      ],
+      "nested": [
+        {
+          "name": "FigureShowcaseItem",
+          "props": [
+            {
+              "name": "title",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "src",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "alt",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "KpiStrip",
+      "category": "Showcase",
+      "file": "src/components/mdx/KpiStrip.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "KpiStripItem[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "KpiStripItem",
+          "props": [
+            {
+              "name": "value",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ScreenshotCallouts",
+      "category": "Showcase",
+      "file": "src/components/mdx/ScreenshotCallouts.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "ScreenshotCalloutItem[]",
+          "required": true
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "ScreenshotCalloutItem",
+          "props": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "top",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "right",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "bottom",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "left",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "LogoWall",
+      "category": "Showcase",
+      "file": "src/components/mdx/LogoWall.tsx",
+      "props": [
+        {
+          "name": "logos",
+          "type": "string[]",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "required": false,
+          "default": "4"
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseAgenda",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseAgenda.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"list\" | \"grid\" | \"highlight\" | \"grid-3day\"",
+          "required": false,
+          "default": "\"list\"",
+          "values": [
+            "list",
+            "grid",
+            "highlight",
+            "grid-3day"
+          ]
+        },
+        {
+          "name": "items",
+          "type": "AgendaItem[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "activeIndex",
+          "type": "number",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "days",
+          "type": "{ label: string; items: AgendaItem[]; }[]",
+          "required": false,
+          "default": "[]"
+        }
+      ],
+      "nested": [
+        {
+          "name": "AgendaItem",
+          "props": [
+            {
+              "name": "number",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "time",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseVideo",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseVideo.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"standalone\" | \"with-description\"",
+          "required": false,
+          "default": "\"standalone\"",
+          "values": [
+            "standalone",
+            "with-description"
+          ]
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "videoTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "bullets",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseFAQ",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseFAQ.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "FAQItem[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "FAQItem",
+          "props": [
+            {
+              "name": "question",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "answer",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseComparisonTable",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseComparisonTable.tsx",
+      "props": [
+        {
+          "name": "columns",
+          "type": "string[]",
+          "required": true
+        },
+        {
+          "name": "highlightColumn",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "rows",
+          "type": "{ feature: string; values: string[]; }[]",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseFeatureGrid",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseFeatureGrid.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"horizontal\" | \"dark\" | \"cards\" | \"bordered\"",
+          "required": false,
+          "default": "\"cards\"",
+          "values": [
+            "cards",
+            "bordered",
+            "dark",
+            "horizontal"
+          ]
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "required": false,
+          "default": "3"
+        },
+        {
+          "name": "items",
+          "type": "FeatureItem[]",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "FeatureItem",
+          "props": [
+            {
+              "name": "icon",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "image",
+              "type": "string",
+              "required": false,
+              "description": "Image path rendered at the top of the card instead of the icon (e.g. a transparent-background illustration)."
+            },
+            {
+              "name": "imageAlt",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "highlight",
+              "type": "boolean",
+              "required": false,
+              "description": "Highlight this card with an accent border + subtle accent background."
+            },
+            {
+              "name": "color",
+              "type": "string",
+              "required": false,
+              "description": "Override this card's background color (icon/title/description switch to white text automatically)."
+            },
+            {
+              "name": "badge",
+              "type": "string",
+              "required": false,
+              "description": "Badge label shown at the top-right corner (e.g. \"重要\")."
+            },
+            {
+              "name": "badgeIcon",
+              "type": "string",
+              "required": false,
+              "description": "Optional icon name rendered before the badge label (e.g. \"crown\")."
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "ShowcaseMetric",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseMetric.tsx",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseTeamGrid",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseTeamGrid.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"circle\" | \"square\"",
+          "required": false,
+          "default": "\"circle\"",
+          "values": [
+            "square",
+            "circle"
+          ]
+        },
+        {
+          "name": "members",
+          "type": "TeamMember[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "TeamMember",
+          "props": [
+            {
+              "name": "name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "role",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "src",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseQuote",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseQuote.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "QuoteItem[]",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "required": false,
+          "default": "2"
+        }
+      ],
+      "nested": [
+        {
+          "name": "QuoteItem",
+          "props": [
+            {
+              "name": "text",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "role",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcasePricing",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcasePricing.tsx",
+      "props": [
+        {
+          "name": "tiers",
+          "type": "PricingTier[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "PricingTier",
+          "props": [
+            {
+              "name": "name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "price",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "period",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "features",
+              "type": "string[]",
+              "required": true
+            },
+            {
+              "name": "highlighted",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "highlightLabel",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseComparison",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseComparison.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"checklist\" | \"before-after\" | \"do-dont\" | \"pros-cons\"",
+          "required": false,
+          "default": "\"checklist\"",
+          "values": [
+            "checklist",
+            "before-after",
+            "do-dont",
+            "pros-cons"
+          ]
+        },
+        {
+          "name": "items",
+          "type": "ComparisonItem[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "leftTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftItems",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "rightItems",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        }
+      ],
+      "nested": [
+        {
+          "name": "ComparisonItem",
+          "props": [
+            {
+              "name": "text",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "status",
+              "type": "\"done\" | \"in-progress\" | \"pending\"",
+              "required": false,
+              "values": [
+                "done",
+                "in-progress",
+                "pending"
+              ]
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseEndSlide",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseEndSlide.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"dark-keywords\" | \"cta\" | \"hero\" | \"section-icons\" | \"contact\" | \"thank-you\"",
+          "required": false,
+          "default": "\"cta\"",
+          "values": [
+            "dark-keywords",
+            "cta",
+            "hero",
+            "section-icons",
+            "contact",
+            "thank-you"
+          ]
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "iconColor",
+          "type": "string",
+          "required": false,
+          "default": "\"var(--slide-primary)\""
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "keywords",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "buttons",
+          "type": "ButtonDef[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "icons",
+          "type": "IconDef[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "contactLines",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "ButtonDef",
+          "props": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "filled",
+              "type": "boolean",
+              "required": false
+            }
+          ]
+        },
+        {
+          "name": "IconDef",
+          "props": [
+            {
+              "name": "name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseSplit",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseSplit.tsx",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"speaker\" | \"dark-light\" | \"spotlight\" | \"data-narrative\"",
+          "required": false,
+          "default": "\"speaker\"",
+          "values": [
+            "speaker",
+            "dark-light",
+            "spotlight",
+            "data-narrative"
+          ]
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "bio",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "details",
+          "type": "string[]",
+          "required": false
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "imageLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftTitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftItems",
+          "type": "string[]",
+          "required": false
+        },
+        {
+          "name": "rightMetrics",
+          "type": "{ value: string; label: string; }[]",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "cards",
+          "type": "SplitCard[]",
+          "required": false
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "SplitCard",
+          "props": [
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseColumnText",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseColumnText.tsx",
+      "props": [
+        {
+          "name": "columns",
+          "type": "TextColumn[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "TextColumn",
+          "props": [
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseLayerStack",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseLayerStack.tsx",
+      "props": [
+        {
+          "name": "layers",
+          "type": "Layer[]",
+          "required": true
+        }
+      ],
+      "nested": [
+        {
+          "name": "Layer",
+          "props": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "items",
+              "type": "string[]",
+              "required": false
+            },
+            {
+              "name": "highlighted",
+              "type": "boolean",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseDashboard",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseDashboard.tsx",
+      "props": [
+        {
+          "name": "metrics",
+          "type": "DashboardMetric[]",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "DashboardMetric",
+          "props": [
+            {
+              "name": "icon",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseMatrix",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseMatrix.tsx",
+      "props": [
+        {
+          "name": "xLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "yLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "xHeaders",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "yHeaders",
+          "type": "string[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "cells",
+          "type": "MatrixCell[][]",
+          "required": true
+        },
+        {
+          "name": "legend",
+          "type": "{ label: string; color: string; }[]",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseDiagram",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseDiagram.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseStatGrid",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseStatGrid.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "StatItem[]",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "type": "2 | 3 | 4",
+          "required": false,
+          "default": "3",
+          "values": [
+            "2",
+            "3",
+            "4"
+          ]
+        }
+      ],
+      "nested": [
+        {
+          "name": "StatItem",
+          "props": [
+            {
+              "name": "value",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "trend",
+              "type": "\"up\" | \"down\"",
+              "required": false,
+              "values": [
+                "up",
+                "down"
+              ]
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseIconGrid",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseIconGrid.tsx",
+      "props": [
+        {
+          "name": "items",
+          "type": "IconItem[]",
+          "required": true
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "required": false,
+          "default": "5"
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "iconSize",
+          "type": "number",
+          "required": false,
+          "default": "48"
+        }
+      ],
+      "nested": [
+        {
+          "name": "IconItem",
+          "props": [
+            {
+              "name": "name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseShapeGrid",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseShapeGrid.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShapeItem",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseShapeGrid.tsx",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": false
+    },
+    {
+      "name": "ShowcaseTimeline",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseTimeline.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "TimelineEntry[]",
+          "required": true
+        },
+        {
+          "name": "orientation",
+          "type": "\"vertical\" | \"horizontal\"",
+          "required": false,
+          "default": "\"horizontal\"",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "TimelineEntry",
+          "props": [
+            {
+              "name": "date",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "color",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "active",
+              "type": "boolean",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "ShowcaseProcess",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseProcess.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "steps",
+          "type": "ProcessStep[]",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "ProcessStep",
+          "props": [
+            {
+              "name": "title",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "icon",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "ShowcaseRoadmap",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseRoadmap.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "phases",
+          "type": "RoadmapPhase[]",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "RoadmapPhase",
+          "props": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "items",
+              "type": "string[]",
+              "required": true
+            },
+            {
+              "name": "color",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "status",
+              "type": "\"done\" | \"active\" | \"upcoming\"",
+              "required": false,
+              "values": [
+                "done",
+                "active",
+                "upcoming"
+              ]
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "ShowcaseKanban",
+      "category": "Showcase",
+      "file": "src/components/mdx/ShowcaseKanban.tsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "KanbanColumn[]",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [
+        {
+          "name": "KanbanColumn",
+          "props": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "color",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "items",
+              "type": "KanbanCard[]",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "inherits": [],
+      "acceptsChildren": false,
+      "acceptsStyle": true
+    },
+    {
+      "name": "SummaryBanner",
+      "category": "Showcase",
+      "file": "src/components/mdx/SummaryBanner.tsx",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false
+        }
+      ],
+      "nested": [],
+      "inherits": [],
+      "acceptsChildren": true,
+      "acceptsStyle": true
+    }
+  ]
+}

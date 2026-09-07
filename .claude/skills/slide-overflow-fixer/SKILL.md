@@ -7,8 +7,9 @@ description: |
   Use when user says "overflow", "clipping", "content does not fit", "ha-mi-dashi",
   "slide contents are out of bounds", or "fix this slide layout".
   Key capabilities: prioritized fix strategy (layout > media > spacing > split),
-  screenshot-based before/after verification, heading design preservation, safe-zone
-  padding enforcement, and body text readability floor (1.8rem minimum).
+  numeric before/after verification with `pnpm amaroad overflow`, heading design
+  preservation, safe-zone padding enforcement, and body text readability floor
+  (1.8rem minimum).
 ---
 
 ## Non-negotiable constraints
@@ -39,8 +40,23 @@ ls decks/<deck-name>/*.mdx | sort -V
 
 ### 2. Confirm overflow and locate the cause
 
-1. Open the target slide in viewer/presenter.
-2. Capture before state if needed:
+The slide frame is `overflow: hidden`, so a screenshot never shows the overflow
+itself. Measure it instead (requires `pnpm dev` running):
+
+```bash
+pnpm --silent amaroad overflow <deck-name> --slide <0-indexed-slide>
+# whole deck:
+pnpm --silent amaroad overflow <deck-name> --format json --output /tmp/overflow.json
+```
+
+Each finding names the offending element (`selector`), the MDX line (`L<n>`),
+and how far it leaves the safe area per edge (`bottom +38px`). Rules:
+- `outside-safe-area` / `outside-frame` / `clipped-content` are errors to fix.
+- `overlay-collision` (text under logo / copyright / page number) is a warning.
+- `intentional-breakout` / `decorative-bleed` are informational (full-bleed bands
+  on cover/section/ending slides, absolutely positioned decoration).
+
+Optionally capture the real render for context:
 
 ```bash
 pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
@@ -74,21 +90,24 @@ Detailed patterns: `references/fix-patterns.md`
 
 ### 5. Verify after each edit
 
-Capture after state:
+Re-run the measurement (the dev server hot-reloads the edited slide):
 
 ```bash
-pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
-  --deck <deck-name> \
-  --slide <0-indexed-slide> \
-  --output /tmp/<deck-name>-<slide>-after.png
+pnpm --silent amaroad overflow <deck-name> --slide <0-indexed-slide>
+```
+
+Finish with the full gate before reporting:
+
+```bash
+pnpm --silent amaroad doctor <deck-name>
 ```
 
 Pass criteria:
-- No content is clipped.
-- No content extends outside the safe zone.
-- No collision with logo/copyright/page number overlays.
+- `pnpm amaroad overflow` reports 0 errors for the slide (no `outside-safe-area`,
+  `outside-frame`, or `clipped-content`).
+- No `overlay-collision` warnings remain (text does not sit under logo/copyright/page number).
 - Heading design unchanged.
-- Body text remains readable (`>= 1.8rem`).
+- Body text remains readable (`>= 1.8rem`), i.e. `pnpm amaroad doctor` reports no `low-font-size` error.
 
 ### 6. Report result
 
@@ -105,10 +124,10 @@ Report:
 User says: "Slide 05 content is clipped at the bottom."
 
 Actions:
-1. Capture a before screenshot of slide 05.
+1. Run `pnpm --silent amaroad overflow <deck> --slide 4` and note the finding (`[data-slide-content]` clipped, `bottom +120px`, L14).
 2. Read the MDX file and identify the overflow cause (12 bullet items in a single column).
 3. Apply fix: convert single-column list to a two-column `<Columns>` layout.
-4. Capture an after screenshot and confirm all content is visible within the safe zone.
+4. Re-run the overflow check and confirm it reports no errors.
 
 Result: The 12 items display as two columns of 6, fitting inside the inviolable area with no clipping.
 
@@ -117,10 +136,10 @@ Result: The 12 items display as two columns of 6, fitting inside the inviolable 
 User says: "The bar chart on slide 10 collides with the page number overlay."
 
 Actions:
-1. Capture before screenshot of slide 10.
+1. Run `pnpm --silent amaroad overflow <deck> --slide 9` and note the `overlay-collision` warning on the chart.
 2. Identify that the chart container has no `data-growable` and uses a fixed height of 500px.
 3. Apply fix: reduce chart height to 380px and add `data-growable` so it adapts to remaining space.
-4. Capture after screenshot and confirm no collision with overlays.
+4. Re-run the overflow check and confirm the warning is gone.
 
 Result: Chart fits within the content area, page number overlay is unobstructed, and the chart remains readable.
 
@@ -138,8 +157,8 @@ Symptom: Text was reduced to 1.6rem but content still overflows.
 Cause: The minimum font size floor is 1.8rem. Going below this violates readability rules and still does not solve deep overflow.
 Fix: Do not reduce below 1.8rem. Instead, split the slide into two slides or restructure the layout (e.g., columns, accordion, or tab pattern).
 
-### Before/after screenshot capture fails
+### Overflow check or capture fails
 
-Symptom: `capture-slide.ts` returns an error or blank image.
-Cause: The dev server is not running or the slide index is incorrect (0-indexed).
-Fix: Start the dev server with `pnpm dev`, then confirm the correct 0-indexed slide number by counting files in `decks/<deck>/*.mdx` sorted by name.
+Symptom: `pnpm amaroad overflow` reports `server-unavailable`, or `capture-slide.ts` errors.
+Cause: The dev server is not running, the Playwright browser is missing, or the slide index is incorrect (0-indexed).
+Fix: Start the dev server with `pnpm dev`; run `pnpm exec playwright install chromium` if Chromium cannot launch; confirm the 0-indexed slide number from `decks/<deck>/slide-order.ts` (index = position in the array).

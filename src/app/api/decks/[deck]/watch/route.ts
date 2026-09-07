@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { watch, type FSWatcher } from "fs";
+import { existsSync, watch, type FSWatcher } from "fs";
 import { join } from "path";
 import { isLocalRequest, getSharedDeckName } from "@/lib/tunnel-access";
 import { isUnsafeDeckName } from "@/lib/deck-loader";
@@ -29,9 +29,13 @@ export async function GET(
   }
 
   const deckDir = join(process.cwd(), "decks", deckName);
+  // Shared theme presets (decks/_themes) are imported by deck.config.ts, so
+  // editing one must refresh the deck too.
+  const themesDir = join(process.cwd(), "decks", "_themes");
   const encoder = new TextEncoder();
 
   let watcher: FSWatcher | null = null;
+  let themesWatcher: FSWatcher | null = null;
   let keepaliveTimer: ReturnType<typeof setInterval> | null = null;
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   let closed = false;
@@ -41,9 +45,10 @@ export async function GET(
     closed = true;
     if (debounceTimer) clearTimeout(debounceTimer);
     if (keepaliveTimer) clearInterval(keepaliveTimer);
-    if (watcher) {
+    for (const w of [watcher, themesWatcher]) {
+      if (!w) continue;
       try {
-        watcher.close();
+        w.close();
       } catch {
         // watcher may already be closed
       }
@@ -51,6 +56,7 @@ export async function GET(
     debounceTimer = null;
     keepaliveTimer = null;
     watcher = null;
+    themesWatcher = null;
   }
 
   function hasAccess(): boolean {
@@ -68,26 +74,36 @@ export async function GET(
         }
       };
 
-      try {
-        watcher = watch(deckDir, { recursive: true }, () => {
-          if (!hasAccess()) {
-            closeStream();
-            return;
+      const onChange = () => {
+        if (!hasAccess()) {
+          closeStream();
+          return;
+        }
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          try {
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ type: "change" })}\n\n`),
+            );
+          } catch {
+            // Controller closed
           }
-          if (debounceTimer) clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(() => {
-            try {
-              controller.enqueue(
-                encoder.encode(`data: ${JSON.stringify({ type: "change" })}\n\n`),
-              );
-            } catch {
-              // Controller closed
-            }
-          }, DEBOUNCE_MS);
-        });
+        }, DEBOUNCE_MS);
+      };
+
+      try {
+        watcher = watch(deckDir, { recursive: true }, onChange);
       } catch {
         closeStream();
         return;
+      }
+
+      if (existsSync(themesDir)) {
+        try {
+          themesWatcher = watch(themesDir, { recursive: true }, onChange);
+        } catch {
+          themesWatcher = null;
+        }
       }
 
       keepaliveTimer = setInterval(() => {

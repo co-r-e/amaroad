@@ -2,6 +2,52 @@
 
 All notable changes to Amaroad will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- `pnpm amaroad` tooling CLI (`scripts/amaroad.mts`):
+  - `doctor <deck|--all>` runs config, preflight, slide-order manifest, asset,
+    font, and real-browser overflow checks with one exit code
+  - `overflow <deck>` measures content leaving the inviolable area, clipped
+    content, and overlay collisions, reporting element selector, MDX line, and
+    px per edge (`?lines=1` stamps `data-mdx-line` during compilation)
+  - `capture <deck>` real-render 1920x1080 PNG screenshots (single slide or `--all`)
+  - `catalog [--check]` generates `docs/components.md` / `docs/components.json`
+    from the MDX component registry with the TypeScript compiler API
+- Native single-slide route `/{deck}/slide/{index}` (`?scale`, `?lines`) shared
+  by capture, overflow, and the visual tests; `NativeSlideStage` is now also
+  the PDF/PPTX export renderer
+- Playwright visual regression suite (`pnpm test:visual`) covering every
+  `sample-deck` slide, with per-platform baselines and a `visual-baseline`
+  workflow that commits Linux baselines
+- Theme presets: `definePreset()` and `defineConfig({ extends })` with
+  one-level-deep merging; bundled `decks/_themes/amaroad.ts` used by `sample-deck`
+- JetBrains Mono and Fira Code are now self-hosted; `src/lib/fonts.ts` lists the
+  bundled families and unbundled `theme.fonts` families are warned about
+- Stable `data-slide-frame` / `data-slide-safe-area` / `data-slide-index` /
+  `data-slide-type` attributes on `SlideFrame`
+- CI: catalog freshness check, `doctor sample-deck`, and a `visual` job
+
+### Changed
+
+- `Column width` now shrinks with the `Columns` gap (`flex: 0 1 <width>` +
+  `min-width: 0`) instead of overflowing the safe area
+- `ShowcaseSplit` data-narrative right pane is a flex column so the chart no
+  longer overflows by its margins
+- Preflight rule engine moved to `scripts/doctor/checks/preflight.ts`; the
+  skill script `audit-slides.ts` is a thin wrapper (adds `--no-notes`); the
+  side-border rule ignores CSS-triangle idioms
+- `capture-slide.ts` (nanobanana-image / codex-image / graphic-recording /
+  svg-diagram / slide-overflow-fixer skills) captures the real render instead of
+  the Satori approximation
+- `decks/_themes/` and other `_`/`.` prefixed directories are never listed as decks
+
+### Removed
+
+- `/api/capture/[deck]/[slide]` (next/og text-only approximation) and the
+  ad-hoc `scripts/capture-slides.mjs` / `scripts/shoot-sample-deck.cjs`
+
 ## [0.1.5] - 2026-05-25
 
 ### Added

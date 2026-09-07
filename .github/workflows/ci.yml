@@ -36,8 +36,92 @@ jobs:
       - name: Check third-party notices
         run: pnpm notices:check
 
+      - name: Check component catalog is up to date
+        run: pnpm amaroad catalog --check
+
       - name: Lint
         run: pnpm lint
 
       - name: Build
         run: pnpm build
+
+      - name: Doctor (sample-deck, static checks)
+        run: pnpm amaroad doctor sample-deck --skip overflow
+
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Linux baselines are produced by the visual-baseline workflow. Until
+      # they exist, bootstrap them so the job stays green; the generated files
+      # are uploaded as an artifact for inspection.
+      - name: Detect Linux baselines
+        id: baselines
+        run: |
+          if [ -d tests/visual/__snapshots__/linux ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Visual regression (compare)
+        if: steps.baselines.outputs.present == 'true'
+        run: pnpm test:visual
+        env:
+          CI: "1"
+
+      - name: Visual regression (bootstrap baselines)
+        if: steps.baselines.outputs.present != 'true'
+        run: |
+          echo "::warning::tests/visual/__snapshots__/linux is missing; run the visual-baseline workflow to commit Linux baselines."
+          pnpm test:visual --update-snapshots
+        env:
+          CI: "1"
+
+      - name: Doctor (sample-deck, incl. overflow)
+        run: |
+          pnpm start --port 3860 > server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3860/ > /dev/null; then break; fi
+            sleep 1
+          done
+          pnpm amaroad doctor sample-deck --base-url http://127.0.0.1:3860
+        env:
+          CI: "1"
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+      - name: Upload bootstrapped baselines
+        if: steps.baselines.outputs.present != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-linux
+          path: tests/visual/__snapshots__/linux/
+          retention-days: 14

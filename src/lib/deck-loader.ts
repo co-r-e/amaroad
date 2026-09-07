@@ -12,7 +12,13 @@ const warnedManifestStates = new Set<string>();
 
 /** Returns true if deckName contains path traversal characters. */
 export function isUnsafeDeckName(deckName: string): boolean {
-  return deckName.includes("/") || deckName.includes("\\") || deckName.includes("..");
+  return (
+    deckName.includes("/") ||
+    deckName.includes("\\") ||
+    deckName.includes("..") ||
+    deckName.startsWith("_") ||
+    deckName.startsWith(".")
+  );
 }
 
 export async function listDecks(): Promise<DeckSummary[]> {
@@ -27,6 +33,8 @@ export async function listDecks(): Promise<DeckSummary[]> {
 
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
+    // `_themes/` (presets) and dot-directories are never decks.
+    if (entry.name.startsWith("_") || entry.name.startsWith(".")) continue;
 
     const deckDir = path.join(DECKS_DIR, entry.name);
     try {
