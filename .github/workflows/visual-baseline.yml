@@ -1,9 +1,14 @@
 name: Update Linux visual baselines
 
-# Regenerates tests/visual/__snapshots__/linux/ on Linux and commits the
-# result directly to the branch the workflow was started from (main by
-# default). Run it after an intentional visual change so CI compares against
-# the new look.
+# Regenerates tests/visual/__snapshots__/linux/ on Linux. The result is always
+# uploaded as the `visual-baselines-linux` artifact; the workflow also tries to
+# commit it to the branch it was started from, which only works when branch
+# rules allow github-actions[bot] to push. Otherwise pull the artifact in:
+#
+#   gh run download <run-id> -n visual-baselines-linux -D tests/visual/__snapshots__/linux
+#   git add tests/visual/__snapshots__/linux && git commit -m "chore(visual): update linux baselines"
+#
+# Run it after an intentional visual change so CI compares against the new look.
 
 on:
   workflow_dispatch:
@@ -46,7 +51,15 @@ jobs:
         env:
           CI: "1"
 
-      - name: Commit and push
+      - name: Upload Linux baselines
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-linux
+          path: tests/visual/__snapshots__/linux/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit and push (best effort)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -56,4 +69,8 @@ jobs:
             exit 0
           fi
           git commit -m "chore(visual): update linux baselines"
-          git push origin HEAD:${GITHUB_REF_NAME}
+          if git push origin HEAD:"${GITHUB_REF_NAME}"; then
+            echo "Pushed Linux baselines to ${GITHUB_REF_NAME}."
+          else
+            echo "::warning::Push rejected by branch rules. Download the visual-baselines-linux artifact from this run and commit it: gh run download ${GITHUB_RUN_ID} -n visual-baselines-linux -D tests/visual/__snapshots__/linux"
+          fi
