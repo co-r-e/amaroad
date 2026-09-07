@@ -24,7 +24,9 @@ export function Column({ children, width }: ColumnProps) {
     <div
       data-column=""
       className={styles.column}
-      style={width ? { flex: `0 0 ${width}` } : undefined}
+      // flex-shrink stays 1 so widths that sum to 100% still fit once the
+      // Columns gap is accounted for (e.g. 30% + 70% + gap).
+      style={width ? { flex: `0 1 ${width}` } : undefined}
     >
       {children}
     </div>

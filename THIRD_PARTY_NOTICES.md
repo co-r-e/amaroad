@@ -16,7 +16,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 635
+- Cross-platform package entries: 636
 - Platform-specific binary families: 10
 - Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
@@ -24,7 +24,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 | License expression | Package count |
 | --- | ---: |
 | MIT | 534 |
-| Apache-2.0 | 32 |
+| Apache-2.0 | 33 |
 | ISC | 31 |
 | BSD-3-Clause | 16 |
 | BSD-2-Clause | 9 |
@@ -67,7 +67,7 @@ The following dependencies have notice/copyleft considerations and should be rev
 | `@next/swc-*` platform binaries | `16.3.3` | `MIT` |
 | `@tailwindcss/oxide-*` platform binaries | `4.3.3` | `MIT` |
 | `@unrs/resolver-binding-*` platform binaries | `1.12.2` | `MIT` |
-| `fsevents` platform binaries | `2.3.2, 2.3.3` | `MIT` |
+| `fsevents` platform binaries | `2.3.3` | `MIT` |
 | `lightningcss-*` platform binaries | `1.32.0` | `MPL-2.0` |
 <!-- END_AUTOGEN:NOTICE_RELEVANT -->
 

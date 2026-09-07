@@ -121,12 +121,37 @@ export interface DeckConfig {
   transition?: TransitionType;
 }
 
+/**
+ * Reusable theme/branding preset shared by several decks. Everything is
+ * optional; deck-specific fields (`title`, `createdAt`) are excluded.
+ * Presets can themselves extend another preset.
+ */
+export type DeckPreset = Omit<Partial<DeckConfig>, "title" | "createdAt"> & {
+  extends?: DeckPreset;
+};
+
+/**
+ * What `defineConfig()` accepts: a full DeckConfig, or a partial one that
+ * `extends` a preset. `title` and `createdAt` always belong to the deck.
+ */
+export type DeckConfigInput = Partial<Omit<DeckConfig, "title" | "createdAt">> & {
+  title: string;
+  createdAt: string;
+  extends?: DeckPreset;
+};
+
 export interface SlideData {
   index: number;
   filename: string;
   frontmatter: SlideFrontmatter;
   rawContent: string;
   notes?: string;
+  /**
+   * 1-based line in the .mdx file where `rawContent` begins (i.e. the number
+   * of lines consumed by the YAML frontmatter block). Lets tooling map MDX
+   * body positions back to file lines.
+   */
+  contentStartLine: number;
 }
 
 export interface DeckSummary {

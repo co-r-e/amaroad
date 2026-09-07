@@ -150,6 +150,42 @@ export default defineConfig({
 });
 ```
 
+**Bundled fonts.** Amaroad self-hosts Inter, Noto Sans JP, Figtree, JetBrains Mono and Fira Code. `theme.fonts.*` may name any family, but anything else only renders when the viewer's OS has it installed; `pnpm amaroad doctor` (and the dev server log) warns about such families.
+
+#### Sharing a theme between decks (`extends`)
+
+Put reusable branding in `decks/_themes/<name>.ts` and extend it from each deck. Deck-level fields win; `theme.colors/fonts/spacing`, `logo`, `copyright`, `pageNumber`, `overlay`, `accentLine` and `layoutPadding` merge one level deep, so a deck can override a single color or logo offset.
+
+```typescript
+// decks/_themes/acme.ts
+import { definePreset } from "../../src/lib/deck-config";
+
+export default definePreset({
+  logo: { src: "./assets/acme-logo.svg", position: "top-right" },
+  copyright: { text: "© 2026 ACME Inc.", position: "bottom-left" },
+  pageNumber: { position: "bottom-right", hideOnCover: true },
+  theme: {
+    colors: { primary: "#0F172A", secondary: "#DC2626" },
+    fonts: { heading: "'Figtree', 'Noto Sans JP', sans-serif", body: "'Figtree', 'Noto Sans JP', sans-serif", mono: "'JetBrains Mono', monospace" },
+  },
+});
+```
+
+```typescript
+// decks/q4-review/deck.config.ts
+import { defineConfig } from "../../src/lib/deck-config";
+import acme from "../_themes/acme";
+
+export default defineConfig({
+  extends: acme,
+  title: "Q4 Review",
+  createdAt: "2026-09-07",
+  theme: { colors: { accent: "#F59E0B" } }, // override just one value
+});
+```
+
+`defineConfig()` merges the preset synchronously, so the module's default export is always a complete config and every tool that reads `deck.config.ts` keeps working. Presets can extend other presets. `decks/_themes/` is never listed as a deck; the bundled `decks/_themes/amaroad.ts` is what `sample-deck` uses. To migrate an existing deck, move the shared fields into a preset and keep only `title`, `createdAt` and deck-specific overrides in `deck.config.ts`.
+
 ### 3. Add slides
 
 Create numbered `.mdx` files. Each file is one slide. Files are ordered by filename (numeric sorting).
@@ -242,6 +278,8 @@ Hundreds -- even thousands -- of slides can be produced in a matter of hours. A 
 This workflow works with any AI coding agent. If you are using a different agent (e.g., Codex, Cursor, Windsurf), place the same instructions in an `AGENTS.md` file instead of `CLAUDE.md`. The principle is identical: give the AI persistent, deck-scoped rules so it stays on-brand across every slide.
 
 ## Built-in MDX Components
+
+> The authoritative, generated list of every component and its props lives in [`docs/components.md`](docs/components.md) (`pnpm amaroad catalog` regenerates it; CI fails when it is stale). The sections below are a guided tour.
 
 All standard Markdown elements are styled for slide presentation (large fonts optimized for projection).
 
@@ -409,11 +447,11 @@ Standard Markdown tables with styled headers:
 
 ## Showcase Components
 
-Amaroad includes 25+ pre-built showcase components -- full-slide layout templates that handle positioning, spacing, and responsive design. Use these instead of building layouts from scratch.
+Amaroad includes 30+ pre-built showcase components -- full-slide layout templates that handle positioning, spacing, and responsive design. Use these instead of building layouts from scratch. Every prop and variant is listed in [`docs/components.md`](docs/components.md).
 
 ### Covers & Sections
 
-- **ShowcaseCover** -- Title slides with variants: `split-band`, `image-right`, `typography`, `minimal`, `creative`, `artistic`
+- **ShowcaseCover** -- Title slides with variants: `split-band`, `image-right`, `overlay`, `typography`, `minimal`, `creative`, `artistic`
 - **ShowcaseSection** -- Section dividers with variants: `left`, `number`, `dark`, `split`, `minimal`, `centered`
 - **ShowcaseEndSlide** -- Closing slides with variants: `dark-keywords`, `cta`, `hero`, `section-icons`, `contact`, `thank-you`
 
@@ -519,6 +557,7 @@ Assets are served via the API route at `/api/decks/{deck-name}/assets/{filename}
 | `/{deck-name}` | Slide viewer for a specific deck |
 | `/{deck-name}?slide=N` | Jump directly to slide N (1-based) |
 | `/{deck-name}/presenter` | Presenter mode (fullscreen projection) |
+| `/{deck-name}/slide/{index}` | One slide at native 1920x1080 with no chrome (tooling route used by `pnpm amaroad capture\|overflow` and the visual tests; `?scale=0.5`, `?lines=1`) |
 
 ## Keyboard Shortcuts
 
@@ -643,6 +682,17 @@ Amaroad includes 18 project skills under `.codex/skills/` for Codex. Most of the
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | Run ESLint |
+| `pnpm amaroad doctor <deck>` | One-shot quality gate: config, preflight rules, slide-order manifest, assets, fonts, and a real-browser overflow check (`--skip overflow` without a dev server) |
+| `pnpm amaroad overflow <deck>` | Measure content leaving the safe area, clipped content, and overlay collisions; reports element, MDX line, and px per edge |
+| `pnpm amaroad capture <deck> --slide N --output x.png` | Real-render PNG of a slide at 1920x1080 (`--all --out-dir dir` for a whole deck) |
+| `pnpm amaroad catalog [--check]` | Regenerate `docs/components.md` / `docs/components.json` from the component registry |
+| `pnpm test:visual` | Playwright visual regression of every `sample-deck` slide against committed baselines (`--update-snapshots` to accept changes) |
+
+`pnpm amaroad doctor|overflow|capture` need a running server (`pnpm dev`, or `--base-url`). pnpm prints install-check lines before run scripts, so use `pnpm --silent amaroad …` or `--output file` when piping JSON.
+
+### Quality gate for AI agents
+
+Before finishing any deck edit, run `pnpm --silent amaroad doctor <deck>` and bring `error` to zero. CI runs the static checks for `sample-deck`, the visual regression suite, and the catalog freshness check on every push.
 
 ## Community
 

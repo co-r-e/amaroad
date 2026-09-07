@@ -13,9 +13,8 @@ import {
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import type { Deck } from "@/types/deck";
-import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
-import { SlideFrame } from "@/components/slide/SlideFrame";
-import { ExportModeProvider } from "@/contexts/ExportContext";
+import { SLIDE_WIDTH, SLIDE_HEIGHT } from "@/lib/slide-utils";
+import { NativeSlideStage } from "@/components/slide/NativeSlideStage";
 import {
   captureSlide,
   savePdf,
@@ -432,27 +431,15 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       {/* Offscreen slide renderer */}
       {phase === "capturing" && deck && slide &&
         createPortal(
-          <ExportModeProvider isExporting>
-            <div aria-hidden style={OFFSCREEN_STYLE}>
-              <div
-                ref={containerRef}
-                className={`export-capture ${document.body.className}`}
-                style={{
-                  width: SLIDE_WIDTH,
-                  height: SLIDE_HEIGHT,
-                  background: resolveSlideBackground(slide.frontmatter, deck.config),
-                  overflow: "hidden",
-                }}
-              >
-                <SlideFrame
-                  slide={slide}
-                  config={deck.config}
-                  deckName={deck.name}
-                  currentPage={currentSlideIndex}
-                />
-              </div>
-            </div>
-          </ExportModeProvider>,
+          <div aria-hidden style={OFFSCREEN_STYLE}>
+            <NativeSlideStage
+              ref={containerRef}
+              deck={deck}
+              slide={slide}
+              currentPage={currentSlideIndex}
+              className={document.body.className}
+            />
+          </div>,
           document.body,
         )}
     </ExportJobContext.Provider>

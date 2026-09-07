@@ -91,9 +91,9 @@ pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
 
 #### Technical Details
 
-- Capture API: `GET /api/capture/{deck}/{slide}` — uses `next/og` (Satori) to server-side render the MDX structure as a 960x540 PNG
-- No browser required (Playwright/Puppeteer not needed)
-- Complex components like images and charts are rendered as placeholder boxes
+- Capture: `capture-slide.ts` wraps `scripts/lib/capture.ts` (same code as `pnpm amaroad capture`). It opens the native single-slide route `/{deck}/slide/{index}` in headless Chromium and screenshots the real render at 1920x1080 PNG, so every component, image, chart and font appears exactly as in the viewer/export
+- Requires a running dev server (`pnpm dev`) and the Playwright Chromium build (`pnpm exec playwright install chromium`); falls back to the system Chrome channel when the managed browser is missing
+- Add `--scale 0.5` for a 960x540 image when a smaller file is enough
 - Japanese text may not render accurately due to font limitations, but this does not affect layout analysis
 
 **Present the chosen aspect ratio and analysis rationale to the user before proceeding with generation.**
@@ -198,7 +198,7 @@ Report the following to the user:
 
 ### Slide capture fails
 - **Symptom**: `capture-slide.ts` returns an error or blank image
-- **Fix**: Ensure the dev server is running (`pnpm dev`). The capture API requires the Next.js server at `localhost:3850`, which is the script's default port. Also verify the deck name and slide index (0-based) are correct.
+- **Fix**: Ensure the dev server is running (`pnpm dev`). The capture script connects to `http://127.0.0.1:3850` by default (`--port` / `--base-url` to change). Also verify the deck name and slide index (0-based) are correct. If Chromium cannot launch, run `pnpm exec playwright install chromium`.
 
 ### Generated image is still too large
 - **Symptom**: The file is well over 1MB after lossless optimization

@@ -52,7 +52,7 @@ function getTargetDecks(): string[] {
   if (all) {
     return fs
       .readdirSync(DECKS_DIR, { withFileTypes: true })
-      .filter((d) => d.isDirectory())
+      .filter((d) => d.isDirectory() && !d.name.startsWith("_") && !d.name.startsWith("."))
       .map((d) => d.name)
       .sort();
   }

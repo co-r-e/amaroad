@@ -7,4 +7,7 @@
 
 .column {
     flex: 1;
+    /* Let wide content (tables, code) shrink with the column instead of
+       forcing the column past the safe area. */
+    min-width: 0;
 }

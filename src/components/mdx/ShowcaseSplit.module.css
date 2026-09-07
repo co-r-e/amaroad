@@ -284,4 +284,8 @@
   flex: 1;
   min-height: 0;
   min-width: 0;
+  /* Column flex so a growable child (Chart) is sized by flex instead of
+     height:100% + its own block margins, which overflowed the safe area. */
+  display: flex;
+  flex-direction: column;
 }

@@ -18,6 +18,8 @@
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint",
+    "amaroad": "tsx scripts/amaroad.mts",
+    "test:visual": "playwright test",
     "notices:update": "node scripts/third-party-notices.mjs --update",
     "notices:check": "node scripts/third-party-notices.mjs --check"
   },
@@ -46,6 +48,7 @@
     "xlsx": "file:vendor/xlsx"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/mdx": "^2.0.14",
     "@types/node": "^25.9.5",
@@ -54,7 +57,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.3",
-    "playwright": "^1.62.1",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.12",
     "typescript": "^6.0.3"

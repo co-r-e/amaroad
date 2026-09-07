@@ -1,29 +1,28 @@
 #!/usr/bin/env -S pnpm exec tsx
 /**
- * capture-slide.ts: Capture a slide as PNG via the /api/capture route
+ * capture-slide.ts: Capture a slide as a real-render PNG (1920x1080).
  *
- * Usage:
+ * Thin wrapper around `scripts/lib/capture.ts` (the same code path as
+ * `pnpm amaroad capture`). Kept for backwards compatibility with skill docs.
+ *
+ * Usage (the .claude and .codex copies are the same file):
  *   pnpm exec tsx .claude/skills/nanobanana-image/scripts/capture-slide.ts \
  *     --deck <deck-name> \
  *     --slide <0-indexed> \
  *     --output <output.png> \
- *     [--port 3850]
+ *     [--port 3850 | --base-url http://127.0.0.1:3850] [--scale 1]
  *
  * Requires the dev server to be running (`pnpm dev`, which serves port 3850).
  */
 
-import * as fs from "fs";
-import * as path from "path";
-
-// ---------------------------------------------------------------------------
-// CLI argument parsing (same pattern as generate-image.ts)
-// ---------------------------------------------------------------------------
+import { captureSlide } from "../../../../scripts/lib/capture";
 
 interface Args {
   deck: string;
   slide: number;
   output: string;
-  port: number;
+  baseUrl?: string;
+  scale: number;
 }
 
 function parseArgs(): Args {
@@ -40,8 +39,9 @@ function parseArgs(): Args {
   const deck = map.get("--deck");
   const slideStr = map.get("--slide");
   const output = map.get("--output");
-  // Matches the `dev` script in package.json (`next dev --port 3850`).
-  const port = parseInt(map.get("--port") || "3850", 10);
+  const port = map.get("--port");
+  const baseUrl = map.get("--base-url") ?? (port ? `http://127.0.0.1:${port}` : undefined);
+  const scale = Number.parseFloat(map.get("--scale") ?? "1");
 
   if (!deck) {
     process.stderr.write("Error: --deck is required\n");
@@ -56,68 +56,30 @@ function parseArgs(): Args {
     process.exit(1);
   }
 
-  const slide = parseInt(slideStr, 10);
-  if (isNaN(slide) || slide < 0) {
+  const slide = Number.parseInt(slideStr, 10);
+  if (Number.isNaN(slide) || slide < 0) {
     process.stderr.write("Error: --slide must be a non-negative integer\n");
     process.exit(1);
   }
+  if (!Number.isFinite(scale) || scale <= 0) {
+    process.stderr.write("Error: --scale must be a positive number\n");
+    process.exit(1);
+  }
 
-  return { deck, slide, output, port };
+  return { deck, slide, output, baseUrl, scale };
 }
-
-// ---------------------------------------------------------------------------
-// Main
-// ---------------------------------------------------------------------------
 
 async function main(): Promise<void> {
   const args = parseArgs();
-  const url = `http://localhost:${args.port}/api/capture/${args.deck}/${args.slide}`;
-
-  let res: Response;
-  try {
-    res = await fetch(url);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    if (msg.includes("ECONNREFUSED") || msg.includes("fetch failed")) {
-      process.stderr.write(
-        `Error: Could not connect to dev server at localhost:${args.port}. ` +
-        `Make sure it is running with: pnpm dev\n`,
-      );
-    } else {
-      process.stderr.write(`Error: ${msg}\n`);
-    }
-    process.exit(1);
-  }
-
-  if (!res.ok) {
-    const text = await res.text();
-    process.stderr.write(`Error: ${res.status} — ${text}\n`);
-    process.exit(1);
-  }
-
-  // Validate that the response is actually an image
-  const contentType = res.headers.get("content-type") || "";
-  if (!contentType.startsWith("image/")) {
-    process.stderr.write(
-      `Error: Expected image response but received Content-Type: ${contentType}. ` +
-      `The capture API may have returned an error page.\n`,
-    );
-    process.exit(1);
-  }
-
-  const buffer = Buffer.from(await res.arrayBuffer());
-
-  // Ensure output directory exists
-  const outputDir = path.dirname(args.output);
-  if (outputDir && !fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  fs.writeFileSync(args.output, buffer);
-
-  // Output absolute path to stdout
-  const absolutePath = path.resolve(args.output);
-  process.stdout.write(absolutePath + "\n");
+  const result = await captureSlide({
+    deck: args.deck,
+    index: args.slide,
+    output: args.output,
+    baseUrl: args.baseUrl,
+    scale: args.scale,
+  });
+  // Output absolute path to stdout (same contract as before)
+  process.stdout.write(result.output + "\n");
 }
 
 main().catch((err: unknown) => {

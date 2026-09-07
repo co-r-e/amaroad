@@ -33,9 +33,20 @@ Fix slide overflow pragmatically without breaking the presentation design system
 
 ## Useful Commands
 
+Measure overflow numerically (the frame clips, so screenshots cannot show it;
+requires `pnpm dev`):
+
 ```bash
-ls decks/<deck-name>/*.mdx | sort -V
+pnpm --silent amaroad overflow <deck-name> --slide <0-indexed-slide>
+pnpm --silent amaroad overflow <deck-name> --format json --output /tmp/overflow.json
 ```
+
+Findings carry the element selector, MDX line, and per-edge overshoot.
+`outside-safe-area` / `outside-frame` / `clipped-content` are errors;
+`overlay-collision` is a warning; `intentional-breakout` / `decorative-bleed`
+are informational.
+
+Real-render screenshot for context:
 
 ```bash
 pnpm exec tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
@@ -44,10 +55,15 @@ pnpm exec tsx .codex/skills/nanobanana-image/scripts/capture-slide.ts \
   --output /tmp/<deck-name>-<slide>-after.png
 ```
 
+Final gate before reporting:
+
+```bash
+pnpm --silent amaroad doctor <deck-name>
+```
+
 ## Pass Criteria
 
-- No clipping
-- No safe-zone violations
-- No collisions with overlays
+- `pnpm amaroad overflow` reports 0 errors for the slide
+- No `overlay-collision` warnings
 - Heading design unchanged
-- Body text remains readable
+- Body text remains readable (no `low-font-size` error from `pnpm amaroad doctor`)

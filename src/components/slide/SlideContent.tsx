@@ -19,11 +19,14 @@ interface SlideContentProps {
   slide: SlideData;
   config: DeckConfig;
   deckName: string;
+  /** Request `data-mdx-line` stamps from the MDX compiler (tooling only). */
+  sourceLines?: boolean;
 }
 
 export function SlideContent({
   slide,
   deckName,
+  sourceLines = false,
 }: SlideContentProps): React.JSX.Element {
   const { type, verticalAlign } = slide.frontmatter;
   const shouldCenter =
@@ -40,8 +43,10 @@ export function SlideContent({
   );
   const moduleUrl = useMemo(
     () =>
-      `/api/mdx/${encodeURIComponent(deckName)}/${slide.index}?v=${encodeURIComponent(sourceHash)}`,
-    [deckName, slide.index, sourceHash],
+      `/api/mdx/${encodeURIComponent(deckName)}/${slide.index}?v=${encodeURIComponent(sourceHash)}${
+        sourceLines ? "&lines=1" : ""
+      }`,
+    [deckName, slide.index, sourceHash, sourceLines],
   );
 
   return (

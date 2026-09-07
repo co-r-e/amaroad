@@ -246,7 +246,9 @@ When running via Bash, allow at least the script's timeout plus overhead — e.g
 ### Slide capture fails
 - **Symptom**: `capture-slide.ts` cannot connect
 - **Fix**: Start the dev server with `pnpm dev`. The script defaults to port
-  3850, which is what `pnpm dev` serves.
+  3850, which is what `pnpm dev` serves. It screenshots the real render with
+  headless Chromium; if the browser is missing, run
+  `pnpm exec playwright install chromium`.
 
 ### oxipng is not installed
 - **Symptom**: "skipped image optimization: `oxipng` is not installed"
