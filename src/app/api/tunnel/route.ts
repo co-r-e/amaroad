@@ -1,26 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { tunnelManager } from "@/lib/tunnel-manager";
-import { isLocalHost } from "@/lib/tunnel-access";
 import { isUnsafeDeckName } from "@/lib/deck-loader";
+import {
+  jsonNoStore,
+  rejectCrossSite,
+  rejectNonJsonBody,
+  rejectRemote,
+} from "@/lib/local-request-guards";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // The `dev` script starts Next.js with `next dev --port 3850`.
 const DEFAULT_DEV_PORT = 3850;
 
-function jsonNoStore(body: unknown, init?: ResponseInit): NextResponse {
-  const response = NextResponse.json(body, init);
-  response.headers.set("Cache-Control", "no-store");
-  return response;
-}
-
-// Response factories — Response bodies are single-use ReadableStreams,
-// so each request must receive a fresh instance.
+// Response bodies are single-use ReadableStreams, so each request must
+// receive a fresh instance.
 const productionError = () =>
   jsonNoStore({ error: "Not available in production" }, { status: 403 });
-
-const forbidden = () =>
-  jsonNoStore({ error: "Forbidden" }, { status: 403 });
 
 /**
  * Resolve the local port cloudflared should expose, from trustworthy
@@ -46,58 +42,6 @@ function resolveTunnelTargetPort(): number {
     }
   }
   return DEFAULT_DEV_PORT;
-}
-
-/** Reject requests that originate from outside localhost. */
-function rejectRemote(request: NextRequest): Response | null {
-  const host = request.headers.get("host") ?? "";
-  if (!isLocalHost(host)) return forbidden();
-  return null;
-}
-
-/**
- * Reject cross-site (CSRF) requests to state-changing endpoints.
- *
- * Browsers always attach an `Origin` header to cross-origin requests whose
- * method is not GET/HEAD (POST, DELETE, ...), so a request forged by another
- * site (e.g. https://evil.com) carries that site's Origin and is rejected
- * here. A genuine same-origin request from the app served on localhost carries
- * its own local Origin and passes. `Referer` is used as a fallback for the rare
- * client that omits Origin; if neither header proves a local origin the request
- * is rejected. This is the CSRF defense and is additive to `rejectRemote()`
- * (the Host check), which is left in place.
- */
-function rejectCrossSite(request: NextRequest): Response | null {
-  const source =
-    request.headers.get("origin") ?? request.headers.get("referer");
-  if (!source) return forbidden();
-
-  let sourceHost: string;
-  try {
-    sourceHost = new URL(source).host;
-  } catch {
-    return forbidden();
-  }
-
-  if (!isLocalHost(sourceHost)) return forbidden();
-  return null;
-}
-
-/**
- * Reject requests whose body is not declared `application/json`.
- *
- * `request.json()` ignores Content-Type, so a CORS-safelisted `text/plain` or
- * form body could be sent cross-site without triggering a CORS preflight.
- * Requiring `application/json` forces a preflight for any cross-site body,
- * closing that bypass. Defense in depth alongside the Origin check.
- */
-function rejectNonJsonBody(request: NextRequest): Response | null {
-  const mediaType = (request.headers.get("content-type") ?? "")
-    .split(";")[0]
-    ?.trim()
-    .toLowerCase();
-  if (mediaType !== "application/json") return forbidden();
-  return null;
 }
 
 function parseDeckName(value: unknown): string | null {

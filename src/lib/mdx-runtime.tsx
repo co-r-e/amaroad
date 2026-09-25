@@ -20,7 +20,7 @@ interface MDXErrorDisplayProps {
 
 function MDXErrorDisplay({ title, message }: MDXErrorDisplayProps): React.JSX.Element {
   return (
-    <div className="p-4 text-red-600 bg-red-50 rounded text-xl font-mono">
+    <div data-mdx-error="" className="p-4 text-red-600 bg-red-50 rounded text-xl font-mono">
       <p className="font-bold">{title}</p>
       <pre className="mt-2 whitespace-pre-wrap text-base">{message}</pre>
     </div>

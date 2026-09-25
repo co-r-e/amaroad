@@ -1,0 +1,25 @@
+/*
+ * One 1920x1080 page per slide. The page box itself is set by the @page rule
+ * the component injects; these rules keep each slide on exactly one page.
+ */
+.deck {
+  margin: 0;
+  padding: 0;
+  width: 1920px;
+}
+
+.page {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  break-after: page;
+  break-inside: avoid;
+  /* Keep slide backgrounds even when a person prints the page by hand with
+     "Background graphics" unchecked. */
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page:last-child {
+  break-after: auto;
+}

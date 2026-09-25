@@ -27,13 +27,27 @@ import {
 // Types
 // ---------------------------------------------------------------------------
 
-export type ExportFormat = "pdf" | "pptx-image";
+/**
+ * - `pdf-vector`: rendered by headless Chromium on the server (selectable
+ *   text, vector graphics); see /api/export/pdf
+ * - `pdf` / `pptx-image`: every slide captured in the browser as a JPEG
+ */
+export type ExportFormat = "pdf-vector" | "pdf" | "pptx-image";
 export type ExportPhase =
   | "idle"
   | "fetching"
   | "capturing"
+  | "optimizing"
   | "generating"
   | "error";
+
+/** Phases during which an export is running and can be cancelled. */
+export const ACTIVE_EXPORT_PHASES: ReadonlySet<ExportPhase> = new Set([
+  "fetching",
+  "capturing",
+  "optimizing",
+  "generating",
+]);
 
 export interface ExportProgress {
   current: number;
@@ -45,6 +59,8 @@ interface ExportJob {
   format: ExportFormat;
   deckName: string;
   progress: ExportProgress;
+  /** Server-provided reason when a vector PDF export fails. */
+  errorMessage: string | null;
 }
 
 interface ExportJobContextValue {
@@ -66,12 +82,16 @@ export function useExportJob(): ExportJobContextValue {
 // ---------------------------------------------------------------------------
 
 const FORMAT_LABELS: Record<ExportFormat, string> = {
+  "pdf-vector": "PDF",
   pdf: "PDF",
   "pptx-image": "PPTX",
 };
 
 const EXPORT_CANCEL_REASON = "export-cancelled";
 const FETCH_TIMEOUT_REASON = "export-fetch-timeout";
+const ERROR_DISPLAY_MS = 3000;
+const ERROR_WITH_MESSAGE_DISPLAY_MS = 8000;
+const NOTICE_DISPLAY_MS = 10000;
 
 export function formatExportLabel(
   phase: ExportPhase,
@@ -81,6 +101,8 @@ export function formatExportLabel(
   if (phase === "fetching") return "Loading...";
   if (phase === "capturing")
     return `${FORMAT_LABELS[format]} ${progress.current}/${progress.total}`;
+  if (phase === "optimizing")
+    return progress.total > 0 ? `Images ${progress.current}/${progress.total}` : "Images...";
   if (phase === "generating")
     return progress.total > 0
       ? `Generating ${progress.current}/${progress.total}`
@@ -110,6 +132,60 @@ function createBlankSlideImage(): Promise<ExportedSlideImage> {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Vector PDF (server-rendered) helpers
+// ---------------------------------------------------------------------------
+
+type VectorPdfEvent =
+  | {
+      type: "progress";
+      phase: "launching" | "loading" | "rendering" | "optimizing" | "printing";
+      current: number;
+      total: number;
+    }
+  | { type: "done"; url: string; filename: string; warnings?: string[] }
+  | { type: "error"; message: string };
+
+/** Parse a newline-delimited JSON response body as it streams in. */
+async function* readNdjson(body: ReadableStream<Uint8Array>): AsyncGenerator<VectorPdfEvent> {
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      buffer += decoder.decode(value, { stream: !done });
+      let newline = buffer.indexOf("\n");
+      while (newline !== -1) {
+        const line = buffer.slice(0, newline).trim();
+        buffer = buffer.slice(newline + 1);
+        if (line) yield JSON.parse(line) as VectorPdfEvent;
+        newline = buffer.indexOf("\n");
+      }
+      if (done) break;
+    }
+    if (buffer.trim()) yield JSON.parse(buffer) as VectorPdfEvent;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+/** Let the browser download a same-origin URL served as an attachment. */
+function triggerDownload(url: string, filename: string): void {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+async function readErrorMessage(res: Response): Promise<string> {
+  const data = (await res.json().catch(() => null)) as { error?: unknown } | null;
+  return typeof data?.error === "string" ? data.error : `HTTP ${res.status}`;
+}
+
 const OFFSCREEN_STYLE: React.CSSProperties = {
   position: "fixed",
   left: -9999,
@@ -130,6 +206,9 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
   const [progress, setProgress] = useState<ExportProgress>({ current: 0, total: 0 });
   const [deck, setDeck] = useState<Deck | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  /** Non-fatal notes from a finished export (e.g. viewer compatibility). */
+  const [notice, setNotice] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<ExportedSlideImage[]>([]);
@@ -138,6 +217,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
   const formatRef = useRef<ExportFormat>("pdf");
   const jobIdRef = useRef(0);
   const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const noticeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -158,6 +238,11 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
   }, []);
 
   const clearTimers = useCallback(() => {
+    if (noticeTimerRef.current) {
+      clearTimeout(noticeTimerRef.current);
+      noticeTimerRef.current = null;
+    }
+    setNotice(null);
     if (errorTimerRef.current) {
       clearTimeout(errorTimerRef.current);
       errorTimerRef.current = null;
@@ -174,12 +259,97 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
     abortRef.current = null;
     clearTimers();
     resetExportState();
+    setErrorMessage(null);
     setPhase("idle");
   }, [resetExportState, clearTimers]);
+
+  const failJob = useCallback(
+    (jobId: number, message: string | null) => {
+      abortRef.current = null;
+      setErrorMessage(message);
+      setPhase("error");
+      errorTimerRef.current = setTimeout(
+        () => {
+          if (jobIdRef.current === jobId) setPhase("idle");
+        },
+        message ? ERROR_WITH_MESSAGE_DISPLAY_MS : ERROR_DISPLAY_MS,
+      );
+      resetExportState();
+    },
+    [resetExportState],
+  );
+
+  /** Server-side vector PDF: stream progress, then download the result. */
+  const runVectorPdfExport = useCallback(
+    async (name: string, controller: AbortController, jobId: number) => {
+      const isStale = () => jobIdRef.current !== jobId;
+      try {
+        const res = await fetch("/api/export/pdf", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ deck: name }),
+          signal: controller.signal,
+        });
+        if (!res.ok || !res.body) throw new Error(await readErrorMessage(res));
+
+        let result: { url: string; filename: string; warnings?: string[] } | null = null;
+        for await (const event of readNdjson(res.body)) {
+          if (isStale()) return;
+          if (event.type === "error") throw new Error(event.message);
+          if (event.type === "done") {
+            result = event;
+            for (const warning of event.warnings ?? []) console.warn(`[amaroad] PDF: ${warning}`);
+            continue;
+          }
+          switch (event.phase) {
+            case "launching":
+            case "loading":
+              setPhase("fetching");
+              break;
+            case "rendering":
+              setPhase("capturing");
+              setProgress({ current: event.current, total: event.total });
+              break;
+            case "optimizing":
+              setPhase("optimizing");
+              setProgress({ current: event.current, total: event.total });
+              break;
+            case "printing":
+              setPhase("generating");
+              setProgress({ current: 0, total: 0 });
+              break;
+          }
+        }
+
+        if (isStale()) return;
+        if (!result) throw new Error("The export ended without a file");
+        triggerDownload(result.url, result.filename);
+        if (result.warnings && result.warnings.length > 0) {
+          setNotice(result.warnings.join("\n"));
+          noticeTimerRef.current = setTimeout(() => {
+            if (jobIdRef.current === jobId) setNotice(null);
+          }, NOTICE_DISPLAY_MS);
+        }
+        abortRef.current = null;
+        resetExportState();
+        setPhase("idle");
+      } catch (err) {
+        // cancelExport() already bumped the job id and reset the UI.
+        if (isStale()) return;
+        const message = err instanceof Error ? err.message : String(err);
+        console.error("[amaroad] Vector PDF export failed:", message);
+        failJob(jobId, message);
+      }
+    },
+    [resetExportState, failJob],
+  );
 
   const startExport = useCallback(
     async (name: string, selectedFormat: ExportFormat) => {
       if (phaseRef.current !== "idle" && phaseRef.current !== "error") return;
+      // Claim the slot now: the effect that mirrors `phase` into the ref runs
+      // after render, and a second click could otherwise slip in before it.
+      phaseRef.current = "fetching";
 
       const myJobId = ++nextJobId;
       jobIdRef.current = myJobId;
@@ -192,6 +362,12 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
 
       const controller = new AbortController();
       abortRef.current = controller;
+      setErrorMessage(null);
+
+      if (selectedFormat === "pdf-vector") {
+        await runVectorPdfExport(name, controller, myJobId);
+        return;
+      }
 
       try {
         fetchTimeoutRef.current = setTimeout(() => controller.abort(FETCH_TIMEOUT_REASON), 15000);
@@ -243,7 +419,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
         }
       }
     },
-    [resetExportState, clearTimers],
+    [resetExportState, clearTimers, runVectorPdfExport],
   );
 
   // Sequential slide capture — only runs during "capturing" phase
@@ -301,9 +477,10 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
     };
   }, [phase, deck, currentSlideIndex, resetExportState]);
 
-  // PDF/PPTX generation — runs when phase transitions to "generating"
+  // PDF/PPTX generation — runs when phase transitions to "generating".
+  // Vector PDFs are generated on the server (runVectorPdfExport).
   useEffect(() => {
-    if (phase !== "generating") return;
+    if (phase !== "generating" || format === "pdf-vector") return;
 
     const genJobId = jobIdRef.current;
     let cancelled = false;
@@ -363,7 +540,7 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
     return () => {
       cancelled = true;
     };
-  }, [phase, resetExportState]);
+  }, [phase, format, resetExportState]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -371,18 +548,19 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
       jobIdRef.current = ++nextJobId;
       abortRef.current?.abort();
       if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+      if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
       if (fetchTimeoutRef.current) clearTimeout(fetchTimeoutRef.current);
       imagesRef.current = [];
     };
   }, []);
 
   const slide = deck?.slides[currentSlideIndex];
-  const isWorking = phase === "fetching" || phase === "capturing" || phase === "generating";
-  const canCancel = phase === "fetching" || phase === "capturing" || phase === "generating";
+  const isWorking = ACTIVE_EXPORT_PHASES.has(phase);
+  const canCancel = isWorking;
 
   const job = useMemo<ExportJob>(
-    () => ({ phase, format, deckName, progress }),
-    [phase, format, deckName, progress],
+    () => ({ phase, format, deckName, progress, errorMessage }),
+    [phase, format, deckName, progress, errorMessage],
   );
 
   const value = useMemo(
@@ -424,7 +602,30 @@ export function ExportJobProvider({ children }: { children: ReactNode }): ReactN
         <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-lg bg-red-50 dark:bg-red-900/30 px-4 py-3 shadow-lg border border-red-200 dark:border-red-800">
           <span className="text-sm text-red-600 dark:text-red-400">
             Export failed: {deckName}
+            {errorMessage && (
+              <span className="mt-1 block max-w-md whitespace-pre-line text-xs">{errorMessage}</span>
+            )}
           </span>
+        </div>
+      )}
+
+      {phase === "idle" && notice && (
+        <div
+          className="fixed bottom-4 right-4 z-50 flex items-start gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/30 px-4 py-3 shadow-lg border border-amber-200 dark:border-amber-800"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="text-sm text-amber-800 dark:text-amber-300">
+            Exported {deckName} with a note
+            <span className="mt-1 block max-w-md whitespace-pre-line text-xs">{notice}</span>
+          </span>
+          <button
+            onClick={() => setNotice(null)}
+            className="rounded p-1 text-amber-500 hover:bg-amber-100 dark:hover:bg-amber-800/40 transition-colors"
+            aria-label="Dismiss export note"
+          >
+            <X size={14} />
+          </button>
         </div>
       )}
 

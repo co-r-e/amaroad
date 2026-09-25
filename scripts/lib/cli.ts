@@ -50,6 +50,8 @@ const BOOLEAN_FLAGS = new Set([
   "verbose",
   "dry-run",
   "write",
+  "original-images",
+  "allow-errors",
 ]);
 
 export function getString(args: ParsedArgs, name: string): string | undefined {

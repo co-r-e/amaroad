@@ -31,7 +31,7 @@
 - **Speaker notes** -- Resizable notes panel with basic Markdown rendering (bold, italic, code, headings, lists); touch-friendly resize handle
 - **Configurable overlays** -- Logo, copyright text, page numbers, and accent lines with flexible positioning
 - **Built-in components** -- Charts, icons, code blocks, tables, multi-column layouts, math equations, shapes, cards, timelines, steps, and 25+ showcase components for covers, dashboards, comparisons, team grids, and more
-- **PDF / PPTX export** -- Export decks from the browser UI as PDF or PowerPoint files
+- **PDF / PPTX export** -- Vector PDF with selectable text (browser UI or `pnpm amaroad pdf`), plus image-based PDF and PowerPoint exports
 - **Tunnel sharing** -- Share your deck over the internet with a single click via Cloudflare Tunnel
 - **Slide transitions** -- Configurable per-slide or per-deck transitions (fade, slide, none)
 - **Security headers** -- X-Content-Type-Options, X-Frame-Options, Referrer-Policy applied to all routes
@@ -558,6 +558,7 @@ Assets are served via the API route at `/api/decks/{deck-name}/assets/{filename}
 | `/{deck-name}?slide=N` | Jump directly to slide N (1-based) |
 | `/{deck-name}/presenter` | Presenter mode (fullscreen projection) |
 | `/{deck-name}/slide/{index}` | One slide at native 1920x1080 with no chrome (tooling route used by `pnpm amaroad capture\|overflow` and the visual tests; `?scale=0.5`, `?lines=1`) |
+| `/{deck-name}/print` | Every slide at native 1920x1080, one per printed page (used by vector PDF export; `?slides=1-5,8`). Printing it from Chrome also gives a vector PDF |
 
 ## Keyboard Shortcuts
 
@@ -583,10 +584,24 @@ Click the "Presenter Mode" button in the sidebar to open a separate fullscreen w
 
 ## Export
 
-Export decks to PDF or PPTX directly from the browser. Click the export button on the deck listing page and choose your format. Each slide is captured as an image and assembled into the output file.
+Open a deck, click **Export** in the sidebar, and choose a format:
 
-- **PDF** -- Landscape 1920x1080, one slide per page
-- **PPTX** -- Widescreen layout, one slide per page
+- **PDF (vector)** -- Rendered by headless Chromium on your machine. Text stays selectable and searchable (fonts are embedded), SVG diagrams stay vector, and links stay clickable. One 1920x1080 page per slide. Raster images are re-encoded at twice their on-slide size (opaque images as JPEG), so a deck with hundreds of MB of AI-generated PNGs becomes a PDF of a few tens of MB.
+- **PDF (image)** -- Each slide is captured as a JPEG in the browser and assembled into a PDF. Works without Chromium on the server, but text is not selectable.
+- **PPTX** -- Widescreen layout, one slide image per page.
+
+The same vector PDF is available from the CLI, which is what AI agents should use:
+
+```bash
+pnpm amaroad pdf my-deck                       # -> output/my-deck.pdf
+pnpm amaroad pdf my-deck --slides 1-5,8 --output review.pdf
+pnpm amaroad pdf my-deck --image-scale 1       # smaller file: images at on-slide size
+pnpm amaroad pdf my-deck --original-images     # embed image files unchanged (largest)
+```
+
+Vector export needs the Playwright Chromium browser (`pnpm exec playwright install chromium`) and a running server (`pnpm dev`). It runs on the machine that serves the deck, so viewers on a shared tunnel URL only see the in-browser formats. It waits for every slide, image, web font and video embed before printing, and stops with an error when a slide fails to render (`--allow-errors` exports anyway).
+
+Viewer note: Chromium stores each blurred `box-shadow` as a soft-masked image, and macOS Preview draws the fourth and later ones on the same page as gray boxes. The export reports such slides as a warning; fewer or unblurred shadows avoid it.
 
 ## Tunnel Sharing
 
@@ -685,10 +700,11 @@ Amaroad includes 18 project skills under `.codex/skills/` for Codex. Most of the
 | `pnpm amaroad doctor <deck>` | One-shot quality gate: config, preflight rules, slide-order manifest, assets, fonts, and a real-browser overflow check (`--skip overflow` without a dev server) |
 | `pnpm amaroad overflow <deck>` | Measure content leaving the safe area, clipped content, and overlay collisions; reports element, MDX line, and px per edge |
 | `pnpm amaroad capture <deck> --slide N --output x.png` | Real-render PNG of a slide at 1920x1080 (`--all --out-dir dir` for a whole deck) |
+| `pnpm amaroad pdf <deck>` | Vector PDF with selectable text, one 1920x1080 page per slide (`--slides 1-5,8`, `--output file.pdf`, `--image-scale n`, `--original-images`) |
 | `pnpm amaroad catalog [--check]` | Regenerate `docs/components.md` / `docs/components.json` from the component registry |
 | `pnpm test:visual` | Playwright visual regression of every `sample-deck` slide against committed baselines (`--update-snapshots` to accept changes) |
 
-`pnpm amaroad doctor|overflow|capture` need a running server (`pnpm dev`, or `--base-url`). pnpm prints install-check lines before run scripts, so use `pnpm --silent amaroad …` or `--output file` when piping JSON.
+`pnpm amaroad doctor|overflow|capture|pdf` need a running server (`pnpm dev`, or `--base-url`). pnpm prints install-check lines before run scripts, so use `pnpm --silent amaroad …` or `--output file` when piping JSON.
 
 ### Quality gate for AI agents
 

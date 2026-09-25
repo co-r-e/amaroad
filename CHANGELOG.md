@@ -15,6 +15,21 @@ All notable changes to Amaroad will be documented in this file.
   - `capture <deck>` real-render 1920x1080 PNG screenshots (single slide or `--all`)
   - `catalog [--check]` generates `docs/components.md` / `docs/components.json`
     from the MDX component registry with the TypeScript compiler API
+  - `pdf <deck>` exports a vector PDF (selectable text, embedded font subsets,
+    vector SVG, clickable links) through headless Chromium; `--slides`,
+    `--image-scale`, `--jpeg-quality`, `--original-images`, `--allow-errors`
+- Vector PDF export in the viewer: Export > PDF (vector) streams progress from
+  `POST /api/export/pdf` (localhost-only, CSRF-guarded, one job at a time) and
+  downloads the result through a single-use token; viewer-compatibility notes
+  appear as a dismissible notice, and the option is hidden on shared tunnel URLs
+- Print route `/{deck}/print` (`?slides=`) with every slide on its own
+  1920x1080 page. Before printing it rewrites `background-clip: text` (every
+  h1) into plain text colors, because PDF viewers render Chromium's soft-mask
+  output of it inconsistently, and resizes `<img>` sources to their on-slide
+  size so image-heavy decks shrink by an order of magnitude. It waits for
+  video embeds, keeps gradient text on its original line breaks (falling back
+  to a solid color if splitting it would move a glyph), and the renderer fails
+  with the page's own error when the page stops making progress
 - Native single-slide route `/{deck}/slide/{index}` (`?scale`, `?lines`) shared
   by capture, overflow, and the visual tests; `NativeSlideStage` is now also
   the PDF/PPTX export renderer
@@ -42,6 +57,9 @@ All notable changes to Amaroad will be documented in this file.
   svg-diagram / slide-overflow-fixer skills) captures the real render instead of
   the Satori approximation
 - `decks/_themes/` and other `_`/`.` prefixed directories are never listed as decks
+- Export menu: the in-browser capture PDF is now labelled "PDF (image)"
+- The Chromium launcher and the localhost/CSRF request guards are shared
+  modules (`src/lib/chromium.ts`, `src/lib/local-request-guards.ts`)
 
 ### Removed
 

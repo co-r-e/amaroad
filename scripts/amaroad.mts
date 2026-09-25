@@ -5,9 +5,10 @@
  *   pnpm amaroad doctor   <deck|--all> [--format md|json] [--fail-on error|warning] [--skip a,b]
  *   pnpm amaroad overflow <deck> [--slide N] [--format md|json] [--fail-on error|warning]
  *   pnpm amaroad capture  <deck> (--slide N --output file.png | --all --out-dir dir) [--scale 0.5]
+ *   pnpm amaroad pdf      <deck> [--output file.pdf] [--slides 1-5,8] [--image-scale 2] [--original-images]
  *   pnpm amaroad catalog  [--check]
  *
- * Browser-backed commands (doctor's overflow check, overflow, capture) need a
+ * Browser-backed commands (doctor's overflow check, overflow, capture, pdf) need a
  * running Amaroad server: `pnpm dev` (http://127.0.0.1:3850) or --base-url.
  */
 import { parseArgs, die } from "./lib/cli";
@@ -18,6 +19,7 @@ Commands:
   doctor    Run every check for a deck (config, preflight, manifest, assets, fonts, overflow)
   overflow  Detect content leaking outside the slide safe area (needs running server)
   capture   Screenshot slides at native 1920x1080 (needs running server)
+  pdf       Export a vector PDF with selectable text (needs running server)
   catalog   Generate docs/components.md and docs/components.json from the MDX registry
 
 Run "pnpm amaroad <command> --help" for command options.`;
@@ -40,6 +42,11 @@ async function main(): Promise<void> {
     case "capture": {
       const { runCaptureCommand } = await import("./commands/capture");
       await runCaptureCommand(args);
+      return;
+    }
+    case "pdf": {
+      const { runPdfCommand } = await import("./commands/pdf");
+      await runPdfCommand(args);
       return;
     }
     case "catalog": {

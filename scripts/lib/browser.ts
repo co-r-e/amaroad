@@ -1,7 +1,7 @@
 /**
  * Shared Playwright helpers for Amaroad tooling (capture, overflow, doctor).
  */
-import { chromium, type Browser, type BrowserContext, type Page } from "playwright";
+import type { Browser, BrowserContext, Page } from "playwright";
 import { waitForNativeSlideReady, type SlideReadyResult } from "./slide-ready";
 
 export const DEFAULT_BASE_URL = "http://127.0.0.1:3850";
@@ -39,28 +39,10 @@ export async function ensureServer(baseUrl: string): Promise<ServerInfo> {
 }
 
 /**
- * Launch headless Chromium. Falls back to the system Chrome channel when the
- * Playwright-managed browser binary is missing (common after a playwright
- * version bump without `playwright install`).
+ * Launch headless Chromium (falls back to the system Chrome channel). Shared
+ * with the vector PDF export API route.
  */
-export async function launchBrowser(): Promise<Browser> {
-  try {
-    return await chromium.launch({ headless: true });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (!/Executable doesn't exist|browserType\.launch|Failed to launch/i.test(message)) {
-      throw error;
-    }
-    try {
-      return await chromium.launch({ headless: true, channel: "chrome" });
-    } catch {
-      throw new Error(
-        `Could not launch Chromium (${message.split("\n")[0]}).\n` +
-          `Install the Playwright browser with: pnpm exec playwright install chromium`,
-      );
-    }
-  }
-}
+export { launchChromium as launchBrowser } from "@/lib/chromium";
 
 export interface SlidePageOptions {
   deck: string;
