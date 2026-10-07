@@ -50,6 +50,9 @@ export async function processSlideFile(
       background: frontmatter.background,
       verticalAlign: frontmatter.verticalAlign as SlideFrontmatter["verticalAlign"],
       logo: frontmatter.logo,
+      // YAML can turn a bare value into a number or Date; only text is a script.
+      // Doctor reports the non-string case.
+      narration: typeof frontmatter.narration === "string" ? frontmatter.narration : undefined,
     },
     rawContent: content,
     notes: frontmatter.notes,

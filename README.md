@@ -154,7 +154,7 @@ export default defineConfig({
 
 #### Sharing a theme between decks (`extends`)
 
-Put reusable branding in `decks/_themes/<name>.ts` and extend it from each deck. Deck-level fields win; `theme.colors/fonts/spacing`, `logo`, `copyright`, `pageNumber`, `overlay`, `accentLine` and `layoutPadding` merge one level deep, so a deck can override a single color or logo offset.
+Put reusable branding in `decks/_themes/<name>.ts` and extend it from each deck. Deck-level fields win; `theme.colors/fonts/spacing`, `logo`, `copyright`, `pageNumber`, `overlay`, `accentLine`, `layoutPadding` and `narration` merge one level deep, so a deck can override a single color or logo offset.
 
 ```typescript
 // decks/_themes/acme.ts
@@ -225,6 +225,7 @@ A subtitle or description goes here
 | `transition` | `"fade"` \| `"slide"` \| `"none"` | -- | Override deck-level transition |
 | `verticalAlign` | `"top"` \| `"center"` | `"top"` | Vertical alignment of content |
 | `notes` | `string` | -- | Speaker notes (multi-line YAML) |
+| `narration` | `string` | -- | Read-aloud script for presenter auto-play (see [Narration auto-play](#narration-auto-play)). Separate from `notes` |
 | `background` | `string` | -- | Override slide background color |
 
 #### Slide types
@@ -547,7 +548,7 @@ Or in JSX attributes:
 <img src="./assets/photo.jpg" alt="Photo" />
 ```
 
-Assets are served via the API route at `/api/decks/{deck-name}/assets/{filename}`. Only image, video, font, and PDF files are served; source code files are blocked.
+Assets are served via the API route at `/api/decks/{deck-name}/assets/{filename}`. Only image, video, audio (MP3), font, and PDF files are served; source code files are blocked. Audio and video support HTTP range requests (Safari needs them to play media).
 
 ## Routing
 
@@ -572,6 +573,7 @@ These shortcuts work in both the slide viewer and presenter mode:
 | `End` | Last slide |
 | `f` | Toggle fullscreen (presenter mode) |
 | `Escape` | Exit fullscreen (presenter mode) |
+| `a` | Start / stop narration auto-play (presenter mode) |
 | `?` | Show keyboard shortcuts help |
 
 ## Presenter Mode
@@ -581,6 +583,45 @@ Click the "Presenter Mode" button in the sidebar to open a separate fullscreen w
 - The presenter window and main viewer stay synchronized via BroadcastChannel
 - Navigate from either window -- both update in real-time
 - Press `f` to toggle fullscreen; press `Escape` to exit
+
+### Narration auto-play
+
+Slides can read themselves aloud with [Gemini TTS](https://ai.google.dev/gemini-api/docs/speech-generation) and advance on their own.
+
+1. Put your own Gemini API key in `.env.local` as `GEMINI_API_KEY` (see `.env.example`). Generation is billed to that key.
+2. Add a `narration` script to the slides that should speak:
+
+   ```mdx
+   ---
+   type: content
+   narration: |
+     ここでは Amaroad の全体像を説明します。
+   ---
+   ```
+
+3. Generate the audio: `pnpm amaroad narrate <deck>`. MP3s go to `decks/<deck>/narration/`, which is git-ignored; everyone regenerates it locally. Unchanged scripts are reused, so re-running only pays for edits. `--dry-run` shows the plan without calling the API.
+4. Open presenter mode and press `a` in the presenter window. Each slide plays its audio and then advances; a slide without (up-to-date) audio stays up for `silentSlideSeconds`. Arrow keys, or navigating from the viewer window, jump and keep auto-play going from there. The last slide ends auto-play; `a` again stops it.
+
+Optional settings in `deck.config.ts` (or a shared preset):
+
+```typescript
+narration: {
+  voice: "Kore",                  // Gemini TTS prebuilt voice (default "Kore")
+  language: "ja-JP",              // omit to detect from the text
+  style: "落ち着いた、聞き取りやすいプレゼンの口調で読み上げてください。", // delivery direction, not spoken
+  model: "gemini-3.8-flash-tts",  // default
+  silentSlideSeconds: 5,          // slides without audio (default 5)
+  pauseSeconds: 1,                // gap after audio before advancing (default 1)
+},
+```
+
+Notes:
+
+- Reload the presenter window after generating audio. Under `pnpm start`, restart the server after changing `deck.config.ts`.
+- Changing a script, voice, style, language or model makes that audio stale: it is skipped until you run `narrate` again, and `pnpm amaroad doctor` warns about it.
+- Press `a` in the presenter window itself; browsers only allow audio after a key press in the window that plays it.
+- Slides with an embedded video play both sounds at once.
+- The `deck-localizer` skill does not translate `narration`.
 
 ## Export
 
@@ -686,6 +727,8 @@ Amaroad includes 18 project skills under `.codex/skills/` for Codex. Most of the
 - [jsPDF](https://github.com/parallax/jsPDF) -- PDF generation
 - [pptxgenjs](https://github.com/gitbrent/PptxGenJS) -- PPTX generation
 - [cloudflared](https://github.com/nicksrandall/cloudflared) -- Cloudflare Tunnel for sharing
+- [Google Gen AI SDK](https://github.com/googleapis/js-genai) -- Gemini TTS for narration audio
+- [lamejs](https://github.com/shijinyu/lamejs) -- MP3 encoding for narration (CLI only, LGPL-3.0)
 - [gray-matter](https://github.com/jonschlinkert/gray-matter) -- YAML frontmatter parsing
 - [jiti](https://github.com/unjs/jiti) -- Runtime TypeScript config loading
 
@@ -697,10 +740,11 @@ Amaroad includes 18 project skills under `.codex/skills/` for Codex. Most of the
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | Run ESLint |
-| `pnpm amaroad doctor <deck>` | One-shot quality gate: config, preflight rules, slide-order manifest, assets, fonts, and a real-browser overflow check (`--skip overflow` without a dev server) |
+| `pnpm amaroad doctor <deck>` | One-shot quality gate: config, preflight rules, slide-order manifest, assets, fonts, narration audio freshness, and a real-browser overflow check (`--skip overflow` without a dev server) |
 | `pnpm amaroad overflow <deck>` | Measure content leaving the safe area, clipped content, and overlay collisions; reports element, MDX line, and px per edge |
 | `pnpm amaroad capture <deck> --slide N --output x.png` | Real-render PNG of a slide at 1920x1080 (`--all --out-dir dir` for a whole deck) |
 | `pnpm amaroad pdf <deck>` | Vector PDF with selectable text, one 1920x1080 page per slide (`--slides 1-5,8`, `--output file.pdf`, `--image-scale n`, `--original-images`) |
+| `pnpm amaroad narrate <deck>` | Generate narration MP3s from slide `narration` scripts with Gemini TTS (`--slide N`, `--force`, `--dry-run`); needs `GEMINI_API_KEY` |
 | `pnpm amaroad catalog [--check]` | Regenerate `docs/components.md` / `docs/components.json` from the component registry |
 | `pnpm test:visual` | Playwright visual regression of every `sample-deck` slide against committed baselines (`--update-snapshots` to accept changes) |
 

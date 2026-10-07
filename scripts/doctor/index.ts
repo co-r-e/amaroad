@@ -9,6 +9,7 @@ import { checkAssets } from "./checks/assets";
 import { checkConfig } from "./checks/config";
 import { checkFonts } from "./checks/fonts";
 import { checkManifest } from "./checks/manifest";
+import { checkNarration } from "./checks/narration";
 import { checkOverflow } from "./checks/overflow-check";
 import { checkPreflight } from "./checks/preflight-check";
 
@@ -21,6 +22,7 @@ Runs every check for a deck and exits 1 when the threshold is hit:
   manifest   slide-order.ts vs files on disk
   assets     missing / unused / unservable assets (MDX + logo references)
   fonts      theme fonts that are not bundled by the app
+  narration  narration audio missing or out of date (pnpm amaroad narrate), config
   overflow   real-browser layout check (needs a running server: pnpm dev)
 
 Options:
@@ -89,6 +91,7 @@ export async function runDoctorCommand(args: ParsedArgs): Promise<void> {
     manifest: checkManifest,
     assets: checkAssets,
     fonts: checkFonts,
+    narration: checkNarration,
     overflow: checkOverflow,
   };
 

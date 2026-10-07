@@ -234,6 +234,16 @@ function detectHardcodedHexColor(
   const re = /#[0-9a-fA-F]{3,8}\b/g;
   for (const match of content.matchAll(re)) {
     const index = match.index ?? 0;
+    // "#113" inside prose (a slide number, an issue reference) is not a color.
+    // A 3-digit all-decimal token counts only where a CSS color literal can
+    // sit: inside a quoted JSX style value ("#112") or terminated by ";" in a
+    // <style> block (color: #112;).
+    if (/^#\d{3}$/.test(match[0])) {
+      const before = content[index - 1] ?? "";
+      const after = content[index + match[0].length] ?? "";
+      const quoted = (before === '"' || before === "'") && after === before;
+      if (!quoted && after !== ";") continue;
+    }
     const { line, column } = locator(index);
     issues.push({
       deck,

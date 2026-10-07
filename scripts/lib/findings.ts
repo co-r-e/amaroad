@@ -8,7 +8,7 @@ export type Severity = "error" | "warning" | "info";
 
 export interface Finding {
   deck: string;
-  /** Which check produced it: config, preflight, manifest, assets, fonts, overflow. */
+  /** Which check produced it: config, preflight, manifest, assets, fonts, narration, overflow. */
   check: string;
   rule: string;
   severity: Severity;

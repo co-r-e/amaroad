@@ -87,7 +87,7 @@ Include:
 `pnpm amaroad doctor <deck|--all>`:
 - `--format md|json`, `--output <file>`
 - `--fail-on error|warning|never` (default: `error`)
-- `--skip a,b` / `--only a,b` with `config, preflight, manifest, assets, fonts, overflow`
+- `--skip a,b` / `--only a,b` with `config, preflight, manifest, assets, fonts, narration, overflow`
 - `--no-notes`: do not require speaker notes
 - `--base-url <url>`: server for the overflow check (default `http://127.0.0.1:3850`)
 

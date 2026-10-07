@@ -13,6 +13,7 @@ const MERGED_OBJECT_KEYS = [
   "overlay",
   "accentLine",
   "layoutPadding",
+  "narration",
 ] as const;
 
 type MergedObjectKey = (typeof MERGED_OBJECT_KEYS)[number];

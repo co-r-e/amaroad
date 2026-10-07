@@ -14,7 +14,8 @@ doctor_before_done:
   details:
     - The doctor runs: config, preflight (font floor, side borders, tailwind, hex
       colors, notes), manifest (slide-order.ts vs files), assets (missing / unused /
-      unservable), fonts (unbundled families), and overflow (real-browser safe-zone
+      unservable), fonts (unbundled families), narration (audio stale / not yet
+      generated, invalid `narration` values), and overflow (real-browser safe-zone
       measurement with element selector, MDX line, and px per edge).
     - The overflow check needs the dev server (`pnpm dev`). Without it the check is
       skipped with a warning; pass `--skip overflow` to be explicit.
@@ -345,13 +346,27 @@ deck_theme_presets:
   rule: >
     Shared branding lives in `decks/_themes/<name>.ts` (`definePreset`) and decks
     opt in with `extends: preset` in `defineConfig`. Deck-level fields override;
-    theme.colors/fonts/spacing, logo, copyright, pageNumber, overlay, accentLine and
-    layoutPadding merge one level deep.
+    theme.colors/fonts/spacing, logo, copyright, pageNumber, overlay, accentLine,
+    layoutPadding and narration merge one level deep.
   fonts: >
     Bundled font families are Inter, Noto Sans JP, Figtree, JetBrains Mono and
     Fira Code (see `src/lib/fonts.ts`). Other families in `theme.fonts.*` render only
     if the viewer's OS has them and are reported by `pnpm amaroad doctor`.
   note: `decks/_themes/` is never treated as a deck.
+
+narration_audio:
+  rule: >
+    Never write `narration` frontmatter or run `pnpm amaroad narrate` unless the
+    user explicitly asks. Generation calls Gemini TTS on the user's own
+    GEMINI_API_KEY and is billed to them.
+  details:
+    - `narration` is the read-aloud script for presenter auto-play (`a` key); it is
+      separate from `notes` and follows the same text rules (no em dash, no **bold**).
+    - Audio lives in `decks/<deck>/narration/` (git-ignored, named by input hash).
+      Editing a script, voice, style, language or model makes that audio stale.
+    - Doctor reports stale audio as a warning and never-generated audio as info.
+      Leaving them is justified when the user has not asked to regenerate; say so
+      instead of running `narrate` on your own.
 
 slide_order_manifest:
   rule: >

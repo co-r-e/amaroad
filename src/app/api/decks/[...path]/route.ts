@@ -16,12 +16,20 @@ const ALLOWED_EXTENSIONS: Record<string, string> = {
   ".ico": "image/x-icon",
   ".mp4": "video/mp4",
   ".webm": "video/webm",
+  ".mp3": "audio/mpeg",
   ".pdf": "application/pdf",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
   ".ttf": "font/ttf",
   ".otf": "font/otf",
 };
+
+/**
+ * Media answered with byte ranges: Safari will not play <audio>/<video>
+ * without 206 responses. Everything else (notably SVG, which is scanned in
+ * full) is always sent whole.
+ */
+const RANGE_EXTENSIONS = new Set([".mp3", ".mp4", ".webm"]);
 
 const SVG_UNSAFE_PATTERNS = [
   /<script[\s>]/i,
@@ -49,6 +57,44 @@ function isWithinDecksDir(resolvedPath: string): boolean {
 
 function isSafeSvg(svg: string): boolean {
   return !SVG_UNSAFE_PATTERNS.some((pattern) => pattern.test(svg));
+}
+
+type ByteRange = { start: number; end: number } | "unsatisfiable" | null;
+
+/**
+ * Parse a single `bytes=` range (RFC 9110). Returns null when the whole file
+ * should be sent instead: no header, another unit, several ranges, or a
+ * malformed value.
+ */
+function parseByteRange(header: string | null, size: number): ByteRange {
+  const match = header ? /^bytes=(\d*)-(\d*)$/.exec(header.trim()) : null;
+  if (!match) return null;
+  const [, first, last] = match;
+  if (first === "" && last === "") return null;
+  if (size === 0) return "unsatisfiable";
+
+  if (first === "") {
+    // Suffix range: the final N bytes.
+    const length = Number(last);
+    if (length === 0) return "unsatisfiable";
+    return { start: Math.max(0, size - length), end: size - 1 };
+  }
+  const start = Number(first);
+  if (start >= size) return "unsatisfiable";
+  const end = last === "" ? size - 1 : Math.min(Number(last), size - 1);
+  if (end < start) return null;
+  return { start, end };
+}
+
+async function readByteRange(filePath: string, start: number, end: number): Promise<Buffer> {
+  const handle = await fs.open(filePath, "r");
+  try {
+    const buffer = Buffer.alloc(end - start + 1);
+    const { bytesRead } = await handle.read(buffer, 0, buffer.length, start);
+    return buffer.subarray(0, bytesRead);
+  } finally {
+    await handle.close();
+  }
 }
 
 export async function GET(
@@ -93,8 +139,6 @@ export async function GET(
       return new NextResponse(null, { status: 304, headers: { ETag: etag } });
     }
 
-    const buffer = await fs.readFile(resolved);
-
     const isLocal = isLocalRequest(request);
     let cacheControl: string;
     if (process.env.NODE_ENV === "production") {
@@ -113,6 +157,25 @@ export async function GET(
       "X-Content-Type-Options": "nosniff",
       "Cross-Origin-Resource-Policy": "same-origin",
     });
+
+    if (RANGE_EXTENSIONS.has(ext)) {
+      headers.set("Accept-Ranges", "bytes");
+      // If-Range: a range is only valid against the representation the client already has.
+      const ifRange = request.headers.get("if-range");
+      const range = ifRange && ifRange !== etag ? null : parseByteRange(request.headers.get("range"), stat.size);
+      if (range === "unsatisfiable") {
+        headers.set("Content-Range", `bytes */${stat.size}`);
+        return new NextResponse(null, { status: 416, headers });
+      }
+      if (range) {
+        const chunk = await readByteRange(resolved, range.start, range.end);
+        headers.set("Content-Range", `bytes ${range.start}-${range.start + chunk.length - 1}/${stat.size}`);
+        headers.set("Content-Length", String(chunk.length));
+        return new NextResponse(new Uint8Array(chunk), { status: 206, headers });
+      }
+    }
+
+    const buffer = await fs.readFile(resolved);
 
     if (ext === ".svg") {
       const svg = buffer.toString("utf-8");

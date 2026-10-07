@@ -6,7 +6,7 @@ import type { DeckContext } from "../context";
 /** Mirrors ALLOWED_EXTENSIONS in src/app/api/decks/[...path]/route.ts. */
 const SERVABLE_EXTENSIONS = new Set([
   ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico",
-  ".mp4", ".webm", ".pdf", ".woff", ".woff2", ".ttf", ".otf",
+  ".mp4", ".webm", ".mp3", ".pdf", ".woff", ".woff2", ".ttf", ".otf",
 ]);
 
 interface AssetRef {

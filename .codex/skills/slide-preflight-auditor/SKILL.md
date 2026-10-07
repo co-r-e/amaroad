@@ -55,7 +55,7 @@ pnpm exec tsx .codex/skills/slide-preflight-auditor/scripts/audit-slides.ts --de
 `pnpm amaroad doctor <deck|--all>`:
 - `--format md|json`, `--output <file>`
 - `--fail-on error|warning|never` (default `error`)
-- `--skip a,b` / `--only a,b` (`config, preflight, manifest, assets, fonts, overflow`)
+- `--skip a,b` / `--only a,b` (`config, preflight, manifest, assets, fonts, narration, overflow`)
 - `--no-notes`, `--base-url <url>`
 
 `audit-slides.ts`:

@@ -48,6 +48,7 @@
     "xlsx": "file:vendor/xlsx"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "1.2.7",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/mdx": "^2.0.14",

@@ -12,6 +12,8 @@ export interface UseKeyboardNavigationOptions {
   onHelp?: () => void;
   onZoom?: () => void;
   onShowSelection?: () => void;
+  /** Presenter: toggle narration auto-play. */
+  onAutoplay?: () => void;
   enabled?: boolean;
 }
 
@@ -25,6 +27,7 @@ export function useKeyboardNavigation({
   onHelp,
   onZoom,
   onShowSelection,
+  onAutoplay,
   enabled = true,
 }: UseKeyboardNavigationOptions) {
   const handleKeyDown = useCallback(
@@ -93,9 +96,15 @@ export function useKeyboardNavigation({
           e.preventDefault();
           onHelp?.();
           break;
+        case "a":
+        case "A":
+          if (!onAutoplay) return;
+          e.preventDefault();
+          onAutoplay();
+          break;
       }
     },
-    [enabled, onNext, onPrevious, onFirst, onLast, onEscape, onFullscreen, onHelp, onZoom, onShowSelection],
+    [enabled, onNext, onPrevious, onFirst, onLast, onEscape, onFullscreen, onHelp, onZoom, onShowSelection, onAutoplay],
   );
 
   useEffect(() => {

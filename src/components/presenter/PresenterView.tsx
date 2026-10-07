@@ -1,17 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { Deck } from "@/types/deck";
+import type { Deck, DeckConfig, PresenterNarration, SlideData } from "@/types/deck";
 import { resolveSlideBackground, buildScaledSlideStyle } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
 import { PresenterPointer } from "@/components/presenter/PresenterPointer";
 import { PresenterTextPopup } from "@/components/presenter/PresenterTextPopup";
+import { NarrationIndicator, type IndicatorCorner } from "@/components/presenter/NarrationIndicator";
 import { useDeckNavigation } from "@/hooks/useDeckNavigation";
+import { useNarrationPlayback, useNarrationToggle } from "@/hooks/useNarrationAutoplay";
 import { usePresenterZoom } from "@/hooks/usePresenterZoom";
 import { useSlideScale } from "@/hooks/useSlideScale";
 
 interface PresenterViewProps {
   deck: Deck;
+  narration: PresenterNarration;
 }
 
 function enterFullscreen(): void {
@@ -24,6 +27,20 @@ function exitFullscreen(): void {
   }
 }
 
+const INDICATOR_CORNERS: IndicatorCorner[] = ["top-left", "bottom-left", "top-right", "bottom-right"];
+
+/** First screen corner not taken by this slide's logo, the copyright or the page number. */
+function freeIndicatorCorner(config: DeckConfig, slide: SlideData): IndicatorCorner {
+  // A per-slide logo override may move the logo; its position falls back to the deck's.
+  const logoPosition = slide.frontmatter.logo ? (slide.frontmatter.logo.position ?? config.logo?.position) : config.logo?.position;
+  const taken = new Set<string>(
+    [logoPosition, config.copyright?.position, config.pageNumber?.position].filter(
+      (position): position is NonNullable<typeof position> => position !== undefined,
+    ),
+  );
+  return INDICATOR_CORNERS.find((corner) => !taken.has(corner)) ?? "top-left";
+}
+
 function toggleFullscreen(): void {
   if (document.fullscreenElement) {
     exitFullscreen();
@@ -32,7 +49,7 @@ function toggleFullscreen(): void {
   }
 }
 
-export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element | null {
+export function PresenterView({ deck, narration }: PresenterViewProps): React.JSX.Element | null {
   const { containerRef, scale } = useSlideScale();
   const { zoomRef, toggleZoom, resetZoom } = usePresenterZoom();
   const [spotlightText, setSpotlightText] = useState<string | null>(null);
@@ -55,7 +72,9 @@ export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element |
     if (text) setSpotlightText(text);
   }, [spotlightText]);
 
-  const { currentSlide } = useDeckNavigation({
+  const narrationToggle = useNarrationToggle();
+
+  const { currentSlide, handleNavigate } = useDeckNavigation({
     deckName: deck.name,
     totalSlides: deck.slides.length,
     role: "presenter",
@@ -64,7 +83,16 @@ export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element |
       onFullscreen: toggleFullscreen,
       onZoom: toggleZoom,
       onShowSelection: handleShowSelection,
+      onAutoplay: narrationToggle.toggle,
     },
+  });
+
+  const narrationPhase = useNarrationPlayback({
+    toggle: narrationToggle,
+    narration,
+    currentSlide,
+    totalSlides: deck.slides.length,
+    onNavigate: handleNavigate,
   });
 
   useEffect(() => {
@@ -114,6 +142,7 @@ export function PresenterView({ deck }: PresenterViewProps): React.JSX.Element |
         </div>
       </div>
       {spotlightText !== null && <PresenterTextPopup text={spotlightText} />}
+      <NarrationIndicator phase={narrationPhase} corner={freeIndicatorCorner(deck.config, slide)} />
       <PresenterPointer color={pointerColor} />
     </div>
   );

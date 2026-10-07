@@ -18,6 +18,22 @@ All notable changes to Amaroad will be documented in this file.
   - `pdf <deck>` exports a vector PDF (selectable text, embedded font subsets,
     vector SVG, clickable links) through headless Chromium; `--slides`,
     `--image-scale`, `--jpeg-quality`, `--original-images`, `--allow-errors`
+  - `narrate <deck>` generates read-aloud MP3s from each slide's `narration`
+    frontmatter with Gemini TTS (default model `gemini-3.8-flash-tts`, the
+    user's own `GEMINI_API_KEY`) into
+    `decks/<deck>/narration/` (git-ignored); files are named by input hash, so
+    unchanged scripts are reused and edits make only that audio stale;
+    `--slide`, `--force`, `--dry-run`
+  - doctor `narration` check: stale audio (warning), audio not generated yet
+    (info), non-text `narration` or invalid `narration` config (error)
+- Narration auto-play in presenter mode: `a` plays the current slide's audio,
+  advances when it ends, waits `silentSlideSeconds` on slides without audio,
+  keeps going after manual or viewer-window navigation, and stops after the
+  last slide; a small status chip sits in a corner the deck's overlays do not
+  use. Deck-level `narration` config (`voice`, `language`, `style`, `model`,
+  `silentSlideSeconds`, `pauseSeconds`) merges from presets
+- The deck asset route serves `.mp3` and answers HTTP range requests for audio
+  and video (Safari needs 206 responses to play media)
 - Vector PDF export in the viewer: Export > PDF (vector) streams progress from
   `POST /api/export/pdf` (localhost-only, CSRF-guarded, one job at a time) and
   downloads the result through a single-use token; viewer-compatibility notes
@@ -46,6 +62,9 @@ All notable changes to Amaroad will be documented in this file.
 
 ### Changed
 
+- `pnpm amaroad` numeric options (`--slide`, `--scale`, `--tolerance`,
+  `--image-scale`, `--jpeg-quality`) given without a value now fail instead of
+  being silently ignored
 - `Column width` now shrinks with the `Columns` gap (`flex: 0 1 <width>` +
   `min-width: 0`) instead of overflowing the safe area
 - `ShowcaseSplit` data-narrative right pane is a flex column so the chart no

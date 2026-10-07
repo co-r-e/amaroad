@@ -1,0 +1,101 @@
+/* Sits above the slide but below the text spotlight (z-index 40, which should
+   own the whole screen) and the laser pointer (50). Small and translucent
+   because the presenter window is what the audience sees. */
+.indicator {
+  position: fixed;
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 112px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.88);
+  font: 500 12px/1.2 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.01em;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.topLeft {
+  top: 16px;
+  left: 16px;
+}
+
+.topRight {
+  top: 16px;
+  right: 16px;
+}
+
+.bottomLeft {
+  bottom: 16px;
+  left: 16px;
+}
+
+.bottomRight {
+  bottom: 16px;
+  right: 16px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.dotPlaying {
+  opacity: 1;
+  animation: narration-pulse 1.2s ease-in-out infinite;
+}
+
+.progress {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: currentColor;
+  transform-origin: left center;
+  animation: narration-countdown var(--wait-duration, 5s) linear forwards;
+}
+
+@keyframes narration-countdown {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes narration-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotPlaying {
+    animation: none;
+  }
+
+  .progress {
+    display: none;
+  }
+}

@@ -44,6 +44,41 @@ export interface SlideFrontmatter {
     height?: string;
     offset?: { top?: string; right?: string; bottom?: string; left?: string };
   };
+  /**
+   * Read-aloud script for presenter auto-play. Separate from `notes` (which
+   * stay presenter-only memos). Audio is generated with `pnpm amaroad narrate`.
+   */
+  narration?: string;
+}
+
+/** Deck-level settings for `narration` audio (Gemini TTS) and auto-play pacing. */
+export interface NarrationConfig {
+  /** Gemini TTS prebuilt voice name (default "Kore"). */
+  voice?: string;
+  /** BCP-47 language code such as "ja-JP". Omitted: detected from the text. */
+  language?: string;
+  /** Delivery direction read by the model, not spoken, e.g. "落ち着いた口調で". */
+  style?: string;
+  /** Gemini TTS model id (default "gemini-3.8-flash-tts"). */
+  model?: string;
+  /** Seconds a slide without audio stays up during auto-play (default 5). */
+  silentSlideSeconds?: number;
+  /** Seconds to wait after a slide's audio ends before advancing (default 1). */
+  pauseSeconds?: number;
+}
+
+/** One slide's generated narration audio, as handed to the presenter. */
+export interface NarrationTrack {
+  src: string;
+  durationSec: number;
+}
+
+/** Everything presenter auto-play needs, resolved on the server. */
+export interface PresenterNarration {
+  silentSlideSeconds: number;
+  pauseSeconds: number;
+  /** Indexed like `deck.slides`; null when the slide has no up-to-date audio. */
+  tracks: (NarrationTrack | null)[];
 }
 
 export interface ThemeColors {
@@ -119,6 +154,7 @@ export interface DeckConfig {
   };
   layoutPadding?: Partial<Record<SlideType, string>>;
   transition?: TransitionType;
+  narration?: NarrationConfig;
 }
 
 /**

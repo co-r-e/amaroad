@@ -67,6 +67,8 @@ next-env.d.ts
 !/decks/_themes/
 # Private presets you do not want to commit can use the *.local.ts suffix.
 /decks/_themes/*.local.ts
+# Generated narration audio (pnpm amaroad narrate); regenerate locally with your own key.
+/decks/*/narration/
 
 # exports
 /output/

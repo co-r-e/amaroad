@@ -49,6 +49,7 @@ const BOOLEAN_FLAGS = new Set([
   "quiet",
   "verbose",
   "dry-run",
+  "force",
   "write",
   "original-images",
   "allow-errors",
@@ -64,6 +65,8 @@ export function getBoolean(args: ParsedArgs, name: string): boolean {
 }
 
 export function getNumber(args: ParsedArgs, name: string): number | undefined {
+  // A bare `--slide` (or one followed by another flag) must not read as "not given".
+  if (args.flags.get(name) === true) die(`--${name} needs a number`);
   const value = getString(args, name);
   if (value === undefined) return undefined;
   const parsed = Number(value);

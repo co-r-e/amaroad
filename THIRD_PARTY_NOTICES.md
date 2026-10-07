@@ -16,7 +16,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 636
+- Cross-platform package entries: 637
 - Platform-specific binary families: 10
 - Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
@@ -36,6 +36,7 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 | BlueOak-1.0.0 | 1 |
 | CC-BY-4.0 | 1 |
 | CC0-1.0 | 1 |
+| LGPL-3.0 | 1 |
 | MIT AND ISC | 1 |
 | MIT OR SEE LICENSE IN FEEL-FREE.md | 1 |
 | Python-2.0 | 1 |
@@ -59,6 +60,7 @@ The following dependencies have notice/copyleft considerations and should be rev
 | `axe-core` | `4.13.0` | `MPL-2.0` |
 | `lightningcss` | `1.32.0` | `MPL-2.0` |
 | `sharp` | `0.35.4` | `Apache-2.0` |
+| `@breezystack/lamejs` | `1.2.7` | `LGPL-3.0` |
 | `@esbuild/*` platform binaries | `0.28.2` | `MIT` |
 | `@img/sharp-*` platform binaries | `0.35.4` | `Apache-2.0` |
 | `@img/sharp-freebsd-wasm32` platform binaries | `0.35.4` | `Apache-2.0` |
@@ -81,6 +83,7 @@ Primary upstream locations for the packages above:
 - sharp / libvips binaries: https://github.com/lovell/sharp and https://github.com/libvips/libvips
 - jszip: https://github.com/Stuk/jszip
 - DOMPurify: https://github.com/cure53/DOMPurify
+- @breezystack/lamejs (MP3 encoder used only by the `pnpm amaroad narrate` CLI, unmodified, not bundled into the app): https://github.com/shijinyu/lamejs (fork of https://github.com/zhuker/lamejs)
 
 When distributing artifacts, include applicable upstream license texts from installed modules (typically `node_modules/<pkg>/LICENSE*`).
 

@@ -3,6 +3,7 @@ import { existsSync, watch, type FSWatcher } from "fs";
 import { join } from "path";
 import { isLocalRequest, getSharedDeckName } from "@/lib/tunnel-access";
 import { isUnsafeDeckName } from "@/lib/deck-loader";
+import { NARRATION_DIR } from "@/lib/narration";
 
 const DEBOUNCE_MS = 600;
 const KEEPALIVE_MS = 30_000;
@@ -91,8 +92,15 @@ export async function GET(
         }, DEBOUNCE_MS);
       };
 
+      // `pnpm amaroad narrate` writes audio + manifest one track at a time;
+      // none of it changes what the viewer renders.
+      const onDeckChange = (_event: string, filename: string | null) => {
+        if (filename?.split(/[\\/]/)[0] === NARRATION_DIR) return;
+        onChange();
+      };
+
       try {
-        watcher = watch(deckDir, { recursive: true }, onChange);
+        watcher = watch(deckDir, { recursive: true }, onDeckChange);
       } catch {
         closeStream();
         return;

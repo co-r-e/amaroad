@@ -296,6 +296,7 @@ const COMPANION_PACKAGES = [
   "axe-core",
   "lightningcss",
   "sharp",
+  "@breezystack/lamejs",
 ];
 
 const companionRows = COMPANION_PACKAGES.map((name) => {
