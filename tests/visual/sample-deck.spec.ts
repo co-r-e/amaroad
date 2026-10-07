@@ -52,6 +52,11 @@ for (const [index, name] of order.entries()) {
     // Sanity: the manifest the server renders from must match the checked-in one.
     expect(slides[index]?.filename).toBe(`${name}.mdx`);
 
-    await expect(page.locator(STAGE)).toHaveScreenshot(`${String(index + 1).padStart(3, "0")}-${name}.png`);
+    // Third-party players can show a thumbnail, loading screen or error page.
+    // Compare their bounds and the slide layout without depending on YouTube's response.
+    await expect(page.locator(STAGE)).toHaveScreenshot(`${String(index + 1).padStart(3, "0")}-${name}.png`, {
+      mask: [page.locator(`${STAGE} iframe`)],
+      maskColor: "#808080",
+    });
   });
 }
