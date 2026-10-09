@@ -32,7 +32,9 @@ if (!fs.existsSync(lockfilePath)) {
 // whether the package is an optional platform-specific binary — the full
 // YAML surface area would be overkill here.
 function parseLockfilePlatformPackages(text) {
-  const lines = text.split("\n");
+  // pnpm 12 prepends a separate YAML document for package-manager dependencies.
+  // Application dependencies live in the final document, which backs node_modules.
+  const lines = text.split(/^---\s*$/m).at(-1).split("\n");
   const startIndex = lines.findIndex((line) => line === "packages:");
   if (startIndex === -1) return [];
   const packages = [];
