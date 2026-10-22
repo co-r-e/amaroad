@@ -41,8 +41,13 @@
 
 ## Requirements
 
-- Node.js 22.13+
+- Node.js 22.23.4+, 24.22.1+, or 26.12.1+ within the corresponding major version
 - pnpm 11+
+
+These Node.js minimum versions include the [October 2026 security fixes](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+For local development, `mise.toml` selects Node.js 24.22.1; run `mise install` if you use mise.
+CI uses Node.js 22.23.4 to verify the oldest supported release line.
+After updating Node.js, restart any running Amaroad servers so they use the patched runtime.
 
 ## Quick Start
 
