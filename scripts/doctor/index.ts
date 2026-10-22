@@ -12,6 +12,8 @@ import { checkManifest } from "./checks/manifest";
 import { checkNarration } from "./checks/narration";
 import { checkOverflow } from "./checks/overflow-check";
 import { checkPreflight } from "./checks/preflight-check";
+import { checkHtmlDeck } from "./checks/html-deck";
+import { readDeckConfig } from "../../src/lib/deck-config";
 
 const USAGE = `Usage: pnpm amaroad doctor <deck> [options]
        pnpm amaroad doctor --all [options]
@@ -24,6 +26,9 @@ Runs every check for a deck and exits 1 when the threshold is hit:
   fonts      theme fonts that are not bundled by the app
   narration  narration audio missing or out of date (pnpm amaroad narrate), config
   overflow   real-browser layout check (needs a running server: pnpm dev)
+  html       HTML deck runtime check (needs a running server: pnpm dev)
+
+HTML decks use config, assets, and html checks; MDX layout rules do not apply.
 
 Options:
   --all                   Check every deck under decks/
@@ -93,11 +98,17 @@ export async function runDoctorCommand(args: ParsedArgs): Promise<void> {
     fonts: checkFonts,
     narration: checkNarration,
     overflow: checkOverflow,
+    html: () => [],
   };
 
   const findings: Finding[] = [];
   for (const entry of entries) {
     if (!quiet) process.stderr.write(`Checking decks/${entry.name} ...\n`);
+    const rawConfig = entry.hasConfig ? await readDeckConfig(entry.dir).catch(() => null) : null;
+    if (rawConfig?.format === "html") {
+      findings.push(...await checkHtmlDeck(entry, checks, options));
+      continue;
+    }
     const ctx = await buildDeckContext(projectRoot, entry);
     for (const check of checks) {
       if (!quiet && check === "overflow") process.stderr.write(`  overflow: rendering ${ctx.slides.length} slide(s) in a browser\n`);

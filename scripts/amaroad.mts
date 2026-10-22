@@ -23,6 +23,8 @@ Commands:
   pdf       Export a vector PDF with selectable text (needs running server)
   narrate   Generate read-aloud MP3s from slide \`narration\` with Gemini TTS (needs GEMINI_API_KEY)
   catalog   Generate docs/components.md and docs/components.json from the MDX registry
+  init-rich Create an HTML deck from a template or --from file.html
+  add-three Embed Three.js and supported addons in an existing HTML deck
 
 Run "pnpm amaroad <command> --help" for command options.`;
 
@@ -31,6 +33,16 @@ async function main(): Promise<void> {
   const args = parseArgs(rest);
 
   switch (command) {
+    case "add-three": {
+      const { runAddThreeCommand } = await import("./commands/add-three");
+      await runAddThreeCommand(args);
+      return;
+    }
+    case "init-rich": {
+      const { runInitRichCommand } = await import("./commands/init-rich");
+      await runInitRichCommand(args);
+      return;
+    }
     case "doctor": {
       const { runDoctorCommand } = await import("./doctor/index");
       await runDoctorCommand(args);

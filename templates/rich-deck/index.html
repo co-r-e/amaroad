@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <style>
+    :root { color-scheme: dark; --background: #090909; --text: #f6f6f6; --accent: #ff83b7; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { background: var(--background); color: var(--text); font-family: system-ui, sans-serif; }
+    #stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
+    .scene { position: absolute; inset: 0; padding: 88px; display: flex; flex-direction: column; justify-content: center; gap: 36px; overflow: hidden; }
+    .scene[hidden] { display: none; }
+    h1, h2, p { margin: 0; }
+    h1, h2 { font-size: 88px; line-height: 1.3; letter-spacing: -.03em; }
+    p { font-size: 36px; line-height: 1.6; color: #aaa; }
+    .accent { color: var(--accent); }
+    [data-step] { opacity: 0; transform: translateY(24px); transition: opacity .5s, transform .6s; }
+    [data-step].visible { opacity: 1; transform: none; }
+    .orbit { position: absolute; right: -60px; top: -60px; width: 620px; height: 620px; border: 2px solid var(--accent); border-radius: 45%; opacity: .15; animation: rotate 24s linear infinite; pointer-events: none; }
+    nav { position: fixed; right: 20px; bottom: 20px; display: flex; gap: 12px; align-items: center; }
+    button { padding: 10px 16px; border: 0; border-radius: 8px; background: #242424; color: var(--text); cursor: pointer; font: inherit; }
+    button:disabled { opacity: .3; cursor: default; }
+    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    #position { color: var(--accent); font-size: 14px; }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="プレゼンテーション">
+    <section class="scene" data-max="1" data-title="表紙">
+      <div class="orbit" aria-hidden="true"></div>
+      <h1>{{TITLE}}</h1>
+      <p data-step="1">自由な表現を、<span class="accent">HTMLで。</span></p>
+    </section>
+    <section class="scene" data-max="2" data-title="HTMLで表現する" hidden>
+      <h2>レイアウトも、<span class="accent">動きも。</span></h2>
+      <p data-step="1">HTML・CSS・JavaScriptで自由にデザインできます。</p>
+      <p data-step="2">矢印キーで、要素を順番に表示できます。</p>
+    </section>
+    <section class="scene" data-max="0" data-title="終了" hidden>
+      <h2 class="accent">Thank you.</h2>
+    </section>
+  </main>
+  <nav aria-label="スライド操作" data-amaroad-controls>
+    <button id="previous" type="button" aria-label="前の段階へ">←</button>
+    <span id="position" aria-live="polite"></span>
+    <button id="next" type="button" aria-label="次の段階へ">→</button>
+  </nav>
+  <script>
+    (() => {
+      const scenes = [...document.querySelectorAll('.scene')];
+      let slideIndex = 0, stepIndex = 0;
+      const max = () => Number(scenes[slideIndex].dataset.max);
+      function render() {
+        scenes.forEach((scene, index) => {
+          scene.hidden = index !== slideIndex;
+          scene.inert = index !== slideIndex;
+          scene.querySelectorAll('[data-step]').forEach(element => {
+            element.classList.toggle('visible', Number(element.dataset.step) <= stepIndex);
+          });
+        });
+        document.getElementById('position').textContent = (slideIndex + 1) + ' / ' + scenes.length;
+        document.getElementById('previous').disabled = slideIndex === 0 && stepIndex === 0;
+        document.getElementById('next').disabled = slideIndex === scenes.length - 1 && stepIndex === max();
+        dispatchEvent(new Event('amaroad:statechange'));
+      }
+      function next() {
+        if (stepIndex < max()) stepIndex++;
+        else if (slideIndex < scenes.length - 1) { slideIndex++; stepIndex = 0; }
+        render();
+      }
+      function previous() {
+        if (stepIndex > 0) stepIndex--;
+        else if (slideIndex > 0) { slideIndex--; stepIndex = max(); }
+        render();
+      }
+      function goTo(slide, step = 0) {
+        slideIndex = Math.max(0, Math.min(scenes.length - 1, slide));
+        stepIndex = Math.max(0, Math.min(max(), step));
+        render();
+      }
+      window.amaroadDeck = {
+        getState: () => ({ slideIndex, stepIndex, slideCount: scenes.length, stepCount: max() + 1 }),
+        getSlides: () => scenes.map(scene => ({ title: scene.dataset.title, notes: scene.dataset.notes })),
+        next, previous, goTo
+      };
+      document.getElementById('next').addEventListener('click', next);
+      document.getElementById('previous').addEventListener('click', previous);
+      addEventListener('keydown', event => {
+        if (event.metaKey || event.ctrlKey || event.altKey || event.isComposing || event.repeat ||
+          event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+        if (event.target.closest('button, a') && [' ', 'Enter'].includes(event.key)) return;
+        if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); next(); }
+        if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); previous(); }
+        if (event.key === 'Home') { event.preventDefault(); goTo(0); }
+        if (event.key === 'End') { event.preventDefault(); goTo(scenes.length - 1); }
+      });
+      function fit() {
+        document.getElementById('stage').style.transform = 'translate(-50%, -50%) scale(' + Math.min(innerWidth / 1600, innerHeight / 900) + ')';
+      }
+      addEventListener('resize', fit);
+      fit(); render();
+    })();
+  </script>
+</body>
+</html>

@@ -53,6 +53,7 @@ const BOOLEAN_FLAGS = new Set([
   "write",
   "original-images",
   "allow-errors",
+  "three",
 ]);
 
 export function getString(args: ParsedArgs, name: string): string | undefined {

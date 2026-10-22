@@ -8,6 +8,8 @@ import type { TunnelState } from "@/lib/tunnel-manager";
 import { useIsLocal } from "@/hooks/useIsLocal";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import { SlideFrame } from "@/components/slide/SlideFrame";
+import { DeckPublicationIndicator } from "@/components/home/DeckPublicationIndicator";
+import type { DeckPublicationStatus, DeckPublicationStatuses } from "@/types/deck-publication";
 
 const PINNED_STORAGE_KEY = "amaroad-pinned-decks";
 const PINNED_CHANGE_EVENT = "amaroad:pinned-decks-change";
@@ -64,6 +66,7 @@ function savePinnedDecks(pinned: Set<string>) {
 
 interface DeckGridProps {
   decks: DeckSummary[];
+  publicationStatuses?: DeckPublicationStatuses;
   filter?: "all" | "pinned";
 }
 
@@ -96,7 +99,7 @@ function compareByCreated(a: DeckSummary, b: DeckSummary, direction: "asc" | "de
 
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 
-export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
+export function DeckGrid({ decks, publicationStatuses, filter = "all" }: DeckGridProps) {
   const isLocal = useIsLocal();
   const [sharingDeck, setSharingDeck] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>("created-desc");
@@ -231,6 +234,7 @@ export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
             <DeckCard
               key={deck.name}
               deck={deck}
+              publicationStatus={publicationStatuses?.[deck.name]}
               isSharing={deck.name === sharingDeck}
               isPinned={pinnedDecks.has(deck.name)}
               onTogglePin={togglePin}
@@ -252,11 +256,13 @@ export function DeckGrid({ decks, filter = "all" }: DeckGridProps) {
 
 const DeckCard = memo(function DeckCard({
   deck,
+  publicationStatus,
   isSharing,
   isPinned,
   onTogglePin,
 }: {
   deck: DeckSummary;
+  publicationStatus?: DeckPublicationStatus;
   isSharing: boolean;
   isPinned: boolean;
   onTogglePin: (name: string) => void;
@@ -325,9 +331,10 @@ const DeckCard = memo(function DeckCard({
             </div>
           )}
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
-          /{deck.name}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="min-w-0 flex-1 truncate text-xs text-gray-400 dark:text-gray-500">/{deck.name}</p>
+          <DeckPublicationIndicator status={publicationStatus} />
+        </div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[#02001A] dark:group-hover:text-white">
           {deck.title}
         </h2>

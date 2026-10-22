@@ -1,24 +1,29 @@
 import path from "node:path";
-import { loadDeckCached } from "@/lib/deck-loader";
+import { loadPresentation } from "@/lib/presentation-loader";
+import { RichDeckViewer } from "@/components/rich/RichDeckViewer";
 import { computeNarrationStatus, narrationTrackFor, resolveNarrationSettings } from "@/lib/narration";
 import { PresenterView } from "@/components/presenter/PresenterView";
 import { getTunnelAccess } from "@/lib/tunnel-access";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { Deck, PresenterNarration } from "@/types/deck";
+import { readRichPosition } from "@/lib/rich-deck-protocol";
 
 export const dynamic = "force-dynamic";
 
 interface PresenterPageProps {
   params: Promise<{ deck: string }>;
+  searchParams: Promise<{ slide?: string; step?: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PresenterPageProps): Promise<Metadata> {
   const { deck: deckName } = await params;
+  const { isLocal, sharedDeck } = await getTunnelAccess();
+  if (!isLocal && sharedDeck !== deckName) return { title: "Amaroad" };
   try {
-    const deck = await loadDeckCached(deckName);
+    const { deck } = await loadPresentation(deckName);
     return {
       title: `${deck.config.title} — Presenter`,
       description: `Presenter view for ${deck.config.title}`,
@@ -28,20 +33,22 @@ export async function generateMetadata({
   }
 }
 
-export default async function PresenterPage({ params }: PresenterPageProps) {
+export default async function PresenterPage({ params, searchParams }: PresenterPageProps) {
   const { deck: deckName } = await params;
 
   const { isLocal, sharedDeck } = await getTunnelAccess();
   if (!isLocal && sharedDeck !== deckName) notFound();
 
-  let deck;
+  let presentation;
   try {
-    deck = await loadDeckCached(deckName);
+    presentation = await loadPresentation(deckName);
   } catch (e) {
     console.error(`[amaroad] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
     notFound();
   }
 
+  if (presentation.format === "html") return <RichDeckViewer deck={presentation.deck} presenter initialPosition={readRichPosition(await searchParams)} />;
+  const deck = presentation.deck;
   const narration = await loadPresenterNarration(deck);
 
   return <PresenterView deck={deck} narration={narration} />;

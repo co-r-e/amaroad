@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { PanelRight } from "lucide-react";
 import type { Deck } from "@/types/deck";
 import type { DeckConfig, SlideData } from "@/types/deck";
 import {
@@ -12,10 +11,8 @@ import {
 } from "@/lib/slide-utils";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { SlideFrame } from "@/components/slide/SlideFrame";
-import { NotesPanel } from "@/components/viewer/NotesPanel";
+import { ViewerLayout } from "./ViewerLayout";
 import { useDeckNavigation } from "@/hooks/useDeckNavigation";
-import { useSlideScale } from "@/hooks/useSlideScale";
-import { useResizablePanel } from "@/hooks/useResizablePanel";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { KeyboardHelp } from "@/components/ui/KeyboardHelp";
 import { useDevHotReload } from "@/hooks/useDevHotReload";
@@ -179,8 +176,6 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
   useDevHotReload({ deckName: deck.name, onUpdate: setDeck });
 
   const isMobile = useIsMobile();
-  const { containerRef, scale } = useSlideScale({ padding: 64 });
-  const { width, isOpen, toggle, resizeHandleProps } = useResizablePanel();
 
   const [showHelp, setShowHelp] = useState(false);
   const handleShowHelp = useCallback(() => setShowHelp(true), []);
@@ -211,18 +206,14 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
   const bg = resolveSlideBackground(slide.frontmatter, deck.config);
 
   return (
-    <div className="flex h-screen">
-      <Sidebar
+    <>
+      <ViewerLayout sidebar={<Sidebar
         deck={deck}
         currentSlide={currentSlide}
         onSlideSelect={handleNavigate}
         onPresenterMode={handlePresenterMode}
-      />
-
-      <main
-        ref={containerRef}
-        className="relative flex flex-1 items-center justify-center bg-ice-gray dark:bg-ice-gray-dark overflow-hidden"
-      >
+      />} notes={slide.notes} pageStatus={`${currentSlide + 1} / ${deck.slides.length}`}>
+      {(scale) => (
         <div
           className="shadow-xl dark:shadow-2xl dark:shadow-black/60"
           style={buildScaledSlideStyle(scale, bg)}
@@ -235,32 +226,10 @@ export function SlideViewer({ deck: initialDeck }: SlideViewerProps): React.JSX.
           />
         </div>
 
-        {!isOpen && (
-          <button
-            onClick={toggle}
-            className="absolute right-3 top-3 rounded bg-white/80 dark:bg-gray-800/80 p-1.5 text-gray-400 dark:text-gray-500 shadow-sm backdrop-blur transition-colors hover:bg-white dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-300"
-            aria-label="Open notes panel"
-          >
-            <PanelRight size={18} />
-          </button>
-        )}
-
-        {!isOpen && (
-          <div className="absolute bottom-3 right-3 rounded bg-black/50 px-2 py-1 text-xs text-white tabular-nums backdrop-blur">
-            {currentSlide + 1} / {deck.slides.length}
-          </div>
-        )}
-      </main>
-
-      <NotesPanel
-        notes={slide.notes}
-        isOpen={isOpen}
-        width={width}
-        onToggle={toggle}
-        resizeHandleProps={resizeHandleProps}
-      />
+      )}
+      </ViewerLayout>
 
       <KeyboardHelp open={showHelp} onClose={() => setShowHelp(false)} />
-    </div>
+    </>
   );
 }

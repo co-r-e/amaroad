@@ -124,6 +124,8 @@ export interface DeckTheme {
 }
 
 export interface DeckConfig {
+  /** Omitted for existing MDX decks; HTML decks use RichDeckConfig. */
+  format?: "mdx";
   title: string;
   /** Deck creation date as an ISO date string (e.g. "2026-06-02"). Used for "newest first" sorting on the deck list. */
   createdAt: string;

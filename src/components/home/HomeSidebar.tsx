@@ -4,12 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import type { DeckSummary } from "@/types/deck";
 import { AmaroadLogo } from "@/components/AmaroadLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { SlideModeTabs, type SlideMode } from "./SlideModeTabs";
+import { DeckPublicationIndicator } from "./DeckPublicationIndicator";
+import type { DeckPublicationStatuses } from "@/types/deck-publication";
 
 interface HomeSidebarProps {
-  decks: DeckSummary[];
+  decks: { name: string; title: string }[];
+  publicationStatuses: DeckPublicationStatuses;
+  mode: SlideMode;
+  onModeChange: (mode: SlideMode) => void;
 }
 
 interface TooltipState {
@@ -18,7 +23,7 @@ interface TooltipState {
   y: number;
 }
 
-export function HomeSidebar({ decks }: HomeSidebarProps) {
+export function HomeSidebar({ decks, publicationStatuses, mode, onModeChange }: HomeSidebarProps) {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
 
   const showTooltip = (
@@ -47,19 +52,33 @@ export function HomeSidebar({ decks }: HomeSidebarProps) {
           />
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-none">
+        <div className="px-3 pb-4">
+          <SlideModeTabs
+            mode={mode}
+            onModeChange={(nextMode) => {
+              hideTooltip();
+              onModeChange(nextMode);
+            }}
+          />
+        </div>
+
+        <nav
+          aria-label={mode === "simple" ? "シンプルスライド一覧" : "リッチスライド一覧"}
+          className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-none"
+        >
           <ul className="flex flex-col gap-0.5">
             {decks.map((deck) => (
               <li key={deck.name}>
                 <Link
-                  href={`/${deck.name}`}
-                  className="block truncate rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href={`/${encodeURIComponent(deck.name)}`}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                   onMouseEnter={(e) => showTooltip(e, deck.title)}
                   onMouseLeave={hideTooltip}
                   onFocus={(e) => showTooltip(e, deck.title)}
                   onBlur={hideTooltip}
                 >
-                  {deck.title}
+                  <span className="min-w-0 flex-1 truncate">{deck.title}</span>
+                  <DeckPublicationIndicator status={publicationStatuses[deck.name]} />
                 </Link>
               </li>
             ))}

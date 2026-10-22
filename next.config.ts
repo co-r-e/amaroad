@@ -19,7 +19,7 @@ const securityHeaders = [
       "font-src 'self' data:",
       "media-src 'self' blob:",
       `connect-src 'self'${IS_DEV ? " ws: wss:" : ""}`,
-      "frame-src https://www.youtube.com https://player.vimeo.com",
+      "frame-src 'self' https://www.youtube.com https://player.vimeo.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -40,8 +40,16 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/((?!api/rich-decks/).*)",
         headers: securityHeaders,
+      },
+      {
+        source: "/api/rich-decks/:path*",
+        // The HTML handler supplies its own sandbox CSP and framing/resource
+        // headers. Next's configured headers otherwise override the response.
+        headers: securityHeaders.filter(({ key }) => ![
+          "Content-Security-Policy", "X-Frame-Options", "Cross-Origin-Resource-Policy",
+        ].includes(key)),
       },
     ];
   },

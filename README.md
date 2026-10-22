@@ -21,6 +21,8 @@
 
 ## Features
 
+- **Simple / Rich slide modes** -- MDX decks in Simple mode; HTML/CSS/JavaScript decks in Rich mode, with sandboxed playback, reveal-step navigation, fullscreen, and standalone HTML download. See [Rich HTML slides](docs/rich-slides.md)
+- **Three.js in Rich slides** -- `pnpm amaroad add-three <deck>` embeds Three.js and WebGL addons directly in the HTML; new decks can opt in with `init-rich <deck> --three`
 - **MDX slides** -- Write slides as individual `.mdx` files with full Markdown + JSX support
 - **16:9 widescreen** -- Slides render at a virtual 1920x1080 resolution and scale to fit any screen
 - **Multi-deck** -- Manage multiple slide decks in a single project under `decks/`
@@ -38,6 +40,16 @@
 - **Accessible** -- WCAG AA modal focus traps, aria-labels, focus-visible indicators
 - **CLI-first workflow** -- The web UI is view-only; slides are authored and edited from the terminal
 - **Hot reload** -- File changes are reflected instantly via Next.js HMR
+
+Create a rich deck with `pnpm amaroad init-rich my-deck --title "My presentation"`,
+or import a standalone file with `pnpm amaroad init-rich my-deck --from /path/to/deck.html`.
+Edit `decks/my-deck/index.html`, then open the Rich slides tab. Existing MDX decks
+continue to use the Simple slides tab.
+
+The bundled [Rich sample deck](decks/sample-rich-deck/README.md) demonstrates 12
+pages with Three.js sculptures, materials, instanced particles, a 3D chart,
+OrbitControls, an embedded GLB exploded view, and speaker notes. Open
+`http://127.0.0.1:3850/sample-rich-deck` while the development server is running.
 
 ## Requirements
 

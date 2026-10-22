@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect, memo, type KeyboardEvent } from "react";
-import { cn } from "@/lib/utils";
+import { useState, useEffect, memo } from "react";
 import { SLIDE_WIDTH, SLIDE_HEIGHT, resolveSlideBackground } from "@/lib/slide-utils";
 import type { SlideData, DeckConfig } from "@/types/deck";
 import { SlideFrame } from "@/components/slide/SlideFrame";
 import { useIntersectionVisibility } from "@/hooks/useIntersectionVisibility";
+import { SlideNavigationItem } from "./SlideNavigationItem";
 
 interface SlideThumbnailProps {
   slide: SlideData;
@@ -15,14 +15,7 @@ interface SlideThumbnailProps {
   onSelect: (index: number) => void;
 }
 
-export const SlideThumbnail = memo(function SlideThumbnail({
-  slide,
-  config,
-  deckName,
-  active,
-  onSelect,
-}: SlideThumbnailProps) {
-  const buttonRef = useRef<HTMLDivElement>(null);
+function SlidePreview({ slide, config, deckName }: Pick<SlideThumbnailProps, "slide" | "config" | "deckName">) {
   const { ref: containerRef, visible } = useIntersectionVisibility("200px");
   const [scale, setScale] = useState(0.12);
 
@@ -36,70 +29,42 @@ export const SlideThumbnail = memo(function SlideThumbnail({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (active && buttonRef.current) {
-      buttonRef.current.scrollIntoView({ block: "nearest", behavior: "auto" });
-    }
-  }, [active]);
+  }, [containerRef]);
 
   const bg = resolveSlideBackground(slide.frontmatter, config);
 
-  const onActivate = () => {
-    onSelect(slide.index);
-  };
-
-  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      onActivate();
-    }
-  };
-
   return (
     <div
-      ref={buttonRef}
-      role="button"
-      tabIndex={0}
-      onClick={onActivate}
-      onKeyDown={onKeyDown}
-      aria-label={`Slide ${slide.index + 1}`}
-      aria-current={active ? "true" : undefined}
-      className={cn(
-        "w-full rounded-lg overflow-hidden transition-all text-left focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900",
-        "hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600",
-        active && "ring-2 ring-[#02001A] dark:ring-gray-100",
-        "cursor-pointer",
-      )}
+      ref={containerRef}
+      className="relative overflow-hidden"
+      style={{ aspectRatio: "16/9" }}
     >
       <div
-        ref={containerRef}
-        className="relative overflow-hidden"
-        style={{ aspectRatio: "16/9" }}
+        className="absolute top-0 left-0 origin-top-left pointer-events-none"
+        style={{
+          width: SLIDE_WIDTH,
+          height: SLIDE_HEIGHT,
+          background: bg,
+          transform: `scale(${scale})`,
+        }}
       >
-        <div
-          className="absolute top-0 left-0 origin-top-left pointer-events-none"
-          style={{
-            width: SLIDE_WIDTH,
-            height: SLIDE_HEIGHT,
-            background: bg,
-            transform: `scale(${scale})`,
-          }}
-        >
-          {visible && (
-            <SlideFrame
-              slide={slide}
-              config={config}
-              deckName={deckName}
-              currentPage={slide.index}
-            />
-          )}
-        </div>
-        <div className="absolute bottom-1 right-2 z-10 rounded bg-black/50 px-1.5 py-0.5 text-[10px] text-white">
-          {slide.index + 1}
-        </div>
+        {visible && (
+          <SlideFrame
+            slide={slide}
+            config={config}
+            deckName={deckName}
+            currentPage={slide.index}
+          />
+        )}
       </div>
     </div>
+  );
+}
+
+export const SlideThumbnail = memo(function SlideThumbnail({ slide, config, deckName, active, onSelect }: SlideThumbnailProps) {
+  return (
+    <SlideNavigationItem index={slide.index} active={active} onSelect={onSelect}>
+      <SlidePreview slide={slide} config={config} deckName={deckName} />
+    </SlideNavigationItem>
   );
 });

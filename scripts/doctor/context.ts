@@ -72,9 +72,9 @@ export async function buildDeckContext(projectRoot: string, entry: DeckEntry): P
   };
 }
 
-export type CheckName = "config" | "preflight" | "manifest" | "assets" | "fonts" | "narration" | "overflow";
+export type CheckName = "config" | "preflight" | "manifest" | "assets" | "fonts" | "narration" | "overflow" | "html";
 
-export const ALL_CHECKS: CheckName[] = ["config", "preflight", "manifest", "assets", "fonts", "narration", "overflow"];
+export const ALL_CHECKS: CheckName[] = ["config", "preflight", "manifest", "assets", "fonts", "narration", "overflow", "html"];
 
 export interface CheckRunOptions {
   baseUrl?: string;

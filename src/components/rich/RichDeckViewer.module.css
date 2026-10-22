@@ -1,0 +1,6 @@
+.stage:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  transform: none !important;
+  opacity: 1 !important;
+}

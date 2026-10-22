@@ -1,11 +1,10 @@
-import { cache } from "react";
-import { loadDeck } from "@/lib/deck-loader";
+import { loadPresentation } from "@/lib/presentation-loader";
 import { ThumbnailGridView } from "@/components/thumbnails/ThumbnailGridView";
+import { RichThumbnailOverview } from "@/components/rich/RichThumbnailOverview";
 import { getTunnelAccess } from "@/lib/tunnel-access";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-const getCachedDeck = cache((deckName: string) => loadDeck(deckName));
 
 export const dynamic = "force-dynamic";
 
@@ -17,8 +16,10 @@ export async function generateMetadata({
   params,
 }: ThumbnailsPageProps): Promise<Metadata> {
   const { deck: deckName } = await params;
+  const { isLocal, sharedDeck } = await getTunnelAccess();
+  if (!isLocal && sharedDeck !== deckName) return { title: "Amaroad" };
   try {
-    const deck = await getCachedDeck(deckName);
+    const { deck } = await loadPresentation(deckName);
     return {
       title: `${deck.config.title} — Thumbnails`,
       description: `Thumbnail overview for ${deck.config.title}`,
@@ -34,13 +35,13 @@ export default async function ThumbnailsPage({ params }: ThumbnailsPageProps) {
   const { isLocal, sharedDeck } = await getTunnelAccess();
   if (!isLocal && sharedDeck !== deckName) notFound();
 
-  let deck;
+  let presentation;
   try {
-    deck = await loadDeck(deckName);
+    presentation = await loadPresentation(deckName);
   } catch (e) {
     console.error(`[amaroad] Failed to load deck "${deckName}":`, e instanceof Error ? e.message : e);
     notFound();
   }
 
-  return <ThumbnailGridView deck={deck} />;
+  return presentation.format === "html" ? <RichThumbnailOverview deck={presentation.deck} /> : <ThumbnailGridView deck={presentation.deck} />;
 }

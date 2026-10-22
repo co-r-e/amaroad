@@ -37,6 +37,25 @@ component_catalog:
       its props (they become the catalog descriptions), then regenerate.
 ```
 
+## Rich HTML Slide Authoring
+
+- A deck with `format: "html"` in `deck.config.ts` uses `index.html` as its entry.
+- Follow `docs/rich-slides.md` for the controller, assets, sandbox, and validation contract.
+- Create a deck with `pnpm amaroad init-rich <deck> --title <title>`; import an existing
+  HTML file with `--from <file.html>`. Never overwrite an existing deck or the import source.
+- HTML owns its layout, fonts, colors, branding, and animation. The MDX rules below
+  apply only to MDX slides, not to HTML decks.
+- Before finishing an HTML deck edit, run `pnpm --silent amaroad doctor <deck>` and
+  resolve errors. With no server, use `--skip html` and explicitly report runtime verification as skipped.
+- `standalone: true` is only for HTML with embedded render dependencies. Verify an
+  offline opening before distributing a standalone file.
+- To enable Three.js, use `pnpm amaroad add-three <deck>` or `init-rich <deck> --three`.
+  The modules and MIT notice are embedded in the HTML. Use standard `three` /
+  `three/addons/...` imports; extra WebGL addons can be selected with `--addons`.
+- Three.js pages must handle `amaroad:previewchange` and the initial
+  `document.body.dataset.amaroadPreview` value, stop inactive animation loops,
+  resize their canvas/camera, and dispose GPU resources on teardown.
+
 ## MDX Slide Authoring Rules
 
 ```yaml

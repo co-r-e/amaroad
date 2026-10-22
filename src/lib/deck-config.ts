@@ -118,7 +118,7 @@ export function defineConfig(config: DeckConfigInput): DeckConfig {
   return mergeDeckConfig(base, own) as DeckConfig;
 }
 
-export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
+export async function readDeckConfig(deckDir: string): Promise<Record<string, unknown>> {
   const configPath = path.join(deckDir, "deck.config.ts");
 
   let mod: unknown;
@@ -138,7 +138,15 @@ export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
     );
   }
 
-  const c = config as Record<string, unknown>;
+  return config as Record<string, unknown>;
+}
+
+export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
+  const configPath = path.join(deckDir, "deck.config.ts");
+  const c = await readDeckConfig(deckDir);
+  if (c.format !== undefined && c.format !== "mdx") {
+    throw new Error(`Deck config in ${configPath} is not an MDX deck`);
+  }
 
   if (typeof c.title !== "string") {
     throw new Error(`Deck config in ${configPath} is missing required "title" field`);
@@ -169,10 +177,10 @@ export async function loadDeckConfig(deckDir: string): Promise<DeckConfig> {
     );
   }
 
-  const unbundled = findUnbundledFontFamilies((config as DeckConfig).theme);
+  const unbundled = findUnbundledFontFamilies((c as unknown as DeckConfig).theme);
   if (unbundled.length > 0) {
     console.warn(formatUnbundledFontWarning(`Deck config in ${configPath}`, unbundled));
   }
 
-  return config as DeckConfig;
+  return c as unknown as DeckConfig;
 }

@@ -2,7 +2,8 @@ import path from "node:path";
 import { cache } from "react";
 import { jiti } from "./jiti";
 import { normalizeSlideOrderEntries } from "./slide-order-utils";
-import { loadDeckConfig } from "./deck-config";
+import { loadDeckConfig, readDeckConfig } from "./deck-config";
+import { isUnsafeDeckName } from "./deck-paths";
 import { processSlideFile } from "./mdx-processor";
 import fs from "./runtime-fs";
 import type { Deck, DeckSummary } from "@/types/deck";
@@ -10,16 +11,7 @@ import type { Deck, DeckSummary } from "@/types/deck";
 const DECKS_DIR = path.join(process.cwd(), "decks");
 const warnedManifestStates = new Set<string>();
 
-/** Returns true if deckName contains path traversal characters. */
-export function isUnsafeDeckName(deckName: string): boolean {
-  return (
-    deckName.includes("/") ||
-    deckName.includes("\\") ||
-    deckName.includes("..") ||
-    deckName.startsWith("_") ||
-    deckName.startsWith(".")
-  );
-}
+export { isUnsafeDeckName } from "./deck-paths";
 
 export async function listDecks(): Promise<DeckSummary[]> {
   let entries;
@@ -38,6 +30,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
 
     const deckDir = path.join(DECKS_DIR, entry.name);
     try {
+      if ((await readDeckConfig(deckDir)).format === "html") continue;
       const config = await loadDeckConfig(deckDir);
       const mdxFiles = await getMdxFiles(deckDir);
       const createdAt =
