@@ -52,7 +52,7 @@ jobs:
           CI: "1"
 
       - name: Upload Linux baselines
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visual-baselines-linux
           path: tests/visual/__snapshots__/linux/
