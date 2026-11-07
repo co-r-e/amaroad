@@ -4,6 +4,8 @@ const BRIDGE = String.raw`
   if (parent === window) return;
   let token = null, last = '', error = null, quiet = false, preview = false;
   let commandQueue = Promise.resolve();
+  let domReady = document.readyState === 'complete';
+  addEventListener('DOMContentLoaded', () => { domReady = true; }, { once: true });
   const parentOrigin = new URL(document.referrer || location.href).origin;
   const api = () => window.amaroadDeck || window.deck;
   function readState() {
@@ -102,8 +104,8 @@ const BRIDGE = String.raw`
     const m = event.data;
     if (!m || typeof m !== 'object') return;
     if (m.type === 'amaroad:rich:init' && typeof m.token === 'string') {
-      // Parent retries may arrive while a large HTML document is still parsing.
-      if (document.readyState === 'loading' || !document.body) return;
+      // Deferred module controllers must finish before accepting the initial seek.
+      if (!domReady || !document.body) return;
       if (token === m.token) { notify(true); return; }
       token = m.token;
       prepareEmbeddedControls();

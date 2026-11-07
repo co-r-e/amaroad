@@ -161,7 +161,8 @@ export async function createNarrationSynthesizer(apiKey: string) {
   // apiKey is explicit (the SDK would otherwise prefer GOOGLE_API_KEY when both
   // are set) and so is vertexai: GOOGLE_GENAI_USE_VERTEXAI in the environment
   // would otherwise route the request to Vertex AI and ignore the key.
-  const client = new GoogleGenAI({ apiKey, vertexai: false });
+  // SDK 3 defaults to v1; keep the existing beta Interactions/TTS endpoint.
+  const client = new GoogleGenAI({ apiKey, vertexai: false, apiVersion: "v1beta" });
 
   async function requestOnce(settings: NarrationSettings, text: string): Promise<SynthesizedNarration> {
     let result;

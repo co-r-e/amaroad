@@ -1,8 +1,12 @@
-# Security floors for transitive packages used to live here (postcss, sharp)
-# while next held them below the advisory line. next 16.3.x now pins postcss
-# 8.5.23 and declares sharp ^0.35.3, so no overrides are needed. If a future
-# next release regresses a floor, re-add the override with a pointer to the
-# advisory it covers.
+# Upstream ranges still select vulnerable versions. Keep each override scoped
+# to its consumer and verify PPTX export, math rendering, and ESLint after updates.
+overrides:
+  # GHSA-5p2g-fcmc-qvqq / GHSA-w3rx-r6r6-pgpr
+  'pptxgenjs>image-size': 2.1.0
+  # GHSA-238p-pmpm-9mq7; use the same renderer for MDX and application CSS.
+  katex: 0.19.1
+  # GHSA-g3hv-75wg-m249; typescript-estree uses the retained Minimatch API.
+  '@typescript-eslint/typescript-estree>minimatch': 11.0.5
 
 allowBuilds:
   # Postinstall scripts that must run (binaries / native builds).

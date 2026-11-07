@@ -76,6 +76,18 @@ test("rich catalog is separate and selecting a deck opens its HTML", async ({ pa
   await expect(page.locator('#simple-slides-panel a[href="/sample-deck"]')).toBeVisible();
 });
 
+test("preview seeks to the final step after a deferred controller module loads", async ({ page }) => {
+  await page.route(`**/api/rich-decks/${deck}/files/assets/main.js`, async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    await route.continue();
+  });
+  await page.goto("/?mode=rich");
+  await page.getByRole("textbox", { name: "リッチスライドを検索" }).fill(deck);
+  const preview = page.locator(`#rich-slides-panel a[href="/${deck}"]`).frameLocator("[data-rich-preview-frame]");
+  await expect(preview.locator("#state")).toHaveText("0.1");
+  await expect(preview.locator("body")).toHaveAttribute("data-amaroad-preview", "true");
+});
+
 test("module scripts and CSS load inside the opaque sandbox; steps cross page boundaries", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));

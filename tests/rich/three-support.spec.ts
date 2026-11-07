@@ -84,7 +84,7 @@ test("embedded Three.js draws WebGL pixels and loads a GLB in the sandbox; previ
   await expect(frame.locator('#probe')).toHaveAttribute('data-ready', 'true');
   const result = JSON.parse(await frame.locator('#probe').innerText());
   expect(result.webgl2).toBe(true);
-  expect(result.revision).toBe('186');
+  expect(result.revision).toBe('187');
   expect(result.pixel[0]).toBeGreaterThan(200);
   expect(result.pixel[1]).toBeLessThan(120);
   expect(result.triangles).toBeGreaterThan(0);
@@ -104,7 +104,7 @@ test("standalone Three.js HTML opens offline, with its original content and bund
   const response=await request.get(`/api/rich-decks/${name}/files/index.html?download=1`);
   expect(response.ok()).toBeTruthy();
   const html=await response.text();
-  expect(html).toContain('data-amaroad-three="0.186.1"');
+  expect(html.match(/data-amaroad-three="([^"]+)"/)?.[1]).toBe('0.187.0');
   expect(html).toContain('Copyright © 2010-2026 three.js authors');
   expect(html).not.toContain('data-amaroad-bridge');
   expect(html).toContain("import * as THREE from 'three'");

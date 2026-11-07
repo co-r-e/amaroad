@@ -16,28 +16,28 @@ Some packages are platform-specific optional binaries (for example, `@img/*`) an
 ## License Summary (from lockfile)
 
 <!-- BEGIN_AUTOGEN:LICENSE_SUMMARY -->
-- Cross-platform package entries: 638
+- Cross-platform package entries: 639
 - Platform-specific binary families: 10
 - Generated from: `pnpm-lock.yaml` (license metadata read from the installed packages)
 - Counts exclude platform-optional binaries, which are grouped by family in the Notice-Relevant table below.
 
 | License expression | Package count |
 | --- | ---: |
-| MIT | 535 |
-| Apache-2.0 | 33 |
+| MIT | 536 |
+| Apache-2.0 | 32 |
 | ISC | 31 |
 | BSD-3-Clause | 16 |
 | BSD-2-Clause | 9 |
 | (MIT AND Zlib) | 2 |
+| BlueOak-1.0.0 | 2 |
 | MPL-2.0 | 2 |
 | (MIT OR GPL-3.0-or-later) | 1 |
 | (MPL-2.0 OR Apache-2.0) | 1 |
 | 0BSD | 1 |
-| BlueOak-1.0.0 | 1 |
 | CC-BY-4.0 | 1 |
 | CC0-1.0 | 1 |
 | LGPL-3.0 | 1 |
-| MIT AND ISC | 1 |
+| MIT AND ISC AND BSD-3-Clause | 1 |
 | MIT OR SEE LICENSE IN FEEL-FREE.md | 1 |
 | Python-2.0 | 1 |
 <!-- END_AUTOGEN:LICENSE_SUMMARY -->
@@ -56,21 +56,21 @@ The following dependencies have notice/copyleft considerations and should be rev
 <!-- BEGIN_AUTOGEN:NOTICE_RELEVANT -->
 | Package (family) | Version(s) in lockfile | License |
 | --- | --- | --- |
-| `caniuse-lite` | `1.0.30001810` | `CC-BY-4.0` |
-| `axe-core` | `4.13.0` | `MPL-2.0` |
-| `lightningcss` | `1.32.0` | `MPL-2.0` |
-| `sharp` | `0.35.4` | `Apache-2.0` |
+| `caniuse-lite` | `1.0.30001823` | `CC-BY-4.0` |
+| `axe-core` | `4.14.0` | `MPL-2.0` |
+| `lightningcss` | `1.33.0` | `MPL-2.0` |
+| `sharp` | `0.35.5` | `Apache-2.0` |
 | `@breezystack/lamejs` | `1.2.7` | `LGPL-3.0` |
 | `@esbuild/*` platform binaries | `0.28.2` | `MIT` |
-| `@img/sharp-*` platform binaries | `0.35.4` | `Apache-2.0` |
-| `@img/sharp-freebsd-wasm32` platform binaries | `0.35.4` | `Apache-2.0` |
-| `@img/sharp-libvips-*` platform binaries | `1.3.3` | `LGPL-3.0-or-later` |
-| `@img/sharp-webcontainers-*` platform binaries | `0.35.4` | `Apache-2.0` |
-| `@next/swc-*` platform binaries | `16.3.3` | `MIT` |
-| `@tailwindcss/oxide-*` platform binaries | `4.3.3` | `MIT` |
-| `@unrs/resolver-binding-*` platform binaries | `1.12.2` | `MIT` |
+| `@img/sharp-*` platform binaries | `0.35.5` | `Apache-2.0` |
+| `@img/sharp-freebsd-wasm32` platform binaries | `0.35.5` | `Apache-2.0` |
+| `@img/sharp-libvips-*` platform binaries | `1.3.4` | `LGPL-3.0-or-later` |
+| `@img/sharp-webcontainers-*` platform binaries | `0.35.5` | `Apache-2.0` |
+| `@next/swc-*` platform binaries | `16.4.5` | `MIT` |
+| `@tailwindcss/oxide-*` platform binaries | `4.3.5` | `MIT` |
+| `@unrs/resolver-binding-*` platform binaries | `1.13.0` | `MIT` |
 | `fsevents` platform binaries | `2.3.3` | `MIT` |
-| `lightningcss-*` platform binaries | `1.32.0` | `MPL-2.0` |
+| `lightningcss-*` platform binaries | `1.33.0` | `MPL-2.0` |
 <!-- END_AUTOGEN:NOTICE_RELEVANT -->
 
 ## Upstream License and Source References
